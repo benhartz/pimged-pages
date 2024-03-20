@@ -1,0 +1,890 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1" />
+<meta name="generator" content="pdoc 0.10.0" />
+<title>pimged.calculate.jetparameters.jetcenter API documentation</title>
+<meta name="description" content="" />
+<link rel="preload stylesheet" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/10up-sanitize.css/11.0.1/sanitize.min.css" integrity="sha256-PK9q560IAAa6WVRRh76LtCaI8pjTJ2z11v0miyNNjrs=" crossorigin>
+<link rel="preload stylesheet" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/10up-sanitize.css/11.0.1/typography.min.css" integrity="sha256-7l/o7C8jubJiy74VsKTidCy1yBkRtiUGbVkYBylBqUg=" crossorigin>
+<link rel="stylesheet preload" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.1.1/styles/github.min.css" crossorigin>
+<style>:root{--highlight-color:#fe9}.flex{display:flex !important}body{line-height:1.5em}#content{padding:20px}#sidebar{padding:30px;overflow:hidden}#sidebar > *:last-child{margin-bottom:2cm}.http-server-breadcrumbs{font-size:130%;margin:0 0 15px 0}#footer{font-size:.75em;padding:5px 30px;border-top:1px solid #ddd;text-align:right}#footer p{margin:0 0 0 1em;display:inline-block}#footer p:last-child{margin-right:30px}h1,h2,h3,h4,h5{font-weight:300}h1{font-size:2.5em;line-height:1.1em}h2{font-size:1.75em;margin:1em 0 .50em 0}h3{font-size:1.4em;margin:25px 0 10px 0}h4{margin:0;font-size:105%}h1:target,h2:target,h3:target,h4:target,h5:target,h6:target{background:var(--highlight-color);padding:.2em 0}a{color:#058;text-decoration:none;transition:color .3s ease-in-out}a:hover{color:#e82}.title code{font-weight:bold}h2[id^="header-"]{margin-top:2em}.ident{color:#900}pre code{background:#f8f8f8;font-size:.8em;line-height:1.4em}code{background:#f2f2f1;padding:1px 4px;overflow-wrap:break-word}h1 code{background:transparent}pre{background:#f8f8f8;border:0;border-top:1px solid #ccc;border-bottom:1px solid #ccc;margin:1em 0;padding:1ex}#http-server-module-list{display:flex;flex-flow:column}#http-server-module-list div{display:flex}#http-server-module-list dt{min-width:10%}#http-server-module-list p{margin-top:0}.toc ul,#index{list-style-type:none;margin:0;padding:0}#index code{background:transparent}#index h3{border-bottom:1px solid #ddd}#index ul{padding:0}#index h4{margin-top:.6em;font-weight:bold}@media (min-width:200ex){#index .two-column{column-count:2}}@media (min-width:300ex){#index .two-column{column-count:3}}dl{margin-bottom:2em}dl dl:last-child{margin-bottom:4em}dd{margin:0 0 1em 3em}#header-classes + dl > dd{margin-bottom:3em}dd dd{margin-left:2em}dd p{margin:10px 0}.name{background:#eee;font-weight:bold;font-size:.85em;padding:5px 10px;display:inline-block;min-width:40%}.name:hover{background:#e0e0e0}dt:target .name{background:var(--highlight-color)}.name > span:first-child{white-space:nowrap}.name.class > span:nth-child(2){margin-left:.4em}.inherited{color:#999;border-left:5px solid #eee;padding-left:1em}.inheritance em{font-style:normal;font-weight:bold}.desc h2{font-weight:400;font-size:1.25em}.desc h3{font-size:1em}.desc dt code{background:inherit}.source summary,.git-link-div{color:#666;text-align:right;font-weight:400;font-size:.8em;text-transform:uppercase}.source summary > *{white-space:nowrap;cursor:pointer}.git-link{color:inherit;margin-left:1em}.source pre{max-height:500px;overflow:auto;margin:0}.source pre code{font-size:12px;overflow:visible}.hlist{list-style:none}.hlist li{display:inline}.hlist li:after{content:',\2002'}.hlist li:last-child:after{content:none}.hlist .hlist{display:inline;padding-left:1em}img{max-width:100%}td{padding:0 .5em}.admonition{padding:.1em .5em;margin-bottom:1em}.admonition-title{font-weight:bold}.admonition.note,.admonition.info,.admonition.important{background:#aef}.admonition.todo,.admonition.versionadded,.admonition.tip,.admonition.hint{background:#dfd}.admonition.warning,.admonition.versionchanged,.admonition.deprecated{background:#fd4}.admonition.error,.admonition.danger,.admonition.caution{background:lightpink}</style>
+<style media="screen and (min-width: 700px)">@media screen and (min-width:700px){#sidebar{width:30%;height:100vh;overflow:auto;position:sticky;top:0}#content{width:70%;max-width:100ch;padding:3em 4em;border-left:1px solid #ddd}pre code{font-size:1em}.item .name{font-size:1em}main{display:flex;flex-direction:row-reverse;justify-content:flex-end}.toc ul ul,#index ul{padding-left:1.5em}.toc > ul > li{margin-top:.5em}}</style>
+<style media="print">@media print{#sidebar h1{page-break-before:always}.source{display:none}}@media print{*{background:transparent !important;color:#000 !important;box-shadow:none !important;text-shadow:none !important}a[href]:after{content:" (" attr(href) ")";font-size:90%}a[href][title]:after{content:none}abbr[title]:after{content:" (" attr(title) ")"}.ir a:after,a[href^="javascript:"]:after,a[href^="#"]:after{content:""}pre,blockquote{border:1px solid #999;page-break-inside:avoid}thead{display:table-header-group}tr,img{page-break-inside:avoid}img{max-width:100% !important}@page{margin:0.5cm}p,h2,h3{orphans:3;widows:3}h1,h2,h3,h4,h5,h6{page-break-after:avoid}}</style>
+<script defer src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.1.1/highlight.min.js" integrity="sha256-Uv3H6lx7dJmRfRvH8TH6kJD1TSK1aFcwgx+mdg3epi8=" crossorigin></script>
+<script>window.addEventListener('DOMContentLoaded', () => hljs.initHighlighting())</script>
+<style>.homelink{display:block;font-size:2em;font-weight:bold;color:#555;padding-bottom:.5em;border-bottom:1px solid silver}.homelink:hover{color:inherit}.homelink img{max-width:100%;max-height:10em;margin:auto;margin-bottom:.3em;margin-top:.3em}</style>
+</head>
+<body>
+<main>
+<article id="content">
+<header>
+<h1 class="title">Module <code>pimged.calculate.jetparameters.jetcenter</code></h1>
+</header>
+<section id="section-intro">
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">import numpy as np
+import matplotlib.pyplot as plt
+import matplotlib.gridspec as gridspec
+
+from .template import JetParameters
+
+
+class JetCenter(JetParameters):
+
+    def __init__(self, imarray=np.array([]), fps: int = 18000,
+                 timeintoshottouse: list = None, widthrangetosearch: list = None,
+                 edgepixelremoval_height: int = 10, threshold_density: float = 0.05,
+                 threshold_width: float = 0.97, threshold_nozzlepositioninframe: float = 0.25,
+                 flipcheck: bool = True):
+        &#34;&#34;&#34;
+        Object used to estimate the jet position in the frame
+
+        :param imarray: The array to estimate the jet center from - The standard setup works for
+                        a meaned image of +3 datasets oriented with a shot left toward right
+        :param fps: The camera record rate (frames per second)
+        :param timeintoshottouse: A list of start and end time for when do the shot start and
+                                  when to end the search. This is likely to be changed based on
+                                  the jet setup. Default is [18e-3, 20e-3] seconds
+        :param widthrangetosearch: A list at which the jet is positioned
+        :param edgepixelremoval_height: A constant removal of pixel before searching for the
+                                        width, as some edge noise will make the algorithm not
+                                        work.
+        :param threshold_density: A threshold set for, where everything below is seen as noise
+                                  for the density
+        :param threshold_width: A threshold set for where the width is estimated from. It is the
+                                used to find the percental amount of the maximum value over a
+                                mean. It is seen after a calculation with the .show() method
+        :param threshold_nozzlepositioninframe: A threshold used to estimate the wall position,
+                                                based on the initial laser line seen.
+        :parameter flipcheck: Checking if the given data array is flipped or positioned the
+                              correct way for calculations
+        &#34;&#34;&#34;
+        super().__init__(imarray)
+
+        if timeintoshottouse is None:
+            timeintoshottouse = [18e-3, 20e-3]
+        if widthrangetosearch is None:
+            widthrangetosearch = [0, 300]
+
+        self.fps = fps
+        self.ypixelsize = imarray.shape[0]
+        self.xpixelsize = imarray.shape[1]
+        self.threshold_density = threshold_density
+        self.threshold_width = threshold_width
+        self.threshold_wall = threshold_nozzlepositioninframe
+
+        self.timeintoshotstart = timeintoshottouse[0]
+        self.timeintoshotend = timeintoshottouse[1]
+        self.xpixelrangetosearch = widthrangetosearch
+        self.yedgepixelremoval = edgepixelremoval_height
+        self.flipcheck = flipcheck
+        self.flipcheckthreshold = 0.02
+
+        self.jet_wallposition = None
+        self.jet_widthinpixel = None
+        self.jet_idxofmiddle = None
+        self._jetlogicvecwidth = None
+        self._jetlogicvecposition = None
+        self._jet2dlogicvec = None
+
+    def findjetcenterfromdata(self):
+        &#34;&#34;&#34;
+        Method used to estimate the jet position in the frame based on a meaned array of data
+        &#34;&#34;&#34;
+        if len(self._array) == 0:
+            raise ValueError(&#34;No data in the array&#34;)
+        print(&#39;Starting jet center calculations\n&#39;)
+        # # first the image ranges and time frames are defined. The y-pixel range is adjusted
+        # # accordingly to the edge removal defined - this is beneficial if a lot of noise is
+        # # present near the edges
+
+        # # Then there is calculated a mean jet over the time series given from the properties,
+        # # within the search area set, with respect to the density threshold
+
+        # # Next is creating a vector that is a mean towards unity, by again testing towards the
+        # # threshold of the density set. This mean is done in the first axis. This creates a
+        # # vector that show the variation of density over the width of the image
+
+        # # Now the 2d image of the meaned jet over time is meaned in the width of the frame
+        # # (through x) to give a line of density towards unity. In the jet center the density will
+        # # go towards 1, while towards the edges the density will rapidly decline in the start of
+        # # the shot
+        self._calctimesumvectors()
+
+        # Now to find the wall position
+
+        # This vector is searched for, where the intensity is below the threshold factor for the
+        # wall. Here the code findes all indicies that are below this factor
+        jetpositionindicies = np.where(self._jetlogicvecposition &lt; self.threshold_wall)
+        if len(jetpositionindicies[0]) &lt;= 1:
+            raise ValueError(&#34;Not possible to find any wall point in the frame width of the jet, &#34;
+                             &#34;based on the given threshold. Possible error could be the data &#34;
+                             &#34;given into the array is not the mean of enough data points for a &#34;
+                             &#34;clear indication of middle position in the algorithm, based on &#34;
+                             &#34;settings&#34;)
+
+        # The np.where output a tuple with a ndarray that is taken out
+        jetpositionindicies = jetpositionindicies[0]
+
+        # The wall is then estimated based on the gradient seen in the indicies. Near the wall
+        # there is a lot of noise that makes the found indicies jump around the threshold,
+        # but when the jet start the gradient relax. After the relaxation the indicies increase
+        # steadily with one index per step. the code find this point and provide this index back,
+        # which is then the wall start
+        jetposwallgradient = np.gradient(jetpositionindicies)
+        try:
+            walllogic = (jetposwallgradient == 1) &amp; \
+                        (jetpositionindicies &gt; np.where(jetposwallgradient &gt; 1)[0][-1])
+        except IndexError:
+            raise IndexError(&#39;No wall is found with the provided threshold_wall&#39;)
+
+        self.jet_wallposition = jetpositionindicies[walllogic][0]
+
+        # Width of jet
+
+        # Here the threshold for where to estimate the width is used, with the maximum found
+        # value of the vector to provide a stable edge criteria
+        thresholdofedgesum = self._jetlogicvecwidth.max() * self.threshold_width
+
+        # The edges are then found from the new model based threshold and the np.argwhere function
+        indeciesofjetwidth = np.argwhere(self._jetlogicvecwidth &gt; thresholdofedgesum)
+        if len(indeciesofjetwidth) &lt;= 1:
+            raise ValueError(&#34;Not possible to find the jets width based on the given settings. &#34;
+                             &#34;There might not be enough of the jet plume in the given time range &#34;
+                             &#34;to estimate the center&#34;)
+
+        # The width and middle of the jet is then found in indecies, with respect to the y-edge
+        # removal specified
+        self.jet_widthinpixel = int(indeciesofjetwidth[-1] - indeciesofjetwidth[0])
+        self.jet_idxofmiddle = int((indeciesofjetwidth[-1] + indeciesofjetwidth[0])/2 +
+                                   self.yedgepixelremoval)
+        print(&#39;Done\n\n&#39;)
+
+    def _calctimesumvectors(self):
+        &#34;&#34;&#34;
+        Internal function to calculate the 1D time meaned sum vectors in x and y for finding the
+        edges and middel of the jet
+        &#34;&#34;&#34;
+        # first the image ranges and time frames are defined. The y-pixel range is adjusted
+        # accordingly to the edge removal defined - this is beneficial if a lot of noise is
+        # present near the edges
+        xpixelrange = slice(self.xpixelrangetosearch[0], self.xpixelrangetosearch[1])
+        ypixelrange = slice(self.yedgepixelremoval, self.ypixelsize - self.yedgepixelremoval)
+        startframe = int(self.timeintoshotstart * self.fps)
+        endframe = int(self.timeintoshotend * self.fps)
+
+        # Checking if enough frames are present
+        timeframes = self.array.shape[2]
+        if endframe &gt; timeframes:
+            raise IndexError(&#39;End frame searched for shot is further in than frames provided. &#39;
+                             &#39;Frames are calculated based on given data assuming frame 0 as time 0&#39;)
+
+        # First there is calculated a mean jet over the time series given from the properties,
+        # within the search area set, with respect to the density threshold
+        self._jet2dlogicvec = np.mean(self.array[ypixelrange, xpixelrange, startframe:endframe]
+                                      &gt; self.threshold_density, axis=2)
+
+        # Next is creating a vector that is a mean towards unity, by again testing towards the
+        # threshold of the density set. This mean is done in the first axis. This creates a
+        # vector that show the variation of density over the width of the image
+        self._jetlogicvecposition = np.mean(self._jet2dlogicvec &gt; self.threshold_density, axis=0)
+
+        # Now the 2d image of the meaned jet over time is meaned in the width of the frame
+        # (through x) to give a line of density towards unity. In the jet center the density will
+        # go towards 1, while towards the edges the density will rapidly decline in the start of
+        # the shot
+        self._jetlogicvecwidth = np.mean(self._jet2dlogicvec &gt; self.threshold_density, axis=1)
+
+        if self.flipcheck:
+            if self._jet2dlogicvec.mean() &lt; self.flipcheckthreshold:
+                raise IndexError(&#34;Array might be flipped the wrong way for the data. The jet shot &#34;
+                                 &#34;must go from right towards left&#34;)
+
+    def show(self):
+        &#34;&#34;&#34;
+        Method used to show the jet center estimation with thresholds shown on intemidiate results
+        &#34;&#34;&#34;
+        if self.jet_wallposition is None:
+            raise ValueError(&#34;It is not possible to show the data, as no data is calculated for &#34;
+                             &#34;the jet center estimation&#34;)
+
+        # Creating the lists and data for ranges in the plots
+        xpixelrange = slice(self.xpixelrangetosearch[0], self.xpixelrangetosearch[1])
+        ypixelrange = slice(self.yedgepixelremoval, self.ypixelsize-self.yedgepixelremoval)
+        endframe = int(self.timeintoshotend * self.fps)
+        widthestimationheight = self._jetlogicvecwidth.max() * self.threshold_width
+        edgebot = [self.jet_idxofmiddle + int(self.jet_widthinpixel / 2) - self.yedgepixelremoval,
+                   self.jet_idxofmiddle + int(self.jet_widthinpixel / 2) - self.yedgepixelremoval]
+        edgetop = [self.jet_idxofmiddle - int(self.jet_widthinpixel / 2) - self.yedgepixelremoval,
+                   self.jet_idxofmiddle - int(self.jet_widthinpixel / 2) - self.yedgepixelremoval]
+        mid = [self.jet_idxofmiddle - self.yedgepixelremoval,
+               self.jet_idxofmiddle - self.yedgepixelremoval]
+
+        # Calculating the abitrary lengths of lines for imshow data
+        lengthofedge = int(self.xpixelrangetosearch[1]*0.15)
+        lengthofmiddle = int(self.xpixelrangetosearch[1]*0.25)
+
+        # # Plotting the array
+        # with catch_warnings():
+        #     simplefilter(&#34;ignore&#34;)
+        plt.figure()
+        gs = gridspec.GridSpec(2, 2, height_ratios=[1, 0.5], width_ratios=[0.5, 1])
+        imsub = plt.subplot(gs[0, 1])
+        imsub.plot([self.jet_wallposition, self.jet_wallposition], [0, self.ypixelsize], &#39;m-&#39;,
+                   label=&#39;Wall&#39;)
+        imsub.plot([self.jet_wallposition, lengthofmiddle], mid, &#39;g-.&#39;, label=&#39;Middle&#39;)
+        imsub.plot([self.jet_wallposition, lengthofedge], edgetop, &#39;r--&#39;)
+        imsub.plot([self.jet_wallposition, lengthofedge], edgebot, &#39;r--&#39;, label=&#39;Edges&#39;)
+        imsub.imshow(self._array[ypixelrange, xpixelrange, endframe], interpolation=&#39;nearest&#39;,
+                     aspect=&#39;auto&#39;)
+
+        # Plotting the width estimation
+        widthsub = plt.subplot(gs[0, 0])
+        widthsub.plot(self._jetlogicvecwidth, range(0, len(self._jetlogicvecwidth)),
+                      &#39;b-&#39;, label=&#39;Mean towards y (height)&#39;)
+        widthsub.plot([widthestimationheight, widthestimationheight], [0, self.ypixelsize], &#39;k--&#39;,
+                      label=&#39;threshold for width&#39;)
+        widthsub.plot([0, widthestimationheight], mid, &#39;g-.&#39;, label=&#39;Middle&#39;)
+        widthsub.plot([0, widthestimationheight], edgebot, &#39;r--&#39;)
+        widthsub.plot([0, widthestimationheight], edgetop, &#39;r--&#39;, label=&#39;Edges&#39;)
+        widthsub.legend(loc=&#39;upper right&#39;)
+        widthsub.grid()
+        plt.ylim(len(self._jetlogicvecwidth), 0)
+        plt.xlim(0, 1)
+
+        # Plotting the wall estimation
+        wallsub = plt.subplot(gs[1, 1])
+        wallsub.plot(self._jetlogicvecposition, &#39;b-&#39;, label=&#39;Mean towards x (width)&#39;)
+        wallsub.plot([0, self.xpixelrangetosearch[1]],
+                     [self.threshold_wall, self.threshold_wall],
+                     &#39;k--&#39;, label=&#39;Threshold for start&#39;)
+        wallsub.plot([self.jet_wallposition, self.jet_wallposition],
+                     [self._jetlogicvecposition.min(), self._jetlogicvecposition.max()],
+                     &#39;m--&#39;, label=&#39;Wall estimation&#39;)
+        wallsub.legend(loc=&#39;upper right&#39;)
+        wallsub.grid()
+        plt.ylim(0, 1)
+        plt.xlim(0, self.xpixelrangetosearch[1] - 1)
+
+    def showinternalfuncs(self):
+        &#34;&#34;&#34;
+        Function to show the internal calculations, without estimating the wall and edges. Can be
+        used to identify problems with the data and/or the limits
+        &#34;&#34;&#34;
+        # first get the vectors that should be plotted
+        self._calctimesumvectors()
+
+        widthestimationheight = self._jetlogicvecwidth.max() * self.threshold_width
+
+        # Plotting the array
+        plt.figure()
+        gs = gridspec.GridSpec(2, 2, height_ratios=[1, 0.5], width_ratios=[0.5, 1])
+        imsub = plt.subplot(gs[0, 1])
+        imsub.imshow(self._jet2dlogicvec, interpolation=&#39;nearest&#39;, aspect=&#39;auto&#39;)
+
+        # Plotting the width estimation
+        widthsub = plt.subplot(gs[0, 0])
+        widthsub.plot(self._jetlogicvecwidth, range(0, len(self._jetlogicvecwidth)),
+                      &#39;b-&#39;, label=&#39;Mean towards y (height)&#39;)
+        widthsub.plot([widthestimationheight, widthestimationheight], [0, self.ypixelsize], &#39;k--&#39;,
+                      label=&#39;threshold for width&#39;)
+        widthsub.legend(loc=&#39;upper right&#39;)
+        widthsub.grid()
+        plt.ylim(len(self._jetlogicvecwidth), 0)
+        plt.xlim(0, 1)
+
+        # Plotting the wall estimation
+        wallsub = plt.subplot(gs[1, 1])
+        wallsub.plot(self._jetlogicvecposition, &#39;b-&#39;, label=&#39;Mean towards x (width)&#39;)
+        wallsub.plot([0, self.xpixelrangetosearch[1]],
+                     [self.threshold_wall, self.threshold_wall],
+                     &#39;k--&#39;, label=&#39;Threshold for start&#39;)
+        wallsub.legend(loc=&#39;upper right&#39;)
+        wallsub.grid()
+        plt.ylim(0, 1)
+        plt.xlim(0, self.xpixelrangetosearch[1]-1)</code></pre>
+</details>
+</section>
+<section>
+</section>
+<section>
+</section>
+<section>
+</section>
+<section>
+<h2 class="section-title" id="header-classes">Classes</h2>
+<dl>
+<dt id="pimged.calculate.jetparameters.jetcenter.JetCenter"><code class="flex name class">
+<span>class <span class="ident">JetCenter</span></span>
+<span>(</span><span>imarray=array([], dtype=float64), fps: int = 18000, timeintoshottouse: list = None, widthrangetosearch: list = None, edgepixelremoval_height: int = 10, threshold_density: float = 0.05, threshold_width: float = 0.97, threshold_nozzlepositioninframe: float = 0.25, flipcheck: bool = True)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Template class for imagearray handling </p>
+<p>Object used to estimate the jet position in the frame</p>
+<p>:param imarray: The array to estimate the jet center from - The standard setup works for
+a meaned image of +3 datasets oriented with a shot left toward right
+:param fps: The camera record rate (frames per second)
+:param timeintoshottouse: A list of start and end time for when do the shot start and
+when to end the search. This is likely to be changed based on
+the jet setup. Default is [18e-3, 20e-3] seconds
+:param widthrangetosearch: A list at which the jet is positioned
+:param edgepixelremoval_height: A constant removal of pixel before searching for the
+width, as some edge noise will make the algorithm not
+work.
+:param threshold_density: A threshold set for, where everything below is seen as noise
+for the density
+:param threshold_width: A threshold set for where the width is estimated from. It is the
+used to find the percental amount of the maximum value over a
+mean. It is seen after a calculation with the .show() method
+:param threshold_nozzlepositioninframe: A threshold used to estimate the wall position,
+based on the initial laser line seen.
+:parameter flipcheck: Checking if the given data array is flipped or positioned the
+correct way for calculations</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">class JetCenter(JetParameters):
+
+    def __init__(self, imarray=np.array([]), fps: int = 18000,
+                 timeintoshottouse: list = None, widthrangetosearch: list = None,
+                 edgepixelremoval_height: int = 10, threshold_density: float = 0.05,
+                 threshold_width: float = 0.97, threshold_nozzlepositioninframe: float = 0.25,
+                 flipcheck: bool = True):
+        &#34;&#34;&#34;
+        Object used to estimate the jet position in the frame
+
+        :param imarray: The array to estimate the jet center from - The standard setup works for
+                        a meaned image of +3 datasets oriented with a shot left toward right
+        :param fps: The camera record rate (frames per second)
+        :param timeintoshottouse: A list of start and end time for when do the shot start and
+                                  when to end the search. This is likely to be changed based on
+                                  the jet setup. Default is [18e-3, 20e-3] seconds
+        :param widthrangetosearch: A list at which the jet is positioned
+        :param edgepixelremoval_height: A constant removal of pixel before searching for the
+                                        width, as some edge noise will make the algorithm not
+                                        work.
+        :param threshold_density: A threshold set for, where everything below is seen as noise
+                                  for the density
+        :param threshold_width: A threshold set for where the width is estimated from. It is the
+                                used to find the percental amount of the maximum value over a
+                                mean. It is seen after a calculation with the .show() method
+        :param threshold_nozzlepositioninframe: A threshold used to estimate the wall position,
+                                                based on the initial laser line seen.
+        :parameter flipcheck: Checking if the given data array is flipped or positioned the
+                              correct way for calculations
+        &#34;&#34;&#34;
+        super().__init__(imarray)
+
+        if timeintoshottouse is None:
+            timeintoshottouse = [18e-3, 20e-3]
+        if widthrangetosearch is None:
+            widthrangetosearch = [0, 300]
+
+        self.fps = fps
+        self.ypixelsize = imarray.shape[0]
+        self.xpixelsize = imarray.shape[1]
+        self.threshold_density = threshold_density
+        self.threshold_width = threshold_width
+        self.threshold_wall = threshold_nozzlepositioninframe
+
+        self.timeintoshotstart = timeintoshottouse[0]
+        self.timeintoshotend = timeintoshottouse[1]
+        self.xpixelrangetosearch = widthrangetosearch
+        self.yedgepixelremoval = edgepixelremoval_height
+        self.flipcheck = flipcheck
+        self.flipcheckthreshold = 0.02
+
+        self.jet_wallposition = None
+        self.jet_widthinpixel = None
+        self.jet_idxofmiddle = None
+        self._jetlogicvecwidth = None
+        self._jetlogicvecposition = None
+        self._jet2dlogicvec = None
+
+    def findjetcenterfromdata(self):
+        &#34;&#34;&#34;
+        Method used to estimate the jet position in the frame based on a meaned array of data
+        &#34;&#34;&#34;
+        if len(self._array) == 0:
+            raise ValueError(&#34;No data in the array&#34;)
+        print(&#39;Starting jet center calculations\n&#39;)
+        # # first the image ranges and time frames are defined. The y-pixel range is adjusted
+        # # accordingly to the edge removal defined - this is beneficial if a lot of noise is
+        # # present near the edges
+
+        # # Then there is calculated a mean jet over the time series given from the properties,
+        # # within the search area set, with respect to the density threshold
+
+        # # Next is creating a vector that is a mean towards unity, by again testing towards the
+        # # threshold of the density set. This mean is done in the first axis. This creates a
+        # # vector that show the variation of density over the width of the image
+
+        # # Now the 2d image of the meaned jet over time is meaned in the width of the frame
+        # # (through x) to give a line of density towards unity. In the jet center the density will
+        # # go towards 1, while towards the edges the density will rapidly decline in the start of
+        # # the shot
+        self._calctimesumvectors()
+
+        # Now to find the wall position
+
+        # This vector is searched for, where the intensity is below the threshold factor for the
+        # wall. Here the code findes all indicies that are below this factor
+        jetpositionindicies = np.where(self._jetlogicvecposition &lt; self.threshold_wall)
+        if len(jetpositionindicies[0]) &lt;= 1:
+            raise ValueError(&#34;Not possible to find any wall point in the frame width of the jet, &#34;
+                             &#34;based on the given threshold. Possible error could be the data &#34;
+                             &#34;given into the array is not the mean of enough data points for a &#34;
+                             &#34;clear indication of middle position in the algorithm, based on &#34;
+                             &#34;settings&#34;)
+
+        # The np.where output a tuple with a ndarray that is taken out
+        jetpositionindicies = jetpositionindicies[0]
+
+        # The wall is then estimated based on the gradient seen in the indicies. Near the wall
+        # there is a lot of noise that makes the found indicies jump around the threshold,
+        # but when the jet start the gradient relax. After the relaxation the indicies increase
+        # steadily with one index per step. the code find this point and provide this index back,
+        # which is then the wall start
+        jetposwallgradient = np.gradient(jetpositionindicies)
+        try:
+            walllogic = (jetposwallgradient == 1) &amp; \
+                        (jetpositionindicies &gt; np.where(jetposwallgradient &gt; 1)[0][-1])
+        except IndexError:
+            raise IndexError(&#39;No wall is found with the provided threshold_wall&#39;)
+
+        self.jet_wallposition = jetpositionindicies[walllogic][0]
+
+        # Width of jet
+
+        # Here the threshold for where to estimate the width is used, with the maximum found
+        # value of the vector to provide a stable edge criteria
+        thresholdofedgesum = self._jetlogicvecwidth.max() * self.threshold_width
+
+        # The edges are then found from the new model based threshold and the np.argwhere function
+        indeciesofjetwidth = np.argwhere(self._jetlogicvecwidth &gt; thresholdofedgesum)
+        if len(indeciesofjetwidth) &lt;= 1:
+            raise ValueError(&#34;Not possible to find the jets width based on the given settings. &#34;
+                             &#34;There might not be enough of the jet plume in the given time range &#34;
+                             &#34;to estimate the center&#34;)
+
+        # The width and middle of the jet is then found in indecies, with respect to the y-edge
+        # removal specified
+        self.jet_widthinpixel = int(indeciesofjetwidth[-1] - indeciesofjetwidth[0])
+        self.jet_idxofmiddle = int((indeciesofjetwidth[-1] + indeciesofjetwidth[0])/2 +
+                                   self.yedgepixelremoval)
+        print(&#39;Done\n\n&#39;)
+
+    def _calctimesumvectors(self):
+        &#34;&#34;&#34;
+        Internal function to calculate the 1D time meaned sum vectors in x and y for finding the
+        edges and middel of the jet
+        &#34;&#34;&#34;
+        # first the image ranges and time frames are defined. The y-pixel range is adjusted
+        # accordingly to the edge removal defined - this is beneficial if a lot of noise is
+        # present near the edges
+        xpixelrange = slice(self.xpixelrangetosearch[0], self.xpixelrangetosearch[1])
+        ypixelrange = slice(self.yedgepixelremoval, self.ypixelsize - self.yedgepixelremoval)
+        startframe = int(self.timeintoshotstart * self.fps)
+        endframe = int(self.timeintoshotend * self.fps)
+
+        # Checking if enough frames are present
+        timeframes = self.array.shape[2]
+        if endframe &gt; timeframes:
+            raise IndexError(&#39;End frame searched for shot is further in than frames provided. &#39;
+                             &#39;Frames are calculated based on given data assuming frame 0 as time 0&#39;)
+
+        # First there is calculated a mean jet over the time series given from the properties,
+        # within the search area set, with respect to the density threshold
+        self._jet2dlogicvec = np.mean(self.array[ypixelrange, xpixelrange, startframe:endframe]
+                                      &gt; self.threshold_density, axis=2)
+
+        # Next is creating a vector that is a mean towards unity, by again testing towards the
+        # threshold of the density set. This mean is done in the first axis. This creates a
+        # vector that show the variation of density over the width of the image
+        self._jetlogicvecposition = np.mean(self._jet2dlogicvec &gt; self.threshold_density, axis=0)
+
+        # Now the 2d image of the meaned jet over time is meaned in the width of the frame
+        # (through x) to give a line of density towards unity. In the jet center the density will
+        # go towards 1, while towards the edges the density will rapidly decline in the start of
+        # the shot
+        self._jetlogicvecwidth = np.mean(self._jet2dlogicvec &gt; self.threshold_density, axis=1)
+
+        if self.flipcheck:
+            if self._jet2dlogicvec.mean() &lt; self.flipcheckthreshold:
+                raise IndexError(&#34;Array might be flipped the wrong way for the data. The jet shot &#34;
+                                 &#34;must go from right towards left&#34;)
+
+    def show(self):
+        &#34;&#34;&#34;
+        Method used to show the jet center estimation with thresholds shown on intemidiate results
+        &#34;&#34;&#34;
+        if self.jet_wallposition is None:
+            raise ValueError(&#34;It is not possible to show the data, as no data is calculated for &#34;
+                             &#34;the jet center estimation&#34;)
+
+        # Creating the lists and data for ranges in the plots
+        xpixelrange = slice(self.xpixelrangetosearch[0], self.xpixelrangetosearch[1])
+        ypixelrange = slice(self.yedgepixelremoval, self.ypixelsize-self.yedgepixelremoval)
+        endframe = int(self.timeintoshotend * self.fps)
+        widthestimationheight = self._jetlogicvecwidth.max() * self.threshold_width
+        edgebot = [self.jet_idxofmiddle + int(self.jet_widthinpixel / 2) - self.yedgepixelremoval,
+                   self.jet_idxofmiddle + int(self.jet_widthinpixel / 2) - self.yedgepixelremoval]
+        edgetop = [self.jet_idxofmiddle - int(self.jet_widthinpixel / 2) - self.yedgepixelremoval,
+                   self.jet_idxofmiddle - int(self.jet_widthinpixel / 2) - self.yedgepixelremoval]
+        mid = [self.jet_idxofmiddle - self.yedgepixelremoval,
+               self.jet_idxofmiddle - self.yedgepixelremoval]
+
+        # Calculating the abitrary lengths of lines for imshow data
+        lengthofedge = int(self.xpixelrangetosearch[1]*0.15)
+        lengthofmiddle = int(self.xpixelrangetosearch[1]*0.25)
+
+        # # Plotting the array
+        # with catch_warnings():
+        #     simplefilter(&#34;ignore&#34;)
+        plt.figure()
+        gs = gridspec.GridSpec(2, 2, height_ratios=[1, 0.5], width_ratios=[0.5, 1])
+        imsub = plt.subplot(gs[0, 1])
+        imsub.plot([self.jet_wallposition, self.jet_wallposition], [0, self.ypixelsize], &#39;m-&#39;,
+                   label=&#39;Wall&#39;)
+        imsub.plot([self.jet_wallposition, lengthofmiddle], mid, &#39;g-.&#39;, label=&#39;Middle&#39;)
+        imsub.plot([self.jet_wallposition, lengthofedge], edgetop, &#39;r--&#39;)
+        imsub.plot([self.jet_wallposition, lengthofedge], edgebot, &#39;r--&#39;, label=&#39;Edges&#39;)
+        imsub.imshow(self._array[ypixelrange, xpixelrange, endframe], interpolation=&#39;nearest&#39;,
+                     aspect=&#39;auto&#39;)
+
+        # Plotting the width estimation
+        widthsub = plt.subplot(gs[0, 0])
+        widthsub.plot(self._jetlogicvecwidth, range(0, len(self._jetlogicvecwidth)),
+                      &#39;b-&#39;, label=&#39;Mean towards y (height)&#39;)
+        widthsub.plot([widthestimationheight, widthestimationheight], [0, self.ypixelsize], &#39;k--&#39;,
+                      label=&#39;threshold for width&#39;)
+        widthsub.plot([0, widthestimationheight], mid, &#39;g-.&#39;, label=&#39;Middle&#39;)
+        widthsub.plot([0, widthestimationheight], edgebot, &#39;r--&#39;)
+        widthsub.plot([0, widthestimationheight], edgetop, &#39;r--&#39;, label=&#39;Edges&#39;)
+        widthsub.legend(loc=&#39;upper right&#39;)
+        widthsub.grid()
+        plt.ylim(len(self._jetlogicvecwidth), 0)
+        plt.xlim(0, 1)
+
+        # Plotting the wall estimation
+        wallsub = plt.subplot(gs[1, 1])
+        wallsub.plot(self._jetlogicvecposition, &#39;b-&#39;, label=&#39;Mean towards x (width)&#39;)
+        wallsub.plot([0, self.xpixelrangetosearch[1]],
+                     [self.threshold_wall, self.threshold_wall],
+                     &#39;k--&#39;, label=&#39;Threshold for start&#39;)
+        wallsub.plot([self.jet_wallposition, self.jet_wallposition],
+                     [self._jetlogicvecposition.min(), self._jetlogicvecposition.max()],
+                     &#39;m--&#39;, label=&#39;Wall estimation&#39;)
+        wallsub.legend(loc=&#39;upper right&#39;)
+        wallsub.grid()
+        plt.ylim(0, 1)
+        plt.xlim(0, self.xpixelrangetosearch[1] - 1)
+
+    def showinternalfuncs(self):
+        &#34;&#34;&#34;
+        Function to show the internal calculations, without estimating the wall and edges. Can be
+        used to identify problems with the data and/or the limits
+        &#34;&#34;&#34;
+        # first get the vectors that should be plotted
+        self._calctimesumvectors()
+
+        widthestimationheight = self._jetlogicvecwidth.max() * self.threshold_width
+
+        # Plotting the array
+        plt.figure()
+        gs = gridspec.GridSpec(2, 2, height_ratios=[1, 0.5], width_ratios=[0.5, 1])
+        imsub = plt.subplot(gs[0, 1])
+        imsub.imshow(self._jet2dlogicvec, interpolation=&#39;nearest&#39;, aspect=&#39;auto&#39;)
+
+        # Plotting the width estimation
+        widthsub = plt.subplot(gs[0, 0])
+        widthsub.plot(self._jetlogicvecwidth, range(0, len(self._jetlogicvecwidth)),
+                      &#39;b-&#39;, label=&#39;Mean towards y (height)&#39;)
+        widthsub.plot([widthestimationheight, widthestimationheight], [0, self.ypixelsize], &#39;k--&#39;,
+                      label=&#39;threshold for width&#39;)
+        widthsub.legend(loc=&#39;upper right&#39;)
+        widthsub.grid()
+        plt.ylim(len(self._jetlogicvecwidth), 0)
+        plt.xlim(0, 1)
+
+        # Plotting the wall estimation
+        wallsub = plt.subplot(gs[1, 1])
+        wallsub.plot(self._jetlogicvecposition, &#39;b-&#39;, label=&#39;Mean towards x (width)&#39;)
+        wallsub.plot([0, self.xpixelrangetosearch[1]],
+                     [self.threshold_wall, self.threshold_wall],
+                     &#39;k--&#39;, label=&#39;Threshold for start&#39;)
+        wallsub.legend(loc=&#39;upper right&#39;)
+        wallsub.grid()
+        plt.ylim(0, 1)
+        plt.xlim(0, self.xpixelrangetosearch[1]-1)</code></pre>
+</details>
+<h3>Ancestors</h3>
+<ul class="hlist">
+<li><a title="pimged.calculate.jetparameters.template.JetParameters" href="template.html#pimged.calculate.jetparameters.template.JetParameters">JetParameters</a></li>
+</ul>
+<h3>Methods</h3>
+<dl>
+<dt id="pimged.calculate.jetparameters.jetcenter.JetCenter.findjetcenterfromdata"><code class="name flex">
+<span>def <span class="ident">findjetcenterfromdata</span></span>(<span>self)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Method used to estimate the jet position in the frame based on a meaned array of data</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def findjetcenterfromdata(self):
+    &#34;&#34;&#34;
+    Method used to estimate the jet position in the frame based on a meaned array of data
+    &#34;&#34;&#34;
+    if len(self._array) == 0:
+        raise ValueError(&#34;No data in the array&#34;)
+    print(&#39;Starting jet center calculations\n&#39;)
+    # # first the image ranges and time frames are defined. The y-pixel range is adjusted
+    # # accordingly to the edge removal defined - this is beneficial if a lot of noise is
+    # # present near the edges
+
+    # # Then there is calculated a mean jet over the time series given from the properties,
+    # # within the search area set, with respect to the density threshold
+
+    # # Next is creating a vector that is a mean towards unity, by again testing towards the
+    # # threshold of the density set. This mean is done in the first axis. This creates a
+    # # vector that show the variation of density over the width of the image
+
+    # # Now the 2d image of the meaned jet over time is meaned in the width of the frame
+    # # (through x) to give a line of density towards unity. In the jet center the density will
+    # # go towards 1, while towards the edges the density will rapidly decline in the start of
+    # # the shot
+    self._calctimesumvectors()
+
+    # Now to find the wall position
+
+    # This vector is searched for, where the intensity is below the threshold factor for the
+    # wall. Here the code findes all indicies that are below this factor
+    jetpositionindicies = np.where(self._jetlogicvecposition &lt; self.threshold_wall)
+    if len(jetpositionindicies[0]) &lt;= 1:
+        raise ValueError(&#34;Not possible to find any wall point in the frame width of the jet, &#34;
+                         &#34;based on the given threshold. Possible error could be the data &#34;
+                         &#34;given into the array is not the mean of enough data points for a &#34;
+                         &#34;clear indication of middle position in the algorithm, based on &#34;
+                         &#34;settings&#34;)
+
+    # The np.where output a tuple with a ndarray that is taken out
+    jetpositionindicies = jetpositionindicies[0]
+
+    # The wall is then estimated based on the gradient seen in the indicies. Near the wall
+    # there is a lot of noise that makes the found indicies jump around the threshold,
+    # but when the jet start the gradient relax. After the relaxation the indicies increase
+    # steadily with one index per step. the code find this point and provide this index back,
+    # which is then the wall start
+    jetposwallgradient = np.gradient(jetpositionindicies)
+    try:
+        walllogic = (jetposwallgradient == 1) &amp; \
+                    (jetpositionindicies &gt; np.where(jetposwallgradient &gt; 1)[0][-1])
+    except IndexError:
+        raise IndexError(&#39;No wall is found with the provided threshold_wall&#39;)
+
+    self.jet_wallposition = jetpositionindicies[walllogic][0]
+
+    # Width of jet
+
+    # Here the threshold for where to estimate the width is used, with the maximum found
+    # value of the vector to provide a stable edge criteria
+    thresholdofedgesum = self._jetlogicvecwidth.max() * self.threshold_width
+
+    # The edges are then found from the new model based threshold and the np.argwhere function
+    indeciesofjetwidth = np.argwhere(self._jetlogicvecwidth &gt; thresholdofedgesum)
+    if len(indeciesofjetwidth) &lt;= 1:
+        raise ValueError(&#34;Not possible to find the jets width based on the given settings. &#34;
+                         &#34;There might not be enough of the jet plume in the given time range &#34;
+                         &#34;to estimate the center&#34;)
+
+    # The width and middle of the jet is then found in indecies, with respect to the y-edge
+    # removal specified
+    self.jet_widthinpixel = int(indeciesofjetwidth[-1] - indeciesofjetwidth[0])
+    self.jet_idxofmiddle = int((indeciesofjetwidth[-1] + indeciesofjetwidth[0])/2 +
+                               self.yedgepixelremoval)
+    print(&#39;Done\n\n&#39;)</code></pre>
+</details>
+</dd>
+<dt id="pimged.calculate.jetparameters.jetcenter.JetCenter.show"><code class="name flex">
+<span>def <span class="ident">show</span></span>(<span>self)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Method used to show the jet center estimation with thresholds shown on intemidiate results</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def show(self):
+    &#34;&#34;&#34;
+    Method used to show the jet center estimation with thresholds shown on intemidiate results
+    &#34;&#34;&#34;
+    if self.jet_wallposition is None:
+        raise ValueError(&#34;It is not possible to show the data, as no data is calculated for &#34;
+                         &#34;the jet center estimation&#34;)
+
+    # Creating the lists and data for ranges in the plots
+    xpixelrange = slice(self.xpixelrangetosearch[0], self.xpixelrangetosearch[1])
+    ypixelrange = slice(self.yedgepixelremoval, self.ypixelsize-self.yedgepixelremoval)
+    endframe = int(self.timeintoshotend * self.fps)
+    widthestimationheight = self._jetlogicvecwidth.max() * self.threshold_width
+    edgebot = [self.jet_idxofmiddle + int(self.jet_widthinpixel / 2) - self.yedgepixelremoval,
+               self.jet_idxofmiddle + int(self.jet_widthinpixel / 2) - self.yedgepixelremoval]
+    edgetop = [self.jet_idxofmiddle - int(self.jet_widthinpixel / 2) - self.yedgepixelremoval,
+               self.jet_idxofmiddle - int(self.jet_widthinpixel / 2) - self.yedgepixelremoval]
+    mid = [self.jet_idxofmiddle - self.yedgepixelremoval,
+           self.jet_idxofmiddle - self.yedgepixelremoval]
+
+    # Calculating the abitrary lengths of lines for imshow data
+    lengthofedge = int(self.xpixelrangetosearch[1]*0.15)
+    lengthofmiddle = int(self.xpixelrangetosearch[1]*0.25)
+
+    # # Plotting the array
+    # with catch_warnings():
+    #     simplefilter(&#34;ignore&#34;)
+    plt.figure()
+    gs = gridspec.GridSpec(2, 2, height_ratios=[1, 0.5], width_ratios=[0.5, 1])
+    imsub = plt.subplot(gs[0, 1])
+    imsub.plot([self.jet_wallposition, self.jet_wallposition], [0, self.ypixelsize], &#39;m-&#39;,
+               label=&#39;Wall&#39;)
+    imsub.plot([self.jet_wallposition, lengthofmiddle], mid, &#39;g-.&#39;, label=&#39;Middle&#39;)
+    imsub.plot([self.jet_wallposition, lengthofedge], edgetop, &#39;r--&#39;)
+    imsub.plot([self.jet_wallposition, lengthofedge], edgebot, &#39;r--&#39;, label=&#39;Edges&#39;)
+    imsub.imshow(self._array[ypixelrange, xpixelrange, endframe], interpolation=&#39;nearest&#39;,
+                 aspect=&#39;auto&#39;)
+
+    # Plotting the width estimation
+    widthsub = plt.subplot(gs[0, 0])
+    widthsub.plot(self._jetlogicvecwidth, range(0, len(self._jetlogicvecwidth)),
+                  &#39;b-&#39;, label=&#39;Mean towards y (height)&#39;)
+    widthsub.plot([widthestimationheight, widthestimationheight], [0, self.ypixelsize], &#39;k--&#39;,
+                  label=&#39;threshold for width&#39;)
+    widthsub.plot([0, widthestimationheight], mid, &#39;g-.&#39;, label=&#39;Middle&#39;)
+    widthsub.plot([0, widthestimationheight], edgebot, &#39;r--&#39;)
+    widthsub.plot([0, widthestimationheight], edgetop, &#39;r--&#39;, label=&#39;Edges&#39;)
+    widthsub.legend(loc=&#39;upper right&#39;)
+    widthsub.grid()
+    plt.ylim(len(self._jetlogicvecwidth), 0)
+    plt.xlim(0, 1)
+
+    # Plotting the wall estimation
+    wallsub = plt.subplot(gs[1, 1])
+    wallsub.plot(self._jetlogicvecposition, &#39;b-&#39;, label=&#39;Mean towards x (width)&#39;)
+    wallsub.plot([0, self.xpixelrangetosearch[1]],
+                 [self.threshold_wall, self.threshold_wall],
+                 &#39;k--&#39;, label=&#39;Threshold for start&#39;)
+    wallsub.plot([self.jet_wallposition, self.jet_wallposition],
+                 [self._jetlogicvecposition.min(), self._jetlogicvecposition.max()],
+                 &#39;m--&#39;, label=&#39;Wall estimation&#39;)
+    wallsub.legend(loc=&#39;upper right&#39;)
+    wallsub.grid()
+    plt.ylim(0, 1)
+    plt.xlim(0, self.xpixelrangetosearch[1] - 1)</code></pre>
+</details>
+</dd>
+<dt id="pimged.calculate.jetparameters.jetcenter.JetCenter.showinternalfuncs"><code class="name flex">
+<span>def <span class="ident">showinternalfuncs</span></span>(<span>self)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Function to show the internal calculations, without estimating the wall and edges. Can be
+used to identify problems with the data and/or the limits</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def showinternalfuncs(self):
+    &#34;&#34;&#34;
+    Function to show the internal calculations, without estimating the wall and edges. Can be
+    used to identify problems with the data and/or the limits
+    &#34;&#34;&#34;
+    # first get the vectors that should be plotted
+    self._calctimesumvectors()
+
+    widthestimationheight = self._jetlogicvecwidth.max() * self.threshold_width
+
+    # Plotting the array
+    plt.figure()
+    gs = gridspec.GridSpec(2, 2, height_ratios=[1, 0.5], width_ratios=[0.5, 1])
+    imsub = plt.subplot(gs[0, 1])
+    imsub.imshow(self._jet2dlogicvec, interpolation=&#39;nearest&#39;, aspect=&#39;auto&#39;)
+
+    # Plotting the width estimation
+    widthsub = plt.subplot(gs[0, 0])
+    widthsub.plot(self._jetlogicvecwidth, range(0, len(self._jetlogicvecwidth)),
+                  &#39;b-&#39;, label=&#39;Mean towards y (height)&#39;)
+    widthsub.plot([widthestimationheight, widthestimationheight], [0, self.ypixelsize], &#39;k--&#39;,
+                  label=&#39;threshold for width&#39;)
+    widthsub.legend(loc=&#39;upper right&#39;)
+    widthsub.grid()
+    plt.ylim(len(self._jetlogicvecwidth), 0)
+    plt.xlim(0, 1)
+
+    # Plotting the wall estimation
+    wallsub = plt.subplot(gs[1, 1])
+    wallsub.plot(self._jetlogicvecposition, &#39;b-&#39;, label=&#39;Mean towards x (width)&#39;)
+    wallsub.plot([0, self.xpixelrangetosearch[1]],
+                 [self.threshold_wall, self.threshold_wall],
+                 &#39;k--&#39;, label=&#39;Threshold for start&#39;)
+    wallsub.legend(loc=&#39;upper right&#39;)
+    wallsub.grid()
+    plt.ylim(0, 1)
+    plt.xlim(0, self.xpixelrangetosearch[1]-1)</code></pre>
+</details>
+</dd>
+</dl>
+<h3>Inherited members</h3>
+<ul class="hlist">
+<li><code><b><a title="pimged.calculate.jetparameters.template.JetParameters" href="template.html#pimged.calculate.jetparameters.template.JetParameters">JetParameters</a></b></code>:
+<ul class="hlist">
+<li><code><a title="pimged.calculate.jetparameters.template.JetParameters.array" href="template.html#pimged.calculate.jetparameters.template.JetParameters.array">array</a></code></li>
+</ul>
+</li>
+</ul>
+</dd>
+</dl>
+</section>
+</article>
+<nav id="sidebar">
+<header>
+<a class="homelink" rel="home" title="PImGED treat" href="https://youtu
+.be/mx86-rTclzA?si=RWJEgJIT8MdOsVn7">
+<center><img src="https://i.ibb.co/Tbp2rPk/logo.png" alt=""></center>
+</a>
+</header>
+<h1>Index</h1>
+<div class="toc">
+<ul></ul>
+</div>
+<ul id="index">
+<li><h3>Super-module</h3>
+<ul>
+<li><code><a title="pimged.calculate.jetparameters" href="index.html">pimged.calculate.jetparameters</a></code></li>
+</ul>
+</li>
+<li><h3><a href="#header-classes">Classes</a></h3>
+<ul>
+<li>
+<h4><code><a title="pimged.calculate.jetparameters.jetcenter.JetCenter" href="#pimged.calculate.jetparameters.jetcenter.JetCenter">JetCenter</a></code></h4>
+<ul class="">
+<li><code><a title="pimged.calculate.jetparameters.jetcenter.JetCenter.findjetcenterfromdata" href="#pimged.calculate.jetparameters.jetcenter.JetCenter.findjetcenterfromdata">findjetcenterfromdata</a></code></li>
+<li><code><a title="pimged.calculate.jetparameters.jetcenter.JetCenter.show" href="#pimged.calculate.jetparameters.jetcenter.JetCenter.show">show</a></code></li>
+<li><code><a title="pimged.calculate.jetparameters.jetcenter.JetCenter.showinternalfuncs" href="#pimged.calculate.jetparameters.jetcenter.JetCenter.showinternalfuncs">showinternalfuncs</a></code></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</nav>
+</main>
+<footer id="footer">
+<p>Generated by <a href="https://pdoc3.github.io/pdoc" title="pdoc: Python API documentation generator"><cite>pdoc</cite> 0.10.0</a>.</p>
+</footer>
+</body>
+</html>

@@ -61,6 +61,91 @@ easy to update individual functionality in different modules, without breaking c
 <p><a href="LICENSE">BSD 3-Clause License</a></p>
 <p>Copyright (c) 2024, Benjamin Arnold Krekeler Hartz</p>
 <hr>
+<h2 id="quick-overview">Quick Overview</h2>
+<p>These examples assume that <code><a title="pimged" href="#pimged">pimged</a></code> has been imported as <code>pg</code></p>
+<pre><code>import pimged as pg
+</code></pre>
+<h3 id="load-raw-data">Load raw data</h3>
+<p>The following creates a datahandling object with the working directory of the file folders,
+<code>filedir</code>, a list of folders with image data that is searched in the natural sorted order,
+<code>searchfolders</code>, and the zero particle folder with images without particles, <code>zeroparticlesfolder</code>.
+It is possible to set <code>fullparticlesfolder</code><sup id="fnref:fullpartfolder"><a class="footnote-ref" href="#fn:fullpartfolder">1</a></sup>, which is a folder containing initial
+images with particles. If this is set, the calibration function later will use this folder in the
+calculations. </p>
+<pre><code>image_path = "C:\user\documents\imagefolder"
+folderwithimages = ["dataset1", "dataset2", "dataset3", .... , "datasetN"]
+zerofoldername = "zero"
+dataset = pg.Dataset(filedir=image_path, searchfolders=folderwithimages, zeroparticlesfolder=zerofoldername)
+</code></pre>
+<p>To load data there has to be called the <code>load</code> function within the <code>dataset.images.raw</code> object.
+This load data into the raw image array object. If no input is given, all data is loaded. If the
+setfolder is specified, the function load images from the searchfolders list based on the
+position of the folder in the list. E.g. <code>[1, 5]</code> will load the first till the fifth folder, included.
+The setimage specify how many of the images should be loaded from each folder. E.g. <code>[1, 600]</code> load
+everything from first till the 600th image.</p>
+<p>All data is saved into the Imagearray module under raw as a numpy ndarray with dimensions as
+<code>[height, width, time, stationary time]</code></p>
+<pre><code>dataset.loadimages(setfolderstoload=[1, 5], setimagestoload=[1, 600])
+</code></pre>
+<h3 id="calculate-concentration-fields">Calculate concentration fields</h3>
+<p>To create a pixel to pixel, a calculation object using the <code>dataset</code> is created using:</p>
+<pre><code>datacalc = pg.Calculate(dataset)
+</code></pre>
+<p>To do a calibration call the <code>bit2conccalib</code> function and specify how many initial pictures
+should be used for the calibration. This function assume that <code>numberofimages</code> is present as the
+first images in the dataset that can be used for calibration (<code>[1, numberofimages]</code>).
+The function calculate a linear calibration per datasat given. Here a dataset is a folder of
+images several image series</p>
+<pre><code>datacalc.bit2conccalib(numberofimages=100)
+</code></pre>
+<p>To calculate the concentration from the raw images, use the <code>bit2conc</code> function under the calculate
+module. It is possible to specify how much memory saving should be used during the calculations,
+but is initally set as a parallized load with minimal memory saving.
+All data is saved in the <code>dataset.images.concentration</code></p>
+<pre><code>datacalc.bit2conc()
+</code></pre>
+<h3 id="calculate-statistics">Calculate statistics</h3>
+<p>It is now possible to calculate statistics as the mean, standard diviation and variance with the
+caluclate module. It is calculated along the stationary time dimension of the concentration data.
+The data is saved into the <code>dataset.images</code> module under the array assigned the data type.</p>
+<pre><code>datacalc.mean()
+datacalc.std()
+datacalc.var()
+</code></pre>
+<p>It is also possible to calculate the nth moment of the data using </p>
+<pre><code>datacalc.moment()
+</code></pre>
+<p>This function return the calculated result and do not include it in the dataset object.</p>
+<h3 id="saving-and-loading-data">Saving and loading data</h3>
+<p>With the data in <code>dataset.images</code>, it is possible to save the data directly with builtin
+functions. The given example save a mean data in the given savefolder <code>filepath</code> with
+the save format defined by <code>fformat</code> using the <code>"zarr"</code> preset. The <code>filename</code> is the name of the
+file. Zarr is a paralillazble compressed format that can be used for HPC datahandling and is faster
+than usual .npz</p>
+<pre><code>filename = "data1"
+savefolder = "C:\user\documents\savefolder"
+dataset.imagearrays.mean.save(filename=filename, filepath=savefolder, fformat="zarr")
+</code></pre>
+<p>To load the data the call to the load function inside the arrays is used. Here the <code>filepath</code> and
+<code>fformat</code> is again specified and if the data is chunked saved, using <code>chunkeddata</code>. Chunked
+meaning if the data is saved in several files for the same datahandling e.g. If the chunked
+mode is on, the data looks for all data fitting in the mean array, find the indicies and load
+the data based on the indicies for the data into the <code>dataset</code> object. All the data is organized
+according to the metadata saved with the chunked mean data. E.g. if a data set is calculated
+over 4 runs and saved in four files, splitting the calculated datasets timespan from <code>[1, 25]</code>,
+<code>[26, 50]</code>, <code>[51, 75]</code> and <code>[76, 100]</code>, the code append the data into the same array going from
+<code>[1, 100]</code>.</p>
+<pre><code>dataset.imagearrays.mean.load(filename=filename, filepath=savefolder, fformat="zarr", chunkeddata=True)
+</code></pre>
+<div class="footnote">
+<hr>
+<ol>
+<li id="fn:fullpartfolder">
+<p>It is adviced only to use this setting, if experienced with the package and
+datahandling&#160;<a class="footnote-backref" href="#fnref:fullpartfolder" title="Jump back to footnote 1 in the text">&#8617;</a></p>
+</li>
+</ol>
+</div>
 <details class="source">
 <summary>
 <span>Expand source code</span>
@@ -68,15 +153,37 @@ easy to update individual functionality in different modules, without breaking c
 <pre><code class="python">&#34;&#34;&#34;.
 
 .. include:: ../readme.md
-&#34;&#34;&#34;</code></pre>
+
+.. include:: ../documentation.md
+&#34;&#34;&#34;
+import pimged.calculate.jetparameters as jetparameters
+from pimged.datahandling import Dataset
+from pimged.bigdata.bigdata import Bigdata
+from pimged.calculate import Calculate
+from pimged.calculate.pod import POD
+from pimged.imageexport import Imageexport
+from .utils.chixread import checkingchixfileset
+from .utils.naturalkeysort import naturalkeysort</code></pre>
 </details>
 </section>
 <section>
 <h2 class="section-title" id="header-submodules">Sub-modules</h2>
 <dl>
+<dt><code class="name"><a title="pimged.bigdata" href="bigdata/index.html">pimged.bigdata</a></code></dt>
+<dd>
+<div class="desc"><p>Big data module …</p></div>
+</dd>
+<dt><code class="name"><a title="pimged.calculate" href="calculate/index.html">pimged.calculate</a></code></dt>
+<dd>
+<div class="desc"><p>Calculate module …</p></div>
+</dd>
 <dt><code class="name"><a title="pimged.datahandling" href="datahandling/index.html">pimged.datahandling</a></code></dt>
 <dd>
 <div class="desc"><p>Datahandling module …</p></div>
+</dd>
+<dt><code class="name"><a title="pimged.imageexport" href="imageexport/index.html">pimged.imageexport</a></code></dt>
+<dd>
+<div class="desc"><p>Imageexport module …</p></div>
 </dd>
 <dt><code class="name"><a title="pimged.utils" href="utils/index.html">pimged.utils</a></code></dt>
 <dd>
@@ -106,12 +213,22 @@ easy to update individual functionality in different modules, without breaking c
 <li><a href="#support">Support</a></li>
 <li><a href="#authors-and-acknowledgment">Authors and acknowledgment</a></li>
 <li><a href="#license">License</a></li>
+<li><a href="#quick-overview">Quick overview</a><ul>
+<li><a href="#load-raw-data">Load raw data</a></li>
+<li><a href="#calculate-concentration-fields">Calculate concentration fields</a></li>
+<li><a href="#calculate-statistics">Calculate statistics</a></li>
+<li><a href="#saving-and-loading-data">Saving and loading data</a></li>
+</ul>
+</li>
 </ul>
 </div>
 <ul id="index">
 <li><h3><a href="#header-submodules">Sub-modules</a></h3>
 <ul>
+<li><code><a title="pimged.bigdata" href="bigdata/index.html">pimged.bigdata</a></code></li>
+<li><code><a title="pimged.calculate" href="calculate/index.html">pimged.calculate</a></code></li>
 <li><code><a title="pimged.datahandling" href="datahandling/index.html">pimged.datahandling</a></code></li>
+<li><code><a title="pimged.imageexport" href="imageexport/index.html">pimged.imageexport</a></code></li>
 <li><code><a title="pimged.utils" href="utils/index.html">pimged.utils</a></code></li>
 </ul>
 </li>

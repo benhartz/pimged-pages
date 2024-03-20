@@ -1,0 +1,1309 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1" />
+<meta name="generator" content="pdoc 0.10.0" />
+<title>pimged.imageexport.imageexport API documentation</title>
+<meta name="description" content="Module for exporting images and videos …" />
+<link rel="preload stylesheet" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/10up-sanitize.css/11.0.1/sanitize.min.css" integrity="sha256-PK9q560IAAa6WVRRh76LtCaI8pjTJ2z11v0miyNNjrs=" crossorigin>
+<link rel="preload stylesheet" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/10up-sanitize.css/11.0.1/typography.min.css" integrity="sha256-7l/o7C8jubJiy74VsKTidCy1yBkRtiUGbVkYBylBqUg=" crossorigin>
+<link rel="stylesheet preload" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.1.1/styles/github.min.css" crossorigin>
+<style>:root{--highlight-color:#fe9}.flex{display:flex !important}body{line-height:1.5em}#content{padding:20px}#sidebar{padding:30px;overflow:hidden}#sidebar > *:last-child{margin-bottom:2cm}.http-server-breadcrumbs{font-size:130%;margin:0 0 15px 0}#footer{font-size:.75em;padding:5px 30px;border-top:1px solid #ddd;text-align:right}#footer p{margin:0 0 0 1em;display:inline-block}#footer p:last-child{margin-right:30px}h1,h2,h3,h4,h5{font-weight:300}h1{font-size:2.5em;line-height:1.1em}h2{font-size:1.75em;margin:1em 0 .50em 0}h3{font-size:1.4em;margin:25px 0 10px 0}h4{margin:0;font-size:105%}h1:target,h2:target,h3:target,h4:target,h5:target,h6:target{background:var(--highlight-color);padding:.2em 0}a{color:#058;text-decoration:none;transition:color .3s ease-in-out}a:hover{color:#e82}.title code{font-weight:bold}h2[id^="header-"]{margin-top:2em}.ident{color:#900}pre code{background:#f8f8f8;font-size:.8em;line-height:1.4em}code{background:#f2f2f1;padding:1px 4px;overflow-wrap:break-word}h1 code{background:transparent}pre{background:#f8f8f8;border:0;border-top:1px solid #ccc;border-bottom:1px solid #ccc;margin:1em 0;padding:1ex}#http-server-module-list{display:flex;flex-flow:column}#http-server-module-list div{display:flex}#http-server-module-list dt{min-width:10%}#http-server-module-list p{margin-top:0}.toc ul,#index{list-style-type:none;margin:0;padding:0}#index code{background:transparent}#index h3{border-bottom:1px solid #ddd}#index ul{padding:0}#index h4{margin-top:.6em;font-weight:bold}@media (min-width:200ex){#index .two-column{column-count:2}}@media (min-width:300ex){#index .two-column{column-count:3}}dl{margin-bottom:2em}dl dl:last-child{margin-bottom:4em}dd{margin:0 0 1em 3em}#header-classes + dl > dd{margin-bottom:3em}dd dd{margin-left:2em}dd p{margin:10px 0}.name{background:#eee;font-weight:bold;font-size:.85em;padding:5px 10px;display:inline-block;min-width:40%}.name:hover{background:#e0e0e0}dt:target .name{background:var(--highlight-color)}.name > span:first-child{white-space:nowrap}.name.class > span:nth-child(2){margin-left:.4em}.inherited{color:#999;border-left:5px solid #eee;padding-left:1em}.inheritance em{font-style:normal;font-weight:bold}.desc h2{font-weight:400;font-size:1.25em}.desc h3{font-size:1em}.desc dt code{background:inherit}.source summary,.git-link-div{color:#666;text-align:right;font-weight:400;font-size:.8em;text-transform:uppercase}.source summary > *{white-space:nowrap;cursor:pointer}.git-link{color:inherit;margin-left:1em}.source pre{max-height:500px;overflow:auto;margin:0}.source pre code{font-size:12px;overflow:visible}.hlist{list-style:none}.hlist li{display:inline}.hlist li:after{content:',\2002'}.hlist li:last-child:after{content:none}.hlist .hlist{display:inline;padding-left:1em}img{max-width:100%}td{padding:0 .5em}.admonition{padding:.1em .5em;margin-bottom:1em}.admonition-title{font-weight:bold}.admonition.note,.admonition.info,.admonition.important{background:#aef}.admonition.todo,.admonition.versionadded,.admonition.tip,.admonition.hint{background:#dfd}.admonition.warning,.admonition.versionchanged,.admonition.deprecated{background:#fd4}.admonition.error,.admonition.danger,.admonition.caution{background:lightpink}</style>
+<style media="screen and (min-width: 700px)">@media screen and (min-width:700px){#sidebar{width:30%;height:100vh;overflow:auto;position:sticky;top:0}#content{width:70%;max-width:100ch;padding:3em 4em;border-left:1px solid #ddd}pre code{font-size:1em}.item .name{font-size:1em}main{display:flex;flex-direction:row-reverse;justify-content:flex-end}.toc ul ul,#index ul{padding-left:1.5em}.toc > ul > li{margin-top:.5em}}</style>
+<style media="print">@media print{#sidebar h1{page-break-before:always}.source{display:none}}@media print{*{background:transparent !important;color:#000 !important;box-shadow:none !important;text-shadow:none !important}a[href]:after{content:" (" attr(href) ")";font-size:90%}a[href][title]:after{content:none}abbr[title]:after{content:" (" attr(title) ")"}.ir a:after,a[href^="javascript:"]:after,a[href^="#"]:after{content:""}pre,blockquote{border:1px solid #999;page-break-inside:avoid}thead{display:table-header-group}tr,img{page-break-inside:avoid}img{max-width:100% !important}@page{margin:0.5cm}p,h2,h3{orphans:3;widows:3}h1,h2,h3,h4,h5,h6{page-break-after:avoid}}</style>
+<script defer src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.1.1/highlight.min.js" integrity="sha256-Uv3H6lx7dJmRfRvH8TH6kJD1TSK1aFcwgx+mdg3epi8=" crossorigin></script>
+<script>window.addEventListener('DOMContentLoaded', () => hljs.initHighlighting())</script>
+<style>.homelink{display:block;font-size:2em;font-weight:bold;color:#555;padding-bottom:.5em;border-bottom:1px solid silver}.homelink:hover{color:inherit}.homelink img{max-width:100%;max-height:10em;margin:auto;margin-bottom:.3em;margin-top:.3em}</style>
+</head>
+<body>
+<main>
+<article id="content">
+<header>
+<h1 class="title">Module <code>pimged.imageexport.imageexport</code></h1>
+</header>
+<section id="section-intro">
+<p>Module for exporting images and videos.</p>
+<p>It is possible to get a fast look at the data and exporting video. It is possible to provide a
+figure handle for formatting in the plot and video output.</p>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">&#34;&#34;&#34;Module for exporting images and videos.
+
+It is possible to get a fast look at the data and exporting video. It is possible to provide a
+figure handle for formatting in the plot and video output.
+&#34;&#34;&#34;
+from tkinter import TclError
+from warnings import warn
+from os import path as ph, getcwd
+import subprocess
+import numpy as np
+import matplotlib.pyplot as plt
+
+from ..utils.utils import range_load_check, progressbar
+from ..datahandling.dataset import Dataset
+from ..datahandling.arrays.array import Imarray
+
+
+class Imageexport:
+    &#34;&#34;&#34;Export of images and videos.&#34;&#34;&#34;
+
+    def __init__(self,
+                 dataset: Dataset,
+                 moviefileextenssion: str = &#39;.mp4&#39;,
+                 picfileextenssion: str = &#39;.svg&#39;,
+                 fps: int = 25,
+                 crf: int = 23,
+                 dpi: int = 100,
+                 figurehandle=property()):
+        &#34;&#34;&#34;Object handling image export.
+
+        Parameters
+        ----------
+        dataset : pimged.Dataset :
+            dataset loaded with the Dataset class
+
+        moviefileextenssion : str :
+             (Default value = &#39;.mp4&#39;)
+            {&#39;.avi&#39;, &#39;.mov&#39;, &#39;.mp4&#39;}
+            extenssion type of the movie clip
+
+        picfileextenssion : str :
+             (Default value = &#39;.svg&#39;)
+            extenssion of picture file saved
+
+        fps : int :
+             (Default value = 25)
+            frames per second of the exported video
+
+        crf : int :
+             (Default value = 23)
+            quality parameter within H.264 encoding. 0 is lossless, 23 is standard for ffmpeg and
+            53 is the lowest quality. output is 8-bit
+
+        dpi : int :
+             (Default value = 100)
+            dots per inch used for estimation of figure size when plotting
+
+        figurehandle : :
+             (Default value = property())
+            If a costum figurehandle is wanted, it is possible to send it into the function and
+            the function add data
+        &#34;&#34;&#34;
+        self.moviefileextension = moviefileextenssion
+        self.picfileextension = picfileextenssion
+        self.fps = fps
+        self.dpi = dpi
+        self.cfr = crf
+        self.figurehandle = figurehandle
+
+        self._imageref = &#34;&#34;
+        if isinstance(dataset, np.ndarray):
+            self._imagearrays = dataset
+        else:
+            self._imagearrays = dataset.images
+
+    def exampleoffigure(self, arraytouse: str = &#39;raw&#39;, setframe: int = 1, setdataset: int = 1,
+                        filename: str = &#39;default&#39;, showfig: bool = True, savefig: bool = False):
+        &#34;&#34;&#34;Show and/or export figures from the datahandling processed.
+
+        Parameters
+        ----------
+        arraytouse : str :
+             (Default value = &#39;raw&#39;)
+            {&#39;raw&#39;, &#39;conc&#39;, &#39;var&#39;, &#39;std&#39;, &#39;mean&#39;}
+            specified which array to use for the figure. If &#39;raw&#39; or &#39;conc&#39; is chosen, it is the
+            first folder data that is used
+
+        setframe : int :
+             (Default value = 1)
+            choose the frame from the set to show in the figure
+
+        setdataset : int :
+             (Default value = 1)
+            If raw or concentration data is chosen, it is possible to choose which
+            set to show from
+
+        filename : str :
+             (Default value = &#39;default&#39;)
+            filename of the exported file without extension. Exstension is set in
+            imageexport
+
+        showfig : bool :
+             (Default value = True)
+            bool stating if the chosen plot has to be shown or not
+
+        savefig : bool :
+             (Default value = False)
+            bool stating if the chosen plot has to be saved or not
+
+        Raises
+        ------
+        IndexError : :
+            Several parts raises index error. No data in array chosen, dataset parts do not
+            exist or the dataset do not contain data
+
+        ValueError : :
+            The chosen frame is not present in the data
+        &#34;&#34;&#34;
+        setframe -= 1  # Zero index
+        setdataset -= 1  # Zero index
+
+        # Finding the asked array
+        imagearrayobj = self._getarraydata(arraytouse)
+
+        if len(imagearrayobj.data) == 0:
+            raise IndexError(&#34;The chosen image arrays are empty for data, check if calculated&#34;)
+
+        if len(imagearrayobj.data.shape) == 4:
+            if setdataset &lt; 0 or setdataset &gt;= imagearrayobj.data.shape[3]:
+                raise IndexError(&#39;Dataset do not exist, check set value is not below 1 or above &#39;
+                                 &#39;loaded datahandling amount&#39;)
+
+        if setframe &gt; imagearrayobj.data.shape[2] or setframe &lt; 0:
+            raise ValueError(&#34;Frame not present in the datahandling. Check asked frame number &#34;
+                             &#34;compared to datahandling loaded&#34;)
+
+        try:
+            if len(imagearrayobj.data.shape) == 4:
+                if isinstance(imagearrayobj, np.ndarray):
+                    imagearray = imagearrayobj[:, :, setframe, setdataset]
+                else:
+                    imagearray = imagearrayobj.data[:, :, setframe, setdataset]
+            else:
+                if isinstance(imagearrayobj, np.ndarray):
+                    imagearray = imagearrayobj[:, :, setframe]
+                else:
+                    imagearray = imagearrayobj.data[:, :, setframe]
+
+        except AttributeError as exc:
+            raise IndexError(&#34;The chosen image arrays are empty for data, &#34;
+                             &#34;check if calculated.&#34;) from exc
+
+        try:
+            self._checkfiguresize(imagearray)
+            self._imageref = &#34;is there&#34;
+
+        except (AttributeError, TclError):
+            self.figurehandle = plt.figure(frameon=False)
+            self._imageref = &#34;&#34;
+            self._checkfiguresize(imagearray)
+
+            warn(&#39;no figure handles in object. Generated generic figure handle&#39;)
+
+        if len(self.figurehandle.axes) == 0:
+            ax = self.figurehandle.add_subplot(111)
+            ax.title.set_text(&#39;Generic figure - no figure/plot input in class&#39;)
+            ax.set_xlabel(&#39;Pixels [-]&#39;)
+            ax.set_ylabel(&#39;Pixels [-]&#39;)
+        else:
+            self._imageref = self.figurehandle.axes[0].get_images()[0]
+
+        if self._imageref == &#34;&#34;:
+            self._imageref = ax.imshow(imagearray)
+        else:
+            self._imageref.set_data(imagearray)
+
+        if savefig:
+            plt.savefig(filename + self.picfileextension)
+
+        if showfig:
+            self.figurehandle.show()
+
+    def videosave(self,
+                  arraytouse=&#39;raw&#39;,
+                  setframes: list = &#39;all&#39;,
+                  setdataset: int = 1,
+                  filename: str = &#39;defaultfilename&#39;,
+                  path=getcwd()):
+        &#34;&#34;&#34;Export video based on ffmpeg - demand ffmpeg is installed on the computer.
+
+        Parameters
+        ----------
+        arraytouse : str :
+             (Default value = &#39;raw&#39;)
+            {&#39;raw&#39;, &#39;conc&#39;, &#39;var&#39;, &#39;std&#39;, &#39;mean&#39;}
+            specified which array to use for the figure. If &#39;raw&#39; or &#39;conc&#39; is chosen, it is the
+            first folder data that is used
+
+        setframes: list :
+             (Default value = &#39;all&#39;)
+            choose the frame from the set to show in the figure
+
+        setdataset: int :
+             (Default value = 1)
+            If raw or concentration data is chosen, it is possible to choose which
+            set to show from
+
+        filename: str :
+             (Default value = &#39;defaultfilename&#39;)
+            filename of the exported file without extension
+
+        path : str :
+             (Default value = getcwd())
+            specified path for saving the movie
+
+        Raises
+        ------
+        NameError : :
+            Fileexstention do not exist
+
+        NotADirectoryError : :
+            The given directory do not exist
+
+        TypeError : :
+            Unknown input method
+
+        IndexError : :
+            Frames do not match in input or the dataset do not exist
+
+        ValueError : :
+            Asked image data do not exist
+        &#34;&#34;&#34;
+        movietypes = [&#39;.avi&#39;, &#39;.mov&#39;, &#39;.mp4&#39;]
+        setdataset -= 1  # Adjust for 0-indecies
+
+        # initial checks for inputs
+        if self.moviefileextension in movietypes:
+            pass
+        else:
+            raise NameError(f&#34;The given fileexstention is not a movie type. {movietypes}&#34;)
+
+        if not ph.exists(path):
+            raise NotADirectoryError(&#34;The given path is not a directory&#34;)
+
+        if isinstance(arraytouse, Imarray):
+            # Getting the imagearray object - if given as arraytouse
+            imagearrayobj = arraytouse
+        elif isinstance(arraytouse, str):
+            # Getting the imagearray object with metadata
+            imagearrayobj = self._getarraydata(arraytouse)
+        else:
+            raise TypeError(&#39;Unkown type input to &#34;arraytouse&#34;, use a str or numpy ndarray&#39;)
+
+        if setframes == &#39;all&#39;:
+            setframes = [0, imagearrayobj.data.shape[2]]
+            setframesinfo = &#39;all&#39;
+        else:
+            setframesinfo = &#39;custom&#39;
+
+        if setframes[0] &gt; setframes[1]:
+            raise IndexError(&#39;Start frame has to be larger than the end frame set&#39;)
+        if setframes[0] &lt; 0:
+            raise IndexError(&#39;First frame do not exist, check set value is not below 1&#39;)
+
+        # Finding the asked subdata
+        if isinstance(imagearrayobj, np.ndarray):
+            imagearray = range_load_check(imagearrayobj, setframes, &#39;all&#39;, list, &#39;range&#39;)
+        else:
+            imagearray = range_load_check(imagearrayobj.data, setframes, &#39;all&#39;, list, &#39;range&#39;)
+
+        if not len(imagearray[2]) &gt; 0:
+            raise ValueError(&#34;The provided image data is not present. Check if data is calculated &#34;
+                             &#34;or been deleted in earlier clearing command&#34;)
+
+        if not setframesinfo == &#39;all&#39;:
+            if setframes[0] &gt; imagearrayobj.arrayinfo.loadedimagerange[1]:
+                raise IndexError(&#39;Frames are not present in the dataset loaded. Loaded data are &#39;
+                                 f&#39;within frames: {imagearrayobj.arrayinfo.loadedimagerange}&#39;)
+        if setframes[1] &gt; imagearray.shape[2]:
+            warn(f&#34;The set end frame is larger than loaded data. The movie will show till frame &#34;
+                 f&#34;{imagearray.shape[2]}&#34;)
+
+        if len(imagearray.shape) == 4:
+            if setdataset &lt; 0 or setdataset &gt; imagearray.shape[3]:
+                raise IndexError(&#39;Dataset do not exist, check set value is not below 1 or above &#39;
+                                 &#39;loaded datahandling amount&#39;)
+
+        try:
+            self._checkfiguresize(imagearray)
+
+        except (AttributeError, TclError):
+            self.figurehandle = plt.figure(frameon=False)
+            self._imageref = &#34;&#34;
+            self._checkfiguresize(imagearray)
+
+        if len(self.figurehandle.axes) == 0:
+            ax = self.figurehandle.add_subplot(111)
+        else:
+            self._imageref = self.figurehandle.axes[0]
+
+        # script start
+        outputfilename = ph.join(path, filename + self.moviefileextension)
+
+        if len(imagearray.shape) == 4:
+            tempimgarry = imagearray[:, :, 0, 0]
+            nframesinset = imagearray.shape[-2]
+        else:
+            tempimgarry = imagearray[:, :, 0]
+            nframesinset = imagearray.shape[-1]
+
+        if self._imageref == &#34;&#34;:
+            self._imageref = ax.imshow(tempimgarry)
+        else:
+            tmp = self._imageref.get_images()
+            if len(tmp) &lt; 1:
+                self._imageref = ax.imshow(tempimgarry)
+            else:
+                self._imageref = tmp[0]
+                self._imageref.set_data(tempimgarry)
+
+        canvas_width, canvas_height = self.figurehandle.canvas.get_width_height()
+
+        def update(frame, subdataset):
+            if len(imagearray.shape) == 4:
+                self._imageref.set_data(imagearray[:, :, frame, subdataset])
+            else:
+                self._imageref.set_data(imagearray[:, :, frame])
+
+        # Open a ffmpeg process
+        cmdstring = (&#39;ffmpeg&#39;, &#39;-loglevel&#39;, &#39;warning&#39;, &#39;-hide_banner&#39;,
+                     &#39;-y&#39;, &#39;-r&#39;, str(self.fps),  # Set FPS
+                     &#39;-s&#39;, &#39;%dx%d&#39; % (canvas_width, canvas_height),  # size of image string
+                     &#39;-pix_fmt&#39;, &#39;argb&#39;,  # format
+                     &#39;-f&#39;, &#39;rawvideo&#39;,  # tell ffmpeg to expect raw video from the pipe
+                     &#39;-an&#39;, &#39;-sn&#39;,  # No audio or subs
+                     &#39;-i&#39;, &#39;-&#39;,  # input stream
+                     &#39;-vcodec&#39;, &#39;libx264&#39;, &#39;-pix_fmt&#39;, &#39;yuv420p&#39;,
+                     &#39;-crf&#39;, str(self.cfr),
+                     outputfilename)  # output encoding
+
+        with subprocess.Popen(cmdstring, stdin=subprocess.PIPE, stdout=subprocess.PIPE) as p:
+            print(f&#34;Starting encoding video: {filename + self.moviefileextension}&#34;)
+            # Draw frames and write to the pipe
+            for framen in progressbar(range(nframesinset), prefix=&#39;Progress:&#39;, suffix=&#39;Complete&#39;,
+                                      length=20):
+                # draw the frame
+                update(framen, setdataset)
+                self.figurehandle.canvas.draw()
+
+                # extract the image as an ARGB string
+                string = self.figurehandle.canvas.tostring_argb()
+
+                # write to pipe
+                p.stdin.write(string)
+            print()
+
+    def _checkfiguresize(self, imagearray):
+        &#34;&#34;&#34;Check the figgure size if it can contain the data.
+
+        Parameters
+        ----------
+        imagearray : :
+            the imagearray to check
+        &#34;&#34;&#34;
+        figureminheight = imagearray.shape[1] / self.dpi
+        figureminwidth = imagearray.shape[0] / self.dpi
+
+        if figureminwidth &gt;= self.figurehandle.get_size_inches()[0] or \
+                figureminheight &gt;= self.figurehandle.get_size_inches()[1]:
+            self.figurehandle.set_size_inches(figureminheight, figureminwidth)
+        else:
+            pass
+
+    def _getarraydata(self, arraytouse):
+        &#34;&#34;&#34;Get the image array data from the imagearray holder and return a new temp array.
+
+        Parameters
+        ----------
+        arraytouse : str :
+            {&#39;raw&#39;, &#39;conc&#39;, &#39;var&#39;, &#39;std&#39;, &#39;mean&#39;, &#39;custom&#39;}
+            specified which array to use for the video: &#39;raw&#39;, &#39;conc&#39;, &#39;var&#39;, &#39;std&#39;,
+            &#39;mean&#39;, &#39;custom&#39;, if &#39;raw&#39; or &#39;conc&#39; is chosen, it is the first folder
+            data that is used. If &#39;custom&#39; is chosen, the data has to be on the form:
+            array[row, column, time]
+
+        Raises
+        ------
+        ValueError
+        &#34;&#34;&#34;
+        arraytouselist = [&#39;raw&#39;, &#39;conc&#39;, &#39;var&#39;, &#39;std&#39;, &#39;mean&#39;, &#39;custom&#39;]
+
+        if arraytouse in arraytouselist:
+            pass
+        else:
+            raise ValueError(f&#39;arraytouse has to be one of the following settings {arraytouselist}&#39;)
+
+        if arraytouse == arraytouselist[0]:
+            tmparray = self._imagearrays.raw
+
+        elif arraytouse == arraytouselist[1]:
+            tmparray = self._imagearrays.concentration
+
+        elif arraytouse == arraytouselist[2]:
+            tmparray = self._imagearrays.var
+
+        elif arraytouse == arraytouselist[3]:
+            tmparray = self._imagearrays.std
+
+        elif arraytouse == arraytouselist[4]:
+            tmparray = self._imagearrays.mean
+
+        elif arraytouse == arraytouselist[5]:
+            tmparray = self._imagearrays
+        else:
+            raise ValueError(&#34;If this happens.. you are FUCKED&#34;)
+
+        return tmparray</code></pre>
+</details>
+</section>
+<section>
+</section>
+<section>
+</section>
+<section>
+</section>
+<section>
+<h2 class="section-title" id="header-classes">Classes</h2>
+<dl>
+<dt id="pimged.imageexport.imageexport.Imageexport"><code class="flex name class">
+<span>class <span class="ident">Imageexport</span></span>
+<span>(</span><span>dataset: <a title="pimged.datahandling.dataset.Dataset" href="../datahandling/dataset.html#pimged.datahandling.dataset.Dataset">Dataset</a>, moviefileextenssion: str = '.mp4', picfileextenssion: str = '.svg', fps: int = 25, crf: int = 23, dpi: int = 100, figurehandle=&lt;property object&gt;)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Export of images and videos.</p>
+<p>Object handling image export.</p>
+<h2 id="parameters">Parameters</h2>
+<dl>
+<dt><strong><code>dataset</code></strong> :&ensp;<code>pimged.Dataset :</code></dt>
+<dd>dataset loaded with the Dataset class</dd>
+<dt><strong><code>moviefileextenssion</code></strong> :&ensp;<code>str :</code></dt>
+<dd>(Default value = '.mp4')
+{'.avi', '.mov', '.mp4'}
+extenssion type of the movie clip</dd>
+<dt><strong><code>picfileextenssion</code></strong> :&ensp;<code>str :</code></dt>
+<dd>(Default value = '.svg')
+extenssion of picture file saved</dd>
+<dt><strong><code>fps</code></strong> :&ensp;<code>int :</code></dt>
+<dd>(Default value = 25)
+frames per second of the exported video</dd>
+<dt><strong><code>crf</code></strong> :&ensp;<code>int :</code></dt>
+<dd>(Default value = 23)
+quality parameter within H.264 encoding. 0 is lossless, 23 is standard for ffmpeg and
+53 is the lowest quality. output is 8-bit</dd>
+<dt><strong><code>dpi</code></strong> :&ensp;<code>int :</code></dt>
+<dd>(Default value = 100)
+dots per inch used for estimation of figure size when plotting</dd>
+<dt><strong><code>figurehandle</code></strong> :&ensp;<code>:</code></dt>
+<dd>(Default value = property())
+If a costum figurehandle is wanted, it is possible to send it into the function and
+the function add data</dd>
+</dl></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">class Imageexport:
+    &#34;&#34;&#34;Export of images and videos.&#34;&#34;&#34;
+
+    def __init__(self,
+                 dataset: Dataset,
+                 moviefileextenssion: str = &#39;.mp4&#39;,
+                 picfileextenssion: str = &#39;.svg&#39;,
+                 fps: int = 25,
+                 crf: int = 23,
+                 dpi: int = 100,
+                 figurehandle=property()):
+        &#34;&#34;&#34;Object handling image export.
+
+        Parameters
+        ----------
+        dataset : pimged.Dataset :
+            dataset loaded with the Dataset class
+
+        moviefileextenssion : str :
+             (Default value = &#39;.mp4&#39;)
+            {&#39;.avi&#39;, &#39;.mov&#39;, &#39;.mp4&#39;}
+            extenssion type of the movie clip
+
+        picfileextenssion : str :
+             (Default value = &#39;.svg&#39;)
+            extenssion of picture file saved
+
+        fps : int :
+             (Default value = 25)
+            frames per second of the exported video
+
+        crf : int :
+             (Default value = 23)
+            quality parameter within H.264 encoding. 0 is lossless, 23 is standard for ffmpeg and
+            53 is the lowest quality. output is 8-bit
+
+        dpi : int :
+             (Default value = 100)
+            dots per inch used for estimation of figure size when plotting
+
+        figurehandle : :
+             (Default value = property())
+            If a costum figurehandle is wanted, it is possible to send it into the function and
+            the function add data
+        &#34;&#34;&#34;
+        self.moviefileextension = moviefileextenssion
+        self.picfileextension = picfileextenssion
+        self.fps = fps
+        self.dpi = dpi
+        self.cfr = crf
+        self.figurehandle = figurehandle
+
+        self._imageref = &#34;&#34;
+        if isinstance(dataset, np.ndarray):
+            self._imagearrays = dataset
+        else:
+            self._imagearrays = dataset.images
+
+    def exampleoffigure(self, arraytouse: str = &#39;raw&#39;, setframe: int = 1, setdataset: int = 1,
+                        filename: str = &#39;default&#39;, showfig: bool = True, savefig: bool = False):
+        &#34;&#34;&#34;Show and/or export figures from the datahandling processed.
+
+        Parameters
+        ----------
+        arraytouse : str :
+             (Default value = &#39;raw&#39;)
+            {&#39;raw&#39;, &#39;conc&#39;, &#39;var&#39;, &#39;std&#39;, &#39;mean&#39;}
+            specified which array to use for the figure. If &#39;raw&#39; or &#39;conc&#39; is chosen, it is the
+            first folder data that is used
+
+        setframe : int :
+             (Default value = 1)
+            choose the frame from the set to show in the figure
+
+        setdataset : int :
+             (Default value = 1)
+            If raw or concentration data is chosen, it is possible to choose which
+            set to show from
+
+        filename : str :
+             (Default value = &#39;default&#39;)
+            filename of the exported file without extension. Exstension is set in
+            imageexport
+
+        showfig : bool :
+             (Default value = True)
+            bool stating if the chosen plot has to be shown or not
+
+        savefig : bool :
+             (Default value = False)
+            bool stating if the chosen plot has to be saved or not
+
+        Raises
+        ------
+        IndexError : :
+            Several parts raises index error. No data in array chosen, dataset parts do not
+            exist or the dataset do not contain data
+
+        ValueError : :
+            The chosen frame is not present in the data
+        &#34;&#34;&#34;
+        setframe -= 1  # Zero index
+        setdataset -= 1  # Zero index
+
+        # Finding the asked array
+        imagearrayobj = self._getarraydata(arraytouse)
+
+        if len(imagearrayobj.data) == 0:
+            raise IndexError(&#34;The chosen image arrays are empty for data, check if calculated&#34;)
+
+        if len(imagearrayobj.data.shape) == 4:
+            if setdataset &lt; 0 or setdataset &gt;= imagearrayobj.data.shape[3]:
+                raise IndexError(&#39;Dataset do not exist, check set value is not below 1 or above &#39;
+                                 &#39;loaded datahandling amount&#39;)
+
+        if setframe &gt; imagearrayobj.data.shape[2] or setframe &lt; 0:
+            raise ValueError(&#34;Frame not present in the datahandling. Check asked frame number &#34;
+                             &#34;compared to datahandling loaded&#34;)
+
+        try:
+            if len(imagearrayobj.data.shape) == 4:
+                if isinstance(imagearrayobj, np.ndarray):
+                    imagearray = imagearrayobj[:, :, setframe, setdataset]
+                else:
+                    imagearray = imagearrayobj.data[:, :, setframe, setdataset]
+            else:
+                if isinstance(imagearrayobj, np.ndarray):
+                    imagearray = imagearrayobj[:, :, setframe]
+                else:
+                    imagearray = imagearrayobj.data[:, :, setframe]
+
+        except AttributeError as exc:
+            raise IndexError(&#34;The chosen image arrays are empty for data, &#34;
+                             &#34;check if calculated.&#34;) from exc
+
+        try:
+            self._checkfiguresize(imagearray)
+            self._imageref = &#34;is there&#34;
+
+        except (AttributeError, TclError):
+            self.figurehandle = plt.figure(frameon=False)
+            self._imageref = &#34;&#34;
+            self._checkfiguresize(imagearray)
+
+            warn(&#39;no figure handles in object. Generated generic figure handle&#39;)
+
+        if len(self.figurehandle.axes) == 0:
+            ax = self.figurehandle.add_subplot(111)
+            ax.title.set_text(&#39;Generic figure - no figure/plot input in class&#39;)
+            ax.set_xlabel(&#39;Pixels [-]&#39;)
+            ax.set_ylabel(&#39;Pixels [-]&#39;)
+        else:
+            self._imageref = self.figurehandle.axes[0].get_images()[0]
+
+        if self._imageref == &#34;&#34;:
+            self._imageref = ax.imshow(imagearray)
+        else:
+            self._imageref.set_data(imagearray)
+
+        if savefig:
+            plt.savefig(filename + self.picfileextension)
+
+        if showfig:
+            self.figurehandle.show()
+
+    def videosave(self,
+                  arraytouse=&#39;raw&#39;,
+                  setframes: list = &#39;all&#39;,
+                  setdataset: int = 1,
+                  filename: str = &#39;defaultfilename&#39;,
+                  path=getcwd()):
+        &#34;&#34;&#34;Export video based on ffmpeg - demand ffmpeg is installed on the computer.
+
+        Parameters
+        ----------
+        arraytouse : str :
+             (Default value = &#39;raw&#39;)
+            {&#39;raw&#39;, &#39;conc&#39;, &#39;var&#39;, &#39;std&#39;, &#39;mean&#39;}
+            specified which array to use for the figure. If &#39;raw&#39; or &#39;conc&#39; is chosen, it is the
+            first folder data that is used
+
+        setframes: list :
+             (Default value = &#39;all&#39;)
+            choose the frame from the set to show in the figure
+
+        setdataset: int :
+             (Default value = 1)
+            If raw or concentration data is chosen, it is possible to choose which
+            set to show from
+
+        filename: str :
+             (Default value = &#39;defaultfilename&#39;)
+            filename of the exported file without extension
+
+        path : str :
+             (Default value = getcwd())
+            specified path for saving the movie
+
+        Raises
+        ------
+        NameError : :
+            Fileexstention do not exist
+
+        NotADirectoryError : :
+            The given directory do not exist
+
+        TypeError : :
+            Unknown input method
+
+        IndexError : :
+            Frames do not match in input or the dataset do not exist
+
+        ValueError : :
+            Asked image data do not exist
+        &#34;&#34;&#34;
+        movietypes = [&#39;.avi&#39;, &#39;.mov&#39;, &#39;.mp4&#39;]
+        setdataset -= 1  # Adjust for 0-indecies
+
+        # initial checks for inputs
+        if self.moviefileextension in movietypes:
+            pass
+        else:
+            raise NameError(f&#34;The given fileexstention is not a movie type. {movietypes}&#34;)
+
+        if not ph.exists(path):
+            raise NotADirectoryError(&#34;The given path is not a directory&#34;)
+
+        if isinstance(arraytouse, Imarray):
+            # Getting the imagearray object - if given as arraytouse
+            imagearrayobj = arraytouse
+        elif isinstance(arraytouse, str):
+            # Getting the imagearray object with metadata
+            imagearrayobj = self._getarraydata(arraytouse)
+        else:
+            raise TypeError(&#39;Unkown type input to &#34;arraytouse&#34;, use a str or numpy ndarray&#39;)
+
+        if setframes == &#39;all&#39;:
+            setframes = [0, imagearrayobj.data.shape[2]]
+            setframesinfo = &#39;all&#39;
+        else:
+            setframesinfo = &#39;custom&#39;
+
+        if setframes[0] &gt; setframes[1]:
+            raise IndexError(&#39;Start frame has to be larger than the end frame set&#39;)
+        if setframes[0] &lt; 0:
+            raise IndexError(&#39;First frame do not exist, check set value is not below 1&#39;)
+
+        # Finding the asked subdata
+        if isinstance(imagearrayobj, np.ndarray):
+            imagearray = range_load_check(imagearrayobj, setframes, &#39;all&#39;, list, &#39;range&#39;)
+        else:
+            imagearray = range_load_check(imagearrayobj.data, setframes, &#39;all&#39;, list, &#39;range&#39;)
+
+        if not len(imagearray[2]) &gt; 0:
+            raise ValueError(&#34;The provided image data is not present. Check if data is calculated &#34;
+                             &#34;or been deleted in earlier clearing command&#34;)
+
+        if not setframesinfo == &#39;all&#39;:
+            if setframes[0] &gt; imagearrayobj.arrayinfo.loadedimagerange[1]:
+                raise IndexError(&#39;Frames are not present in the dataset loaded. Loaded data are &#39;
+                                 f&#39;within frames: {imagearrayobj.arrayinfo.loadedimagerange}&#39;)
+        if setframes[1] &gt; imagearray.shape[2]:
+            warn(f&#34;The set end frame is larger than loaded data. The movie will show till frame &#34;
+                 f&#34;{imagearray.shape[2]}&#34;)
+
+        if len(imagearray.shape) == 4:
+            if setdataset &lt; 0 or setdataset &gt; imagearray.shape[3]:
+                raise IndexError(&#39;Dataset do not exist, check set value is not below 1 or above &#39;
+                                 &#39;loaded datahandling amount&#39;)
+
+        try:
+            self._checkfiguresize(imagearray)
+
+        except (AttributeError, TclError):
+            self.figurehandle = plt.figure(frameon=False)
+            self._imageref = &#34;&#34;
+            self._checkfiguresize(imagearray)
+
+        if len(self.figurehandle.axes) == 0:
+            ax = self.figurehandle.add_subplot(111)
+        else:
+            self._imageref = self.figurehandle.axes[0]
+
+        # script start
+        outputfilename = ph.join(path, filename + self.moviefileextension)
+
+        if len(imagearray.shape) == 4:
+            tempimgarry = imagearray[:, :, 0, 0]
+            nframesinset = imagearray.shape[-2]
+        else:
+            tempimgarry = imagearray[:, :, 0]
+            nframesinset = imagearray.shape[-1]
+
+        if self._imageref == &#34;&#34;:
+            self._imageref = ax.imshow(tempimgarry)
+        else:
+            tmp = self._imageref.get_images()
+            if len(tmp) &lt; 1:
+                self._imageref = ax.imshow(tempimgarry)
+            else:
+                self._imageref = tmp[0]
+                self._imageref.set_data(tempimgarry)
+
+        canvas_width, canvas_height = self.figurehandle.canvas.get_width_height()
+
+        def update(frame, subdataset):
+            if len(imagearray.shape) == 4:
+                self._imageref.set_data(imagearray[:, :, frame, subdataset])
+            else:
+                self._imageref.set_data(imagearray[:, :, frame])
+
+        # Open a ffmpeg process
+        cmdstring = (&#39;ffmpeg&#39;, &#39;-loglevel&#39;, &#39;warning&#39;, &#39;-hide_banner&#39;,
+                     &#39;-y&#39;, &#39;-r&#39;, str(self.fps),  # Set FPS
+                     &#39;-s&#39;, &#39;%dx%d&#39; % (canvas_width, canvas_height),  # size of image string
+                     &#39;-pix_fmt&#39;, &#39;argb&#39;,  # format
+                     &#39;-f&#39;, &#39;rawvideo&#39;,  # tell ffmpeg to expect raw video from the pipe
+                     &#39;-an&#39;, &#39;-sn&#39;,  # No audio or subs
+                     &#39;-i&#39;, &#39;-&#39;,  # input stream
+                     &#39;-vcodec&#39;, &#39;libx264&#39;, &#39;-pix_fmt&#39;, &#39;yuv420p&#39;,
+                     &#39;-crf&#39;, str(self.cfr),
+                     outputfilename)  # output encoding
+
+        with subprocess.Popen(cmdstring, stdin=subprocess.PIPE, stdout=subprocess.PIPE) as p:
+            print(f&#34;Starting encoding video: {filename + self.moviefileextension}&#34;)
+            # Draw frames and write to the pipe
+            for framen in progressbar(range(nframesinset), prefix=&#39;Progress:&#39;, suffix=&#39;Complete&#39;,
+                                      length=20):
+                # draw the frame
+                update(framen, setdataset)
+                self.figurehandle.canvas.draw()
+
+                # extract the image as an ARGB string
+                string = self.figurehandle.canvas.tostring_argb()
+
+                # write to pipe
+                p.stdin.write(string)
+            print()
+
+    def _checkfiguresize(self, imagearray):
+        &#34;&#34;&#34;Check the figgure size if it can contain the data.
+
+        Parameters
+        ----------
+        imagearray : :
+            the imagearray to check
+        &#34;&#34;&#34;
+        figureminheight = imagearray.shape[1] / self.dpi
+        figureminwidth = imagearray.shape[0] / self.dpi
+
+        if figureminwidth &gt;= self.figurehandle.get_size_inches()[0] or \
+                figureminheight &gt;= self.figurehandle.get_size_inches()[1]:
+            self.figurehandle.set_size_inches(figureminheight, figureminwidth)
+        else:
+            pass
+
+    def _getarraydata(self, arraytouse):
+        &#34;&#34;&#34;Get the image array data from the imagearray holder and return a new temp array.
+
+        Parameters
+        ----------
+        arraytouse : str :
+            {&#39;raw&#39;, &#39;conc&#39;, &#39;var&#39;, &#39;std&#39;, &#39;mean&#39;, &#39;custom&#39;}
+            specified which array to use for the video: &#39;raw&#39;, &#39;conc&#39;, &#39;var&#39;, &#39;std&#39;,
+            &#39;mean&#39;, &#39;custom&#39;, if &#39;raw&#39; or &#39;conc&#39; is chosen, it is the first folder
+            data that is used. If &#39;custom&#39; is chosen, the data has to be on the form:
+            array[row, column, time]
+
+        Raises
+        ------
+        ValueError
+        &#34;&#34;&#34;
+        arraytouselist = [&#39;raw&#39;, &#39;conc&#39;, &#39;var&#39;, &#39;std&#39;, &#39;mean&#39;, &#39;custom&#39;]
+
+        if arraytouse in arraytouselist:
+            pass
+        else:
+            raise ValueError(f&#39;arraytouse has to be one of the following settings {arraytouselist}&#39;)
+
+        if arraytouse == arraytouselist[0]:
+            tmparray = self._imagearrays.raw
+
+        elif arraytouse == arraytouselist[1]:
+            tmparray = self._imagearrays.concentration
+
+        elif arraytouse == arraytouselist[2]:
+            tmparray = self._imagearrays.var
+
+        elif arraytouse == arraytouselist[3]:
+            tmparray = self._imagearrays.std
+
+        elif arraytouse == arraytouselist[4]:
+            tmparray = self._imagearrays.mean
+
+        elif arraytouse == arraytouselist[5]:
+            tmparray = self._imagearrays
+        else:
+            raise ValueError(&#34;If this happens.. you are FUCKED&#34;)
+
+        return tmparray</code></pre>
+</details>
+<h3>Methods</h3>
+<dl>
+<dt id="pimged.imageexport.imageexport.Imageexport.exampleoffigure"><code class="name flex">
+<span>def <span class="ident">exampleoffigure</span></span>(<span>self, arraytouse: str = 'raw', setframe: int = 1, setdataset: int = 1, filename: str = 'default', showfig: bool = True, savefig: bool = False)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Show and/or export figures from the datahandling processed.</p>
+<h2 id="parameters">Parameters</h2>
+<dl>
+<dt><strong><code>arraytouse</code></strong> :&ensp;<code>str :</code></dt>
+<dd>(Default value = 'raw')
+{'raw', 'conc', 'var', 'std', 'mean'}
+specified which array to use for the figure. If 'raw' or 'conc' is chosen, it is the
+first folder data that is used</dd>
+<dt><strong><code>setframe</code></strong> :&ensp;<code>int :</code></dt>
+<dd>(Default value = 1)
+choose the frame from the set to show in the figure</dd>
+<dt><strong><code>setdataset</code></strong> :&ensp;<code>int :</code></dt>
+<dd>(Default value = 1)
+If raw or concentration data is chosen, it is possible to choose which
+set to show from</dd>
+<dt><strong><code>filename</code></strong> :&ensp;<code>str :</code></dt>
+<dd>(Default value = 'default')
+filename of the exported file without extension. Exstension is set in
+imageexport</dd>
+<dt><strong><code>showfig</code></strong> :&ensp;<code>bool :</code></dt>
+<dd>(Default value = True)
+bool stating if the chosen plot has to be shown or not</dd>
+<dt><strong><code>savefig</code></strong> :&ensp;<code>bool :</code></dt>
+<dd>(Default value = False)
+bool stating if the chosen plot has to be saved or not</dd>
+</dl>
+<h2 id="raises">Raises</h2>
+<dl>
+<dt><strong><code>IndexError</code></strong> :&ensp;<code>:</code></dt>
+<dd>Several parts raises index error. No data in array chosen, dataset parts do not
+exist or the dataset do not contain data</dd>
+<dt><strong><code>ValueError</code></strong> :&ensp;<code>:</code></dt>
+<dd>The chosen frame is not present in the data</dd>
+</dl></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def exampleoffigure(self, arraytouse: str = &#39;raw&#39;, setframe: int = 1, setdataset: int = 1,
+                    filename: str = &#39;default&#39;, showfig: bool = True, savefig: bool = False):
+    &#34;&#34;&#34;Show and/or export figures from the datahandling processed.
+
+    Parameters
+    ----------
+    arraytouse : str :
+         (Default value = &#39;raw&#39;)
+        {&#39;raw&#39;, &#39;conc&#39;, &#39;var&#39;, &#39;std&#39;, &#39;mean&#39;}
+        specified which array to use for the figure. If &#39;raw&#39; or &#39;conc&#39; is chosen, it is the
+        first folder data that is used
+
+    setframe : int :
+         (Default value = 1)
+        choose the frame from the set to show in the figure
+
+    setdataset : int :
+         (Default value = 1)
+        If raw or concentration data is chosen, it is possible to choose which
+        set to show from
+
+    filename : str :
+         (Default value = &#39;default&#39;)
+        filename of the exported file without extension. Exstension is set in
+        imageexport
+
+    showfig : bool :
+         (Default value = True)
+        bool stating if the chosen plot has to be shown or not
+
+    savefig : bool :
+         (Default value = False)
+        bool stating if the chosen plot has to be saved or not
+
+    Raises
+    ------
+    IndexError : :
+        Several parts raises index error. No data in array chosen, dataset parts do not
+        exist or the dataset do not contain data
+
+    ValueError : :
+        The chosen frame is not present in the data
+    &#34;&#34;&#34;
+    setframe -= 1  # Zero index
+    setdataset -= 1  # Zero index
+
+    # Finding the asked array
+    imagearrayobj = self._getarraydata(arraytouse)
+
+    if len(imagearrayobj.data) == 0:
+        raise IndexError(&#34;The chosen image arrays are empty for data, check if calculated&#34;)
+
+    if len(imagearrayobj.data.shape) == 4:
+        if setdataset &lt; 0 or setdataset &gt;= imagearrayobj.data.shape[3]:
+            raise IndexError(&#39;Dataset do not exist, check set value is not below 1 or above &#39;
+                             &#39;loaded datahandling amount&#39;)
+
+    if setframe &gt; imagearrayobj.data.shape[2] or setframe &lt; 0:
+        raise ValueError(&#34;Frame not present in the datahandling. Check asked frame number &#34;
+                         &#34;compared to datahandling loaded&#34;)
+
+    try:
+        if len(imagearrayobj.data.shape) == 4:
+            if isinstance(imagearrayobj, np.ndarray):
+                imagearray = imagearrayobj[:, :, setframe, setdataset]
+            else:
+                imagearray = imagearrayobj.data[:, :, setframe, setdataset]
+        else:
+            if isinstance(imagearrayobj, np.ndarray):
+                imagearray = imagearrayobj[:, :, setframe]
+            else:
+                imagearray = imagearrayobj.data[:, :, setframe]
+
+    except AttributeError as exc:
+        raise IndexError(&#34;The chosen image arrays are empty for data, &#34;
+                         &#34;check if calculated.&#34;) from exc
+
+    try:
+        self._checkfiguresize(imagearray)
+        self._imageref = &#34;is there&#34;
+
+    except (AttributeError, TclError):
+        self.figurehandle = plt.figure(frameon=False)
+        self._imageref = &#34;&#34;
+        self._checkfiguresize(imagearray)
+
+        warn(&#39;no figure handles in object. Generated generic figure handle&#39;)
+
+    if len(self.figurehandle.axes) == 0:
+        ax = self.figurehandle.add_subplot(111)
+        ax.title.set_text(&#39;Generic figure - no figure/plot input in class&#39;)
+        ax.set_xlabel(&#39;Pixels [-]&#39;)
+        ax.set_ylabel(&#39;Pixels [-]&#39;)
+    else:
+        self._imageref = self.figurehandle.axes[0].get_images()[0]
+
+    if self._imageref == &#34;&#34;:
+        self._imageref = ax.imshow(imagearray)
+    else:
+        self._imageref.set_data(imagearray)
+
+    if savefig:
+        plt.savefig(filename + self.picfileextension)
+
+    if showfig:
+        self.figurehandle.show()</code></pre>
+</details>
+</dd>
+<dt id="pimged.imageexport.imageexport.Imageexport.videosave"><code class="name flex">
+<span>def <span class="ident">videosave</span></span>(<span>self, arraytouse='raw', setframes: list = 'all', setdataset: int = 1, filename: str = 'defaultfilename', path='C:\\Users\\beakh\\Documents\\GASMIX project\\Courses\\Scientific Python Programming\\SSP Coding')</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Export video based on ffmpeg - demand ffmpeg is installed on the computer.</p>
+<h2 id="parameters">Parameters</h2>
+<dl>
+<dt><strong><code>arraytouse</code></strong> :&ensp;<code>str :</code></dt>
+<dd>(Default value = 'raw')
+{'raw', 'conc', 'var', 'std', 'mean'}
+specified which array to use for the figure. If 'raw' or 'conc' is chosen, it is the
+first folder data that is used</dd>
+<dt><strong><code>setframes</code></strong> :&ensp;<code>list :</code></dt>
+<dd>(Default value = 'all')
+choose the frame from the set to show in the figure</dd>
+<dt><strong><code>setdataset</code></strong> :&ensp;<code>int :</code></dt>
+<dd>(Default value = 1)
+If raw or concentration data is chosen, it is possible to choose which
+set to show from</dd>
+<dt><strong><code>filename</code></strong> :&ensp;<code>str :</code></dt>
+<dd>(Default value = 'defaultfilename')
+filename of the exported file without extension</dd>
+<dt><strong><code>path</code></strong> :&ensp;<code>str :</code></dt>
+<dd>(Default value = getcwd())
+specified path for saving the movie</dd>
+</dl>
+<h2 id="raises">Raises</h2>
+<dl>
+<dt><strong><code>NameError</code></strong> :&ensp;<code>:</code></dt>
+<dd>Fileexstention do not exist</dd>
+<dt><strong><code>NotADirectoryError</code></strong> :&ensp;<code>:</code></dt>
+<dd>The given directory do not exist</dd>
+<dt><strong><code>TypeError</code></strong> :&ensp;<code>:</code></dt>
+<dd>Unknown input method</dd>
+<dt><strong><code>IndexError</code></strong> :&ensp;<code>:</code></dt>
+<dd>Frames do not match in input or the dataset do not exist</dd>
+<dt><strong><code>ValueError</code></strong> :&ensp;<code>:</code></dt>
+<dd>Asked image data do not exist</dd>
+</dl></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def videosave(self,
+              arraytouse=&#39;raw&#39;,
+              setframes: list = &#39;all&#39;,
+              setdataset: int = 1,
+              filename: str = &#39;defaultfilename&#39;,
+              path=getcwd()):
+    &#34;&#34;&#34;Export video based on ffmpeg - demand ffmpeg is installed on the computer.
+
+    Parameters
+    ----------
+    arraytouse : str :
+         (Default value = &#39;raw&#39;)
+        {&#39;raw&#39;, &#39;conc&#39;, &#39;var&#39;, &#39;std&#39;, &#39;mean&#39;}
+        specified which array to use for the figure. If &#39;raw&#39; or &#39;conc&#39; is chosen, it is the
+        first folder data that is used
+
+    setframes: list :
+         (Default value = &#39;all&#39;)
+        choose the frame from the set to show in the figure
+
+    setdataset: int :
+         (Default value = 1)
+        If raw or concentration data is chosen, it is possible to choose which
+        set to show from
+
+    filename: str :
+         (Default value = &#39;defaultfilename&#39;)
+        filename of the exported file without extension
+
+    path : str :
+         (Default value = getcwd())
+        specified path for saving the movie
+
+    Raises
+    ------
+    NameError : :
+        Fileexstention do not exist
+
+    NotADirectoryError : :
+        The given directory do not exist
+
+    TypeError : :
+        Unknown input method
+
+    IndexError : :
+        Frames do not match in input or the dataset do not exist
+
+    ValueError : :
+        Asked image data do not exist
+    &#34;&#34;&#34;
+    movietypes = [&#39;.avi&#39;, &#39;.mov&#39;, &#39;.mp4&#39;]
+    setdataset -= 1  # Adjust for 0-indecies
+
+    # initial checks for inputs
+    if self.moviefileextension in movietypes:
+        pass
+    else:
+        raise NameError(f&#34;The given fileexstention is not a movie type. {movietypes}&#34;)
+
+    if not ph.exists(path):
+        raise NotADirectoryError(&#34;The given path is not a directory&#34;)
+
+    if isinstance(arraytouse, Imarray):
+        # Getting the imagearray object - if given as arraytouse
+        imagearrayobj = arraytouse
+    elif isinstance(arraytouse, str):
+        # Getting the imagearray object with metadata
+        imagearrayobj = self._getarraydata(arraytouse)
+    else:
+        raise TypeError(&#39;Unkown type input to &#34;arraytouse&#34;, use a str or numpy ndarray&#39;)
+
+    if setframes == &#39;all&#39;:
+        setframes = [0, imagearrayobj.data.shape[2]]
+        setframesinfo = &#39;all&#39;
+    else:
+        setframesinfo = &#39;custom&#39;
+
+    if setframes[0] &gt; setframes[1]:
+        raise IndexError(&#39;Start frame has to be larger than the end frame set&#39;)
+    if setframes[0] &lt; 0:
+        raise IndexError(&#39;First frame do not exist, check set value is not below 1&#39;)
+
+    # Finding the asked subdata
+    if isinstance(imagearrayobj, np.ndarray):
+        imagearray = range_load_check(imagearrayobj, setframes, &#39;all&#39;, list, &#39;range&#39;)
+    else:
+        imagearray = range_load_check(imagearrayobj.data, setframes, &#39;all&#39;, list, &#39;range&#39;)
+
+    if not len(imagearray[2]) &gt; 0:
+        raise ValueError(&#34;The provided image data is not present. Check if data is calculated &#34;
+                         &#34;or been deleted in earlier clearing command&#34;)
+
+    if not setframesinfo == &#39;all&#39;:
+        if setframes[0] &gt; imagearrayobj.arrayinfo.loadedimagerange[1]:
+            raise IndexError(&#39;Frames are not present in the dataset loaded. Loaded data are &#39;
+                             f&#39;within frames: {imagearrayobj.arrayinfo.loadedimagerange}&#39;)
+    if setframes[1] &gt; imagearray.shape[2]:
+        warn(f&#34;The set end frame is larger than loaded data. The movie will show till frame &#34;
+             f&#34;{imagearray.shape[2]}&#34;)
+
+    if len(imagearray.shape) == 4:
+        if setdataset &lt; 0 or setdataset &gt; imagearray.shape[3]:
+            raise IndexError(&#39;Dataset do not exist, check set value is not below 1 or above &#39;
+                             &#39;loaded datahandling amount&#39;)
+
+    try:
+        self._checkfiguresize(imagearray)
+
+    except (AttributeError, TclError):
+        self.figurehandle = plt.figure(frameon=False)
+        self._imageref = &#34;&#34;
+        self._checkfiguresize(imagearray)
+
+    if len(self.figurehandle.axes) == 0:
+        ax = self.figurehandle.add_subplot(111)
+    else:
+        self._imageref = self.figurehandle.axes[0]
+
+    # script start
+    outputfilename = ph.join(path, filename + self.moviefileextension)
+
+    if len(imagearray.shape) == 4:
+        tempimgarry = imagearray[:, :, 0, 0]
+        nframesinset = imagearray.shape[-2]
+    else:
+        tempimgarry = imagearray[:, :, 0]
+        nframesinset = imagearray.shape[-1]
+
+    if self._imageref == &#34;&#34;:
+        self._imageref = ax.imshow(tempimgarry)
+    else:
+        tmp = self._imageref.get_images()
+        if len(tmp) &lt; 1:
+            self._imageref = ax.imshow(tempimgarry)
+        else:
+            self._imageref = tmp[0]
+            self._imageref.set_data(tempimgarry)
+
+    canvas_width, canvas_height = self.figurehandle.canvas.get_width_height()
+
+    def update(frame, subdataset):
+        if len(imagearray.shape) == 4:
+            self._imageref.set_data(imagearray[:, :, frame, subdataset])
+        else:
+            self._imageref.set_data(imagearray[:, :, frame])
+
+    # Open a ffmpeg process
+    cmdstring = (&#39;ffmpeg&#39;, &#39;-loglevel&#39;, &#39;warning&#39;, &#39;-hide_banner&#39;,
+                 &#39;-y&#39;, &#39;-r&#39;, str(self.fps),  # Set FPS
+                 &#39;-s&#39;, &#39;%dx%d&#39; % (canvas_width, canvas_height),  # size of image string
+                 &#39;-pix_fmt&#39;, &#39;argb&#39;,  # format
+                 &#39;-f&#39;, &#39;rawvideo&#39;,  # tell ffmpeg to expect raw video from the pipe
+                 &#39;-an&#39;, &#39;-sn&#39;,  # No audio or subs
+                 &#39;-i&#39;, &#39;-&#39;,  # input stream
+                 &#39;-vcodec&#39;, &#39;libx264&#39;, &#39;-pix_fmt&#39;, &#39;yuv420p&#39;,
+                 &#39;-crf&#39;, str(self.cfr),
+                 outputfilename)  # output encoding
+
+    with subprocess.Popen(cmdstring, stdin=subprocess.PIPE, stdout=subprocess.PIPE) as p:
+        print(f&#34;Starting encoding video: {filename + self.moviefileextension}&#34;)
+        # Draw frames and write to the pipe
+        for framen in progressbar(range(nframesinset), prefix=&#39;Progress:&#39;, suffix=&#39;Complete&#39;,
+                                  length=20):
+            # draw the frame
+            update(framen, setdataset)
+            self.figurehandle.canvas.draw()
+
+            # extract the image as an ARGB string
+            string = self.figurehandle.canvas.tostring_argb()
+
+            # write to pipe
+            p.stdin.write(string)
+        print()</code></pre>
+</details>
+</dd>
+</dl>
+</dd>
+</dl>
+</section>
+</article>
+<nav id="sidebar">
+<header>
+<a class="homelink" rel="home" title="PImGED treat" href="https://youtu
+.be/mx86-rTclzA?si=RWJEgJIT8MdOsVn7">
+<center><img src="https://i.ibb.co/Tbp2rPk/logo.png" alt=""></center>
+</a>
+</header>
+<h1>Index</h1>
+<div class="toc">
+<ul></ul>
+</div>
+<ul id="index">
+<li><h3>Super-module</h3>
+<ul>
+<li><code><a title="pimged.imageexport" href="index.html">pimged.imageexport</a></code></li>
+</ul>
+</li>
+<li><h3><a href="#header-classes">Classes</a></h3>
+<ul>
+<li>
+<h4><code><a title="pimged.imageexport.imageexport.Imageexport" href="#pimged.imageexport.imageexport.Imageexport">Imageexport</a></code></h4>
+<ul class="">
+<li><code><a title="pimged.imageexport.imageexport.Imageexport.exampleoffigure" href="#pimged.imageexport.imageexport.Imageexport.exampleoffigure">exampleoffigure</a></code></li>
+<li><code><a title="pimged.imageexport.imageexport.Imageexport.videosave" href="#pimged.imageexport.imageexport.Imageexport.videosave">videosave</a></code></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</nav>
+</main>
+<footer id="footer">
+<p>Generated by <a href="https://pdoc3.github.io/pdoc" title="pdoc: Python API documentation generator"><cite>pdoc</cite> 0.10.0</a>.</p>
+</footer>
+</body>
+</html>

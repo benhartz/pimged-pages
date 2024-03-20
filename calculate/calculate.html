@@ -1,0 +1,2587 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1" />
+<meta name="generator" content="pdoc 0.10.0" />
+<title>pimged.calculate.calculate API documentation</title>
+<meta name="description" content="Calculate framework for PIMGED." />
+<link rel="preload stylesheet" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/10up-sanitize.css/11.0.1/sanitize.min.css" integrity="sha256-PK9q560IAAa6WVRRh76LtCaI8pjTJ2z11v0miyNNjrs=" crossorigin>
+<link rel="preload stylesheet" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/10up-sanitize.css/11.0.1/typography.min.css" integrity="sha256-7l/o7C8jubJiy74VsKTidCy1yBkRtiUGbVkYBylBqUg=" crossorigin>
+<link rel="stylesheet preload" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.1.1/styles/github.min.css" crossorigin>
+<style>:root{--highlight-color:#fe9}.flex{display:flex !important}body{line-height:1.5em}#content{padding:20px}#sidebar{padding:30px;overflow:hidden}#sidebar > *:last-child{margin-bottom:2cm}.http-server-breadcrumbs{font-size:130%;margin:0 0 15px 0}#footer{font-size:.75em;padding:5px 30px;border-top:1px solid #ddd;text-align:right}#footer p{margin:0 0 0 1em;display:inline-block}#footer p:last-child{margin-right:30px}h1,h2,h3,h4,h5{font-weight:300}h1{font-size:2.5em;line-height:1.1em}h2{font-size:1.75em;margin:1em 0 .50em 0}h3{font-size:1.4em;margin:25px 0 10px 0}h4{margin:0;font-size:105%}h1:target,h2:target,h3:target,h4:target,h5:target,h6:target{background:var(--highlight-color);padding:.2em 0}a{color:#058;text-decoration:none;transition:color .3s ease-in-out}a:hover{color:#e82}.title code{font-weight:bold}h2[id^="header-"]{margin-top:2em}.ident{color:#900}pre code{background:#f8f8f8;font-size:.8em;line-height:1.4em}code{background:#f2f2f1;padding:1px 4px;overflow-wrap:break-word}h1 code{background:transparent}pre{background:#f8f8f8;border:0;border-top:1px solid #ccc;border-bottom:1px solid #ccc;margin:1em 0;padding:1ex}#http-server-module-list{display:flex;flex-flow:column}#http-server-module-list div{display:flex}#http-server-module-list dt{min-width:10%}#http-server-module-list p{margin-top:0}.toc ul,#index{list-style-type:none;margin:0;padding:0}#index code{background:transparent}#index h3{border-bottom:1px solid #ddd}#index ul{padding:0}#index h4{margin-top:.6em;font-weight:bold}@media (min-width:200ex){#index .two-column{column-count:2}}@media (min-width:300ex){#index .two-column{column-count:3}}dl{margin-bottom:2em}dl dl:last-child{margin-bottom:4em}dd{margin:0 0 1em 3em}#header-classes + dl > dd{margin-bottom:3em}dd dd{margin-left:2em}dd p{margin:10px 0}.name{background:#eee;font-weight:bold;font-size:.85em;padding:5px 10px;display:inline-block;min-width:40%}.name:hover{background:#e0e0e0}dt:target .name{background:var(--highlight-color)}.name > span:first-child{white-space:nowrap}.name.class > span:nth-child(2){margin-left:.4em}.inherited{color:#999;border-left:5px solid #eee;padding-left:1em}.inheritance em{font-style:normal;font-weight:bold}.desc h2{font-weight:400;font-size:1.25em}.desc h3{font-size:1em}.desc dt code{background:inherit}.source summary,.git-link-div{color:#666;text-align:right;font-weight:400;font-size:.8em;text-transform:uppercase}.source summary > *{white-space:nowrap;cursor:pointer}.git-link{color:inherit;margin-left:1em}.source pre{max-height:500px;overflow:auto;margin:0}.source pre code{font-size:12px;overflow:visible}.hlist{list-style:none}.hlist li{display:inline}.hlist li:after{content:',\2002'}.hlist li:last-child:after{content:none}.hlist .hlist{display:inline;padding-left:1em}img{max-width:100%}td{padding:0 .5em}.admonition{padding:.1em .5em;margin-bottom:1em}.admonition-title{font-weight:bold}.admonition.note,.admonition.info,.admonition.important{background:#aef}.admonition.todo,.admonition.versionadded,.admonition.tip,.admonition.hint{background:#dfd}.admonition.warning,.admonition.versionchanged,.admonition.deprecated{background:#fd4}.admonition.error,.admonition.danger,.admonition.caution{background:lightpink}</style>
+<style media="screen and (min-width: 700px)">@media screen and (min-width:700px){#sidebar{width:30%;height:100vh;overflow:auto;position:sticky;top:0}#content{width:70%;max-width:100ch;padding:3em 4em;border-left:1px solid #ddd}pre code{font-size:1em}.item .name{font-size:1em}main{display:flex;flex-direction:row-reverse;justify-content:flex-end}.toc ul ul,#index ul{padding-left:1.5em}.toc > ul > li{margin-top:.5em}}</style>
+<style media="print">@media print{#sidebar h1{page-break-before:always}.source{display:none}}@media print{*{background:transparent !important;color:#000 !important;box-shadow:none !important;text-shadow:none !important}a[href]:after{content:" (" attr(href) ")";font-size:90%}a[href][title]:after{content:none}abbr[title]:after{content:" (" attr(title) ")"}.ir a:after,a[href^="javascript:"]:after,a[href^="#"]:after{content:""}pre,blockquote{border:1px solid #999;page-break-inside:avoid}thead{display:table-header-group}tr,img{page-break-inside:avoid}img{max-width:100% !important}@page{margin:0.5cm}p,h2,h3{orphans:3;widows:3}h1,h2,h3,h4,h5,h6{page-break-after:avoid}}</style>
+<script defer src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.1.1/highlight.min.js" integrity="sha256-Uv3H6lx7dJmRfRvH8TH6kJD1TSK1aFcwgx+mdg3epi8=" crossorigin></script>
+<script>window.addEventListener('DOMContentLoaded', () => hljs.initHighlighting())</script>
+<style>.homelink{display:block;font-size:2em;font-weight:bold;color:#555;padding-bottom:.5em;border-bottom:1px solid silver}.homelink:hover{color:inherit}.homelink img{max-width:100%;max-height:10em;margin:auto;margin-bottom:.3em;margin-top:.3em}</style>
+</head>
+<body>
+<main>
+<article id="content">
+<header>
+<h1 class="title">Module <code>pimged.calculate.calculate</code></h1>
+</header>
+<section id="section-intro">
+<p>Calculate framework for PIMGED.</p>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">&#34;&#34;&#34;Calculate framework for PIMGED.&#34;&#34;&#34;
+from warnings import warn
+from os import path as ph
+from math import ceil
+from joblib import Parallel, delayed, cpu_count
+from tqdm import tqdm
+import numpy as np
+from scipy.stats import moment
+
+from ..datahandling.dataloading import Dataload
+from ..datahandling.dataset import Dataset
+from ..utils.utils import get_folder_paths, find_dir_contains
+
+
+class Imagecalc:
+    &#34;&#34;&#34;Image calculation based on the data framework from PIMGED.&#34;&#34;&#34;
+
+    def __init__(self, dataset: Dataset):
+        &#34;&#34;&#34;Init calculations.
+
+        Calculate module contain methods for creating the pixel calibration, concentration arrays
+        and doing the mean, std and var on the concentration data. All calculations are placed into
+        the imagearrays data container
+
+        Parameters
+        ----------
+        dataset : pimged.Dataset :
+            dataset object from pimged package
+        &#34;&#34;&#34;
+        # noinspection PyProtectedMember
+        self.image_calcpresision = dataset.images._precision_calc
+
+        self._imagearrays = dataset.images
+        self._fileinfo = dataset.fileinfo
+        self._individualcalibrations = True
+
+    def __str__(self):
+        &#34;&#34;&#34;Class info.&#34;&#34;&#34;
+        return &#34;Calculation object handling PImGED image datasets&#34;
+
+    def bit2conccalib(self,
+                      numberofimages: int = 30,
+                      verb: bool = True,
+                      flip: bool = False,
+                      indivical: bool = True,
+                      parsetload: bool = True,
+                      parsetcalc: bool = True):
+        &#34;&#34;&#34;Pixel to pixel calibration function.
+
+        uses linear regression to estimate linear constants for calulating the calibrated
+        concentrations pictures
+
+        Parameters
+        ----------
+        numberofimages: int :
+             (Default value = 30)
+            number of images to use for calibration in datahandling. Uses the
+            first XX images in the folder. If &#34;fullparticlesfolder&#34; is set,
+            this will not be used as it will use all pictures available in the
+            folder instead
+
+        verb: bool :
+             (Default value = True)
+            verbosity of code. False is no info, True is folder progress and calculations
+
+        flip : bool :
+             (Default value = False)
+            if the linear calibration function should be flipped in the constants.
+            False - clean air is represented with 1
+            True - clean air is represented with 0
+
+        indivical : bool :
+             (Default value = True)
+            if the calibration should be done individual per datahandling or as a
+            global calibration mean between all datasets&#39; calibration images
+
+        parsetload : bool :
+             (Default value = True)
+            if the loading process should be threaded
+
+        parsetcalc : bool :
+             (Default value = True)
+            if the calibration calculations should be threaded
+
+        Raises
+        ------
+        IndexError: :
+            Zero images are not the same size as rest of the dataset or the folder do not exist
+            for the dataset
+
+        NotADirectoryError: :
+            full or zero particle folder do not exist
+        &#34;&#34;&#34;
+        print(&#39;Starting calibration calculations\n&#39;)
+
+        # Loading the dataload structure to load in zero particles
+        loadingdata = Dataload(self._imagearrays, None, self._fileinfo, self._fileinfo.mainpath,
+                               self._fileinfo.imagesearchfolders,
+                               self._fileinfo.zeroparticlesfolder,
+                               imagefoldername=self._fileinfo.imagefoldername,
+                               checkmeta=False,
+                               loadmeta=True)
+
+        # Setting the individualcalc parameter
+        self._individualcalibrations = indivical
+
+        # creating the imagefilespath
+        imfiledir = ph.join(self._fileinfo.mainpath, self._fileinfo.imagefoldername)
+
+        # Checking if the zero particle folder given exist in any of the dataset directory
+        # folder names
+        try:
+            pathforzeroparticleimages = get_folder_paths(imfiledir,
+                                                         self._fileinfo.zeroparticlesfolder)[0]
+        except IndexError as exc:
+            raise IndexError(
+                f&#34;Zero foldername &#39;{self._fileinfo.zeroparticlesfolder}&#39; &#34;
+                f&#34;do not exist for the dataset&#34;) from exc
+
+        if not ph.exists(pathforzeroparticleimages):
+            raise NotADirectoryError(&#34;The given zero particle folder do not exist&#34;)
+
+        # Setting blocks and images in the zero particles images folder
+        nblockperload = 1
+        nframespersetzero = len(find_dir_contains(pathforzeroparticleimages,
+                                                  self._fileinfo.imagedata.fileformat))
+
+        # Checking if a folder with particles are given to use as a global calibration
+        if not self._fileinfo.fullparticlesfolder:
+            tmprawarray = self._imagearrays.raw.data[:, :, :numberofimages, :]
+        else:
+            warn(&#34;Warning: &#39;fullparticlesfolder&#39; is set so &#39;numberofimages&#39; is not used &#34;)
+            parthforfullparticleimages = get_folder_paths(imfiledir,
+                                                          self._fileinfo.fullparticlesfolder)[0]
+            if not ph.exists(parthforfullparticleimages):
+                raise NotADirectoryError(&#34;The given full particle folder do not exist&#34;)
+            nframespersetfull = len(find_dir_contains(parthforfullparticleimages,
+                                                      self._fileinfo.imagedata.fileformat))
+            # noinspection PyUnboundLocalVariable
+            # noinspection PyProtectedMember
+            tmprawarray = loadingdata._loadpictures(nblockperload,
+                                                    nframespersetfull,
+                                                    verb=verb,
+                                                    fullparfoldersetload=True,
+                                                    parset=parsetload)
+
+        # Loading zero particle images and mean it to ONE master zero-particle image
+        if np.shape(self._imagearrays.zero.data)[0] == 0:
+            print(&#39;No Zero particle images, starts loading&#39;)
+            # noinspection PyProtectedMember
+            tmpzeroarray = \
+                loadingdata._loadpictures(nblockperload,
+                                          nframespersetzero,
+                                          verb=verb,
+                                          zerosetload=True,
+                                          parset=parsetload)
+
+            print(&#39;Saving loaded data&#39;)
+            self._imagearrays.zero.data = tmpzeroarray
+
+            tmpzeroarray = self._imagearrays.zero.data.mean(axis=(2, 3),
+                                                            dtype=self.image_calcpresision)
+            print(&#39;Done loading images\n\n&#39;)
+        else:
+            print(&#39;Using loaded Zero images&#39;)
+            tmpzeroarray = self._imagearrays.zero.data.mean(axis=(2, 3),
+                                                            dtype=self.image_calcpresision)
+
+        if tmpzeroarray.shape[0] == tmprawarray.shape[0] and \
+                tmpzeroarray.shape[1] == tmprawarray.shape[1]:
+            pass
+        else:
+            raise IndexError(&#34;The zero light calibration files are not the same pixel &#34;
+                             &#34;size as the raw data&#34;)
+
+        # Checking if the calibration is a mean or individual per datahandling
+        if self._individualcalibrations:
+            tmprawarray = tmprawarray.mean(axis=2, dtype=self.image_calcpresision)
+            lencalset = tmprawarray.shape[2]
+        else:
+            tmprawarray = tmprawarray.mean(axis=(2, 3), dtype=self.image_calcpresision)
+            # Extend array with extra dimension to fit with calculations
+            tmprawarray = tmprawarray[:, :, np.newaxis]
+            lencalset = 1
+
+        print(&#39;Starting linear calibration estimation&#39;)
+
+        # Initializing the calibration data. For linear constants the 4th dimension 0-idx is a and
+        # 1-idx is b in y=ax+b
+        self._imagearrays.calibration.data = np.ones((tmpzeroarray.shape[0],
+                                                      tmpzeroarray.shape[1],
+                                                      lencalset, 2),
+                                                     dtype=self.image_calcpresision)
+        self._imagearrays.calibration.data[:, :, :, 0] = tmprawarray
+        self._imagearrays.calibration.data[:, :, :, 1] = tmpzeroarray[:, :, np.newaxis]
+
+        # Starting the calculations
+        if not parsetcalc:
+            for i in range(lencalset):
+                _calibrationfunc(self, 0, i, None)
+        else:
+            _parellizearrayfunccalc(self, func=_calibrationfunc, memsave=&#34;parlow&#34;,
+                                   chunksize=1, setrange=None, ndataperload=lencalset, verb=verb)
+
+        # If the calibration should be flipped in values
+        if flip:
+            self._imagearrays.calibration.data[:, :, :, 0] = \
+                -self._imagearrays.calibration.data[:, :, :, 0]
+            self._imagearrays.calibration.data[:, :, :, 1] = \
+                np.zeros((tmpzeroarray.shape[0], tmpzeroarray.shape[1], lencalset),
+                         dtype=self.image_calcpresision)
+
+        # updating the calibration array info
+        self._imagearrays.calibration.arrayinfo.loadedimagerange = [1, numberofimages]
+        self._imagearrays.calibration.arrayinfo.loadeddatasets = \
+            self._imagearrays.raw.arrayinfo.loadeddatasets
+
+        print(&#39;Done with calibration\n\n&#39;)
+
+    def bit2conc(self,
+                 setrangeinput: list = None,
+                 memsave: str = &#39;parlow&#39;,
+                 verb: bool = False,
+                 chunksize: int = 100,
+                 clip: str = &#39;both&#39;):
+        &#34;&#34;&#34;Calculate the concentation images.
+
+        Uses the bit2conccalib rutines result to calculate the concentration images
+
+        Parameters
+        ----------
+        setrangeinput: list :
+             (Default value = None)
+            list with the dataset range of images needed for calibrating a
+            subset of loaded raw data. Calibration location in array is not
+            controlled. User has to know what part of sets in the calibration
+            file correspond to data. If nothing is set, the full range is used
+
+        memsave: str :
+             (Default value = &#39;parlow&#39;)
+            {&#39;none&#39;, &#39;low&#39;, &#39;parlow&#39;}
+            if there should be memorysaving calulations
+            &#39;none&#39; no memry save algorithm used
+            &#39;low&#39; using single threaded chunksize load
+            &#39;parlow&#39; uses chunk loading in paralized form, but demand more ram as each process
+            broadcast the chosen chunksize - reduce chunksize here for best result, but use less
+            memory than broadcasting through numpy - dependent on N cores in system
+
+        verb: bool :
+             (Default value = False)
+            verbosity of calculations to show progress
+
+        chunksize: int :
+             (Default value = 100)
+            if memorysave load is wanted, it is possible to set the max chunk size of
+            images per loop
+
+        clip : str :
+             (Default value = &#39;both&#39;)
+            {&#39;both&#39;, &#39;val&#39;, &#39;infnan&#39;, &#39;none&#39;}
+            ensuring 0 to 1 concentration estimates.
+            &#39;both&#39; ensure both nan and inf, along with values &lt;0 and &gt;1 limits to 0 and 1
+            &#39;val&#39; ensuring only values &lt;0 and &gt;1 limits to 0 and 1
+            &#39;infnan&#39; ensuring only nan and inf limits to 0 and 1
+            &#39;none&#39; does nothing
+
+        Raises
+        ------
+        LookupError: :
+            No calibration data calculated
+
+        NotImplementedError : :
+            memsave method not implemented
+        &#34;&#34;&#34;
+        if not self._imagearrays.calibration.data.any():
+            raise LookupError(&#39;Missing calibration data. Use bit2conccalib method before &#39;
+                              &#39;calculating densities&#39;)
+
+        print(&#39;Starting bit to concentration conversion&#39;)
+
+        memsavelist = [&#39;none&#39;, &#39;low&#39;, &#39;parlow&#39;]
+
+        if memsave in memsavelist:
+            pass
+        else:
+            raise NotImplementedError(f&#39;memsave input not part of possible methods: {memsavelist}&#39;)
+
+        self._imagearrays.concentration.data = \
+            self._imagearrays.raw.data.astype(self.image_calcpresision)
+
+        nframesperload = self._imagearrays.raw.data.shape[2]
+
+        if memsave == &#39;none&#39;:
+            chunksize = self._imagearrays.raw.data.shape[2]
+
+        if setrangeinput is None:
+            setrange = [0, self._imagearrays.raw.data.shape[3]]
+        else:
+            setrange = setrangeinput
+
+        # Doing the calculations
+        _parellizearrayfunccalc(self,
+                                func=_conversionfunc,
+                                memsave=memsave,
+                                setrange=setrange,
+                                chunksize=chunksize,
+                                ndataperload=nframesperload,
+                                verb=verb)
+
+        if clip == &#39;none&#39;:
+            pass
+        else:
+            print(&#39;Ensuring 0 to 1 concentrations&#39;)
+
+        if clip in (&#39;both&#39;, &#39;val&#39;):
+            print(&#39;Checking values&#39;)
+            np.clip(a=self._imagearrays.concentration.data,
+                    out=self._imagearrays.concentration.data,
+                    a_min=0,
+                    a_max=1)
+
+        if clip in (&#39;both&#39;, &#39;infnan&#39;):
+            print(&#39;Checking inf and nan&#39;)
+            self._imagearrays.concentration.data[np.isinf(self._imagearrays.concentration.data)] = 1
+            self._imagearrays.concentration.data[np.isnan(self._imagearrays.concentration.data)] = 0
+
+        self._imagearrays.concentration.arrayinfo.loadedimagerange = \
+            self._imagearrays.raw.arrayinfo.loadedimagerange
+        self._imagearrays.concentration.arrayinfo.loadeddatasets = \
+            self._imagearrays.raw.arrayinfo.loadeddatasets
+
+        print(&#39;Done with conversion\n&#39;)
+
+    def rawblackcorr(self,
+                     jetcenter: int = None,
+                     jetwidth: int = None,
+                     wallidx: int = None,
+                     shotidx: int = None,
+                     setrangeinput: list = None,
+                     nimages: int = 50,
+                     removeedgeh: int = 10,
+                     removeedgew: int = -1,
+                     forcerecal: bool = True,
+                     flipped: bool = False,
+                     onlycorr: bool = False):
+        &#34;&#34;&#34;Raw image blackpoint correction.
+
+        Correcting raw data for the black point error, using a linear factor weighted with the
+        laser sheet intensity in both black point and max values. Has to be used before the data
+        is flipped (jet going right to left). If the None parameters are given, the code check
+        the blackpointcorr image object for info on the jet. If this is none, there is raised an
+        error and expected to be input parameters
+
+        Parameters
+        ----------
+        jetcenter: int :
+             (Default value = None)
+            the position of the jet center pixel number in the image
+
+        jetwidth: int :
+             (Default value = None)
+            the width of the jet in pixels
+
+        wallidx: int :
+             (Default value = None)
+            the position of the wall in pixel number in the image
+
+        shotidx: int :
+             (Default value = None)
+            index of the images in the series where the jet core cover an area more
+            than &#34;wallidx + quaterjet + halfjet&#34; pixels into the domain
+
+        setrangeinput: list :
+             (Default value = None)
+            list with the dataset range of images needed for correction a subset of loaded raw
+            data. Location in array is not controlled.
+            User has to know what part of sets in the correction file correspond to data. If
+            nothing is set, the full range is used
+
+        nimages: int :
+             (Default value = 50)
+            number of images with no jet to use, as for calibration, in the weight factor
+            estimation. The images are found by .raw.data(:, :, 0:Nimages, :)
+            This is used to estimate the lasersheet variation over the image
+
+        removeedgeh: int :
+             (Default value = 10)
+            number of pixels to remove from height edges before estimating
+            weights - needed as edges tend to show errous values in intensity
+
+        removeedgew: int :
+             (Default value = -1)
+            number of pixels to remove from width edges before estimating weights -
+            has to be minimum the wall idx, better if 1 or 2 pixels more.
+            Default value of -1 ensure it is the wall idx distance
+
+        forcerecal: bool :
+             (Default value = True)
+            if the calculation of the black point correction should be forced, even if data exist
+            for a correction. Default is True
+
+        flipped : bool :
+             (Default value = False)
+            if the jet direction is flipped. original data is have the jet from right to left,
+            flipped data is left to right. Remember zero images have to be flipped along with
+            the raw data.
+            If false the index correction is:
+            slice(framewidth - wallidx - quaterjet - halfjet, framewidth - wallidx - quaterjet)
+            if true, the correction is:
+            slice(wallidx + quaterjet, wallidx + quaterjet + halfjet)
+
+        onlycorr : bool :
+             (Default value = False)
+            if the function should only calculate the correction and not correct raw
+            images. default is False, which means it calculate raw corrections
+
+        Raises
+        ------
+        ValueError : :
+            Not enough raw images loaded for asked inputs
+        &#34;&#34;&#34;
+        # Checking inputs
+        if setrangeinput is None:
+            setrange = [0, self._imagearrays.raw.data.shape[3]]
+        else:
+            setrange = setrangeinput
+
+        jetcenter, jetwidth, wallidx, shotidx = _rawblackcorrinputcheck(self, jetcenter, jetwidth,
+                                                                        wallidx, shotidx)
+
+        if self._imagearrays.blackpointcorr.data.any() and not forcerecal:
+            print(&#39;Blackpoint correction data exist for set, uses zero images and factors&#39;)
+            corrremove = self._imagearrays.blackpointcorr.data
+            pixzeromean = self._imagearrays.zero.data.mean(axis=(2, 3),
+                                                           dtype=self.image_calcpresision)
+        else:
+            if shotidx &gt; self._imagearrays.raw.data.shape[2]:
+                nidx = self._imagearrays.raw.data.shape[2]
+                raise ValueError(f&#34;Not enough raw images loaded compared to the shotidx parameter.&#34;
+                                 f&#34;shotidx = {shotidx} and raw data only have {nidx} time indecies &#34;
+                                 f&#34;loaded.&#34;)
+
+            print(&#39;Started raw data black point correction&#39;)
+            if removeedgew == -1:
+                removeedgew = wallidx
+
+            # image width
+            quaterjet = int(jetwidth / 4)
+            halfjet = int(jetwidth / 2)
+
+            print(&#39;Calulating laser sheet point weighting&#39;)
+            # Calulating weight for both zero and max, weighted with laser sheet intensity
+            # max
+            pixmean = self._imagearrays.raw.data[:, :,
+                                                 0:nimages, :].mean(axis=2,
+                                                                    dtype=self.image_calcpresision)
+            pixmeanmax = pixmean[removeedgeh:-removeedgeh, removeedgew:-removeedgew].max(axis=(0,
+                                                                                               1))
+            weighting = pixmean / pixmeanmax
+            weighting[weighting &gt; 1] = 1
+
+            print(&#39;Calulating sensor zero point weighting&#39;)
+            # Min
+            pixzeromean = self._imagearrays.zero.data.mean(axis=(2, 3),
+                                                           dtype=self.image_calcpresision)
+
+            print(&#39;Calulating image weights based on jet core data&#39;)
+            # Avg area slices around the jet out from the wall
+            hslice = slice(jetcenter - quaterjet, jetcenter + quaterjet)
+            if flipped:
+                wslice = slice(wallidx + quaterjet, wallidx + quaterjet + halfjet)
+            else:
+                wslice = slice(self._fileinfo.imagedata.framewidth - wallidx - quaterjet - halfjet,
+                               self._fileinfo.imagedata.framewidth - wallidx - quaterjet)
+
+            # Calculating the mean values for the lift and removal and the corresponding weights
+            avgremove = self._imagearrays.raw.data[hslice, wslice, shotidx, :].mean(
+                axis=(0, 1), dtype=self.image_calcpresision)
+            avgweight = weighting[hslice, wslice].mean(axis=(0, 1),
+                                                       dtype=self.image_calcpresision)
+
+            # Finding the image weigthed correction
+            corrremove = avgremove * weighting / avgweight
+
+        if not onlycorr:
+            print(&#39;Correcting images&#39;)
+            # Correcting the image
+            # First removing the baground
+            print(&#39;- Adjusting background&#39;)
+            imgcorrwei = self._imagearrays.raw.data - corrremove[:, :, np.newaxis,
+                                                                 setrange[0]:setrange[1]]
+            # lifting the with the average negative value, if any
+            if np.any(imgcorrwei[imgcorrwei &lt; 0]):
+                print(&#39;- Correcting average assumption&#39;)
+                imgcorrwei -= np.mean(imgcorrwei[imgcorrwei &lt; 0], dtype=self.image_calcpresision)
+            else:
+                warn(&#39;- No correction on average assumption, might not pull estimate enough to &#39;
+                     &#39;zero&#39;)
+
+            # lifting the rest with the weighted black lift
+            print(&#39;- Lifting black point&#39;)
+            imgcorrwei += pixzeromean.mean(axis=0)[np.newaxis, :, np.newaxis, np.newaxis]
+            # Setting rest of the negatives to 0
+            print(&#39;- Ensuring physical blackpoint&#39;)
+            imgcorrwei[imgcorrwei &lt; 0] = 0
+
+            print(&#39;Replacing raw data&#39;)
+            self._imagearrays.raw.data = imgcorrwei.astype(np.uint16)
+
+        print(&#39;Saving correction&#39;)
+        # Saving the corrected image back into container
+        self._imagearrays.blackpointcorr.data = corrremove
+        self._imagearrays.blackpointcorr.arrayinfo.loadeddatasets = \
+            self._imagearrays.raw.arrayinfo.loadeddatasets
+        self._imagearrays.blackpointcorr.arrayinfo.loadedimagerange = [1, nimages]
+        print(&#39;Finished black point correction\n&#39;)
+
+    def std(self):
+        &#34;&#34;&#34;Calculate the standard diviation images based on the concentration images.
+
+        Calculation is done along the stationary time dimension (fourth index in the arra)
+        ndarray([H, W, Time, Statio. time])
+        &#34;&#34;&#34;
+        _errorlist(self._imagearrays.concentration.data, 0)
+
+        print(&#39;Starting standard deviation calculations&#39;)
+        self._imagearrays.std.data = \
+            self._imagearrays.concentration.data.std(axis=3, dtype=self.image_calcpresision)
+        self._imagearrays.std.arrayinfo.loadedimagerange = \
+            self._imagearrays.concentration.arrayinfo.loadedimagerange
+        self._imagearrays.std.arrayinfo.loadeddatasets = \
+            self._imagearrays.concentration.arrayinfo.loadeddatasets
+        print(&#39;Done with standard deviation\n&#39;)
+
+    def mean(self):
+        &#34;&#34;&#34;Calculate the mean images based on the concentration images.
+
+        Calculation is done along the stationary time dimension (fourth index in the arra)
+        ndarray([H, W, Time, Statio. time])&#34;&#34;&#34;
+        _errorlist(self._imagearrays.concentration.data, 0)
+
+        print(&#39;Starting mean calculations&#39;)
+        self._imagearrays.mean.data = \
+            self._imagearrays.concentration.data.mean(axis=3, dtype=self.image_calcpresision)
+        self._imagearrays.mean.arrayinfo.loadedimagerange = \
+            self._imagearrays.concentration.arrayinfo.loadedimagerange
+        self._imagearrays.mean.arrayinfo.loadeddatasets = \
+            self._imagearrays.concentration.arrayinfo.loadeddatasets
+        print(&#39;Done with mean\n&#39;)
+
+    def var(self):
+        &#34;&#34;&#34;Calculate the variance images based on the concentration images.
+
+        Calculation is done along the stationary time dimension (fourth index in the arra)
+        ndarray([H, W, Time, Statio. time])&#34;&#34;&#34;
+        _errorlist(self._imagearrays.concentration.data, 0)
+
+        print(&#39;Starting variance calculations&#39;)
+        self._imagearrays.var.data = \
+            self._imagearrays.concentration.data.var(axis=3, dtype=self.image_calcpresision)
+        self._imagearrays.var.arrayinfo.loadedimagerange = \
+            self._imagearrays.concentration.arrayinfo.loadedimagerange
+        self._imagearrays.var.arrayinfo.loadeddatasets = \
+            self._imagearrays.concentration.arrayinfo.loadeddatasets
+        print(&#39;Done with variance\n&#39;)
+
+    def moment(self, nth: int, timeidx=None):
+        &#34;&#34;&#34;Calculate the nth moment around the mean.
+
+        Based on the concentration images using the package &#39;scipy.stats&#39;
+
+        Calculation is done along the stationary time dimension (fourth index in the arra)
+        ndarray([H, W, Time, Statio. time])
+
+        Parameters
+        ----------
+        timeidx : :
+             (Default value = None)
+            the time frame to for staistics, formats are:
+            list: start and end point in time, [startidx, endidx]
+            int: single point in time
+            &#39;None&#39;: calculate for whole time frame
+
+        nth : int :
+            which moment to calculate
+
+        Returns
+        -------
+        type : numpy.ndarray :
+            The nth moment image is returned in a ndarray with the statistics calculated over the
+            stationary time index
+        &#34;&#34;&#34;
+        _errorlist(self._imagearrays.concentration.data, typeerror=0)
+
+        print(&#39;Starting nth moment calculations&#39;)
+        idx = _timeidxcheck(self, timeidx)
+
+        if isinstance(idx, slice):
+            sizedata = np.shape(self._imagearrays.concentration.data)
+            tmpmoment = np.zeros((sizedata[0], sizedata[1], timeidx[1] - timeidx[0] + 1))
+            indecies = np.arange(timeidx[0], timeidx[1] + 1, 1)
+            for i, val in enumerate(indecies):
+                tmpmoment[:, :, i] = moment(self._imagearrays.concentration.data[:, :, val, :],
+                                            moment=nth,
+                                            axis=2)
+        else:
+            tmpmoment = moment(self._imagearrays.concentration.data[:, :, idx, :],
+                               moment=nth,
+                               axis=2)
+
+        print(&#39;Done with nth moment\n&#39;)
+        return tmpmoment
+
+
+class Presscalc(Imagecalc):
+    &#34;&#34;&#34;Calculate module contain methods for calculation of pressure calibration etc.&#34;&#34;&#34;
+
+    def __init__(self, dataset: Dataset):
+        &#34;&#34;&#34;Init of presscalc.
+
+        Parameters
+        ----------
+        dataset : pimged.Dataset :
+            dataset object from pimged package
+        &#34;&#34;&#34;
+        super().__init__(dataset)
+
+        # noinspection PyProtectedMember
+        self.press_calcpresision = dataset.pressures._precision_calc
+
+        self._pressurearrays = dataset.pressures
+        self._fileinfo = dataset.fileinfo
+
+    def __str__(self):
+        &#34;&#34;&#34;Class info.&#34;&#34;&#34;
+        return &#34;Calculation object handling PImGED pressure datasets&#34;
+
+    def volt2press(self):
+        &#34;&#34;&#34;Calculate calibrated pressures for all pressure lines.
+
+        Uses the pressure data in the dataset to covert from Voltage to pressure
+
+        Raises
+        ------
+        AttributeError : :
+            Pressure array not present
+        &#34;&#34;&#34;
+        for i in self._pressurearrays.__dict__:
+            if &#39;pressure&#39; in i:
+                # Catch the error if it is on the pressure_atm, pass other errors through
+                try:
+                    eval(&#39;self._pressurearrays.&#39; + i + &#39;.applycalibration()&#39;)
+                except AttributeError as err:
+                    if &#34;no attribute &#39;applycalibration&#39;&#34; in str(err):
+                        pass
+
+
+class Calculate(Presscalc):
+    &#34;&#34;&#34;Calculate module contain methods for calculations on images and pressures.&#34;&#34;&#34;
+
+    def __str__(self):
+        &#34;&#34;&#34;Class info.&#34;&#34;&#34;
+        return &#34;Calculation object handling PImGED datasets&#34;
+
+
+def _parellizearrayfunccalc(obj, func, memsave, chunksize, setrange, ndataperload, verb):
+    &#34;&#34;&#34;Parallization function using joblib package.
+
+    Taking a defined function where all datamanagement is handled inside the function and
+    parallize it with memory optimization options in chunk loading. The data is populated in the
+    object data array
+
+    Parameters
+    ----------
+    setrange : :
+        a list range of the datasets needed in the calculations
+
+    obj : :
+        self object from the class
+
+    func : :
+        the function that should be parallize. Data need to be part of obj storage
+
+    memsave : :
+        {&#39;none&#39;, &#39;low&#39;, &#39;parlow&#39;}
+        if there should be memorysaving calulations
+        &#39;none&#39; no memory save algorithm used
+        &#39;low&#39; using single threaded chunksize load
+        &#39;parlow&#39; uses chunk loading in paralized form, but demand more ram as each process
+        broadcast the chosen chunksize - reduce chunksize here for best result, but use less
+        memory than broadcasting through numpy - dependent on N cores in system
+
+    chunksize : :
+        if memorysave load is wanted, it is possible to set the max chunk size of images per loop
+
+    ndataperload : :
+        How much array data is loaded per loop
+
+    verb : :
+        Bool if there should be shown calculation progress
+    &#34;&#34;&#34;
+    if verb:
+        rangefor = tqdm(range(ceil(ndataperload / chunksize)))
+    else:
+        rangefor = range(ceil(ndataperload / chunksize))
+
+    if memsave == &#39;none&#39;:
+        func(obj, chunksize, 0)
+
+    elif memsave == &#39;low&#39;:
+        for idx in rangefor:
+            func(obj, chunksize, idx)
+
+    elif memsave == &#39;parlow&#39;:
+        Parallel(n_jobs=cpu_count(), require=&#34;sharedmem&#34;)(delayed(func)(obj, chunksize, i, setrange)
+                                                          for i in rangefor)
+
+
+# noinspection PyProtectedMember
+def _calibrationfunc(obj, __, k, ___):
+    &#34;&#34;&#34;Calculate calibration data.
+
+    Built for parallization use, creating the function used to calculate calibrations.
+    basicly (y2-y1)/(x2-x1) -&gt; ready for parallization
+
+    Parameters
+    ----------
+    obj : :
+        self object of the class
+
+    __ : :
+        unused input, kept for streamlining in the main paralization function
+
+    k : :
+        idx for slicing
+
+    ___ : :
+        unused input, kept for streamlining in the main paralization function
+    &#34;&#34;&#34;
+    # Chunksize need for reuse of parallization function between methods
+    obj._imagearrays.calibration.data[:, :, k, 0] -= obj._imagearrays.calibration.data[:, :, k, 1]
+    obj._imagearrays.calibration.data[:, :, k, 0] /= -1
+    obj._imagearrays.calibration.data[:, :, k, 1] -= obj._imagearrays.calibration.data[:, :, k, 0]
+
+
+# noinspection PyProtectedMember
+def _conversionfunc(obj, chunk, k, setrange):
+    &#34;&#34;&#34;Calculate conversion from bit to concentration.
+
+    For linear constants the 4th dimension 0-idx is a and 1-idx is b in y=ax+b
+
+    Parameters
+    ----------
+    setrange : :
+        list of dataset ranges needed if a subset of data is loaded compared to the
+        calibration file
+
+    obj : :
+        self object of the class
+
+    chunk : :
+        chunk size for slicing in timeseries
+
+    k : :
+        idx for slicing
+    &#34;&#34;&#34;
+    with np.errstate(divide=&#39;ignore&#39;, invalid=&#39;ignore&#39;):
+        slic = slice(k * chunk, (k + 1) * chunk)
+        obj._imagearrays.concentration.data[:, :, slic, :] -= \
+            obj._imagearrays.calibration.data[:, :, np.newaxis, setrange[0]:setrange[1], 1]
+        obj._imagearrays.concentration.data[:, :, slic, :] /= \
+            obj._imagearrays.calibration.data[:, :, np.newaxis, setrange[0]:setrange[1], 0]
+
+
+def _errorlist(imarray, typeerror):
+    &#34;&#34;&#34;Errorlist for repetitative code.
+
+    Parameters
+    ----------
+    imarray : :
+        imagearray input
+
+    typeerror : :
+        what error type to check for
+
+    Raises
+    -------
+    ValueError : :
+        No data present
+    &#34;&#34;&#34;
+    match typeerror:
+        case 0:
+            if imarray.size == 0:
+                raise ValueError(&#34;No data in concentration array. Use &#39;bit2conc&#39; to populate &#34;
+                                 &#34;the lacking data&#34;)
+
+
+def _timeidxcheck(obj, timeidx):
+    &#34;&#34;&#34;Check time index format.
+
+    Parameters
+    ----------
+    obj : :
+        self object input
+
+    timeidx : :
+        timeidx on form: list, int or None
+
+    Returns
+    -------
+    type : (slice, int) :
+        index as slice or single int
+
+    Raises
+    ------
+    ValueError : :
+        Indecies are not possible or timeidx is not a valid format
+    &#34;&#34;&#34;
+    if timeidx is None:
+        idx = slice(0, obj._imagearrays.concentration.arrayinfo.loadedimagerange[1])
+    elif isinstance(timeidx, list):
+        if timeidx[1] - timeidx[0] &lt; 0:
+            raise ValueError(&#39;Time indices is not [startidx, endidx] format&#39;)
+        idx = slice(timeidx[1], timeidx[0])
+    elif isinstance(timeidx, int):
+        if timeidx != abs(timeidx):
+            raise ValueError(&#39;Timeidx has to be a positive number&#39;)
+        idx = timeidx
+    else:
+        raise ValueError(&#39;Timeidx is not a valid format. Formats are list [startidx, endidx], &#39;
+                         &#39;int: timeidx or None: use all images&#39;)
+
+    return idx
+
+
+def _rawblackcorrinputcheck(obj, jetcenter, jetwidth, wallidx, shotidx):
+    &#34;&#34;&#34;Check inputs for the rawblackcorr routine.
+
+    Parameters
+    ----------
+    obj : :
+        the self object
+
+    jetcenter : :
+        jet center position
+
+    jetwidth : :
+        width of the jet
+
+    wallidx : :
+        index position of the wall
+
+    shotidx : :
+        index of the shot in time where the jetcore is used to adjust the black point
+
+    Returns
+    -------
+    type : :
+        jetcenter, jetwidth, wallidx and shotidx after checks
+
+    Raises
+    ------
+    ValueError : :
+        Missing requiered inputs
+
+    IndexError : :
+        No zero particle data
+    &#34;&#34;&#34;
+    if jetcenter is None:
+        if obj._imagearrays.blackpointcorr.arrayinfo.jetinfo.jetcenter is None:
+            raise ValueError(&#34;No jet center is defined in blackpointcorr or input&#34;)
+        jetcenter = obj._imagearrays.blackpointcorr.arrayinfo.jetinfo.jetcenter
+
+    if jetwidth is None:
+        if obj._imagearrays.blackpointcorr.arrayinfo.jetinfo.jetwidth is None:
+            raise ValueError(&#34;No jet width is defined in blackpointcorr or input&#34;)
+        jetwidth = obj._imagearrays.blackpointcorr.arrayinfo.jetinfo.jetwidth
+
+    if wallidx is None:
+        if obj._imagearrays.blackpointcorr.arrayinfo.jetinfo.wallidx is None:
+            raise ValueError(&#34;No wall index is defined in blackpointcorr or input&#34;)
+        wallidx = obj._imagearrays.blackpointcorr.arrayinfo.jetinfo.wallidx
+
+    if shotidx is None:
+        if obj._imagearrays.blackpointcorr.arrayinfo.jetinfo.shotidx is None:
+            raise ValueError(&#34;No shot index for the jet core is defined in &#34;
+                             &#34;blackpointcorr or input&#34;)
+        shotidx = obj._imagearrays.blackpointcorr.arrayinfo.jetinfo.shotidx
+
+    if np.shape(obj._imagearrays.zero.data)[0] == 0:
+        raise IndexError(&#39;No Zero particle images. Load images with &#39;
+                         &#39;&#34;dataset.loadimages()&#34; with the handle &#34;loadzeroimages=True&#34;&#39;)
+
+    return jetcenter, jetwidth, wallidx, shotidx</code></pre>
+</details>
+</section>
+<section>
+</section>
+<section>
+</section>
+<section>
+</section>
+<section>
+<h2 class="section-title" id="header-classes">Classes</h2>
+<dl>
+<dt id="pimged.calculate.calculate.Calculate"><code class="flex name class">
+<span>class <span class="ident">Calculate</span></span>
+<span>(</span><span>dataset: <a title="pimged.datahandling.dataset.Dataset" href="../datahandling/dataset.html#pimged.datahandling.dataset.Dataset">Dataset</a>)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Calculate module contain methods for calculations on images and pressures.</p>
+<p>Init of presscalc.</p>
+<h2 id="parameters">Parameters</h2>
+<dl>
+<dt><strong><code>dataset</code></strong> :&ensp;<code>pimged.Dataset :</code></dt>
+<dd>dataset object from pimged package</dd>
+</dl></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">class Calculate(Presscalc):
+    &#34;&#34;&#34;Calculate module contain methods for calculations on images and pressures.&#34;&#34;&#34;
+
+    def __str__(self):
+        &#34;&#34;&#34;Class info.&#34;&#34;&#34;
+        return &#34;Calculation object handling PImGED datasets&#34;</code></pre>
+</details>
+<h3>Ancestors</h3>
+<ul class="hlist">
+<li><a title="pimged.calculate.calculate.Presscalc" href="#pimged.calculate.calculate.Presscalc">Presscalc</a></li>
+<li><a title="pimged.calculate.calculate.Imagecalc" href="#pimged.calculate.calculate.Imagecalc">Imagecalc</a></li>
+</ul>
+<h3>Inherited members</h3>
+<ul class="hlist">
+<li><code><b><a title="pimged.calculate.calculate.Presscalc" href="#pimged.calculate.calculate.Presscalc">Presscalc</a></b></code>:
+<ul class="hlist">
+<li><code><a title="pimged.calculate.calculate.Presscalc.bit2conc" href="#pimged.calculate.calculate.Imagecalc.bit2conc">bit2conc</a></code></li>
+<li><code><a title="pimged.calculate.calculate.Presscalc.bit2conccalib" href="#pimged.calculate.calculate.Imagecalc.bit2conccalib">bit2conccalib</a></code></li>
+<li><code><a title="pimged.calculate.calculate.Presscalc.mean" href="#pimged.calculate.calculate.Imagecalc.mean">mean</a></code></li>
+<li><code><a title="pimged.calculate.calculate.Presscalc.moment" href="#pimged.calculate.calculate.Imagecalc.moment">moment</a></code></li>
+<li><code><a title="pimged.calculate.calculate.Presscalc.rawblackcorr" href="#pimged.calculate.calculate.Imagecalc.rawblackcorr">rawblackcorr</a></code></li>
+<li><code><a title="pimged.calculate.calculate.Presscalc.std" href="#pimged.calculate.calculate.Imagecalc.std">std</a></code></li>
+<li><code><a title="pimged.calculate.calculate.Presscalc.var" href="#pimged.calculate.calculate.Imagecalc.var">var</a></code></li>
+<li><code><a title="pimged.calculate.calculate.Presscalc.volt2press" href="#pimged.calculate.calculate.Presscalc.volt2press">volt2press</a></code></li>
+</ul>
+</li>
+</ul>
+</dd>
+<dt id="pimged.calculate.calculate.Imagecalc"><code class="flex name class">
+<span>class <span class="ident">Imagecalc</span></span>
+<span>(</span><span>dataset: <a title="pimged.datahandling.dataset.Dataset" href="../datahandling/dataset.html#pimged.datahandling.dataset.Dataset">Dataset</a>)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Image calculation based on the data framework from PIMGED.</p>
+<p>Init calculations.</p>
+<p>Calculate module contain methods for creating the pixel calibration, concentration arrays
+and doing the mean, std and var on the concentration data. All calculations are placed into
+the imagearrays data container</p>
+<h2 id="parameters">Parameters</h2>
+<dl>
+<dt><strong><code>dataset</code></strong> :&ensp;<code>pimged.Dataset :</code></dt>
+<dd>dataset object from pimged package</dd>
+</dl></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">class Imagecalc:
+    &#34;&#34;&#34;Image calculation based on the data framework from PIMGED.&#34;&#34;&#34;
+
+    def __init__(self, dataset: Dataset):
+        &#34;&#34;&#34;Init calculations.
+
+        Calculate module contain methods for creating the pixel calibration, concentration arrays
+        and doing the mean, std and var on the concentration data. All calculations are placed into
+        the imagearrays data container
+
+        Parameters
+        ----------
+        dataset : pimged.Dataset :
+            dataset object from pimged package
+        &#34;&#34;&#34;
+        # noinspection PyProtectedMember
+        self.image_calcpresision = dataset.images._precision_calc
+
+        self._imagearrays = dataset.images
+        self._fileinfo = dataset.fileinfo
+        self._individualcalibrations = True
+
+    def __str__(self):
+        &#34;&#34;&#34;Class info.&#34;&#34;&#34;
+        return &#34;Calculation object handling PImGED image datasets&#34;
+
+    def bit2conccalib(self,
+                      numberofimages: int = 30,
+                      verb: bool = True,
+                      flip: bool = False,
+                      indivical: bool = True,
+                      parsetload: bool = True,
+                      parsetcalc: bool = True):
+        &#34;&#34;&#34;Pixel to pixel calibration function.
+
+        uses linear regression to estimate linear constants for calulating the calibrated
+        concentrations pictures
+
+        Parameters
+        ----------
+        numberofimages: int :
+             (Default value = 30)
+            number of images to use for calibration in datahandling. Uses the
+            first XX images in the folder. If &#34;fullparticlesfolder&#34; is set,
+            this will not be used as it will use all pictures available in the
+            folder instead
+
+        verb: bool :
+             (Default value = True)
+            verbosity of code. False is no info, True is folder progress and calculations
+
+        flip : bool :
+             (Default value = False)
+            if the linear calibration function should be flipped in the constants.
+            False - clean air is represented with 1
+            True - clean air is represented with 0
+
+        indivical : bool :
+             (Default value = True)
+            if the calibration should be done individual per datahandling or as a
+            global calibration mean between all datasets&#39; calibration images
+
+        parsetload : bool :
+             (Default value = True)
+            if the loading process should be threaded
+
+        parsetcalc : bool :
+             (Default value = True)
+            if the calibration calculations should be threaded
+
+        Raises
+        ------
+        IndexError: :
+            Zero images are not the same size as rest of the dataset or the folder do not exist
+            for the dataset
+
+        NotADirectoryError: :
+            full or zero particle folder do not exist
+        &#34;&#34;&#34;
+        print(&#39;Starting calibration calculations\n&#39;)
+
+        # Loading the dataload structure to load in zero particles
+        loadingdata = Dataload(self._imagearrays, None, self._fileinfo, self._fileinfo.mainpath,
+                               self._fileinfo.imagesearchfolders,
+                               self._fileinfo.zeroparticlesfolder,
+                               imagefoldername=self._fileinfo.imagefoldername,
+                               checkmeta=False,
+                               loadmeta=True)
+
+        # Setting the individualcalc parameter
+        self._individualcalibrations = indivical
+
+        # creating the imagefilespath
+        imfiledir = ph.join(self._fileinfo.mainpath, self._fileinfo.imagefoldername)
+
+        # Checking if the zero particle folder given exist in any of the dataset directory
+        # folder names
+        try:
+            pathforzeroparticleimages = get_folder_paths(imfiledir,
+                                                         self._fileinfo.zeroparticlesfolder)[0]
+        except IndexError as exc:
+            raise IndexError(
+                f&#34;Zero foldername &#39;{self._fileinfo.zeroparticlesfolder}&#39; &#34;
+                f&#34;do not exist for the dataset&#34;) from exc
+
+        if not ph.exists(pathforzeroparticleimages):
+            raise NotADirectoryError(&#34;The given zero particle folder do not exist&#34;)
+
+        # Setting blocks and images in the zero particles images folder
+        nblockperload = 1
+        nframespersetzero = len(find_dir_contains(pathforzeroparticleimages,
+                                                  self._fileinfo.imagedata.fileformat))
+
+        # Checking if a folder with particles are given to use as a global calibration
+        if not self._fileinfo.fullparticlesfolder:
+            tmprawarray = self._imagearrays.raw.data[:, :, :numberofimages, :]
+        else:
+            warn(&#34;Warning: &#39;fullparticlesfolder&#39; is set so &#39;numberofimages&#39; is not used &#34;)
+            parthforfullparticleimages = get_folder_paths(imfiledir,
+                                                          self._fileinfo.fullparticlesfolder)[0]
+            if not ph.exists(parthforfullparticleimages):
+                raise NotADirectoryError(&#34;The given full particle folder do not exist&#34;)
+            nframespersetfull = len(find_dir_contains(parthforfullparticleimages,
+                                                      self._fileinfo.imagedata.fileformat))
+            # noinspection PyUnboundLocalVariable
+            # noinspection PyProtectedMember
+            tmprawarray = loadingdata._loadpictures(nblockperload,
+                                                    nframespersetfull,
+                                                    verb=verb,
+                                                    fullparfoldersetload=True,
+                                                    parset=parsetload)
+
+        # Loading zero particle images and mean it to ONE master zero-particle image
+        if np.shape(self._imagearrays.zero.data)[0] == 0:
+            print(&#39;No Zero particle images, starts loading&#39;)
+            # noinspection PyProtectedMember
+            tmpzeroarray = \
+                loadingdata._loadpictures(nblockperload,
+                                          nframespersetzero,
+                                          verb=verb,
+                                          zerosetload=True,
+                                          parset=parsetload)
+
+            print(&#39;Saving loaded data&#39;)
+            self._imagearrays.zero.data = tmpzeroarray
+
+            tmpzeroarray = self._imagearrays.zero.data.mean(axis=(2, 3),
+                                                            dtype=self.image_calcpresision)
+            print(&#39;Done loading images\n\n&#39;)
+        else:
+            print(&#39;Using loaded Zero images&#39;)
+            tmpzeroarray = self._imagearrays.zero.data.mean(axis=(2, 3),
+                                                            dtype=self.image_calcpresision)
+
+        if tmpzeroarray.shape[0] == tmprawarray.shape[0] and \
+                tmpzeroarray.shape[1] == tmprawarray.shape[1]:
+            pass
+        else:
+            raise IndexError(&#34;The zero light calibration files are not the same pixel &#34;
+                             &#34;size as the raw data&#34;)
+
+        # Checking if the calibration is a mean or individual per datahandling
+        if self._individualcalibrations:
+            tmprawarray = tmprawarray.mean(axis=2, dtype=self.image_calcpresision)
+            lencalset = tmprawarray.shape[2]
+        else:
+            tmprawarray = tmprawarray.mean(axis=(2, 3), dtype=self.image_calcpresision)
+            # Extend array with extra dimension to fit with calculations
+            tmprawarray = tmprawarray[:, :, np.newaxis]
+            lencalset = 1
+
+        print(&#39;Starting linear calibration estimation&#39;)
+
+        # Initializing the calibration data. For linear constants the 4th dimension 0-idx is a and
+        # 1-idx is b in y=ax+b
+        self._imagearrays.calibration.data = np.ones((tmpzeroarray.shape[0],
+                                                      tmpzeroarray.shape[1],
+                                                      lencalset, 2),
+                                                     dtype=self.image_calcpresision)
+        self._imagearrays.calibration.data[:, :, :, 0] = tmprawarray
+        self._imagearrays.calibration.data[:, :, :, 1] = tmpzeroarray[:, :, np.newaxis]
+
+        # Starting the calculations
+        if not parsetcalc:
+            for i in range(lencalset):
+                _calibrationfunc(self, 0, i, None)
+        else:
+            _parellizearrayfunccalc(self, func=_calibrationfunc, memsave=&#34;parlow&#34;,
+                                   chunksize=1, setrange=None, ndataperload=lencalset, verb=verb)
+
+        # If the calibration should be flipped in values
+        if flip:
+            self._imagearrays.calibration.data[:, :, :, 0] = \
+                -self._imagearrays.calibration.data[:, :, :, 0]
+            self._imagearrays.calibration.data[:, :, :, 1] = \
+                np.zeros((tmpzeroarray.shape[0], tmpzeroarray.shape[1], lencalset),
+                         dtype=self.image_calcpresision)
+
+        # updating the calibration array info
+        self._imagearrays.calibration.arrayinfo.loadedimagerange = [1, numberofimages]
+        self._imagearrays.calibration.arrayinfo.loadeddatasets = \
+            self._imagearrays.raw.arrayinfo.loadeddatasets
+
+        print(&#39;Done with calibration\n\n&#39;)
+
+    def bit2conc(self,
+                 setrangeinput: list = None,
+                 memsave: str = &#39;parlow&#39;,
+                 verb: bool = False,
+                 chunksize: int = 100,
+                 clip: str = &#39;both&#39;):
+        &#34;&#34;&#34;Calculate the concentation images.
+
+        Uses the bit2conccalib rutines result to calculate the concentration images
+
+        Parameters
+        ----------
+        setrangeinput: list :
+             (Default value = None)
+            list with the dataset range of images needed for calibrating a
+            subset of loaded raw data. Calibration location in array is not
+            controlled. User has to know what part of sets in the calibration
+            file correspond to data. If nothing is set, the full range is used
+
+        memsave: str :
+             (Default value = &#39;parlow&#39;)
+            {&#39;none&#39;, &#39;low&#39;, &#39;parlow&#39;}
+            if there should be memorysaving calulations
+            &#39;none&#39; no memry save algorithm used
+            &#39;low&#39; using single threaded chunksize load
+            &#39;parlow&#39; uses chunk loading in paralized form, but demand more ram as each process
+            broadcast the chosen chunksize - reduce chunksize here for best result, but use less
+            memory than broadcasting through numpy - dependent on N cores in system
+
+        verb: bool :
+             (Default value = False)
+            verbosity of calculations to show progress
+
+        chunksize: int :
+             (Default value = 100)
+            if memorysave load is wanted, it is possible to set the max chunk size of
+            images per loop
+
+        clip : str :
+             (Default value = &#39;both&#39;)
+            {&#39;both&#39;, &#39;val&#39;, &#39;infnan&#39;, &#39;none&#39;}
+            ensuring 0 to 1 concentration estimates.
+            &#39;both&#39; ensure both nan and inf, along with values &lt;0 and &gt;1 limits to 0 and 1
+            &#39;val&#39; ensuring only values &lt;0 and &gt;1 limits to 0 and 1
+            &#39;infnan&#39; ensuring only nan and inf limits to 0 and 1
+            &#39;none&#39; does nothing
+
+        Raises
+        ------
+        LookupError: :
+            No calibration data calculated
+
+        NotImplementedError : :
+            memsave method not implemented
+        &#34;&#34;&#34;
+        if not self._imagearrays.calibration.data.any():
+            raise LookupError(&#39;Missing calibration data. Use bit2conccalib method before &#39;
+                              &#39;calculating densities&#39;)
+
+        print(&#39;Starting bit to concentration conversion&#39;)
+
+        memsavelist = [&#39;none&#39;, &#39;low&#39;, &#39;parlow&#39;]
+
+        if memsave in memsavelist:
+            pass
+        else:
+            raise NotImplementedError(f&#39;memsave input not part of possible methods: {memsavelist}&#39;)
+
+        self._imagearrays.concentration.data = \
+            self._imagearrays.raw.data.astype(self.image_calcpresision)
+
+        nframesperload = self._imagearrays.raw.data.shape[2]
+
+        if memsave == &#39;none&#39;:
+            chunksize = self._imagearrays.raw.data.shape[2]
+
+        if setrangeinput is None:
+            setrange = [0, self._imagearrays.raw.data.shape[3]]
+        else:
+            setrange = setrangeinput
+
+        # Doing the calculations
+        _parellizearrayfunccalc(self,
+                                func=_conversionfunc,
+                                memsave=memsave,
+                                setrange=setrange,
+                                chunksize=chunksize,
+                                ndataperload=nframesperload,
+                                verb=verb)
+
+        if clip == &#39;none&#39;:
+            pass
+        else:
+            print(&#39;Ensuring 0 to 1 concentrations&#39;)
+
+        if clip in (&#39;both&#39;, &#39;val&#39;):
+            print(&#39;Checking values&#39;)
+            np.clip(a=self._imagearrays.concentration.data,
+                    out=self._imagearrays.concentration.data,
+                    a_min=0,
+                    a_max=1)
+
+        if clip in (&#39;both&#39;, &#39;infnan&#39;):
+            print(&#39;Checking inf and nan&#39;)
+            self._imagearrays.concentration.data[np.isinf(self._imagearrays.concentration.data)] = 1
+            self._imagearrays.concentration.data[np.isnan(self._imagearrays.concentration.data)] = 0
+
+        self._imagearrays.concentration.arrayinfo.loadedimagerange = \
+            self._imagearrays.raw.arrayinfo.loadedimagerange
+        self._imagearrays.concentration.arrayinfo.loadeddatasets = \
+            self._imagearrays.raw.arrayinfo.loadeddatasets
+
+        print(&#39;Done with conversion\n&#39;)
+
+    def rawblackcorr(self,
+                     jetcenter: int = None,
+                     jetwidth: int = None,
+                     wallidx: int = None,
+                     shotidx: int = None,
+                     setrangeinput: list = None,
+                     nimages: int = 50,
+                     removeedgeh: int = 10,
+                     removeedgew: int = -1,
+                     forcerecal: bool = True,
+                     flipped: bool = False,
+                     onlycorr: bool = False):
+        &#34;&#34;&#34;Raw image blackpoint correction.
+
+        Correcting raw data for the black point error, using a linear factor weighted with the
+        laser sheet intensity in both black point and max values. Has to be used before the data
+        is flipped (jet going right to left). If the None parameters are given, the code check
+        the blackpointcorr image object for info on the jet. If this is none, there is raised an
+        error and expected to be input parameters
+
+        Parameters
+        ----------
+        jetcenter: int :
+             (Default value = None)
+            the position of the jet center pixel number in the image
+
+        jetwidth: int :
+             (Default value = None)
+            the width of the jet in pixels
+
+        wallidx: int :
+             (Default value = None)
+            the position of the wall in pixel number in the image
+
+        shotidx: int :
+             (Default value = None)
+            index of the images in the series where the jet core cover an area more
+            than &#34;wallidx + quaterjet + halfjet&#34; pixels into the domain
+
+        setrangeinput: list :
+             (Default value = None)
+            list with the dataset range of images needed for correction a subset of loaded raw
+            data. Location in array is not controlled.
+            User has to know what part of sets in the correction file correspond to data. If
+            nothing is set, the full range is used
+
+        nimages: int :
+             (Default value = 50)
+            number of images with no jet to use, as for calibration, in the weight factor
+            estimation. The images are found by .raw.data(:, :, 0:Nimages, :)
+            This is used to estimate the lasersheet variation over the image
+
+        removeedgeh: int :
+             (Default value = 10)
+            number of pixels to remove from height edges before estimating
+            weights - needed as edges tend to show errous values in intensity
+
+        removeedgew: int :
+             (Default value = -1)
+            number of pixels to remove from width edges before estimating weights -
+            has to be minimum the wall idx, better if 1 or 2 pixels more.
+            Default value of -1 ensure it is the wall idx distance
+
+        forcerecal: bool :
+             (Default value = True)
+            if the calculation of the black point correction should be forced, even if data exist
+            for a correction. Default is True
+
+        flipped : bool :
+             (Default value = False)
+            if the jet direction is flipped. original data is have the jet from right to left,
+            flipped data is left to right. Remember zero images have to be flipped along with
+            the raw data.
+            If false the index correction is:
+            slice(framewidth - wallidx - quaterjet - halfjet, framewidth - wallidx - quaterjet)
+            if true, the correction is:
+            slice(wallidx + quaterjet, wallidx + quaterjet + halfjet)
+
+        onlycorr : bool :
+             (Default value = False)
+            if the function should only calculate the correction and not correct raw
+            images. default is False, which means it calculate raw corrections
+
+        Raises
+        ------
+        ValueError : :
+            Not enough raw images loaded for asked inputs
+        &#34;&#34;&#34;
+        # Checking inputs
+        if setrangeinput is None:
+            setrange = [0, self._imagearrays.raw.data.shape[3]]
+        else:
+            setrange = setrangeinput
+
+        jetcenter, jetwidth, wallidx, shotidx = _rawblackcorrinputcheck(self, jetcenter, jetwidth,
+                                                                        wallidx, shotidx)
+
+        if self._imagearrays.blackpointcorr.data.any() and not forcerecal:
+            print(&#39;Blackpoint correction data exist for set, uses zero images and factors&#39;)
+            corrremove = self._imagearrays.blackpointcorr.data
+            pixzeromean = self._imagearrays.zero.data.mean(axis=(2, 3),
+                                                           dtype=self.image_calcpresision)
+        else:
+            if shotidx &gt; self._imagearrays.raw.data.shape[2]:
+                nidx = self._imagearrays.raw.data.shape[2]
+                raise ValueError(f&#34;Not enough raw images loaded compared to the shotidx parameter.&#34;
+                                 f&#34;shotidx = {shotidx} and raw data only have {nidx} time indecies &#34;
+                                 f&#34;loaded.&#34;)
+
+            print(&#39;Started raw data black point correction&#39;)
+            if removeedgew == -1:
+                removeedgew = wallidx
+
+            # image width
+            quaterjet = int(jetwidth / 4)
+            halfjet = int(jetwidth / 2)
+
+            print(&#39;Calulating laser sheet point weighting&#39;)
+            # Calulating weight for both zero and max, weighted with laser sheet intensity
+            # max
+            pixmean = self._imagearrays.raw.data[:, :,
+                                                 0:nimages, :].mean(axis=2,
+                                                                    dtype=self.image_calcpresision)
+            pixmeanmax = pixmean[removeedgeh:-removeedgeh, removeedgew:-removeedgew].max(axis=(0,
+                                                                                               1))
+            weighting = pixmean / pixmeanmax
+            weighting[weighting &gt; 1] = 1
+
+            print(&#39;Calulating sensor zero point weighting&#39;)
+            # Min
+            pixzeromean = self._imagearrays.zero.data.mean(axis=(2, 3),
+                                                           dtype=self.image_calcpresision)
+
+            print(&#39;Calulating image weights based on jet core data&#39;)
+            # Avg area slices around the jet out from the wall
+            hslice = slice(jetcenter - quaterjet, jetcenter + quaterjet)
+            if flipped:
+                wslice = slice(wallidx + quaterjet, wallidx + quaterjet + halfjet)
+            else:
+                wslice = slice(self._fileinfo.imagedata.framewidth - wallidx - quaterjet - halfjet,
+                               self._fileinfo.imagedata.framewidth - wallidx - quaterjet)
+
+            # Calculating the mean values for the lift and removal and the corresponding weights
+            avgremove = self._imagearrays.raw.data[hslice, wslice, shotidx, :].mean(
+                axis=(0, 1), dtype=self.image_calcpresision)
+            avgweight = weighting[hslice, wslice].mean(axis=(0, 1),
+                                                       dtype=self.image_calcpresision)
+
+            # Finding the image weigthed correction
+            corrremove = avgremove * weighting / avgweight
+
+        if not onlycorr:
+            print(&#39;Correcting images&#39;)
+            # Correcting the image
+            # First removing the baground
+            print(&#39;- Adjusting background&#39;)
+            imgcorrwei = self._imagearrays.raw.data - corrremove[:, :, np.newaxis,
+                                                                 setrange[0]:setrange[1]]
+            # lifting the with the average negative value, if any
+            if np.any(imgcorrwei[imgcorrwei &lt; 0]):
+                print(&#39;- Correcting average assumption&#39;)
+                imgcorrwei -= np.mean(imgcorrwei[imgcorrwei &lt; 0], dtype=self.image_calcpresision)
+            else:
+                warn(&#39;- No correction on average assumption, might not pull estimate enough to &#39;
+                     &#39;zero&#39;)
+
+            # lifting the rest with the weighted black lift
+            print(&#39;- Lifting black point&#39;)
+            imgcorrwei += pixzeromean.mean(axis=0)[np.newaxis, :, np.newaxis, np.newaxis]
+            # Setting rest of the negatives to 0
+            print(&#39;- Ensuring physical blackpoint&#39;)
+            imgcorrwei[imgcorrwei &lt; 0] = 0
+
+            print(&#39;Replacing raw data&#39;)
+            self._imagearrays.raw.data = imgcorrwei.astype(np.uint16)
+
+        print(&#39;Saving correction&#39;)
+        # Saving the corrected image back into container
+        self._imagearrays.blackpointcorr.data = corrremove
+        self._imagearrays.blackpointcorr.arrayinfo.loadeddatasets = \
+            self._imagearrays.raw.arrayinfo.loadeddatasets
+        self._imagearrays.blackpointcorr.arrayinfo.loadedimagerange = [1, nimages]
+        print(&#39;Finished black point correction\n&#39;)
+
+    def std(self):
+        &#34;&#34;&#34;Calculate the standard diviation images based on the concentration images.
+
+        Calculation is done along the stationary time dimension (fourth index in the arra)
+        ndarray([H, W, Time, Statio. time])
+        &#34;&#34;&#34;
+        _errorlist(self._imagearrays.concentration.data, 0)
+
+        print(&#39;Starting standard deviation calculations&#39;)
+        self._imagearrays.std.data = \
+            self._imagearrays.concentration.data.std(axis=3, dtype=self.image_calcpresision)
+        self._imagearrays.std.arrayinfo.loadedimagerange = \
+            self._imagearrays.concentration.arrayinfo.loadedimagerange
+        self._imagearrays.std.arrayinfo.loadeddatasets = \
+            self._imagearrays.concentration.arrayinfo.loadeddatasets
+        print(&#39;Done with standard deviation\n&#39;)
+
+    def mean(self):
+        &#34;&#34;&#34;Calculate the mean images based on the concentration images.
+
+        Calculation is done along the stationary time dimension (fourth index in the arra)
+        ndarray([H, W, Time, Statio. time])&#34;&#34;&#34;
+        _errorlist(self._imagearrays.concentration.data, 0)
+
+        print(&#39;Starting mean calculations&#39;)
+        self._imagearrays.mean.data = \
+            self._imagearrays.concentration.data.mean(axis=3, dtype=self.image_calcpresision)
+        self._imagearrays.mean.arrayinfo.loadedimagerange = \
+            self._imagearrays.concentration.arrayinfo.loadedimagerange
+        self._imagearrays.mean.arrayinfo.loadeddatasets = \
+            self._imagearrays.concentration.arrayinfo.loadeddatasets
+        print(&#39;Done with mean\n&#39;)
+
+    def var(self):
+        &#34;&#34;&#34;Calculate the variance images based on the concentration images.
+
+        Calculation is done along the stationary time dimension (fourth index in the arra)
+        ndarray([H, W, Time, Statio. time])&#34;&#34;&#34;
+        _errorlist(self._imagearrays.concentration.data, 0)
+
+        print(&#39;Starting variance calculations&#39;)
+        self._imagearrays.var.data = \
+            self._imagearrays.concentration.data.var(axis=3, dtype=self.image_calcpresision)
+        self._imagearrays.var.arrayinfo.loadedimagerange = \
+            self._imagearrays.concentration.arrayinfo.loadedimagerange
+        self._imagearrays.var.arrayinfo.loadeddatasets = \
+            self._imagearrays.concentration.arrayinfo.loadeddatasets
+        print(&#39;Done with variance\n&#39;)
+
+    def moment(self, nth: int, timeidx=None):
+        &#34;&#34;&#34;Calculate the nth moment around the mean.
+
+        Based on the concentration images using the package &#39;scipy.stats&#39;
+
+        Calculation is done along the stationary time dimension (fourth index in the arra)
+        ndarray([H, W, Time, Statio. time])
+
+        Parameters
+        ----------
+        timeidx : :
+             (Default value = None)
+            the time frame to for staistics, formats are:
+            list: start and end point in time, [startidx, endidx]
+            int: single point in time
+            &#39;None&#39;: calculate for whole time frame
+
+        nth : int :
+            which moment to calculate
+
+        Returns
+        -------
+        type : numpy.ndarray :
+            The nth moment image is returned in a ndarray with the statistics calculated over the
+            stationary time index
+        &#34;&#34;&#34;
+        _errorlist(self._imagearrays.concentration.data, typeerror=0)
+
+        print(&#39;Starting nth moment calculations&#39;)
+        idx = _timeidxcheck(self, timeidx)
+
+        if isinstance(idx, slice):
+            sizedata = np.shape(self._imagearrays.concentration.data)
+            tmpmoment = np.zeros((sizedata[0], sizedata[1], timeidx[1] - timeidx[0] + 1))
+            indecies = np.arange(timeidx[0], timeidx[1] + 1, 1)
+            for i, val in enumerate(indecies):
+                tmpmoment[:, :, i] = moment(self._imagearrays.concentration.data[:, :, val, :],
+                                            moment=nth,
+                                            axis=2)
+        else:
+            tmpmoment = moment(self._imagearrays.concentration.data[:, :, idx, :],
+                               moment=nth,
+                               axis=2)
+
+        print(&#39;Done with nth moment\n&#39;)
+        return tmpmoment</code></pre>
+</details>
+<h3>Subclasses</h3>
+<ul class="hlist">
+<li><a title="pimged.calculate.calculate.Presscalc" href="#pimged.calculate.calculate.Presscalc">Presscalc</a></li>
+</ul>
+<h3>Methods</h3>
+<dl>
+<dt id="pimged.calculate.calculate.Imagecalc.bit2conc"><code class="name flex">
+<span>def <span class="ident">bit2conc</span></span>(<span>self, setrangeinput: list = None, memsave: str = 'parlow', verb: bool = False, chunksize: int = 100, clip: str = 'both')</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Calculate the concentation images.</p>
+<p>Uses the bit2conccalib rutines result to calculate the concentration images</p>
+<h2 id="parameters">Parameters</h2>
+<dl>
+<dt><strong><code>setrangeinput</code></strong> :&ensp;<code>list :</code></dt>
+<dd>(Default value = None)
+list with the dataset range of images needed for calibrating a
+subset of loaded raw data. Calibration location in array is not
+controlled. User has to know what part of sets in the calibration
+file correspond to data. If nothing is set, the full range is used</dd>
+<dt><strong><code>memsave</code></strong> :&ensp;<code>str :</code></dt>
+<dd>(Default value = 'parlow')
+{'none', 'low', 'parlow'}
+if there should be memorysaving calulations
+'none' no memry save algorithm used
+'low' using single threaded chunksize load
+'parlow' uses chunk loading in paralized form, but demand more ram as each process
+broadcast the chosen chunksize - reduce chunksize here for best result, but use less
+memory than broadcasting through numpy - dependent on N cores in system</dd>
+<dt><strong><code>verb</code></strong> :&ensp;<code>bool :</code></dt>
+<dd>(Default value = False)
+verbosity of calculations to show progress</dd>
+<dt><strong><code>chunksize</code></strong> :&ensp;<code>int :</code></dt>
+<dd>(Default value = 100)
+if memorysave load is wanted, it is possible to set the max chunk size of
+images per loop</dd>
+<dt><strong><code>clip</code></strong> :&ensp;<code>str :</code></dt>
+<dd>(Default value = 'both')
+{'both', 'val', 'infnan', 'none'}
+ensuring 0 to 1 concentration estimates.
+'both' ensure both nan and inf, along with values &lt;0 and &gt;1 limits to 0 and 1
+'val' ensuring only values &lt;0 and &gt;1 limits to 0 and 1
+'infnan' ensuring only nan and inf limits to 0 and 1
+'none' does nothing</dd>
+</dl>
+<h2 id="raises">Raises</h2>
+<dl>
+<dt><strong><code>LookupError</code></strong> :&ensp;<code>:</code></dt>
+<dd>No calibration data calculated</dd>
+<dt><strong><code>NotImplementedError</code></strong> :&ensp;<code>:</code></dt>
+<dd>memsave method not implemented</dd>
+</dl></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def bit2conc(self,
+             setrangeinput: list = None,
+             memsave: str = &#39;parlow&#39;,
+             verb: bool = False,
+             chunksize: int = 100,
+             clip: str = &#39;both&#39;):
+    &#34;&#34;&#34;Calculate the concentation images.
+
+    Uses the bit2conccalib rutines result to calculate the concentration images
+
+    Parameters
+    ----------
+    setrangeinput: list :
+         (Default value = None)
+        list with the dataset range of images needed for calibrating a
+        subset of loaded raw data. Calibration location in array is not
+        controlled. User has to know what part of sets in the calibration
+        file correspond to data. If nothing is set, the full range is used
+
+    memsave: str :
+         (Default value = &#39;parlow&#39;)
+        {&#39;none&#39;, &#39;low&#39;, &#39;parlow&#39;}
+        if there should be memorysaving calulations
+        &#39;none&#39; no memry save algorithm used
+        &#39;low&#39; using single threaded chunksize load
+        &#39;parlow&#39; uses chunk loading in paralized form, but demand more ram as each process
+        broadcast the chosen chunksize - reduce chunksize here for best result, but use less
+        memory than broadcasting through numpy - dependent on N cores in system
+
+    verb: bool :
+         (Default value = False)
+        verbosity of calculations to show progress
+
+    chunksize: int :
+         (Default value = 100)
+        if memorysave load is wanted, it is possible to set the max chunk size of
+        images per loop
+
+    clip : str :
+         (Default value = &#39;both&#39;)
+        {&#39;both&#39;, &#39;val&#39;, &#39;infnan&#39;, &#39;none&#39;}
+        ensuring 0 to 1 concentration estimates.
+        &#39;both&#39; ensure both nan and inf, along with values &lt;0 and &gt;1 limits to 0 and 1
+        &#39;val&#39; ensuring only values &lt;0 and &gt;1 limits to 0 and 1
+        &#39;infnan&#39; ensuring only nan and inf limits to 0 and 1
+        &#39;none&#39; does nothing
+
+    Raises
+    ------
+    LookupError: :
+        No calibration data calculated
+
+    NotImplementedError : :
+        memsave method not implemented
+    &#34;&#34;&#34;
+    if not self._imagearrays.calibration.data.any():
+        raise LookupError(&#39;Missing calibration data. Use bit2conccalib method before &#39;
+                          &#39;calculating densities&#39;)
+
+    print(&#39;Starting bit to concentration conversion&#39;)
+
+    memsavelist = [&#39;none&#39;, &#39;low&#39;, &#39;parlow&#39;]
+
+    if memsave in memsavelist:
+        pass
+    else:
+        raise NotImplementedError(f&#39;memsave input not part of possible methods: {memsavelist}&#39;)
+
+    self._imagearrays.concentration.data = \
+        self._imagearrays.raw.data.astype(self.image_calcpresision)
+
+    nframesperload = self._imagearrays.raw.data.shape[2]
+
+    if memsave == &#39;none&#39;:
+        chunksize = self._imagearrays.raw.data.shape[2]
+
+    if setrangeinput is None:
+        setrange = [0, self._imagearrays.raw.data.shape[3]]
+    else:
+        setrange = setrangeinput
+
+    # Doing the calculations
+    _parellizearrayfunccalc(self,
+                            func=_conversionfunc,
+                            memsave=memsave,
+                            setrange=setrange,
+                            chunksize=chunksize,
+                            ndataperload=nframesperload,
+                            verb=verb)
+
+    if clip == &#39;none&#39;:
+        pass
+    else:
+        print(&#39;Ensuring 0 to 1 concentrations&#39;)
+
+    if clip in (&#39;both&#39;, &#39;val&#39;):
+        print(&#39;Checking values&#39;)
+        np.clip(a=self._imagearrays.concentration.data,
+                out=self._imagearrays.concentration.data,
+                a_min=0,
+                a_max=1)
+
+    if clip in (&#39;both&#39;, &#39;infnan&#39;):
+        print(&#39;Checking inf and nan&#39;)
+        self._imagearrays.concentration.data[np.isinf(self._imagearrays.concentration.data)] = 1
+        self._imagearrays.concentration.data[np.isnan(self._imagearrays.concentration.data)] = 0
+
+    self._imagearrays.concentration.arrayinfo.loadedimagerange = \
+        self._imagearrays.raw.arrayinfo.loadedimagerange
+    self._imagearrays.concentration.arrayinfo.loadeddatasets = \
+        self._imagearrays.raw.arrayinfo.loadeddatasets
+
+    print(&#39;Done with conversion\n&#39;)</code></pre>
+</details>
+</dd>
+<dt id="pimged.calculate.calculate.Imagecalc.bit2conccalib"><code class="name flex">
+<span>def <span class="ident">bit2conccalib</span></span>(<span>self, numberofimages: int = 30, verb: bool = True, flip: bool = False, indivical: bool = True, parsetload: bool = True, parsetcalc: bool = True)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Pixel to pixel calibration function.</p>
+<p>uses linear regression to estimate linear constants for calulating the calibrated
+concentrations pictures</p>
+<h2 id="parameters">Parameters</h2>
+<dl>
+<dt><strong><code>numberofimages</code></strong> :&ensp;<code>int :</code></dt>
+<dd>(Default value = 30)
+number of images to use for calibration in datahandling. Uses the
+first XX images in the folder. If "fullparticlesfolder" is set,
+this will not be used as it will use all pictures available in the
+folder instead</dd>
+<dt><strong><code>verb</code></strong> :&ensp;<code>bool :</code></dt>
+<dd>(Default value = True)
+verbosity of code. False is no info, True is folder progress and calculations</dd>
+<dt><strong><code>flip</code></strong> :&ensp;<code>bool :</code></dt>
+<dd>(Default value = False)
+if the linear calibration function should be flipped in the constants.
+False - clean air is represented with 1
+True - clean air is represented with 0</dd>
+<dt><strong><code>indivical</code></strong> :&ensp;<code>bool :</code></dt>
+<dd>(Default value = True)
+if the calibration should be done individual per datahandling or as a
+global calibration mean between all datasets' calibration images</dd>
+<dt><strong><code>parsetload</code></strong> :&ensp;<code>bool :</code></dt>
+<dd>(Default value = True)
+if the loading process should be threaded</dd>
+<dt><strong><code>parsetcalc</code></strong> :&ensp;<code>bool :</code></dt>
+<dd>(Default value = True)
+if the calibration calculations should be threaded</dd>
+</dl>
+<h2 id="raises">Raises</h2>
+<dl>
+<dt><strong><code>IndexError</code></strong> :&ensp;<code>:</code></dt>
+<dd>Zero images are not the same size as rest of the dataset or the folder do not exist
+for the dataset</dd>
+<dt><strong><code>NotADirectoryError</code></strong> :&ensp;<code>:</code></dt>
+<dd>full or zero particle folder do not exist</dd>
+</dl></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def bit2conccalib(self,
+                  numberofimages: int = 30,
+                  verb: bool = True,
+                  flip: bool = False,
+                  indivical: bool = True,
+                  parsetload: bool = True,
+                  parsetcalc: bool = True):
+    &#34;&#34;&#34;Pixel to pixel calibration function.
+
+    uses linear regression to estimate linear constants for calulating the calibrated
+    concentrations pictures
+
+    Parameters
+    ----------
+    numberofimages: int :
+         (Default value = 30)
+        number of images to use for calibration in datahandling. Uses the
+        first XX images in the folder. If &#34;fullparticlesfolder&#34; is set,
+        this will not be used as it will use all pictures available in the
+        folder instead
+
+    verb: bool :
+         (Default value = True)
+        verbosity of code. False is no info, True is folder progress and calculations
+
+    flip : bool :
+         (Default value = False)
+        if the linear calibration function should be flipped in the constants.
+        False - clean air is represented with 1
+        True - clean air is represented with 0
+
+    indivical : bool :
+         (Default value = True)
+        if the calibration should be done individual per datahandling or as a
+        global calibration mean between all datasets&#39; calibration images
+
+    parsetload : bool :
+         (Default value = True)
+        if the loading process should be threaded
+
+    parsetcalc : bool :
+         (Default value = True)
+        if the calibration calculations should be threaded
+
+    Raises
+    ------
+    IndexError: :
+        Zero images are not the same size as rest of the dataset or the folder do not exist
+        for the dataset
+
+    NotADirectoryError: :
+        full or zero particle folder do not exist
+    &#34;&#34;&#34;
+    print(&#39;Starting calibration calculations\n&#39;)
+
+    # Loading the dataload structure to load in zero particles
+    loadingdata = Dataload(self._imagearrays, None, self._fileinfo, self._fileinfo.mainpath,
+                           self._fileinfo.imagesearchfolders,
+                           self._fileinfo.zeroparticlesfolder,
+                           imagefoldername=self._fileinfo.imagefoldername,
+                           checkmeta=False,
+                           loadmeta=True)
+
+    # Setting the individualcalc parameter
+    self._individualcalibrations = indivical
+
+    # creating the imagefilespath
+    imfiledir = ph.join(self._fileinfo.mainpath, self._fileinfo.imagefoldername)
+
+    # Checking if the zero particle folder given exist in any of the dataset directory
+    # folder names
+    try:
+        pathforzeroparticleimages = get_folder_paths(imfiledir,
+                                                     self._fileinfo.zeroparticlesfolder)[0]
+    except IndexError as exc:
+        raise IndexError(
+            f&#34;Zero foldername &#39;{self._fileinfo.zeroparticlesfolder}&#39; &#34;
+            f&#34;do not exist for the dataset&#34;) from exc
+
+    if not ph.exists(pathforzeroparticleimages):
+        raise NotADirectoryError(&#34;The given zero particle folder do not exist&#34;)
+
+    # Setting blocks and images in the zero particles images folder
+    nblockperload = 1
+    nframespersetzero = len(find_dir_contains(pathforzeroparticleimages,
+                                              self._fileinfo.imagedata.fileformat))
+
+    # Checking if a folder with particles are given to use as a global calibration
+    if not self._fileinfo.fullparticlesfolder:
+        tmprawarray = self._imagearrays.raw.data[:, :, :numberofimages, :]
+    else:
+        warn(&#34;Warning: &#39;fullparticlesfolder&#39; is set so &#39;numberofimages&#39; is not used &#34;)
+        parthforfullparticleimages = get_folder_paths(imfiledir,
+                                                      self._fileinfo.fullparticlesfolder)[0]
+        if not ph.exists(parthforfullparticleimages):
+            raise NotADirectoryError(&#34;The given full particle folder do not exist&#34;)
+        nframespersetfull = len(find_dir_contains(parthforfullparticleimages,
+                                                  self._fileinfo.imagedata.fileformat))
+        # noinspection PyUnboundLocalVariable
+        # noinspection PyProtectedMember
+        tmprawarray = loadingdata._loadpictures(nblockperload,
+                                                nframespersetfull,
+                                                verb=verb,
+                                                fullparfoldersetload=True,
+                                                parset=parsetload)
+
+    # Loading zero particle images and mean it to ONE master zero-particle image
+    if np.shape(self._imagearrays.zero.data)[0] == 0:
+        print(&#39;No Zero particle images, starts loading&#39;)
+        # noinspection PyProtectedMember
+        tmpzeroarray = \
+            loadingdata._loadpictures(nblockperload,
+                                      nframespersetzero,
+                                      verb=verb,
+                                      zerosetload=True,
+                                      parset=parsetload)
+
+        print(&#39;Saving loaded data&#39;)
+        self._imagearrays.zero.data = tmpzeroarray
+
+        tmpzeroarray = self._imagearrays.zero.data.mean(axis=(2, 3),
+                                                        dtype=self.image_calcpresision)
+        print(&#39;Done loading images\n\n&#39;)
+    else:
+        print(&#39;Using loaded Zero images&#39;)
+        tmpzeroarray = self._imagearrays.zero.data.mean(axis=(2, 3),
+                                                        dtype=self.image_calcpresision)
+
+    if tmpzeroarray.shape[0] == tmprawarray.shape[0] and \
+            tmpzeroarray.shape[1] == tmprawarray.shape[1]:
+        pass
+    else:
+        raise IndexError(&#34;The zero light calibration files are not the same pixel &#34;
+                         &#34;size as the raw data&#34;)
+
+    # Checking if the calibration is a mean or individual per datahandling
+    if self._individualcalibrations:
+        tmprawarray = tmprawarray.mean(axis=2, dtype=self.image_calcpresision)
+        lencalset = tmprawarray.shape[2]
+    else:
+        tmprawarray = tmprawarray.mean(axis=(2, 3), dtype=self.image_calcpresision)
+        # Extend array with extra dimension to fit with calculations
+        tmprawarray = tmprawarray[:, :, np.newaxis]
+        lencalset = 1
+
+    print(&#39;Starting linear calibration estimation&#39;)
+
+    # Initializing the calibration data. For linear constants the 4th dimension 0-idx is a and
+    # 1-idx is b in y=ax+b
+    self._imagearrays.calibration.data = np.ones((tmpzeroarray.shape[0],
+                                                  tmpzeroarray.shape[1],
+                                                  lencalset, 2),
+                                                 dtype=self.image_calcpresision)
+    self._imagearrays.calibration.data[:, :, :, 0] = tmprawarray
+    self._imagearrays.calibration.data[:, :, :, 1] = tmpzeroarray[:, :, np.newaxis]
+
+    # Starting the calculations
+    if not parsetcalc:
+        for i in range(lencalset):
+            _calibrationfunc(self, 0, i, None)
+    else:
+        _parellizearrayfunccalc(self, func=_calibrationfunc, memsave=&#34;parlow&#34;,
+                               chunksize=1, setrange=None, ndataperload=lencalset, verb=verb)
+
+    # If the calibration should be flipped in values
+    if flip:
+        self._imagearrays.calibration.data[:, :, :, 0] = \
+            -self._imagearrays.calibration.data[:, :, :, 0]
+        self._imagearrays.calibration.data[:, :, :, 1] = \
+            np.zeros((tmpzeroarray.shape[0], tmpzeroarray.shape[1], lencalset),
+                     dtype=self.image_calcpresision)
+
+    # updating the calibration array info
+    self._imagearrays.calibration.arrayinfo.loadedimagerange = [1, numberofimages]
+    self._imagearrays.calibration.arrayinfo.loadeddatasets = \
+        self._imagearrays.raw.arrayinfo.loadeddatasets
+
+    print(&#39;Done with calibration\n\n&#39;)</code></pre>
+</details>
+</dd>
+<dt id="pimged.calculate.calculate.Imagecalc.mean"><code class="name flex">
+<span>def <span class="ident">mean</span></span>(<span>self)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Calculate the mean images based on the concentration images.</p>
+<p>Calculation is done along the stationary time dimension (fourth index in the arra)
+ndarray([H, W, Time, Statio. time])</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def mean(self):
+    &#34;&#34;&#34;Calculate the mean images based on the concentration images.
+
+    Calculation is done along the stationary time dimension (fourth index in the arra)
+    ndarray([H, W, Time, Statio. time])&#34;&#34;&#34;
+    _errorlist(self._imagearrays.concentration.data, 0)
+
+    print(&#39;Starting mean calculations&#39;)
+    self._imagearrays.mean.data = \
+        self._imagearrays.concentration.data.mean(axis=3, dtype=self.image_calcpresision)
+    self._imagearrays.mean.arrayinfo.loadedimagerange = \
+        self._imagearrays.concentration.arrayinfo.loadedimagerange
+    self._imagearrays.mean.arrayinfo.loadeddatasets = \
+        self._imagearrays.concentration.arrayinfo.loadeddatasets
+    print(&#39;Done with mean\n&#39;)</code></pre>
+</details>
+</dd>
+<dt id="pimged.calculate.calculate.Imagecalc.moment"><code class="name flex">
+<span>def <span class="ident">moment</span></span>(<span>self, nth: int, timeidx=None)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Calculate the nth moment around the mean.</p>
+<p>Based on the concentration images using the package 'scipy.stats'</p>
+<p>Calculation is done along the stationary time dimension (fourth index in the arra)
+ndarray([H, W, Time, Statio. time])</p>
+<h2 id="parameters">Parameters</h2>
+<dl>
+<dt><strong><code>timeidx</code></strong> :&ensp;<code>:</code></dt>
+<dd>(Default value = None)
+the time frame to for staistics, formats are:
+list: start and end point in time, [startidx, endidx]
+int: single point in time
+'None': calculate for whole time frame</dd>
+<dt><strong><code>nth</code></strong> :&ensp;<code>int :</code></dt>
+<dd>which moment to calculate</dd>
+</dl>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><strong><code>type</code></strong> :&ensp;<code>numpy.ndarray :</code></dt>
+<dd>The nth moment image is returned in a ndarray with the statistics calculated over the
+stationary time index</dd>
+</dl></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def moment(self, nth: int, timeidx=None):
+    &#34;&#34;&#34;Calculate the nth moment around the mean.
+
+    Based on the concentration images using the package &#39;scipy.stats&#39;
+
+    Calculation is done along the stationary time dimension (fourth index in the arra)
+    ndarray([H, W, Time, Statio. time])
+
+    Parameters
+    ----------
+    timeidx : :
+         (Default value = None)
+        the time frame to for staistics, formats are:
+        list: start and end point in time, [startidx, endidx]
+        int: single point in time
+        &#39;None&#39;: calculate for whole time frame
+
+    nth : int :
+        which moment to calculate
+
+    Returns
+    -------
+    type : numpy.ndarray :
+        The nth moment image is returned in a ndarray with the statistics calculated over the
+        stationary time index
+    &#34;&#34;&#34;
+    _errorlist(self._imagearrays.concentration.data, typeerror=0)
+
+    print(&#39;Starting nth moment calculations&#39;)
+    idx = _timeidxcheck(self, timeidx)
+
+    if isinstance(idx, slice):
+        sizedata = np.shape(self._imagearrays.concentration.data)
+        tmpmoment = np.zeros((sizedata[0], sizedata[1], timeidx[1] - timeidx[0] + 1))
+        indecies = np.arange(timeidx[0], timeidx[1] + 1, 1)
+        for i, val in enumerate(indecies):
+            tmpmoment[:, :, i] = moment(self._imagearrays.concentration.data[:, :, val, :],
+                                        moment=nth,
+                                        axis=2)
+    else:
+        tmpmoment = moment(self._imagearrays.concentration.data[:, :, idx, :],
+                           moment=nth,
+                           axis=2)
+
+    print(&#39;Done with nth moment\n&#39;)
+    return tmpmoment</code></pre>
+</details>
+</dd>
+<dt id="pimged.calculate.calculate.Imagecalc.rawblackcorr"><code class="name flex">
+<span>def <span class="ident">rawblackcorr</span></span>(<span>self, jetcenter: int = None, jetwidth: int = None, wallidx: int = None, shotidx: int = None, setrangeinput: list = None, nimages: int = 50, removeedgeh: int = 10, removeedgew: int = -1, forcerecal: bool = True, flipped: bool = False, onlycorr: bool = False)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Raw image blackpoint correction.</p>
+<p>Correcting raw data for the black point error, using a linear factor weighted with the
+laser sheet intensity in both black point and max values. Has to be used before the data
+is flipped (jet going right to left). If the None parameters are given, the code check
+the blackpointcorr image object for info on the jet. If this is none, there is raised an
+error and expected to be input parameters</p>
+<h2 id="parameters">Parameters</h2>
+<dl>
+<dt><strong><code>jetcenter</code></strong> :&ensp;<code>int :</code></dt>
+<dd>(Default value = None)
+the position of the jet center pixel number in the image</dd>
+<dt><strong><code>jetwidth</code></strong> :&ensp;<code>int :</code></dt>
+<dd>(Default value = None)
+the width of the jet in pixels</dd>
+<dt><strong><code>wallidx</code></strong> :&ensp;<code>int :</code></dt>
+<dd>(Default value = None)
+the position of the wall in pixel number in the image</dd>
+<dt><strong><code>shotidx</code></strong> :&ensp;<code>int :</code></dt>
+<dd>(Default value = None)
+index of the images in the series where the jet core cover an area more
+than "wallidx + quaterjet + halfjet" pixels into the domain</dd>
+<dt><strong><code>setrangeinput</code></strong> :&ensp;<code>list :</code></dt>
+<dd>(Default value = None)
+list with the dataset range of images needed for correction a subset of loaded raw
+data. Location in array is not controlled.
+User has to know what part of sets in the correction file correspond to data. If
+nothing is set, the full range is used</dd>
+<dt><strong><code>nimages</code></strong> :&ensp;<code>int :</code></dt>
+<dd>(Default value = 50)
+number of images with no jet to use, as for calibration, in the weight factor
+estimation. The images are found by .raw.data(:, :, 0:Nimages, :)
+This is used to estimate the lasersheet variation over the image</dd>
+<dt><strong><code>removeedgeh</code></strong> :&ensp;<code>int :</code></dt>
+<dd>(Default value = 10)
+number of pixels to remove from height edges before estimating
+weights - needed as edges tend to show errous values in intensity</dd>
+<dt><strong><code>removeedgew</code></strong> :&ensp;<code>int :</code></dt>
+<dd>(Default value = -1)
+number of pixels to remove from width edges before estimating weights -
+has to be minimum the wall idx, better if 1 or 2 pixels more.
+Default value of -1 ensure it is the wall idx distance</dd>
+<dt><strong><code>forcerecal</code></strong> :&ensp;<code>bool :</code></dt>
+<dd>(Default value = True)
+if the calculation of the black point correction should be forced, even if data exist
+for a correction. Default is True</dd>
+<dt><strong><code>flipped</code></strong> :&ensp;<code>bool :</code></dt>
+<dd>(Default value = False)
+if the jet direction is flipped. original data is have the jet from right to left,
+flipped data is left to right. Remember zero images have to be flipped along with
+the raw data.
+If false the index correction is:
+slice(framewidth - wallidx - quaterjet - halfjet, framewidth - wallidx - quaterjet)
+if true, the correction is:
+slice(wallidx + quaterjet, wallidx + quaterjet + halfjet)</dd>
+<dt><strong><code>onlycorr</code></strong> :&ensp;<code>bool :</code></dt>
+<dd>(Default value = False)
+if the function should only calculate the correction and not correct raw
+images. default is False, which means it calculate raw corrections</dd>
+</dl>
+<h2 id="raises">Raises</h2>
+<dl>
+<dt><strong><code>ValueError</code></strong> :&ensp;<code>:</code></dt>
+<dd>Not enough raw images loaded for asked inputs</dd>
+</dl></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def rawblackcorr(self,
+                 jetcenter: int = None,
+                 jetwidth: int = None,
+                 wallidx: int = None,
+                 shotidx: int = None,
+                 setrangeinput: list = None,
+                 nimages: int = 50,
+                 removeedgeh: int = 10,
+                 removeedgew: int = -1,
+                 forcerecal: bool = True,
+                 flipped: bool = False,
+                 onlycorr: bool = False):
+    &#34;&#34;&#34;Raw image blackpoint correction.
+
+    Correcting raw data for the black point error, using a linear factor weighted with the
+    laser sheet intensity in both black point and max values. Has to be used before the data
+    is flipped (jet going right to left). If the None parameters are given, the code check
+    the blackpointcorr image object for info on the jet. If this is none, there is raised an
+    error and expected to be input parameters
+
+    Parameters
+    ----------
+    jetcenter: int :
+         (Default value = None)
+        the position of the jet center pixel number in the image
+
+    jetwidth: int :
+         (Default value = None)
+        the width of the jet in pixels
+
+    wallidx: int :
+         (Default value = None)
+        the position of the wall in pixel number in the image
+
+    shotidx: int :
+         (Default value = None)
+        index of the images in the series where the jet core cover an area more
+        than &#34;wallidx + quaterjet + halfjet&#34; pixels into the domain
+
+    setrangeinput: list :
+         (Default value = None)
+        list with the dataset range of images needed for correction a subset of loaded raw
+        data. Location in array is not controlled.
+        User has to know what part of sets in the correction file correspond to data. If
+        nothing is set, the full range is used
+
+    nimages: int :
+         (Default value = 50)
+        number of images with no jet to use, as for calibration, in the weight factor
+        estimation. The images are found by .raw.data(:, :, 0:Nimages, :)
+        This is used to estimate the lasersheet variation over the image
+
+    removeedgeh: int :
+         (Default value = 10)
+        number of pixels to remove from height edges before estimating
+        weights - needed as edges tend to show errous values in intensity
+
+    removeedgew: int :
+         (Default value = -1)
+        number of pixels to remove from width edges before estimating weights -
+        has to be minimum the wall idx, better if 1 or 2 pixels more.
+        Default value of -1 ensure it is the wall idx distance
+
+    forcerecal: bool :
+         (Default value = True)
+        if the calculation of the black point correction should be forced, even if data exist
+        for a correction. Default is True
+
+    flipped : bool :
+         (Default value = False)
+        if the jet direction is flipped. original data is have the jet from right to left,
+        flipped data is left to right. Remember zero images have to be flipped along with
+        the raw data.
+        If false the index correction is:
+        slice(framewidth - wallidx - quaterjet - halfjet, framewidth - wallidx - quaterjet)
+        if true, the correction is:
+        slice(wallidx + quaterjet, wallidx + quaterjet + halfjet)
+
+    onlycorr : bool :
+         (Default value = False)
+        if the function should only calculate the correction and not correct raw
+        images. default is False, which means it calculate raw corrections
+
+    Raises
+    ------
+    ValueError : :
+        Not enough raw images loaded for asked inputs
+    &#34;&#34;&#34;
+    # Checking inputs
+    if setrangeinput is None:
+        setrange = [0, self._imagearrays.raw.data.shape[3]]
+    else:
+        setrange = setrangeinput
+
+    jetcenter, jetwidth, wallidx, shotidx = _rawblackcorrinputcheck(self, jetcenter, jetwidth,
+                                                                    wallidx, shotidx)
+
+    if self._imagearrays.blackpointcorr.data.any() and not forcerecal:
+        print(&#39;Blackpoint correction data exist for set, uses zero images and factors&#39;)
+        corrremove = self._imagearrays.blackpointcorr.data
+        pixzeromean = self._imagearrays.zero.data.mean(axis=(2, 3),
+                                                       dtype=self.image_calcpresision)
+    else:
+        if shotidx &gt; self._imagearrays.raw.data.shape[2]:
+            nidx = self._imagearrays.raw.data.shape[2]
+            raise ValueError(f&#34;Not enough raw images loaded compared to the shotidx parameter.&#34;
+                             f&#34;shotidx = {shotidx} and raw data only have {nidx} time indecies &#34;
+                             f&#34;loaded.&#34;)
+
+        print(&#39;Started raw data black point correction&#39;)
+        if removeedgew == -1:
+            removeedgew = wallidx
+
+        # image width
+        quaterjet = int(jetwidth / 4)
+        halfjet = int(jetwidth / 2)
+
+        print(&#39;Calulating laser sheet point weighting&#39;)
+        # Calulating weight for both zero and max, weighted with laser sheet intensity
+        # max
+        pixmean = self._imagearrays.raw.data[:, :,
+                                             0:nimages, :].mean(axis=2,
+                                                                dtype=self.image_calcpresision)
+        pixmeanmax = pixmean[removeedgeh:-removeedgeh, removeedgew:-removeedgew].max(axis=(0,
+                                                                                           1))
+        weighting = pixmean / pixmeanmax
+        weighting[weighting &gt; 1] = 1
+
+        print(&#39;Calulating sensor zero point weighting&#39;)
+        # Min
+        pixzeromean = self._imagearrays.zero.data.mean(axis=(2, 3),
+                                                       dtype=self.image_calcpresision)
+
+        print(&#39;Calulating image weights based on jet core data&#39;)
+        # Avg area slices around the jet out from the wall
+        hslice = slice(jetcenter - quaterjet, jetcenter + quaterjet)
+        if flipped:
+            wslice = slice(wallidx + quaterjet, wallidx + quaterjet + halfjet)
+        else:
+            wslice = slice(self._fileinfo.imagedata.framewidth - wallidx - quaterjet - halfjet,
+                           self._fileinfo.imagedata.framewidth - wallidx - quaterjet)
+
+        # Calculating the mean values for the lift and removal and the corresponding weights
+        avgremove = self._imagearrays.raw.data[hslice, wslice, shotidx, :].mean(
+            axis=(0, 1), dtype=self.image_calcpresision)
+        avgweight = weighting[hslice, wslice].mean(axis=(0, 1),
+                                                   dtype=self.image_calcpresision)
+
+        # Finding the image weigthed correction
+        corrremove = avgremove * weighting / avgweight
+
+    if not onlycorr:
+        print(&#39;Correcting images&#39;)
+        # Correcting the image
+        # First removing the baground
+        print(&#39;- Adjusting background&#39;)
+        imgcorrwei = self._imagearrays.raw.data - corrremove[:, :, np.newaxis,
+                                                             setrange[0]:setrange[1]]
+        # lifting the with the average negative value, if any
+        if np.any(imgcorrwei[imgcorrwei &lt; 0]):
+            print(&#39;- Correcting average assumption&#39;)
+            imgcorrwei -= np.mean(imgcorrwei[imgcorrwei &lt; 0], dtype=self.image_calcpresision)
+        else:
+            warn(&#39;- No correction on average assumption, might not pull estimate enough to &#39;
+                 &#39;zero&#39;)
+
+        # lifting the rest with the weighted black lift
+        print(&#39;- Lifting black point&#39;)
+        imgcorrwei += pixzeromean.mean(axis=0)[np.newaxis, :, np.newaxis, np.newaxis]
+        # Setting rest of the negatives to 0
+        print(&#39;- Ensuring physical blackpoint&#39;)
+        imgcorrwei[imgcorrwei &lt; 0] = 0
+
+        print(&#39;Replacing raw data&#39;)
+        self._imagearrays.raw.data = imgcorrwei.astype(np.uint16)
+
+    print(&#39;Saving correction&#39;)
+    # Saving the corrected image back into container
+    self._imagearrays.blackpointcorr.data = corrremove
+    self._imagearrays.blackpointcorr.arrayinfo.loadeddatasets = \
+        self._imagearrays.raw.arrayinfo.loadeddatasets
+    self._imagearrays.blackpointcorr.arrayinfo.loadedimagerange = [1, nimages]
+    print(&#39;Finished black point correction\n&#39;)</code></pre>
+</details>
+</dd>
+<dt id="pimged.calculate.calculate.Imagecalc.std"><code class="name flex">
+<span>def <span class="ident">std</span></span>(<span>self)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Calculate the standard diviation images based on the concentration images.</p>
+<p>Calculation is done along the stationary time dimension (fourth index in the arra)
+ndarray([H, W, Time, Statio. time])</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def std(self):
+    &#34;&#34;&#34;Calculate the standard diviation images based on the concentration images.
+
+    Calculation is done along the stationary time dimension (fourth index in the arra)
+    ndarray([H, W, Time, Statio. time])
+    &#34;&#34;&#34;
+    _errorlist(self._imagearrays.concentration.data, 0)
+
+    print(&#39;Starting standard deviation calculations&#39;)
+    self._imagearrays.std.data = \
+        self._imagearrays.concentration.data.std(axis=3, dtype=self.image_calcpresision)
+    self._imagearrays.std.arrayinfo.loadedimagerange = \
+        self._imagearrays.concentration.arrayinfo.loadedimagerange
+    self._imagearrays.std.arrayinfo.loadeddatasets = \
+        self._imagearrays.concentration.arrayinfo.loadeddatasets
+    print(&#39;Done with standard deviation\n&#39;)</code></pre>
+</details>
+</dd>
+<dt id="pimged.calculate.calculate.Imagecalc.var"><code class="name flex">
+<span>def <span class="ident">var</span></span>(<span>self)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Calculate the variance images based on the concentration images.</p>
+<p>Calculation is done along the stationary time dimension (fourth index in the arra)
+ndarray([H, W, Time, Statio. time])</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def var(self):
+    &#34;&#34;&#34;Calculate the variance images based on the concentration images.
+
+    Calculation is done along the stationary time dimension (fourth index in the arra)
+    ndarray([H, W, Time, Statio. time])&#34;&#34;&#34;
+    _errorlist(self._imagearrays.concentration.data, 0)
+
+    print(&#39;Starting variance calculations&#39;)
+    self._imagearrays.var.data = \
+        self._imagearrays.concentration.data.var(axis=3, dtype=self.image_calcpresision)
+    self._imagearrays.var.arrayinfo.loadedimagerange = \
+        self._imagearrays.concentration.arrayinfo.loadedimagerange
+    self._imagearrays.var.arrayinfo.loadeddatasets = \
+        self._imagearrays.concentration.arrayinfo.loadeddatasets
+    print(&#39;Done with variance\n&#39;)</code></pre>
+</details>
+</dd>
+</dl>
+</dd>
+<dt id="pimged.calculate.calculate.Presscalc"><code class="flex name class">
+<span>class <span class="ident">Presscalc</span></span>
+<span>(</span><span>dataset: <a title="pimged.datahandling.dataset.Dataset" href="../datahandling/dataset.html#pimged.datahandling.dataset.Dataset">Dataset</a>)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Calculate module contain methods for calculation of pressure calibration etc.</p>
+<p>Init of presscalc.</p>
+<h2 id="parameters">Parameters</h2>
+<dl>
+<dt><strong><code>dataset</code></strong> :&ensp;<code>pimged.Dataset :</code></dt>
+<dd>dataset object from pimged package</dd>
+</dl></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">class Presscalc(Imagecalc):
+    &#34;&#34;&#34;Calculate module contain methods for calculation of pressure calibration etc.&#34;&#34;&#34;
+
+    def __init__(self, dataset: Dataset):
+        &#34;&#34;&#34;Init of presscalc.
+
+        Parameters
+        ----------
+        dataset : pimged.Dataset :
+            dataset object from pimged package
+        &#34;&#34;&#34;
+        super().__init__(dataset)
+
+        # noinspection PyProtectedMember
+        self.press_calcpresision = dataset.pressures._precision_calc
+
+        self._pressurearrays = dataset.pressures
+        self._fileinfo = dataset.fileinfo
+
+    def __str__(self):
+        &#34;&#34;&#34;Class info.&#34;&#34;&#34;
+        return &#34;Calculation object handling PImGED pressure datasets&#34;
+
+    def volt2press(self):
+        &#34;&#34;&#34;Calculate calibrated pressures for all pressure lines.
+
+        Uses the pressure data in the dataset to covert from Voltage to pressure
+
+        Raises
+        ------
+        AttributeError : :
+            Pressure array not present
+        &#34;&#34;&#34;
+        for i in self._pressurearrays.__dict__:
+            if &#39;pressure&#39; in i:
+                # Catch the error if it is on the pressure_atm, pass other errors through
+                try:
+                    eval(&#39;self._pressurearrays.&#39; + i + &#39;.applycalibration()&#39;)
+                except AttributeError as err:
+                    if &#34;no attribute &#39;applycalibration&#39;&#34; in str(err):
+                        pass</code></pre>
+</details>
+<h3>Ancestors</h3>
+<ul class="hlist">
+<li><a title="pimged.calculate.calculate.Imagecalc" href="#pimged.calculate.calculate.Imagecalc">Imagecalc</a></li>
+</ul>
+<h3>Subclasses</h3>
+<ul class="hlist">
+<li><a title="pimged.calculate.calculate.Calculate" href="#pimged.calculate.calculate.Calculate">Calculate</a></li>
+</ul>
+<h3>Methods</h3>
+<dl>
+<dt id="pimged.calculate.calculate.Presscalc.volt2press"><code class="name flex">
+<span>def <span class="ident">volt2press</span></span>(<span>self)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Calculate calibrated pressures for all pressure lines.</p>
+<p>Uses the pressure data in the dataset to covert from Voltage to pressure</p>
+<h2 id="raises">Raises</h2>
+<dl>
+<dt><strong><code>AttributeError</code></strong> :&ensp;<code>:</code></dt>
+<dd>Pressure array not present</dd>
+</dl></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def volt2press(self):
+    &#34;&#34;&#34;Calculate calibrated pressures for all pressure lines.
+
+    Uses the pressure data in the dataset to covert from Voltage to pressure
+
+    Raises
+    ------
+    AttributeError : :
+        Pressure array not present
+    &#34;&#34;&#34;
+    for i in self._pressurearrays.__dict__:
+        if &#39;pressure&#39; in i:
+            # Catch the error if it is on the pressure_atm, pass other errors through
+            try:
+                eval(&#39;self._pressurearrays.&#39; + i + &#39;.applycalibration()&#39;)
+            except AttributeError as err:
+                if &#34;no attribute &#39;applycalibration&#39;&#34; in str(err):
+                    pass</code></pre>
+</details>
+</dd>
+</dl>
+<h3>Inherited members</h3>
+<ul class="hlist">
+<li><code><b><a title="pimged.calculate.calculate.Imagecalc" href="#pimged.calculate.calculate.Imagecalc">Imagecalc</a></b></code>:
+<ul class="hlist">
+<li><code><a title="pimged.calculate.calculate.Imagecalc.bit2conc" href="#pimged.calculate.calculate.Imagecalc.bit2conc">bit2conc</a></code></li>
+<li><code><a title="pimged.calculate.calculate.Imagecalc.bit2conccalib" href="#pimged.calculate.calculate.Imagecalc.bit2conccalib">bit2conccalib</a></code></li>
+<li><code><a title="pimged.calculate.calculate.Imagecalc.mean" href="#pimged.calculate.calculate.Imagecalc.mean">mean</a></code></li>
+<li><code><a title="pimged.calculate.calculate.Imagecalc.moment" href="#pimged.calculate.calculate.Imagecalc.moment">moment</a></code></li>
+<li><code><a title="pimged.calculate.calculate.Imagecalc.rawblackcorr" href="#pimged.calculate.calculate.Imagecalc.rawblackcorr">rawblackcorr</a></code></li>
+<li><code><a title="pimged.calculate.calculate.Imagecalc.std" href="#pimged.calculate.calculate.Imagecalc.std">std</a></code></li>
+<li><code><a title="pimged.calculate.calculate.Imagecalc.var" href="#pimged.calculate.calculate.Imagecalc.var">var</a></code></li>
+</ul>
+</li>
+</ul>
+</dd>
+</dl>
+</section>
+</article>
+<nav id="sidebar">
+<header>
+<a class="homelink" rel="home" title="PImGED treat" href="https://youtu
+.be/mx86-rTclzA?si=RWJEgJIT8MdOsVn7">
+<center><img src="https://i.ibb.co/Tbp2rPk/logo.png" alt=""></center>
+</a>
+</header>
+<h1>Index</h1>
+<div class="toc">
+<ul></ul>
+</div>
+<ul id="index">
+<li><h3>Super-module</h3>
+<ul>
+<li><code><a title="pimged.calculate" href="index.html">pimged.calculate</a></code></li>
+</ul>
+</li>
+<li><h3><a href="#header-classes">Classes</a></h3>
+<ul>
+<li>
+<h4><code><a title="pimged.calculate.calculate.Calculate" href="#pimged.calculate.calculate.Calculate">Calculate</a></code></h4>
+</li>
+<li>
+<h4><code><a title="pimged.calculate.calculate.Imagecalc" href="#pimged.calculate.calculate.Imagecalc">Imagecalc</a></code></h4>
+<ul class="two-column">
+<li><code><a title="pimged.calculate.calculate.Imagecalc.bit2conc" href="#pimged.calculate.calculate.Imagecalc.bit2conc">bit2conc</a></code></li>
+<li><code><a title="pimged.calculate.calculate.Imagecalc.bit2conccalib" href="#pimged.calculate.calculate.Imagecalc.bit2conccalib">bit2conccalib</a></code></li>
+<li><code><a title="pimged.calculate.calculate.Imagecalc.mean" href="#pimged.calculate.calculate.Imagecalc.mean">mean</a></code></li>
+<li><code><a title="pimged.calculate.calculate.Imagecalc.moment" href="#pimged.calculate.calculate.Imagecalc.moment">moment</a></code></li>
+<li><code><a title="pimged.calculate.calculate.Imagecalc.rawblackcorr" href="#pimged.calculate.calculate.Imagecalc.rawblackcorr">rawblackcorr</a></code></li>
+<li><code><a title="pimged.calculate.calculate.Imagecalc.std" href="#pimged.calculate.calculate.Imagecalc.std">std</a></code></li>
+<li><code><a title="pimged.calculate.calculate.Imagecalc.var" href="#pimged.calculate.calculate.Imagecalc.var">var</a></code></li>
+</ul>
+</li>
+<li>
+<h4><code><a title="pimged.calculate.calculate.Presscalc" href="#pimged.calculate.calculate.Presscalc">Presscalc</a></code></h4>
+<ul class="">
+<li><code><a title="pimged.calculate.calculate.Presscalc.volt2press" href="#pimged.calculate.calculate.Presscalc.volt2press">volt2press</a></code></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</nav>
+</main>
+<footer id="footer">
+<p>Generated by <a href="https://pdoc3.github.io/pdoc" title="pdoc: Python API documentation generator"><cite>pdoc</cite> 0.10.0</a>.</p>
+</footer>
+</body>
+</html>
