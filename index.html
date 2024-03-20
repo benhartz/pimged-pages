@@ -33,7 +33,7 @@ through the Joblib package, are used to speed-up computations and memory handlin
 <h2 id="code-pages-are-found-here"><a href="https://benhartz.github.io/pimged-pages/">code pages are found here</a></h2>
 <h2 id="installation">Installation</h2>
 <h2 id="code-structure">Code structure</h2>
-<p><img alt="codestructure" src="https://i.ibb.co/Nt1Lyz8/code-structure.png"></p>
+<p><img alt="codestructure" src="https://i.ibb.co/QbFw4RF/code-structure.png"></p>
 <p>To handle larger data amounts the code takes inspiration from Panda on datastructure and
 implement a dataset module used for loading/saving data. The data is handled by datacontainers
 with functions for manipulating the individual datatypes. With the datacontainer module implementing
@@ -45,7 +45,7 @@ the standardrised data setup.</p>
 <p>Handling standard calculations a calculation module takes the dataset object as an input.
 When new information is calculated it can then populate the dataset object with information,
 utilizing the indirection implementation of list and numpy arrays in python. This streamline the
-collection of data in one object that can load or save the data with minimal codeing.</p>
+collection of data in one object that can load or save the data with minimal coding.</p>
 <p>Between the whole framework, several functions are reused with simple coding and these are
 included in a utility package with the framework. Here is sorting of list elements widely used
 in folder and filenames, checking folder paths, handling metadata etc. </p>
