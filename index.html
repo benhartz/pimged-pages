@@ -28,8 +28,9 @@
 <p>Python Image library for GASMIX EUDP Distro (PImGED) is used for handling image data collected
 during the experiments of the GASMIX project supported by EUDP, MAN ES and DTU. </p>
 <p>The framework is designed to handle large amounts of image data with limited computational
-resources. Several optimized function utilizing OpenCV C++ and multithreading through the Joblib
-package, are used to speedup computations and memory handling.</p>
+resources. Several optimized function utilizing OpenCV C++, numba compilation and multithreading
+through the Joblib package, are used to speed-up computations and memory handling.</p>
+<h2 id="code-pages-are-found-here"><a href="https://benhartz.github.io/pimged-pages/">code pages are found here</a></h2>
 <h2 id="installation">Installation</h2>
 <h2 id="code-structure">Code structure</h2>
 <p><img alt="codestructure" src="https://i.ibb.co/Nt1Lyz8/code-structure.png"></p>
@@ -112,8 +113,8 @@ The data is saved into the <code>dataset.images</code> module under the array as
 datacalc.std()
 datacalc.var()
 </code></pre>
-<p>It is also possible to calculate the nth moment of the data using </p>
-<pre><code>datacalc.moment()
+<p>It is also possible to calculate e.g. the 4th moment of the data using </p>
+<pre><code>nth_moment = datacalc.moment(nth=4)
 </code></pre>
 <p>This function return the calculated result and do not include it in the dataset object.</p>
 <h3 id="saving-and-loading-data">Saving and loading data</h3>
@@ -208,6 +209,7 @@ from .utils.naturalkeysort import naturalkeysort</code></pre>
 <h1>Index</h1>
 <div class="toc">
 <ul>
+<li><a href="#code-pages-are-found-here">code pages are found here</a></li>
 <li><a href="#installation">Installation</a></li>
 <li><a href="#code-structure">Code structure</a></li>
 <li><a href="#support">Support</a></li>
