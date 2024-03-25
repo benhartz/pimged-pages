@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1" />
 <meta name="generator" content="pdoc 0.10.0" />
 <title>pimged.calculate.jetparameters.spreadangle API documentation</title>
-<meta name="description" content="" />
+<meta name="description" content="Spread angle estimation based on image data …" />
 <link rel="preload stylesheet" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/10up-sanitize.css/11.0.1/sanitize.min.css" integrity="sha256-PK9q560IAAa6WVRRh76LtCaI8pjTJ2z11v0miyNNjrs=" crossorigin>
 <link rel="preload stylesheet" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/10up-sanitize.css/11.0.1/typography.min.css" integrity="sha256-7l/o7C8jubJiy74VsKTidCy1yBkRtiUGbVkYBylBqUg=" crossorigin>
 <link rel="stylesheet preload" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.1.1/styles/github.min.css" crossorigin>
@@ -23,11 +23,17 @@
 <h1 class="title">Module <code>pimged.calculate.jetparameters.spreadangle</code></h1>
 </header>
 <section id="section-intro">
+<p>Spread angle estimation based on image data.</p>
+<p>Module not working. Obsuleet code.</p>
 <details class="source">
 <summary>
 <span>Expand source code</span>
 </summary>
-<pre><code class="python">from skimage import feature
+<pre><code class="python">&#34;&#34;&#34;Spread angle estimation based on image data.
+
+Module not working. Obsuleet code.
+&#34;&#34;&#34;
+from skimage import feature
 import matplotlib.pyplot as plt
 import numpy as np
 
@@ -35,26 +41,46 @@ from .template import JetParameters
 
 
 class Spreadangle(JetParameters):
+    &#34;&#34;&#34;Spread angle calculation.&#34;&#34;&#34;
 
     def __init__(self, imarray=np.array([]), timeframes: list = None, ypixeladjust: int = 0,
                  threshold_minval: float = 0.15, threshold_maxval: float = 0.6,
                  threshold_density: float = 0.05, threshold_binarynoise: float = 0.04):
-        &#34;&#34;&#34;
-        Object used to estimate the jet position in the frame
+        &#34;&#34;&#34;Object used to estimate the jet position in the frame.
 
-        :param imarray: The array to estimate the jet center from - The standard setup works for
-                        a meaned image of +3 datasets oriented with a shot left toward right
-        :param timeframes: A list with the start and end frame in the time dimension of the given
-                           data array, E.g. [1, 500] =&gt; from frame 1 till 500 in the array is used
-        :param ypixeladjust: N pixel to remove symmetrical from upper and lower edge of the frame
-        :param threshold_maxval: A threshold percentage for how much of the edge should be used
-                                 for estimating the spreading angle out in the flow
-        :param threshold_minval: A threshold percentage for how much of the edge should be used
-                                 for estimating the spreading angle towards the wall
-        :param threshold_binarynoise: A threshold for when it is considered noise when
-                                      estimating the binary image
-        :param threshold_density: A threshold for when it is considered part of the jet when
-                                  doing the time averaging
+        Parameters
+        ----------
+        imarray : numpy.ndarray :
+            (Default value = numpy.array([]))
+            The array to estimate the jet center from - The standard setup works for a meaned
+            image of +3 datasets oriented with a shot left toward right
+
+        timeframes : list :
+            (Default value = [1, numpy.shape(imarray)[2])
+            A list with the start and end frame in the time dimension of the given data array,
+            E.g. [1, 500] =&gt; from frame 1 till 500 in the array is used
+
+        ypixeladjust : int :
+            (Default value = 0)
+            N pixel to remove symmetrical from upper and lower edge of the frame
+
+        threshold_maxval : float :
+            (Default value = 0.6)
+            A threshold percentage for how much of the edge should be used for estimating the
+            spreading angle out in the flow
+
+        threshold_minval: float :
+            (Default value = 0.15)
+            A threshold percentage for how much of the edge should be used for estimating the
+            spreading angle towards the wall
+
+        threshold_binarynoise: float :
+            (Default value = 0.04)
+            A threshold for when it is considered noise when estimating the binary image
+
+        threshold_density: float :
+            (Default value = 0.05)
+            A threshold for when it is considered part of the jet when doing the time averaging
         &#34;&#34;&#34;
         super().__init__(imarray)
 
@@ -91,10 +117,12 @@ class Spreadangle(JetParameters):
 
     @property
     def timeframes(self):
+        &#34;&#34;&#34;Get method.&#34;&#34;&#34;
         return self._timeframes
 
     @timeframes.setter
     def timeframes(self, newlist):
+        &#34;&#34;&#34;Set method.&#34;&#34;&#34;
         if not len(self._timeframes) == 2:
             raise ValueError(&#34;Timeframes has to be an list with start and end frame of the &#34;
                              &#34;given image array in the time dimension&#34;)
@@ -102,10 +130,18 @@ class Spreadangle(JetParameters):
         self._idxframes = [newlist[0] - 1, newlist[1] - 1]
 
     def calcspreadangle(self, method: str = &#39;canny&#39;):
-        &#34;&#34;&#34;
-        Calculate the spreading angle, based on the chosen method
+        &#34;&#34;&#34;Calculate the spreading angle, based on the chosen method.
 
-        :param method: method type for calculations
+        Parameters
+        ----------
+        method: str :
+             (Default value = &#39;canny&#39;)
+             method type for calculations
+
+        Raises
+        -------
+        TypeError : :
+            if method do not exist
         &#34;&#34;&#34;
         match method:
             case &#39;canny&#39;:
@@ -114,8 +150,12 @@ class Spreadangle(JetParameters):
                 raise TypeError(f&#34;{method} do not exist as a calculation method&#34;)
 
     def _cannyedge(self):
-        &#34;&#34;&#34;
-        calculating the spreading angle based on the object properties
+        &#34;&#34;&#34;Calculate the spreading angle based on the object properties.
+
+        Raises
+        ------
+        IndexError : :
+            if image is flipped compared to method specification
         &#34;&#34;&#34;
         # Estimating pixel removals
         xpixelsize = np.shape(self._array)[1]
@@ -180,25 +220,31 @@ class Spreadangle(JetParameters):
         self._idxxlowerline = idxx[idxylowerlinelog]
 
         # solve linear regression
-        self._coefupper = lsqlinreg(self._idxxupperline, self._idxyupperline)
-        self._coeflower = lsqlinreg(self._idxxlowerline, self._idxylowerline)
+        self._coefupper = _lsqlinreg(self._idxxupperline, self._idxyupperline)
+        self._coeflower = _lsqlinreg(self._idxxlowerline, self._idxylowerline)
 
         upperendpoints = [[self._idxxupperline[0],
-                           get_reglinepoints(self._coefupper, self._idxxupperline[0])],
+                           _get_reglinepoints(self._coefupper, self._idxxupperline[0])],
                           [self._idxxupperline[-1],
-                           get_reglinepoints(self._coefupper, self._idxxupperline[-1])]]
+                           _get_reglinepoints(self._coefupper, self._idxxupperline[-1])]]
         lowerendpoints = [[self._idxxlowerline[0],
-                           get_reglinepoints(self._coeflower, self._idxxlowerline[0])],
+                           _get_reglinepoints(self._coeflower, self._idxxlowerline[0])],
                           [self._idxxlowerline[-1],
-                           get_reglinepoints(self._coeflower, self._idxxlowerline[-1])]]
+                           _get_reglinepoints(self._coeflower, self._idxxlowerline[-1])]]
 
         self.spreadangles = [-self._coefupper[0][0] * 180 / np.pi,
                              -self._coeflower[0][0] * 180 / np.pi]
-        self.virtualoriginpix = get_intersect(upperendpoints, lowerendpoints)
+        self.virtualoriginpix = _get_intersect(upperendpoints, lowerendpoints)
 
     def show(self):
-        &#34;&#34;&#34;
-        Showing the calculating results from calcspreadingangle
+        &#34;&#34;&#34;Show the calculating results.
+
+        Show the intermediate results for calculations of the algorithm
+
+        Raises
+        ------
+        ValueError : :
+            if no data is calculated
         &#34;&#34;&#34;
         if self._idxxlowerline is None:
             raise ValueError(&#34;No data calculated to show. Run .calcspreadangle()&#34;)
@@ -208,12 +254,12 @@ class Spreadangle(JetParameters):
         # plotting results
         extrappoints = np.array([self.virtualoriginpix[0], xpixelsize])
         __, ax = plt.subplots(nrows=1, constrained_layout=True)
-        plt.plot(self._idxxupperline, get_reglinepoints(self._coefupper, self._idxxupperline), &#39;r&#39;,
+        plt.plot(self._idxxupperline, _get_reglinepoints(self._coefupper, self._idxxupperline), &#39;r&#39;,
                  label=&#39;Edge LSQ calc.&#39;)
-        plt.plot(self._idxxlowerline, get_reglinepoints(self._coeflower, self._idxxlowerline), &#39;r&#39;)
-        plt.plot(extrappoints, get_reglinepoints(self._coefupper, extrappoints), &#39;r--&#39;,
+        plt.plot(self._idxxlowerline, _get_reglinepoints(self._coeflower, self._idxxlowerline), &#39;r&#39;)
+        plt.plot(extrappoints, _get_reglinepoints(self._coefupper, extrappoints), &#39;r--&#39;,
                  label=&#39;Edge extrapolation&#39;)
-        plt.plot(extrappoints, get_reglinepoints(self._coeflower, extrappoints), &#39;r--&#39;)
+        plt.plot(extrappoints, _get_reglinepoints(self._coeflower, extrappoints), &#39;r--&#39;)
         plt.scatter(self.virtualoriginpix[0], self.virtualoriginpix[1], marker=&#34;*&#34;,
                     s=30, color=&#34;red&#34;, label=&#39;Intersection point&#39;)
         plt.xlim([int(self.virtualoriginpix[0]*1.05), xpixelsize])
@@ -221,8 +267,12 @@ class Spreadangle(JetParameters):
         plt.legend(loc=&#34;upper left&#34;)
 
     def showinternalfuncs(self):
-        &#34;&#34;&#34;
-        Show the internal function results based on the given settings for debugging results
+        &#34;&#34;&#34;Show the internal function results based on the given settings for debugging results.
+
+        Raises
+        ------
+        ValueEroor
+            if no data is calculated
         &#34;&#34;&#34;
         if self._idxxlowerline is None:
             raise ValueError(&#34;No data calculated to show. Run .calcspreadangle()&#34;)
@@ -242,9 +292,9 @@ class Spreadangle(JetParameters):
         plt.scatter(self._idxxupperline, self._idxyupperline, s=1, color=&#39;orange&#39;, marker=&#39;o&#39;,
                     label=&#39;Used edges&#39;)
         plt.scatter(self._idxxlowerline, self._idxylowerline, s=1, color=&#39;orange&#39;, marker=&#39;o&#39;)
-        plt.plot(self._idxxupperline, get_reglinepoints(self._coefupper, self._idxxupperline), &#39;r&#39;,
+        plt.plot(self._idxxupperline, _get_reglinepoints(self._coefupper, self._idxxupperline), &#39;r&#39;,
                  label=&#39;Calc. LSQ reg.&#39;)
-        plt.plot(self._idxxlowerline, get_reglinepoints(self._coeflower, self._idxxlowerline), &#39;r&#39;)
+        plt.plot(self._idxxlowerline, _get_reglinepoints(self._coeflower, self._idxxlowerline), &#39;r&#39;)
         plt.scatter(self.virtualoriginpix[0], self.virtualoriginpix[1], marker=&#34;*&#34;,
                     s=30, color=&#34;red&#34;, label=&#39;Intersection point&#39;)
         plt.xlim([int(self.virtualoriginpix[0]*1.05), xpixelsize])
@@ -252,25 +302,45 @@ class Spreadangle(JetParameters):
         plt.legend(loc=&#34;upper left&#34;)
 
 
-def lsqlinreg(idxvec, idyvec):
-    &#34;&#34;&#34;
-    calculating least-square linear regression on a set of points
+def _lsqlinreg(idxvec, idyvec):
+    &#34;&#34;&#34;Calculate least-square linear regression on a set of points.
 
-    :param idxvec: idx of x positions for a line
-    :param idyvec: idx of y positions for a line
-    :return: the lsq calculated coefficients for a linear regression [[a,b]] in Y = a*X+b
+    Parameters
+    ----------
+    idxvec : :
+        idx of x positions for a line
+    idyvec : :
+        idx of y positions for a line
+
+    Returns
+    -------
+    type : :
+        the lsq calculated coefficients for a linear regression [[a,b]] in Y = a*X+b
+
     &#34;&#34;&#34;
     matrix = np.vstack([idxvec, np.ones(len(idxvec))]).T
     y = idyvec[:, np.newaxis]
     return np.dot((np.dot(np.linalg.inv(np.dot(matrix.T, matrix)), matrix.T)), y)
 
 
-def get_intersect(upperline, lowerline):
-    &#34;&#34;&#34;
-    Returns the point of intersection of the jet edge lines.
+def _get_intersect(upperline, lowerline):
+    &#34;&#34;&#34;Return the point of intersection of the jet edge lines.
 
-    :param upperline: [[x, y], [x,y]] end points for the upper line
-    :param lowerline: [[x, y], [x,y]] end points for the lower line
+    Parameters
+    ----------
+    upperline :
+        [[x, y], [x,y]] end points for the upper line
+
+    lowerline :
+        [[x, y], [x,y]] end points for the lower line
+
+    Returns
+    -------
+    x : float :
+        x-intersection point
+
+    y : float :
+        y-intersection point
     &#34;&#34;&#34;
     a1 = upperline[0]
     a2 = upperline[1]
@@ -278,21 +348,35 @@ def get_intersect(upperline, lowerline):
     b2 = lowerline[1]
     s = np.vstack([a1, a2, b1, b2])  # s for stacked
     h = np.hstack((s, np.ones((4, 1))))  # h for homogeneous
+
     l1 = np.cross(h[0], h[1])  # get first line
     l2 = np.cross(h[2], h[3])  # get second line
     x, y, z = np.cross(l1, l2)  # point of intersection
+
     if z == 0:  # lines are parallel
         return float(&#39;inf&#39;), float(&#39;inf&#39;)
+
     return x / z, y / z
 
 
-def get_reglinepoints(coef, idx):
-    &#34;&#34;&#34;
-    Getting the linear regression points, based on the coefficients and points
+def _get_reglinepoints(coef, idx):
+    &#34;&#34;&#34;Get the linear regression points.
 
-    :param coef: coefficients from the lsq calculation
-    :param idx: idx for the X in Y = a*X+b
-    :return: Y results as a vector of points calculated for Y = a*X+b
+    Based on the coefficients and points.
+
+    Parameters
+    ----------
+    coef : :
+        coefficients from the lsq calculation
+
+    idx : :
+        idx for the X in Y = a*X+b
+
+    Returns
+    -------
+    type : :
+        Y results as a vector of points calculated for Y = a*X+b
+
     &#34;&#34;&#34;
     return coef[0][0]*idx + coef[1][0]</code></pre>
 </details>
@@ -302,89 +386,6 @@ def get_reglinepoints(coef, idx):
 <section>
 </section>
 <section>
-<h2 class="section-title" id="header-functions">Functions</h2>
-<dl>
-<dt id="pimged.calculate.jetparameters.spreadangle.get_intersect"><code class="name flex">
-<span>def <span class="ident">get_intersect</span></span>(<span>upperline, lowerline)</span>
-</code></dt>
-<dd>
-<div class="desc"><p>Returns the point of intersection of the jet edge lines.</p>
-<p>:param upperline: [[x, y], [x,y]] end points for the upper line
-:param lowerline: [[x, y], [x,y]] end points for the lower line</p></div>
-<details class="source">
-<summary>
-<span>Expand source code</span>
-</summary>
-<pre><code class="python">def get_intersect(upperline, lowerline):
-    &#34;&#34;&#34;
-    Returns the point of intersection of the jet edge lines.
-
-    :param upperline: [[x, y], [x,y]] end points for the upper line
-    :param lowerline: [[x, y], [x,y]] end points for the lower line
-    &#34;&#34;&#34;
-    a1 = upperline[0]
-    a2 = upperline[1]
-    b1 = lowerline[0]
-    b2 = lowerline[1]
-    s = np.vstack([a1, a2, b1, b2])  # s for stacked
-    h = np.hstack((s, np.ones((4, 1))))  # h for homogeneous
-    l1 = np.cross(h[0], h[1])  # get first line
-    l2 = np.cross(h[2], h[3])  # get second line
-    x, y, z = np.cross(l1, l2)  # point of intersection
-    if z == 0:  # lines are parallel
-        return float(&#39;inf&#39;), float(&#39;inf&#39;)
-    return x / z, y / z</code></pre>
-</details>
-</dd>
-<dt id="pimged.calculate.jetparameters.spreadangle.get_reglinepoints"><code class="name flex">
-<span>def <span class="ident">get_reglinepoints</span></span>(<span>coef, idx)</span>
-</code></dt>
-<dd>
-<div class="desc"><p>Getting the linear regression points, based on the coefficients and points</p>
-<p>:param coef: coefficients from the lsq calculation
-:param idx: idx for the X in Y = a<em>X+b
-:return: Y results as a vector of points calculated for Y = a</em>X+b</p></div>
-<details class="source">
-<summary>
-<span>Expand source code</span>
-</summary>
-<pre><code class="python">def get_reglinepoints(coef, idx):
-    &#34;&#34;&#34;
-    Getting the linear regression points, based on the coefficients and points
-
-    :param coef: coefficients from the lsq calculation
-    :param idx: idx for the X in Y = a*X+b
-    :return: Y results as a vector of points calculated for Y = a*X+b
-    &#34;&#34;&#34;
-    return coef[0][0]*idx + coef[1][0]</code></pre>
-</details>
-</dd>
-<dt id="pimged.calculate.jetparameters.spreadangle.lsqlinreg"><code class="name flex">
-<span>def <span class="ident">lsqlinreg</span></span>(<span>idxvec, idyvec)</span>
-</code></dt>
-<dd>
-<div class="desc"><p>calculating least-square linear regression on a set of points</p>
-<p>:param idxvec: idx of x positions for a line
-:param idyvec: idx of y positions for a line
-:return: the lsq calculated coefficients for a linear regression [[a,b]] in Y = a*X+b</p></div>
-<details class="source">
-<summary>
-<span>Expand source code</span>
-</summary>
-<pre><code class="python">def lsqlinreg(idxvec, idyvec):
-    &#34;&#34;&#34;
-    calculating least-square linear regression on a set of points
-
-    :param idxvec: idx of x positions for a line
-    :param idyvec: idx of y positions for a line
-    :return: the lsq calculated coefficients for a linear regression [[a,b]] in Y = a*X+b
-    &#34;&#34;&#34;
-    matrix = np.vstack([idxvec, np.ones(len(idxvec))]).T
-    y = idyvec[:, np.newaxis]
-    return np.dot((np.dot(np.linalg.inv(np.dot(matrix.T, matrix)), matrix.T)), y)</code></pre>
-</details>
-</dd>
-</dl>
 </section>
 <section>
 <h2 class="section-title" id="header-classes">Classes</h2>
@@ -394,46 +395,81 @@ def get_reglinepoints(coef, idx):
 <span>(</span><span>imarray=array([], dtype=float64), timeframes: list = None, ypixeladjust: int = 0, threshold_minval: float = 0.15, threshold_maxval: float = 0.6, threshold_density: float = 0.05, threshold_binarynoise: float = 0.04)</span>
 </code></dt>
 <dd>
-<div class="desc"><p>Template class for imagearray handling. </p>
-<p>Object used to estimate the jet position in the frame</p>
-<p>:param imarray: The array to estimate the jet center from - The standard setup works for
-a meaned image of +3 datasets oriented with a shot left toward right
-:param timeframes: A list with the start and end frame in the time dimension of the given
-data array, E.g. [1, 500] =&gt; from frame 1 till 500 in the array is used
-:param ypixeladjust: N pixel to remove symmetrical from upper and lower edge of the frame
-:param threshold_maxval: A threshold percentage for how much of the edge should be used
-for estimating the spreading angle out in the flow
-:param threshold_minval: A threshold percentage for how much of the edge should be used
-for estimating the spreading angle towards the wall
-:param threshold_binarynoise: A threshold for when it is considered noise when
-estimating the binary image
-:param threshold_density: A threshold for when it is considered part of the jet when
-doing the time averaging</p></div>
+<div class="desc"><p>Spread angle calculation.</p>
+<p>Object used to estimate the jet position in the frame.</p>
+<h2 id="parameters">Parameters</h2>
+<dl>
+<dt><strong><code>imarray</code></strong> :&ensp;<code>numpy.ndarray :</code></dt>
+<dd>(Default value = numpy.array([]))
+The array to estimate the jet center from - The standard setup works for a meaned
+image of +3 datasets oriented with a shot left toward right</dd>
+<dt><strong><code>timeframes</code></strong> :&ensp;<code>list :</code></dt>
+<dd>(Default value = [1, numpy.shape(imarray)[2])
+A list with the start and end frame in the time dimension of the given data array,
+E.g. [1, 500] =&gt; from frame 1 till 500 in the array is used</dd>
+<dt><strong><code>ypixeladjust</code></strong> :&ensp;<code>int :</code></dt>
+<dd>(Default value = 0)
+N pixel to remove symmetrical from upper and lower edge of the frame</dd>
+<dt><strong><code>threshold_maxval</code></strong> :&ensp;<code>float :</code></dt>
+<dd>(Default value = 0.6)
+A threshold percentage for how much of the edge should be used for estimating the
+spreading angle out in the flow</dd>
+<dt><strong><code>threshold_minval</code></strong> :&ensp;<code>float :</code></dt>
+<dd>(Default value = 0.15)
+A threshold percentage for how much of the edge should be used for estimating the
+spreading angle towards the wall</dd>
+<dt><strong><code>threshold_binarynoise</code></strong> :&ensp;<code>float :</code></dt>
+<dd>(Default value = 0.04)
+A threshold for when it is considered noise when estimating the binary image</dd>
+<dt><strong><code>threshold_density</code></strong> :&ensp;<code>float :</code></dt>
+<dd>(Default value = 0.05)
+A threshold for when it is considered part of the jet when doing the time averaging</dd>
+</dl></div>
 <details class="source">
 <summary>
 <span>Expand source code</span>
 </summary>
 <pre><code class="python">class Spreadangle(JetParameters):
+    &#34;&#34;&#34;Spread angle calculation.&#34;&#34;&#34;
 
     def __init__(self, imarray=np.array([]), timeframes: list = None, ypixeladjust: int = 0,
                  threshold_minval: float = 0.15, threshold_maxval: float = 0.6,
                  threshold_density: float = 0.05, threshold_binarynoise: float = 0.04):
-        &#34;&#34;&#34;
-        Object used to estimate the jet position in the frame
+        &#34;&#34;&#34;Object used to estimate the jet position in the frame.
 
-        :param imarray: The array to estimate the jet center from - The standard setup works for
-                        a meaned image of +3 datasets oriented with a shot left toward right
-        :param timeframes: A list with the start and end frame in the time dimension of the given
-                           data array, E.g. [1, 500] =&gt; from frame 1 till 500 in the array is used
-        :param ypixeladjust: N pixel to remove symmetrical from upper and lower edge of the frame
-        :param threshold_maxval: A threshold percentage for how much of the edge should be used
-                                 for estimating the spreading angle out in the flow
-        :param threshold_minval: A threshold percentage for how much of the edge should be used
-                                 for estimating the spreading angle towards the wall
-        :param threshold_binarynoise: A threshold for when it is considered noise when
-                                      estimating the binary image
-        :param threshold_density: A threshold for when it is considered part of the jet when
-                                  doing the time averaging
+        Parameters
+        ----------
+        imarray : numpy.ndarray :
+            (Default value = numpy.array([]))
+            The array to estimate the jet center from - The standard setup works for a meaned
+            image of +3 datasets oriented with a shot left toward right
+
+        timeframes : list :
+            (Default value = [1, numpy.shape(imarray)[2])
+            A list with the start and end frame in the time dimension of the given data array,
+            E.g. [1, 500] =&gt; from frame 1 till 500 in the array is used
+
+        ypixeladjust : int :
+            (Default value = 0)
+            N pixel to remove symmetrical from upper and lower edge of the frame
+
+        threshold_maxval : float :
+            (Default value = 0.6)
+            A threshold percentage for how much of the edge should be used for estimating the
+            spreading angle out in the flow
+
+        threshold_minval: float :
+            (Default value = 0.15)
+            A threshold percentage for how much of the edge should be used for estimating the
+            spreading angle towards the wall
+
+        threshold_binarynoise: float :
+            (Default value = 0.04)
+            A threshold for when it is considered noise when estimating the binary image
+
+        threshold_density: float :
+            (Default value = 0.05)
+            A threshold for when it is considered part of the jet when doing the time averaging
         &#34;&#34;&#34;
         super().__init__(imarray)
 
@@ -470,10 +506,12 @@ doing the time averaging</p></div>
 
     @property
     def timeframes(self):
+        &#34;&#34;&#34;Get method.&#34;&#34;&#34;
         return self._timeframes
 
     @timeframes.setter
     def timeframes(self, newlist):
+        &#34;&#34;&#34;Set method.&#34;&#34;&#34;
         if not len(self._timeframes) == 2:
             raise ValueError(&#34;Timeframes has to be an list with start and end frame of the &#34;
                              &#34;given image array in the time dimension&#34;)
@@ -481,10 +519,18 @@ doing the time averaging</p></div>
         self._idxframes = [newlist[0] - 1, newlist[1] - 1]
 
     def calcspreadangle(self, method: str = &#39;canny&#39;):
-        &#34;&#34;&#34;
-        Calculate the spreading angle, based on the chosen method
+        &#34;&#34;&#34;Calculate the spreading angle, based on the chosen method.
 
-        :param method: method type for calculations
+        Parameters
+        ----------
+        method: str :
+             (Default value = &#39;canny&#39;)
+             method type for calculations
+
+        Raises
+        -------
+        TypeError : :
+            if method do not exist
         &#34;&#34;&#34;
         match method:
             case &#39;canny&#39;:
@@ -493,8 +539,12 @@ doing the time averaging</p></div>
                 raise TypeError(f&#34;{method} do not exist as a calculation method&#34;)
 
     def _cannyedge(self):
-        &#34;&#34;&#34;
-        calculating the spreading angle based on the object properties
+        &#34;&#34;&#34;Calculate the spreading angle based on the object properties.
+
+        Raises
+        ------
+        IndexError : :
+            if image is flipped compared to method specification
         &#34;&#34;&#34;
         # Estimating pixel removals
         xpixelsize = np.shape(self._array)[1]
@@ -559,25 +609,31 @@ doing the time averaging</p></div>
         self._idxxlowerline = idxx[idxylowerlinelog]
 
         # solve linear regression
-        self._coefupper = lsqlinreg(self._idxxupperline, self._idxyupperline)
-        self._coeflower = lsqlinreg(self._idxxlowerline, self._idxylowerline)
+        self._coefupper = _lsqlinreg(self._idxxupperline, self._idxyupperline)
+        self._coeflower = _lsqlinreg(self._idxxlowerline, self._idxylowerline)
 
         upperendpoints = [[self._idxxupperline[0],
-                           get_reglinepoints(self._coefupper, self._idxxupperline[0])],
+                           _get_reglinepoints(self._coefupper, self._idxxupperline[0])],
                           [self._idxxupperline[-1],
-                           get_reglinepoints(self._coefupper, self._idxxupperline[-1])]]
+                           _get_reglinepoints(self._coefupper, self._idxxupperline[-1])]]
         lowerendpoints = [[self._idxxlowerline[0],
-                           get_reglinepoints(self._coeflower, self._idxxlowerline[0])],
+                           _get_reglinepoints(self._coeflower, self._idxxlowerline[0])],
                           [self._idxxlowerline[-1],
-                           get_reglinepoints(self._coeflower, self._idxxlowerline[-1])]]
+                           _get_reglinepoints(self._coeflower, self._idxxlowerline[-1])]]
 
         self.spreadangles = [-self._coefupper[0][0] * 180 / np.pi,
                              -self._coeflower[0][0] * 180 / np.pi]
-        self.virtualoriginpix = get_intersect(upperendpoints, lowerendpoints)
+        self.virtualoriginpix = _get_intersect(upperendpoints, lowerendpoints)
 
     def show(self):
-        &#34;&#34;&#34;
-        Showing the calculating results from calcspreadingangle
+        &#34;&#34;&#34;Show the calculating results.
+
+        Show the intermediate results for calculations of the algorithm
+
+        Raises
+        ------
+        ValueError : :
+            if no data is calculated
         &#34;&#34;&#34;
         if self._idxxlowerline is None:
             raise ValueError(&#34;No data calculated to show. Run .calcspreadangle()&#34;)
@@ -587,12 +643,12 @@ doing the time averaging</p></div>
         # plotting results
         extrappoints = np.array([self.virtualoriginpix[0], xpixelsize])
         __, ax = plt.subplots(nrows=1, constrained_layout=True)
-        plt.plot(self._idxxupperline, get_reglinepoints(self._coefupper, self._idxxupperline), &#39;r&#39;,
+        plt.plot(self._idxxupperline, _get_reglinepoints(self._coefupper, self._idxxupperline), &#39;r&#39;,
                  label=&#39;Edge LSQ calc.&#39;)
-        plt.plot(self._idxxlowerline, get_reglinepoints(self._coeflower, self._idxxlowerline), &#39;r&#39;)
-        plt.plot(extrappoints, get_reglinepoints(self._coefupper, extrappoints), &#39;r--&#39;,
+        plt.plot(self._idxxlowerline, _get_reglinepoints(self._coeflower, self._idxxlowerline), &#39;r&#39;)
+        plt.plot(extrappoints, _get_reglinepoints(self._coefupper, extrappoints), &#39;r--&#39;,
                  label=&#39;Edge extrapolation&#39;)
-        plt.plot(extrappoints, get_reglinepoints(self._coeflower, extrappoints), &#39;r--&#39;)
+        plt.plot(extrappoints, _get_reglinepoints(self._coeflower, extrappoints), &#39;r--&#39;)
         plt.scatter(self.virtualoriginpix[0], self.virtualoriginpix[1], marker=&#34;*&#34;,
                     s=30, color=&#34;red&#34;, label=&#39;Intersection point&#39;)
         plt.xlim([int(self.virtualoriginpix[0]*1.05), xpixelsize])
@@ -600,8 +656,12 @@ doing the time averaging</p></div>
         plt.legend(loc=&#34;upper left&#34;)
 
     def showinternalfuncs(self):
-        &#34;&#34;&#34;
-        Show the internal function results based on the given settings for debugging results
+        &#34;&#34;&#34;Show the internal function results based on the given settings for debugging results.
+
+        Raises
+        ------
+        ValueEroor
+            if no data is calculated
         &#34;&#34;&#34;
         if self._idxxlowerline is None:
             raise ValueError(&#34;No data calculated to show. Run .calcspreadangle()&#34;)
@@ -621,9 +681,9 @@ doing the time averaging</p></div>
         plt.scatter(self._idxxupperline, self._idxyupperline, s=1, color=&#39;orange&#39;, marker=&#39;o&#39;,
                     label=&#39;Used edges&#39;)
         plt.scatter(self._idxxlowerline, self._idxylowerline, s=1, color=&#39;orange&#39;, marker=&#39;o&#39;)
-        plt.plot(self._idxxupperline, get_reglinepoints(self._coefupper, self._idxxupperline), &#39;r&#39;,
+        plt.plot(self._idxxupperline, _get_reglinepoints(self._coefupper, self._idxxupperline), &#39;r&#39;,
                  label=&#39;Calc. LSQ reg.&#39;)
-        plt.plot(self._idxxlowerline, get_reglinepoints(self._coeflower, self._idxxlowerline), &#39;r&#39;)
+        plt.plot(self._idxxlowerline, _get_reglinepoints(self._coeflower, self._idxxlowerline), &#39;r&#39;)
         plt.scatter(self.virtualoriginpix[0], self.virtualoriginpix[1], marker=&#34;*&#34;,
                     s=30, color=&#34;red&#34;, label=&#39;Intersection point&#39;)
         plt.xlim([int(self.virtualoriginpix[0]*1.05), xpixelsize])
@@ -638,13 +698,14 @@ doing the time averaging</p></div>
 <dl>
 <dt id="pimged.calculate.jetparameters.spreadangle.Spreadangle.timeframes"><code class="name">var <span class="ident">timeframes</span></code></dt>
 <dd>
-<div class="desc"></div>
+<div class="desc"><p>Get method.</p></div>
 <details class="source">
 <summary>
 <span>Expand source code</span>
 </summary>
 <pre><code class="python">@property
 def timeframes(self):
+    &#34;&#34;&#34;Get method.&#34;&#34;&#34;
     return self._timeframes</code></pre>
 </details>
 </dd>
@@ -655,17 +716,35 @@ def timeframes(self):
 <span>def <span class="ident">calcspreadangle</span></span>(<span>self, method: str = 'canny')</span>
 </code></dt>
 <dd>
-<div class="desc"><p>Calculate the spreading angle, based on the chosen method</p>
-<p>:param method: method type for calculations</p></div>
+<div class="desc"><p>Calculate the spreading angle, based on the chosen method.</p>
+<h2 id="parameters">Parameters</h2>
+<dl>
+<dt><strong><code>method</code></strong> :&ensp;<code>str :</code></dt>
+<dd>(Default value = 'canny')
+method type for calculations</dd>
+</dl>
+<h2 id="raises">Raises</h2>
+<dl>
+<dt><strong><code>TypeError</code></strong> :&ensp;<code>:</code></dt>
+<dd>if method do not exist</dd>
+</dl></div>
 <details class="source">
 <summary>
 <span>Expand source code</span>
 </summary>
 <pre><code class="python">def calcspreadangle(self, method: str = &#39;canny&#39;):
-    &#34;&#34;&#34;
-    Calculate the spreading angle, based on the chosen method
+    &#34;&#34;&#34;Calculate the spreading angle, based on the chosen method.
 
-    :param method: method type for calculations
+    Parameters
+    ----------
+    method: str :
+         (Default value = &#39;canny&#39;)
+         method type for calculations
+
+    Raises
+    -------
+    TypeError : :
+        if method do not exist
     &#34;&#34;&#34;
     match method:
         case &#39;canny&#39;:
@@ -678,14 +757,26 @@ def timeframes(self):
 <span>def <span class="ident">show</span></span>(<span>self)</span>
 </code></dt>
 <dd>
-<div class="desc"><p>Showing the calculating results from calcspreadingangle</p></div>
+<div class="desc"><p>Show the calculating results.</p>
+<p>Show the intermediate results for calculations of the algorithm</p>
+<h2 id="raises">Raises</h2>
+<dl>
+<dt><strong><code>ValueError</code></strong> :&ensp;<code>:</code></dt>
+<dd>if no data is calculated</dd>
+</dl></div>
 <details class="source">
 <summary>
 <span>Expand source code</span>
 </summary>
 <pre><code class="python">def show(self):
-    &#34;&#34;&#34;
-    Showing the calculating results from calcspreadingangle
+    &#34;&#34;&#34;Show the calculating results.
+
+    Show the intermediate results for calculations of the algorithm
+
+    Raises
+    ------
+    ValueError : :
+        if no data is calculated
     &#34;&#34;&#34;
     if self._idxxlowerline is None:
         raise ValueError(&#34;No data calculated to show. Run .calcspreadangle()&#34;)
@@ -695,12 +786,12 @@ def timeframes(self):
     # plotting results
     extrappoints = np.array([self.virtualoriginpix[0], xpixelsize])
     __, ax = plt.subplots(nrows=1, constrained_layout=True)
-    plt.plot(self._idxxupperline, get_reglinepoints(self._coefupper, self._idxxupperline), &#39;r&#39;,
+    plt.plot(self._idxxupperline, _get_reglinepoints(self._coefupper, self._idxxupperline), &#39;r&#39;,
              label=&#39;Edge LSQ calc.&#39;)
-    plt.plot(self._idxxlowerline, get_reglinepoints(self._coeflower, self._idxxlowerline), &#39;r&#39;)
-    plt.plot(extrappoints, get_reglinepoints(self._coefupper, extrappoints), &#39;r--&#39;,
+    plt.plot(self._idxxlowerline, _get_reglinepoints(self._coeflower, self._idxxlowerline), &#39;r&#39;)
+    plt.plot(extrappoints, _get_reglinepoints(self._coefupper, extrappoints), &#39;r--&#39;,
              label=&#39;Edge extrapolation&#39;)
-    plt.plot(extrappoints, get_reglinepoints(self._coeflower, extrappoints), &#39;r--&#39;)
+    plt.plot(extrappoints, _get_reglinepoints(self._coeflower, extrappoints), &#39;r--&#39;)
     plt.scatter(self.virtualoriginpix[0], self.virtualoriginpix[1], marker=&#34;*&#34;,
                 s=30, color=&#34;red&#34;, label=&#39;Intersection point&#39;)
     plt.xlim([int(self.virtualoriginpix[0]*1.05), xpixelsize])
@@ -712,14 +803,23 @@ def timeframes(self):
 <span>def <span class="ident">showinternalfuncs</span></span>(<span>self)</span>
 </code></dt>
 <dd>
-<div class="desc"><p>Show the internal function results based on the given settings for debugging results</p></div>
+<div class="desc"><p>Show the internal function results based on the given settings for debugging results.</p>
+<h2 id="raises">Raises</h2>
+<dl>
+<dt><code>ValueEroor</code></dt>
+<dd>if no data is calculated</dd>
+</dl></div>
 <details class="source">
 <summary>
 <span>Expand source code</span>
 </summary>
 <pre><code class="python">def showinternalfuncs(self):
-    &#34;&#34;&#34;
-    Show the internal function results based on the given settings for debugging results
+    &#34;&#34;&#34;Show the internal function results based on the given settings for debugging results.
+
+    Raises
+    ------
+    ValueEroor
+        if no data is calculated
     &#34;&#34;&#34;
     if self._idxxlowerline is None:
         raise ValueError(&#34;No data calculated to show. Run .calcspreadangle()&#34;)
@@ -739,9 +839,9 @@ def timeframes(self):
     plt.scatter(self._idxxupperline, self._idxyupperline, s=1, color=&#39;orange&#39;, marker=&#39;o&#39;,
                 label=&#39;Used edges&#39;)
     plt.scatter(self._idxxlowerline, self._idxylowerline, s=1, color=&#39;orange&#39;, marker=&#39;o&#39;)
-    plt.plot(self._idxxupperline, get_reglinepoints(self._coefupper, self._idxxupperline), &#39;r&#39;,
+    plt.plot(self._idxxupperline, _get_reglinepoints(self._coefupper, self._idxxupperline), &#39;r&#39;,
              label=&#39;Calc. LSQ reg.&#39;)
-    plt.plot(self._idxxlowerline, get_reglinepoints(self._coeflower, self._idxxlowerline), &#39;r&#39;)
+    plt.plot(self._idxxlowerline, _get_reglinepoints(self._coeflower, self._idxxlowerline), &#39;r&#39;)
     plt.scatter(self.virtualoriginpix[0], self.virtualoriginpix[1], marker=&#34;*&#34;,
                 s=30, color=&#34;red&#34;, label=&#39;Intersection point&#39;)
     plt.xlim([int(self.virtualoriginpix[0]*1.05), xpixelsize])
@@ -764,10 +864,10 @@ def timeframes(self):
 </article>
 <nav id="sidebar">
 <header>
-<a class="homelink" rel="home" title="PImGED treat" href="https://youtu
+<center><a class="homelink" rel="home" title="PImGED treat" href="https://youtu
 .be/mx86-rTclzA?si=RWJEgJIT8MdOsVn7">
-<center><img src="https://i.ibb.co/Tbp2rPk/logo.png" alt=""></center>
-</a>
+<img src="https://i.ibb.co/Tbp2rPk/logo.png" alt="">
+</a></center>
 </header>
 <h1>Index</h1>
 <div class="toc">
@@ -777,13 +877,6 @@ def timeframes(self):
 <li><h3>Super-module</h3>
 <ul>
 <li><code><a title="pimged.calculate.jetparameters" href="index.html">pimged.calculate.jetparameters</a></code></li>
-</ul>
-</li>
-<li><h3><a href="#header-functions">Functions</a></h3>
-<ul class="">
-<li><code><a title="pimged.calculate.jetparameters.spreadangle.get_intersect" href="#pimged.calculate.jetparameters.spreadangle.get_intersect">get_intersect</a></code></li>
-<li><code><a title="pimged.calculate.jetparameters.spreadangle.get_reglinepoints" href="#pimged.calculate.jetparameters.spreadangle.get_reglinepoints">get_reglinepoints</a></code></li>
-<li><code><a title="pimged.calculate.jetparameters.spreadangle.lsqlinreg" href="#pimged.calculate.jetparameters.spreadangle.lsqlinreg">lsqlinreg</a></code></li>
 </ul>
 </li>
 <li><h3><a href="#header-classes">Classes</a></h3>

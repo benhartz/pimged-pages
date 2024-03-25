@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1" />
 <meta name="generator" content="pdoc 0.10.0" />
 <title>pimged.calculate.jetparameters.jetcenter API documentation</title>
-<meta name="description" content="" />
+<meta name="description" content="Jet center estimation based on data …" />
 <link rel="preload stylesheet" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/10up-sanitize.css/11.0.1/sanitize.min.css" integrity="sha256-PK9q560IAAa6WVRRh76LtCaI8pjTJ2z11v0miyNNjrs=" crossorigin>
 <link rel="preload stylesheet" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/10up-sanitize.css/11.0.1/typography.min.css" integrity="sha256-7l/o7C8jubJiy74VsKTidCy1yBkRtiUGbVkYBylBqUg=" crossorigin>
 <link rel="stylesheet preload" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.1.1/styles/github.min.css" crossorigin>
@@ -23,11 +23,17 @@
 <h1 class="title">Module <code>pimged.calculate.jetparameters.jetcenter</code></h1>
 </header>
 <section id="section-intro">
+<p>Jet center estimation based on data.</p>
+<p>Module not working. Obsuleet code.</p>
 <details class="source">
 <summary>
 <span>Expand source code</span>
 </summary>
-<pre><code class="python">import numpy as np
+<pre><code class="python">&#34;&#34;&#34;Jet center estimation based on data.
+
+Module not working. Obsuleet code.
+&#34;&#34;&#34;
+import numpy as np
 import matplotlib.pyplot as plt
 import matplotlib.gridspec as gridspec
 
@@ -35,34 +41,58 @@ from .template import JetParameters
 
 
 class JetCenter(JetParameters):
+    &#34;&#34;&#34;Jet center estimation.&#34;&#34;&#34;
 
     def __init__(self, imarray=np.array([]), fps: int = 18000,
                  timeintoshottouse: list = None, widthrangetosearch: list = None,
                  edgepixelremoval_height: int = 10, threshold_density: float = 0.05,
                  threshold_width: float = 0.97, threshold_nozzlepositioninframe: float = 0.25,
                  flipcheck: bool = True):
-        &#34;&#34;&#34;
-        Object used to estimate the jet position in the frame
+        &#34;&#34;&#34;Object used to estimate the jet position in the frame.
 
-        :param imarray: The array to estimate the jet center from - The standard setup works for
-                        a meaned image of +3 datasets oriented with a shot left toward right
-        :param fps: The camera record rate (frames per second)
-        :param timeintoshottouse: A list of start and end time for when do the shot start and
-                                  when to end the search. This is likely to be changed based on
-                                  the jet setup. Default is [18e-3, 20e-3] seconds
-        :param widthrangetosearch: A list at which the jet is positioned
-        :param edgepixelremoval_height: A constant removal of pixel before searching for the
-                                        width, as some edge noise will make the algorithm not
-                                        work.
-        :param threshold_density: A threshold set for, where everything below is seen as noise
-                                  for the density
-        :param threshold_width: A threshold set for where the width is estimated from. It is the
-                                used to find the percental amount of the maximum value over a
-                                mean. It is seen after a calculation with the .show() method
-        :param threshold_nozzlepositioninframe: A threshold used to estimate the wall position,
-                                                based on the initial laser line seen.
-        :parameter flipcheck: Checking if the given data array is flipped or positioned the
-                              correct way for calculations
+        Parameters
+        ----------
+        imarray : numpy.ndarray :
+            (Default value = numpy.array([]))
+            The array to estimate the jet center from - The standard setup works for a meaned
+            image of +3 datasets oriented with a shot left toward right
+
+        fps : int :
+            (Default value = 10000)
+            The camera record rate (frames per second)
+
+        timeintoshottouse : list :
+            (Default value = [18e-3, 20e-3])
+            A list of start and end time for when do the shot start and when to end the search.
+            This is likely to be changed based on the jet setup.
+
+        widthrangetosearch :  list :
+            (Default value = [0, 300])
+            A list at which the jet is positioned
+
+        edgepixelremoval_height : int :
+            (Default value = 10)
+            A constant removal of pixel before searching for the width, as some edge noise will
+            make the algorithm not work.
+
+        threshold_density : float :
+            (Default value = 0.05)
+            A threshold set for, where everything below is seen as noise for the density
+
+        threshold_width : float :
+            (Default value = 0.97)
+            A threshold set for where the width is estimated from. It is the used to find the
+            percental amount of the maximum value over a mean. It is seen after a calculation
+            with the .show() method
+
+        threshold_nozzlepositioninframe : float :
+            (Default value = 0.25)
+            A threshold used to estimate the wall position, based on the initial laser line seen.
+
+        flipcheck : bool :
+            (Default value = True)
+            Checking if the given data array is flipped or positioned the correct way for
+            calculations
         &#34;&#34;&#34;
         super().__init__(imarray)
 
@@ -93,27 +123,35 @@ class JetCenter(JetParameters):
         self._jet2dlogicvec = None
 
     def findjetcenterfromdata(self):
-        &#34;&#34;&#34;
-        Method used to estimate the jet position in the frame based on a meaned array of data
+        &#34;&#34;&#34;Estimate the jet position in the frame based on a meaned array of data.
+
+        First the image ranges and time frames are defined. The y-pixel range is adjusted
+        accordingly to the edge removal defined - this is beneficial if a lot of noise is
+        present near the edges
+
+        Then there is calculated a mean jet over the time series given from the properties,
+        within the search area set, with respect to the density threshold
+
+        Next is creating a vector that is a mean towards unity, by again testing towards the
+        threshold of the density set. This mean is done in the first axis. This creates a
+        vector that show the variation of density over the width of the image
+
+        Now the 2d image of the meaned jet over time is meaned in the width of the frame
+        (through x) to give a line of density towards unity. In the jet center the density will
+        go towards 1, while towards the edges the density will rapidly decline in the start of
+        the shot
+
+        Raises
+        ------
+        ValueError : :
+            if there is no data in the array
+            if it is not possivle to find any wall
+            if the jet width is not possible to estimate
         &#34;&#34;&#34;
         if len(self._array) == 0:
             raise ValueError(&#34;No data in the array&#34;)
         print(&#39;Starting jet center calculations\n&#39;)
-        # # first the image ranges and time frames are defined. The y-pixel range is adjusted
-        # # accordingly to the edge removal defined - this is beneficial if a lot of noise is
-        # # present near the edges
 
-        # # Then there is calculated a mean jet over the time series given from the properties,
-        # # within the search area set, with respect to the density threshold
-
-        # # Next is creating a vector that is a mean towards unity, by again testing towards the
-        # # threshold of the density set. This mean is done in the first axis. This creates a
-        # # vector that show the variation of density over the width of the image
-
-        # # Now the 2d image of the meaned jet over time is meaned in the width of the frame
-        # # (through x) to give a line of density towards unity. In the jet center the density will
-        # # go towards 1, while towards the edges the density will rapidly decline in the start of
-        # # the shot
         self._calctimesumvectors()
 
         # Now to find the wall position
@@ -166,9 +204,16 @@ class JetCenter(JetParameters):
         print(&#39;Done\n\n&#39;)
 
     def _calctimesumvectors(self):
-        &#34;&#34;&#34;
+        &#34;&#34;&#34;Calculate the 1D meaned sum.
+
         Internal function to calculate the 1D time meaned sum vectors in x and y for finding the
         edges and middel of the jet
+
+        Raises
+        ------
+        IndexError : :
+            if list index for time frames are wrongly formatted
+            if data might be flipped
         &#34;&#34;&#34;
         # first the image ranges and time frames are defined. The y-pixel range is adjusted
         # accordingly to the edge removal defined - this is beneficial if a lot of noise is
@@ -206,8 +251,12 @@ class JetCenter(JetParameters):
                                  &#34;must go from right towards left&#34;)
 
     def show(self):
-        &#34;&#34;&#34;
-        Method used to show the jet center estimation with thresholds shown on intemidiate results
+        &#34;&#34;&#34;Plot of results.
+
+        Raises
+        ------
+        ValueError : :
+            if no data is calculated
         &#34;&#34;&#34;
         if self.jet_wallposition is None:
             raise ValueError(&#34;It is not possible to show the data, as no data is calculated for &#34;
@@ -272,9 +321,12 @@ class JetCenter(JetParameters):
         plt.xlim(0, self.xpixelrangetosearch[1] - 1)
 
     def showinternalfuncs(self):
-        &#34;&#34;&#34;
-        Function to show the internal calculations, without estimating the wall and edges. Can be
-        used to identify problems with the data and/or the limits
+        &#34;&#34;&#34;Show the internal function results based on the given settings for debugging results.
+
+        Raises
+        ------
+        ValueEroor
+            if no data is calculated
         &#34;&#34;&#34;
         # first get the vectors that should be plotted
         self._calctimesumvectors()
@@ -324,60 +376,101 @@ class JetCenter(JetParameters):
 <span>(</span><span>imarray=array([], dtype=float64), fps: int = 18000, timeintoshottouse: list = None, widthrangetosearch: list = None, edgepixelremoval_height: int = 10, threshold_density: float = 0.05, threshold_width: float = 0.97, threshold_nozzlepositioninframe: float = 0.25, flipcheck: bool = True)</span>
 </code></dt>
 <dd>
-<div class="desc"><p>Template class for imagearray handling. </p>
-<p>Object used to estimate the jet position in the frame</p>
-<p>:param imarray: The array to estimate the jet center from - The standard setup works for
-a meaned image of +3 datasets oriented with a shot left toward right
-:param fps: The camera record rate (frames per second)
-:param timeintoshottouse: A list of start and end time for when do the shot start and
-when to end the search. This is likely to be changed based on
-the jet setup. Default is [18e-3, 20e-3] seconds
-:param widthrangetosearch: A list at which the jet is positioned
-:param edgepixelremoval_height: A constant removal of pixel before searching for the
-width, as some edge noise will make the algorithm not
-work.
-:param threshold_density: A threshold set for, where everything below is seen as noise
-for the density
-:param threshold_width: A threshold set for where the width is estimated from. It is the
-used to find the percental amount of the maximum value over a
-mean. It is seen after a calculation with the .show() method
-:param threshold_nozzlepositioninframe: A threshold used to estimate the wall position,
-based on the initial laser line seen.
-:parameter flipcheck: Checking if the given data array is flipped or positioned the
-correct way for calculations</p></div>
+<div class="desc"><p>Jet center estimation.</p>
+<p>Object used to estimate the jet position in the frame.</p>
+<h2 id="parameters">Parameters</h2>
+<dl>
+<dt><strong><code>imarray</code></strong> :&ensp;<code>numpy.ndarray :</code></dt>
+<dd>(Default value = numpy.array([]))
+The array to estimate the jet center from - The standard setup works for a meaned
+image of +3 datasets oriented with a shot left toward right</dd>
+<dt><strong><code>fps</code></strong> :&ensp;<code>int :</code></dt>
+<dd>(Default value = 10000)
+The camera record rate (frames per second)</dd>
+<dt><strong><code>timeintoshottouse</code></strong> :&ensp;<code>list :</code></dt>
+<dd>(Default value = [18e-3, 20e-3])
+A list of start and end time for when do the shot start and when to end the search.
+This is likely to be changed based on the jet setup.</dd>
+<dt><strong><code>widthrangetosearch</code></strong> :&ensp;<code>list :</code></dt>
+<dd>(Default value = [0, 300])
+A list at which the jet is positioned</dd>
+<dt><strong><code>edgepixelremoval_height</code></strong> :&ensp;<code>int :</code></dt>
+<dd>(Default value = 10)
+A constant removal of pixel before searching for the width, as some edge noise will
+make the algorithm not work.</dd>
+<dt><strong><code>threshold_density</code></strong> :&ensp;<code>float :</code></dt>
+<dd>(Default value = 0.05)
+A threshold set for, where everything below is seen as noise for the density</dd>
+<dt><strong><code>threshold_width</code></strong> :&ensp;<code>float :</code></dt>
+<dd>(Default value = 0.97)
+A threshold set for where the width is estimated from. It is the used to find the
+percental amount of the maximum value over a mean. It is seen after a calculation
+with the .show() method</dd>
+<dt><strong><code>threshold_nozzlepositioninframe</code></strong> :&ensp;<code>float :</code></dt>
+<dd>(Default value = 0.25)
+A threshold used to estimate the wall position, based on the initial laser line seen.</dd>
+<dt><strong><code>flipcheck</code></strong> :&ensp;<code>bool :</code></dt>
+<dd>(Default value = True)
+Checking if the given data array is flipped or positioned the correct way for
+calculations</dd>
+</dl></div>
 <details class="source">
 <summary>
 <span>Expand source code</span>
 </summary>
 <pre><code class="python">class JetCenter(JetParameters):
+    &#34;&#34;&#34;Jet center estimation.&#34;&#34;&#34;
 
     def __init__(self, imarray=np.array([]), fps: int = 18000,
                  timeintoshottouse: list = None, widthrangetosearch: list = None,
                  edgepixelremoval_height: int = 10, threshold_density: float = 0.05,
                  threshold_width: float = 0.97, threshold_nozzlepositioninframe: float = 0.25,
                  flipcheck: bool = True):
-        &#34;&#34;&#34;
-        Object used to estimate the jet position in the frame
+        &#34;&#34;&#34;Object used to estimate the jet position in the frame.
 
-        :param imarray: The array to estimate the jet center from - The standard setup works for
-                        a meaned image of +3 datasets oriented with a shot left toward right
-        :param fps: The camera record rate (frames per second)
-        :param timeintoshottouse: A list of start and end time for when do the shot start and
-                                  when to end the search. This is likely to be changed based on
-                                  the jet setup. Default is [18e-3, 20e-3] seconds
-        :param widthrangetosearch: A list at which the jet is positioned
-        :param edgepixelremoval_height: A constant removal of pixel before searching for the
-                                        width, as some edge noise will make the algorithm not
-                                        work.
-        :param threshold_density: A threshold set for, where everything below is seen as noise
-                                  for the density
-        :param threshold_width: A threshold set for where the width is estimated from. It is the
-                                used to find the percental amount of the maximum value over a
-                                mean. It is seen after a calculation with the .show() method
-        :param threshold_nozzlepositioninframe: A threshold used to estimate the wall position,
-                                                based on the initial laser line seen.
-        :parameter flipcheck: Checking if the given data array is flipped or positioned the
-                              correct way for calculations
+        Parameters
+        ----------
+        imarray : numpy.ndarray :
+            (Default value = numpy.array([]))
+            The array to estimate the jet center from - The standard setup works for a meaned
+            image of +3 datasets oriented with a shot left toward right
+
+        fps : int :
+            (Default value = 10000)
+            The camera record rate (frames per second)
+
+        timeintoshottouse : list :
+            (Default value = [18e-3, 20e-3])
+            A list of start and end time for when do the shot start and when to end the search.
+            This is likely to be changed based on the jet setup.
+
+        widthrangetosearch :  list :
+            (Default value = [0, 300])
+            A list at which the jet is positioned
+
+        edgepixelremoval_height : int :
+            (Default value = 10)
+            A constant removal of pixel before searching for the width, as some edge noise will
+            make the algorithm not work.
+
+        threshold_density : float :
+            (Default value = 0.05)
+            A threshold set for, where everything below is seen as noise for the density
+
+        threshold_width : float :
+            (Default value = 0.97)
+            A threshold set for where the width is estimated from. It is the used to find the
+            percental amount of the maximum value over a mean. It is seen after a calculation
+            with the .show() method
+
+        threshold_nozzlepositioninframe : float :
+            (Default value = 0.25)
+            A threshold used to estimate the wall position, based on the initial laser line seen.
+
+        flipcheck : bool :
+            (Default value = True)
+            Checking if the given data array is flipped or positioned the correct way for
+            calculations
         &#34;&#34;&#34;
         super().__init__(imarray)
 
@@ -408,27 +501,35 @@ correct way for calculations</p></div>
         self._jet2dlogicvec = None
 
     def findjetcenterfromdata(self):
-        &#34;&#34;&#34;
-        Method used to estimate the jet position in the frame based on a meaned array of data
+        &#34;&#34;&#34;Estimate the jet position in the frame based on a meaned array of data.
+
+        First the image ranges and time frames are defined. The y-pixel range is adjusted
+        accordingly to the edge removal defined - this is beneficial if a lot of noise is
+        present near the edges
+
+        Then there is calculated a mean jet over the time series given from the properties,
+        within the search area set, with respect to the density threshold
+
+        Next is creating a vector that is a mean towards unity, by again testing towards the
+        threshold of the density set. This mean is done in the first axis. This creates a
+        vector that show the variation of density over the width of the image
+
+        Now the 2d image of the meaned jet over time is meaned in the width of the frame
+        (through x) to give a line of density towards unity. In the jet center the density will
+        go towards 1, while towards the edges the density will rapidly decline in the start of
+        the shot
+
+        Raises
+        ------
+        ValueError : :
+            if there is no data in the array
+            if it is not possivle to find any wall
+            if the jet width is not possible to estimate
         &#34;&#34;&#34;
         if len(self._array) == 0:
             raise ValueError(&#34;No data in the array&#34;)
         print(&#39;Starting jet center calculations\n&#39;)
-        # # first the image ranges and time frames are defined. The y-pixel range is adjusted
-        # # accordingly to the edge removal defined - this is beneficial if a lot of noise is
-        # # present near the edges
 
-        # # Then there is calculated a mean jet over the time series given from the properties,
-        # # within the search area set, with respect to the density threshold
-
-        # # Next is creating a vector that is a mean towards unity, by again testing towards the
-        # # threshold of the density set. This mean is done in the first axis. This creates a
-        # # vector that show the variation of density over the width of the image
-
-        # # Now the 2d image of the meaned jet over time is meaned in the width of the frame
-        # # (through x) to give a line of density towards unity. In the jet center the density will
-        # # go towards 1, while towards the edges the density will rapidly decline in the start of
-        # # the shot
         self._calctimesumvectors()
 
         # Now to find the wall position
@@ -481,9 +582,16 @@ correct way for calculations</p></div>
         print(&#39;Done\n\n&#39;)
 
     def _calctimesumvectors(self):
-        &#34;&#34;&#34;
+        &#34;&#34;&#34;Calculate the 1D meaned sum.
+
         Internal function to calculate the 1D time meaned sum vectors in x and y for finding the
         edges and middel of the jet
+
+        Raises
+        ------
+        IndexError : :
+            if list index for time frames are wrongly formatted
+            if data might be flipped
         &#34;&#34;&#34;
         # first the image ranges and time frames are defined. The y-pixel range is adjusted
         # accordingly to the edge removal defined - this is beneficial if a lot of noise is
@@ -521,8 +629,12 @@ correct way for calculations</p></div>
                                  &#34;must go from right towards left&#34;)
 
     def show(self):
-        &#34;&#34;&#34;
-        Method used to show the jet center estimation with thresholds shown on intemidiate results
+        &#34;&#34;&#34;Plot of results.
+
+        Raises
+        ------
+        ValueError : :
+            if no data is calculated
         &#34;&#34;&#34;
         if self.jet_wallposition is None:
             raise ValueError(&#34;It is not possible to show the data, as no data is calculated for &#34;
@@ -587,9 +699,12 @@ correct way for calculations</p></div>
         plt.xlim(0, self.xpixelrangetosearch[1] - 1)
 
     def showinternalfuncs(self):
-        &#34;&#34;&#34;
-        Function to show the internal calculations, without estimating the wall and edges. Can be
-        used to identify problems with the data and/or the limits
+        &#34;&#34;&#34;Show the internal function results based on the given settings for debugging results.
+
+        Raises
+        ------
+        ValueEroor
+            if no data is calculated
         &#34;&#34;&#34;
         # first get the vectors that should be plotted
         self._calctimesumvectors()
@@ -634,33 +749,60 @@ correct way for calculations</p></div>
 <span>def <span class="ident">findjetcenterfromdata</span></span>(<span>self)</span>
 </code></dt>
 <dd>
-<div class="desc"><p>Method used to estimate the jet position in the frame based on a meaned array of data</p></div>
+<div class="desc"><p>Estimate the jet position in the frame based on a meaned array of data.</p>
+<p>First the image ranges and time frames are defined. The y-pixel range is adjusted
+accordingly to the edge removal defined - this is beneficial if a lot of noise is
+present near the edges</p>
+<p>Then there is calculated a mean jet over the time series given from the properties,
+within the search area set, with respect to the density threshold</p>
+<p>Next is creating a vector that is a mean towards unity, by again testing towards the
+threshold of the density set. This mean is done in the first axis. This creates a
+vector that show the variation of density over the width of the image</p>
+<p>Now the 2d image of the meaned jet over time is meaned in the width of the frame
+(through x) to give a line of density towards unity. In the jet center the density will
+go towards 1, while towards the edges the density will rapidly decline in the start of
+the shot</p>
+<h2 id="raises">Raises</h2>
+<dl>
+<dt><strong><code>ValueError</code></strong> :&ensp;<code>:</code></dt>
+<dd>if there is no data in the array
+if it is not possivle to find any wall
+if the jet width is not possible to estimate</dd>
+</dl></div>
 <details class="source">
 <summary>
 <span>Expand source code</span>
 </summary>
 <pre><code class="python">def findjetcenterfromdata(self):
-    &#34;&#34;&#34;
-    Method used to estimate the jet position in the frame based on a meaned array of data
+    &#34;&#34;&#34;Estimate the jet position in the frame based on a meaned array of data.
+
+    First the image ranges and time frames are defined. The y-pixel range is adjusted
+    accordingly to the edge removal defined - this is beneficial if a lot of noise is
+    present near the edges
+
+    Then there is calculated a mean jet over the time series given from the properties,
+    within the search area set, with respect to the density threshold
+
+    Next is creating a vector that is a mean towards unity, by again testing towards the
+    threshold of the density set. This mean is done in the first axis. This creates a
+    vector that show the variation of density over the width of the image
+
+    Now the 2d image of the meaned jet over time is meaned in the width of the frame
+    (through x) to give a line of density towards unity. In the jet center the density will
+    go towards 1, while towards the edges the density will rapidly decline in the start of
+    the shot
+
+    Raises
+    ------
+    ValueError : :
+        if there is no data in the array
+        if it is not possivle to find any wall
+        if the jet width is not possible to estimate
     &#34;&#34;&#34;
     if len(self._array) == 0:
         raise ValueError(&#34;No data in the array&#34;)
     print(&#39;Starting jet center calculations\n&#39;)
-    # # first the image ranges and time frames are defined. The y-pixel range is adjusted
-    # # accordingly to the edge removal defined - this is beneficial if a lot of noise is
-    # # present near the edges
 
-    # # Then there is calculated a mean jet over the time series given from the properties,
-    # # within the search area set, with respect to the density threshold
-
-    # # Next is creating a vector that is a mean towards unity, by again testing towards the
-    # # threshold of the density set. This mean is done in the first axis. This creates a
-    # # vector that show the variation of density over the width of the image
-
-    # # Now the 2d image of the meaned jet over time is meaned in the width of the frame
-    # # (through x) to give a line of density towards unity. In the jet center the density will
-    # # go towards 1, while towards the edges the density will rapidly decline in the start of
-    # # the shot
     self._calctimesumvectors()
 
     # Now to find the wall position
@@ -717,14 +859,23 @@ correct way for calculations</p></div>
 <span>def <span class="ident">show</span></span>(<span>self)</span>
 </code></dt>
 <dd>
-<div class="desc"><p>Method used to show the jet center estimation with thresholds shown on intemidiate results</p></div>
+<div class="desc"><p>Plot of results.</p>
+<h2 id="raises">Raises</h2>
+<dl>
+<dt><strong><code>ValueError</code></strong> :&ensp;<code>:</code></dt>
+<dd>if no data is calculated</dd>
+</dl></div>
 <details class="source">
 <summary>
 <span>Expand source code</span>
 </summary>
 <pre><code class="python">def show(self):
-    &#34;&#34;&#34;
-    Method used to show the jet center estimation with thresholds shown on intemidiate results
+    &#34;&#34;&#34;Plot of results.
+
+    Raises
+    ------
+    ValueError : :
+        if no data is calculated
     &#34;&#34;&#34;
     if self.jet_wallposition is None:
         raise ValueError(&#34;It is not possible to show the data, as no data is calculated for &#34;
@@ -793,16 +944,23 @@ correct way for calculations</p></div>
 <span>def <span class="ident">showinternalfuncs</span></span>(<span>self)</span>
 </code></dt>
 <dd>
-<div class="desc"><p>Function to show the internal calculations, without estimating the wall and edges. Can be
-used to identify problems with the data and/or the limits</p></div>
+<div class="desc"><p>Show the internal function results based on the given settings for debugging results.</p>
+<h2 id="raises">Raises</h2>
+<dl>
+<dt><code>ValueEroor</code></dt>
+<dd>if no data is calculated</dd>
+</dl></div>
 <details class="source">
 <summary>
 <span>Expand source code</span>
 </summary>
 <pre><code class="python">def showinternalfuncs(self):
-    &#34;&#34;&#34;
-    Function to show the internal calculations, without estimating the wall and edges. Can be
-    used to identify problems with the data and/or the limits
+    &#34;&#34;&#34;Show the internal function results based on the given settings for debugging results.
+
+    Raises
+    ------
+    ValueEroor
+        if no data is calculated
     &#34;&#34;&#34;
     # first get the vectors that should be plotted
     self._calctimesumvectors()
@@ -853,10 +1011,10 @@ used to identify problems with the data and/or the limits</p></div>
 </article>
 <nav id="sidebar">
 <header>
-<a class="homelink" rel="home" title="PImGED treat" href="https://youtu
+<center><a class="homelink" rel="home" title="PImGED treat" href="https://youtu
 .be/mx86-rTclzA?si=RWJEgJIT8MdOsVn7">
-<center><img src="https://i.ibb.co/Tbp2rPk/logo.png" alt=""></center>
-</a>
+<img src="https://i.ibb.co/Tbp2rPk/logo.png" alt="">
+</a></center>
 </header>
 <h1>Index</h1>
 <div class="toc">

@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1" />
 <meta name="generator" content="pdoc 0.10.0" />
-<title>pimged.bigdata.bigdata API documentation</title>
+<title>pimged.datahandling.bigdata.bigdata API documentation</title>
 <meta name="description" content="bigdata is a class used to handle large amount of datasets." />
 <link rel="preload stylesheet" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/10up-sanitize.css/11.0.1/sanitize.min.css" integrity="sha256-PK9q560IAAa6WVRRh76LtCaI8pjTJ2z11v0miyNNjrs=" crossorigin>
 <link rel="preload stylesheet" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/10up-sanitize.css/11.0.1/typography.min.css" integrity="sha256-7l/o7C8jubJiy74VsKTidCy1yBkRtiUGbVkYBylBqUg=" crossorigin>
@@ -20,7 +20,7 @@
 <main>
 <article id="content">
 <header>
-<h1 class="title">Module <code>pimged.bigdata.bigdata</code></h1>
+<h1 class="title">Module <code>pimged.datahandling.bigdata.bigdata</code></h1>
 </header>
 <section id="section-intro">
 <p>bigdata is a class used to handle large amount of datasets.</p>
@@ -32,10 +32,10 @@
 import pathlib
 from os import path as ph, listdir
 import numpy as np
-from ..datahandling.dataset import Dataset
-from ..calculate.calculate import Calculate
-from ..utils.utils import check_folder_path
-from ..utils.naturalkeysort import naturalkeysort
+from ...datahandling.dataset import Dataset
+from ...calculate.calculate import Calculate
+from ...utils.utils import check_folder_path
+from ...utils.naturalkeysort import naturalkeysort
 
 
 class Bigdata:
@@ -47,7 +47,7 @@ class Bigdata:
 
         Parameters
         ---------
-        dataset : pimged.Dataset :
+        dataset : pimged.Dataset
             dataset object from pimged package
         &#34;&#34;&#34;
         # noinspection PyProtectedMember
@@ -56,11 +56,6 @@ class Bigdata:
         self.setup = Setup()
         self._dataset = dataset
         self._datacalc = Calculate(dataset)
-
-    def __str__(self):
-        &#34;&#34;&#34;Class info.&#34;&#34;&#34;
-        return (&#34;Module for handling large datasets for PImGED using the calculate functions and &#34;
-                &#34;saving intermediate files in chunks for loading&#34;)
 
     def rawblackcorr(self,
                      path_corr: (str, pathlib.Path),
@@ -90,11 +85,8 @@ class Bigdata:
 
         Raises
         ------
-        ValueError : :
-            Dataset and blackpoint correction size do not match up
-
-        FileNotFoundError : :
-            Blackpoint corretion factors do not exist
+        ValueError
+        FileNotFoundError
         &#34;&#34;&#34;
         # Checking folder path
         check_folder_path(path_rawcorr, createdir=True)
@@ -436,14 +428,9 @@ class Bigdata:
 
         Raises
         ------
-        ValueError : :
-            Dataset and blackpoint correction size do not match up
-
-        FileNotFoundError : :
-            The blackpoint correction factors is not created yet or not calibration file exist
-
-        NotImplementedError : :
-            Method not implemented
+        ValueError
+        FileNotFoundError
+        NotImplementedError
         &#34;&#34;&#34;
         # Checking if mean should be calculated
         match conc_mean_type:
@@ -591,10 +578,6 @@ class Calibarationsetup:
         self.chunksize = 50
         self.imagerange = [1, 75]
 
-    def __str__(self):
-        &#34;&#34;&#34;Class info.&#34;&#34;&#34;
-        return &#34;Inputs needed for calibration calculations&#34;
-
 
 class Blackcorrsetup:
     &#34;&#34;&#34;Class with the calibration setup parameters.&#34;&#34;&#34;
@@ -607,10 +590,6 @@ class Blackcorrsetup:
         self.removeedgew = -1
         self.flipped = False
 
-    def __str__(self):
-        &#34;&#34;&#34;Class info.&#34;&#34;&#34;
-        return &#34;Inputs needed for blackpoint correction calculations&#34;
-
 
 class Concentrationsetup:
     &#34;&#34;&#34;Class with the settings for the concentration calculation files.&#34;&#34;&#34;
@@ -618,11 +597,7 @@ class Concentrationsetup:
     def __init__(self):
         &#34;&#34;&#34;Init concentration calc setup.&#34;&#34;&#34;
         self.rawimagerange = [295, 305]
-        self.chunksize = 5
-
-    def __str__(self):
-        &#34;&#34;&#34;Class info.&#34;&#34;&#34;
-        return &#34;Inputs needed for concentration calculations&#34;</code></pre>
+        self.chunksize = 5</code></pre>
 </details>
 </section>
 <section>
@@ -634,16 +609,16 @@ class Concentrationsetup:
 <section>
 <h2 class="section-title" id="header-classes">Classes</h2>
 <dl>
-<dt id="pimged.bigdata.bigdata.Bigdata"><code class="flex name class">
+<dt id="pimged.datahandling.bigdata.bigdata.Bigdata"><code class="flex name class">
 <span>class <span class="ident">Bigdata</span></span>
-<span>(</span><span>dataset: <a title="pimged.datahandling.dataset.Dataset" href="../datahandling/dataset.html#pimged.datahandling.dataset.Dataset">Dataset</a>)</span>
+<span>(</span><span>dataset: <a title="pimged.datahandling.dataset.Dataset" href="../dataset.html#pimged.datahandling.dataset.Dataset">Dataset</a>)</span>
 </code></dt>
 <dd>
 <div class="desc"><p>Handle large pimged dataset amounts by organizing chunked load and saveing routines.</p>
 <p>Initialize the Bigdata class object with a dataset object.</p>
 <h2 id="parameters">Parameters</h2>
 <dl>
-<dt><strong><code>dataset</code></strong> :&ensp;<code>pimged.Dataset :</code></dt>
+<dt><strong><code>dataset</code></strong> :&ensp;<code>pimged.Dataset</code></dt>
 <dd>dataset object from pimged package</dd>
 </dl></div>
 <details class="source">
@@ -659,7 +634,7 @@ class Concentrationsetup:
 
         Parameters
         ---------
-        dataset : pimged.Dataset :
+        dataset : pimged.Dataset
             dataset object from pimged package
         &#34;&#34;&#34;
         # noinspection PyProtectedMember
@@ -668,11 +643,6 @@ class Concentrationsetup:
         self.setup = Setup()
         self._dataset = dataset
         self._datacalc = Calculate(dataset)
-
-    def __str__(self):
-        &#34;&#34;&#34;Class info.&#34;&#34;&#34;
-        return (&#34;Module for handling large datasets for PImGED using the calculate functions and &#34;
-                &#34;saving intermediate files in chunks for loading&#34;)
 
     def rawblackcorr(self,
                      path_corr: (str, pathlib.Path),
@@ -702,11 +672,8 @@ class Concentrationsetup:
 
         Raises
         ------
-        ValueError : :
-            Dataset and blackpoint correction size do not match up
-
-        FileNotFoundError : :
-            Blackpoint corretion factors do not exist
+        ValueError
+        FileNotFoundError
         &#34;&#34;&#34;
         # Checking folder path
         check_folder_path(path_rawcorr, createdir=True)
@@ -1048,14 +1015,9 @@ class Concentrationsetup:
 
         Raises
         ------
-        ValueError : :
-            Dataset and blackpoint correction size do not match up
-
-        FileNotFoundError : :
-            The blackpoint correction factors is not created yet or not calibration file exist
-
-        NotImplementedError : :
-            Method not implemented
+        ValueError
+        FileNotFoundError
+        NotImplementedError
         &#34;&#34;&#34;
         # Checking if mean should be calculated
         match conc_mean_type:
@@ -1185,7 +1147,7 @@ class Concentrationsetup:
 </details>
 <h3>Methods</h3>
 <dl>
-<dt id="pimged.bigdata.bigdata.Bigdata.bit2conccalib"><code class="name flex">
+<dt id="pimged.datahandling.bigdata.bigdata.Bigdata.bit2conccalib"><code class="name flex">
 <span>def <span class="ident">bit2conccalib</span></span>(<span>self, path: (<class 'str'>, <class 'pathlib.Path'>), filename: str, rawimpath: (<class 'str'>, <class 'pathlib.Path'>) = None)</span>
 </code></dt>
 <dd>
@@ -1328,7 +1290,7 @@ order. Therefore, settings has to followed saved data order</dd>
         self._dataset.images.calibration.save(filename=filename, filepath=path)</code></pre>
 </details>
 </dd>
-<dt id="pimged.bigdata.bigdata.Bigdata.blackcorrfactors"><code class="name flex">
+<dt id="pimged.datahandling.bigdata.bigdata.Bigdata.blackcorrfactors"><code class="name flex">
 <span>def <span class="ident">blackcorrfactors</span></span>(<span>self, path: (<class 'str'>, <class 'pathlib.Path'>), filename: str)</span>
 </code></dt>
 <dd>
@@ -1453,7 +1415,7 @@ correction</p>
         self._dataset.images.blackpointcorr.save(filename=filename, filepath=path)</code></pre>
 </details>
 </dd>
-<dt id="pimged.bigdata.bigdata.Bigdata.conc_calc"><code class="name flex">
+<dt id="pimged.datahandling.bigdata.bigdata.Bigdata.conc_calc"><code class="name flex">
 <span>def <span class="ident">conc_calc</span></span>(<span>self, path_conc: (<class 'str'>, <class 'pathlib.Path'>), filename_conc: str, path_calib: (<class 'str'>, <class 'pathlib.Path'>), filename_calib: str, path_corr: (<class 'str'>, <class 'pathlib.Path'>) = None, filename_corr: str = None, conc_mean_type: str = 'off', conc_method: bool = False)</span>
 </code></dt>
 <dd>
@@ -1499,12 +1461,12 @@ False : Saving style as the concentration files</dd>
 </dl>
 <h2 id="raises">Raises</h2>
 <dl>
-<dt><strong><code>ValueError</code></strong> :&ensp;<code>:</code></dt>
-<dd>Dataset and blackpoint correction size do not match up</dd>
-<dt><strong><code>FileNotFoundError</code></strong> :&ensp;<code>:</code></dt>
-<dd>The blackpoint correction factors is not created yet or not calibration file exist</dd>
-<dt><strong><code>NotImplementedError</code></strong> :&ensp;<code>:</code></dt>
-<dd>Method not implemented</dd>
+<dt><code>ValueError</code></dt>
+<dd>&nbsp;</dd>
+<dt><code>FileNotFoundError</code></dt>
+<dd>&nbsp;</dd>
+<dt><code>NotImplementedError</code></dt>
+<dd>&nbsp;</dd>
 </dl></div>
 <details class="source">
 <summary>
@@ -1570,14 +1532,9 @@ False : Saving style as the concentration files</dd>
 
     Raises
     ------
-    ValueError : :
-        Dataset and blackpoint correction size do not match up
-
-    FileNotFoundError : :
-        The blackpoint correction factors is not created yet or not calibration file exist
-
-    NotImplementedError : :
-        Method not implemented
+    ValueError
+    FileNotFoundError
+    NotImplementedError
     &#34;&#34;&#34;
     # Checking if mean should be calculated
     match conc_mean_type:
@@ -1706,7 +1663,7 @@ False : Saving style as the concentration files</dd>
         counter += 1</code></pre>
 </details>
 </dd>
-<dt id="pimged.bigdata.bigdata.Bigdata.rawblackcorr"><code class="name flex">
+<dt id="pimged.datahandling.bigdata.bigdata.Bigdata.rawblackcorr"><code class="name flex">
 <span>def <span class="ident">rawblackcorr</span></span>(<span>self, path_corr: (<class 'str'>, <class 'pathlib.Path'>), filename_corr: str, path_rawcorr: (<class 'str'>, <class 'pathlib.Path'>), filename_rawcorr: str)</span>
 </code></dt>
 <dd>
@@ -1728,10 +1685,10 @@ The number of files loaded for the raw correction is defined by the
 </dl>
 <h2 id="raises">Raises</h2>
 <dl>
-<dt><strong><code>ValueError</code></strong> :&ensp;<code>:</code></dt>
-<dd>Dataset and blackpoint correction size do not match up</dd>
-<dt><strong><code>FileNotFoundError</code></strong> :&ensp;<code>:</code></dt>
-<dd>Blackpoint corretion factors do not exist</dd>
+<dt><code>ValueError</code></dt>
+<dd>&nbsp;</dd>
+<dt><code>FileNotFoundError</code></dt>
+<dd>&nbsp;</dd>
 </dl></div>
 <details class="source">
 <summary>
@@ -1765,11 +1722,8 @@ The number of files loaded for the raw correction is defined by the
 
     Raises
     ------
-    ValueError : :
-        Dataset and blackpoint correction size do not match up
-
-    FileNotFoundError : :
-        Blackpoint corretion factors do not exist
+    ValueError
+    FileNotFoundError
     &#34;&#34;&#34;
     # Checking folder path
     check_folder_path(path_rawcorr, createdir=True)
@@ -1842,7 +1796,7 @@ The number of files loaded for the raw correction is defined by the
 </dd>
 </dl>
 </dd>
-<dt id="pimged.bigdata.bigdata.Blackcorrsetup"><code class="flex name class">
+<dt id="pimged.datahandling.bigdata.bigdata.Blackcorrsetup"><code class="flex name class">
 <span>class <span class="ident">Blackcorrsetup</span></span>
 </code></dt>
 <dd>
@@ -1861,14 +1815,10 @@ The number of files loaded for the raw correction is defined by the
         self.nimages = 75
         self.removeedgeh = 10
         self.removeedgew = -1
-        self.flipped = False
-
-    def __str__(self):
-        &#34;&#34;&#34;Class info.&#34;&#34;&#34;
-        return &#34;Inputs needed for blackpoint correction calculations&#34;</code></pre>
+        self.flipped = False</code></pre>
 </details>
 </dd>
-<dt id="pimged.bigdata.bigdata.Calibarationsetup"><code class="flex name class">
+<dt id="pimged.datahandling.bigdata.bigdata.Calibarationsetup"><code class="flex name class">
 <span>class <span class="ident">Calibarationsetup</span></span>
 </code></dt>
 <dd>
@@ -1884,14 +1834,10 @@ The number of files loaded for the raw correction is defined by the
     def __init__(self):
         &#34;&#34;&#34;Init calibration parameters.&#34;&#34;&#34;
         self.chunksize = 50
-        self.imagerange = [1, 75]
-
-    def __str__(self):
-        &#34;&#34;&#34;Class info.&#34;&#34;&#34;
-        return &#34;Inputs needed for calibration calculations&#34;</code></pre>
+        self.imagerange = [1, 75]</code></pre>
 </details>
 </dd>
-<dt id="pimged.bigdata.bigdata.Concentrationsetup"><code class="flex name class">
+<dt id="pimged.datahandling.bigdata.bigdata.Concentrationsetup"><code class="flex name class">
 <span>class <span class="ident">Concentrationsetup</span></span>
 </code></dt>
 <dd>
@@ -1907,14 +1853,10 @@ The number of files loaded for the raw correction is defined by the
     def __init__(self):
         &#34;&#34;&#34;Init concentration calc setup.&#34;&#34;&#34;
         self.rawimagerange = [295, 305]
-        self.chunksize = 5
-
-    def __str__(self):
-        &#34;&#34;&#34;Class info.&#34;&#34;&#34;
-        return &#34;Inputs needed for concentration calculations&#34;</code></pre>
+        self.chunksize = 5</code></pre>
 </details>
 </dd>
-<dt id="pimged.bigdata.bigdata.Setup"><code class="flex name class">
+<dt id="pimged.datahandling.bigdata.bigdata.Setup"><code class="flex name class">
 <span>class <span class="ident">Setup</span></span>
 </code></dt>
 <dd>
@@ -1940,10 +1882,10 @@ The number of files loaded for the raw correction is defined by the
 </article>
 <nav id="sidebar">
 <header>
-<center><a class="homelink" rel="home" title="PImGED treat" href="https://youtu
+<a class="homelink" rel="home" title="PImGED treat" href="https://youtu
 .be/mx86-rTclzA?si=RWJEgJIT8MdOsVn7">
-<img src="https://i.ibb.co/Tbp2rPk/logo.png" alt="">
-</a></center>
+<center><img src="https://i.ibb.co/Tbp2rPk/logo.png" alt=""></center>
+</a>
 </header>
 <h1>Index</h1>
 <div class="toc">
@@ -1952,31 +1894,31 @@ The number of files loaded for the raw correction is defined by the
 <ul id="index">
 <li><h3>Super-module</h3>
 <ul>
-<li><code><a title="pimged.bigdata" href="index.html">pimged.bigdata</a></code></li>
+<li><code><a title="pimged.datahandling.bigdata" href="index.html">pimged.datahandling.bigdata</a></code></li>
 </ul>
 </li>
 <li><h3><a href="#header-classes">Classes</a></h3>
 <ul>
 <li>
-<h4><code><a title="pimged.bigdata.bigdata.Bigdata" href="#pimged.bigdata.bigdata.Bigdata">Bigdata</a></code></h4>
+<h4><code><a title="pimged.datahandling.bigdata.bigdata.Bigdata" href="#pimged.datahandling.bigdata.bigdata.Bigdata">Bigdata</a></code></h4>
 <ul class="">
-<li><code><a title="pimged.bigdata.bigdata.Bigdata.bit2conccalib" href="#pimged.bigdata.bigdata.Bigdata.bit2conccalib">bit2conccalib</a></code></li>
-<li><code><a title="pimged.bigdata.bigdata.Bigdata.blackcorrfactors" href="#pimged.bigdata.bigdata.Bigdata.blackcorrfactors">blackcorrfactors</a></code></li>
-<li><code><a title="pimged.bigdata.bigdata.Bigdata.conc_calc" href="#pimged.bigdata.bigdata.Bigdata.conc_calc">conc_calc</a></code></li>
-<li><code><a title="pimged.bigdata.bigdata.Bigdata.rawblackcorr" href="#pimged.bigdata.bigdata.Bigdata.rawblackcorr">rawblackcorr</a></code></li>
+<li><code><a title="pimged.datahandling.bigdata.bigdata.Bigdata.bit2conccalib" href="#pimged.datahandling.bigdata.bigdata.Bigdata.bit2conccalib">bit2conccalib</a></code></li>
+<li><code><a title="pimged.datahandling.bigdata.bigdata.Bigdata.blackcorrfactors" href="#pimged.datahandling.bigdata.bigdata.Bigdata.blackcorrfactors">blackcorrfactors</a></code></li>
+<li><code><a title="pimged.datahandling.bigdata.bigdata.Bigdata.conc_calc" href="#pimged.datahandling.bigdata.bigdata.Bigdata.conc_calc">conc_calc</a></code></li>
+<li><code><a title="pimged.datahandling.bigdata.bigdata.Bigdata.rawblackcorr" href="#pimged.datahandling.bigdata.bigdata.Bigdata.rawblackcorr">rawblackcorr</a></code></li>
 </ul>
 </li>
 <li>
-<h4><code><a title="pimged.bigdata.bigdata.Blackcorrsetup" href="#pimged.bigdata.bigdata.Blackcorrsetup">Blackcorrsetup</a></code></h4>
+<h4><code><a title="pimged.datahandling.bigdata.bigdata.Blackcorrsetup" href="#pimged.datahandling.bigdata.bigdata.Blackcorrsetup">Blackcorrsetup</a></code></h4>
 </li>
 <li>
-<h4><code><a title="pimged.bigdata.bigdata.Calibarationsetup" href="#pimged.bigdata.bigdata.Calibarationsetup">Calibarationsetup</a></code></h4>
+<h4><code><a title="pimged.datahandling.bigdata.bigdata.Calibarationsetup" href="#pimged.datahandling.bigdata.bigdata.Calibarationsetup">Calibarationsetup</a></code></h4>
 </li>
 <li>
-<h4><code><a title="pimged.bigdata.bigdata.Concentrationsetup" href="#pimged.bigdata.bigdata.Concentrationsetup">Concentrationsetup</a></code></h4>
+<h4><code><a title="pimged.datahandling.bigdata.bigdata.Concentrationsetup" href="#pimged.datahandling.bigdata.bigdata.Concentrationsetup">Concentrationsetup</a></code></h4>
 </li>
 <li>
-<h4><code><a title="pimged.bigdata.bigdata.Setup" href="#pimged.bigdata.bigdata.Setup">Setup</a></code></h4>
+<h4><code><a title="pimged.datahandling.bigdata.bigdata.Setup" href="#pimged.datahandling.bigdata.bigdata.Setup">Setup</a></code></h4>
 </li>
 </ul>
 </li>

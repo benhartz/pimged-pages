@@ -4,13 +4,15 @@ Python Image library for GASMIX EUDP Distro (PImGED) is used for handling image 
 during the experiments of the GASMIX project supported by EUDP, MAN ES and DTU. 
 
 The framework is designed to handle large amounts of image data with limited computational 
-resources. Several optimized function utilizing OpenCV C++ and multithreading through the Joblib 
-package, are used to speedup computations and memory handling.
+resources. Several optimized function utilizing OpenCV C++, numba compilation and multithreading 
+through the Joblib package, are used to speed-up computations and memory handling.
+
+## [code pages are found here](https://benhartz.github.io/pimged-pages/)
 
 ## Installation
 
 ## Code structure
-![codestructure](https://i.ibb.co/Nt1Lyz8/code-structure.png)
+![codestructure](https://i.ibb.co/QbFw4RF/code-structure.png)
 
 
 To handle larger data amounts the code takes inspiration from Panda on datastructure and 
@@ -25,7 +27,7 @@ the standardrised data setup.
 Handling standard calculations a calculation module takes the dataset object as an input. 
 When new information is calculated it can then populate the dataset object with information, 
 utilizing the indirection implementation of list and numpy arrays in python. This streamline the 
-collection of data in one object that can load or save the data with minimal codeing.
+collection of data in one object that can load or save the data with minimal coding.
 
 Between the whole framework, several functions are reused with simple coding and these are 
 included in a utility package with the framework. Here is sorting of list elements widely used 
@@ -48,7 +50,7 @@ Created by Benjamin Hartz
 Created during the GASMIX PhD project at DTU Construct under FVM, supported by EUPD and MAN ES 
 
 ## License
-[BSD 3-Clause License](LICENSE)
+[BSD 3-Clause License](LICENSE.txt)
 
 Copyright (c) 2024, Benjamin Arnold Krekeler Hartz
 
