@@ -7,8 +7,6 @@ The framework is designed to handle large amounts of image data with limited com
 resources. Several optimized function utilizing OpenCV C++, numba compilation and multithreading 
 through the Joblib package, are used to speed-up computations and memory handling.
 
-## [code pages are found here](https://benhartz.github.io/pimged-pages/)
-
 ## Installation
 
 ## Code structure
