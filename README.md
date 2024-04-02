@@ -48,7 +48,7 @@ Created by Benjamin Hartz
 Created during the GASMIX PhD project at DTU Construct under FVM, supported by EUPD and MAN ES 
 
 ## License
-[BSD 3-Clause License](LICENSE.txt)
+[BSD 3-Clause License](LICENSE)
 
 Copyright (c) 2024, Benjamin Arnold Krekeler Hartz
 
