@@ -7,6 +7,8 @@ The framework is designed to handle large amounts of image data with limited com
 resources. Several optimized function utilizing OpenCV C++, numba compilation and multithreading 
 through the Joblib package, are used to speed-up computations and memory handling.
 
+## [code pages are found here](https://benhartz.github.io/pimged-pages/)
+
 ## Installation
 A test package is created for the project, and it is possible to install it, with dependencies 
 from testPyPi using the following command in the terminal for a Windows machine:
@@ -25,10 +27,12 @@ git clone https://github.com/benhartz/pimged-example.git
 ### [Download the example data from this figshare link](https://figshare.com/s/286bc4cf871abd25b1d1)
 
 
-#### -- OBS -- -- OBS --  -- OBS -- -- OBS --  -- OBS -- -- OBS --  -- OBS -- -- OBS --  -- OBS -- 
+**-- OBS -- -- OBS --  -- OBS -- -- OBS --  -- OBS -- -- OBS --  -- OBS -- -- OBS --  -- OBS --** 
+
 The data folder is ~12 GB of data, as it consist of  uncompressed tiff files directly from the 
 high-speed camera sensor used.
-#### -- OBS -- -- OBS --  -- OBS -- -- OBS --  -- OBS -- -- OBS --  -- OBS -- -- OBS --  -- OBS -- 
+
+**-- OBS -- -- OBS --  -- OBS -- -- OBS --  -- OBS -- -- OBS --  -- OBS -- -- OBS --  -- OBS --** 
 
 In the example folder is located an example script on using the PImGED package and its modules. 
 The data folder contain 10 datasets obtained in the GASMIX test setup along with 10 pressure 

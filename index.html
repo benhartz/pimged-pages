@@ -31,8 +31,58 @@ during the experiments of the GASMIX project supported by EUDP, MAN ES and DTU. 
 resources. Several optimized function utilizing OpenCV C++, numba compilation and multithreading
 through the Joblib package, are used to speed-up computations and memory handling.</p>
 <h2 id="installation">Installation</h2>
+<p>A test package is created for the project, and it is possible to install it, with dependencies
+from testPyPi using the following command in the terminal for a Windows machine:</p>
+<pre><code>python -m pip install --index-url https://test.pypi.org/simple/ --extra-index-url https://pypi.org/simple PImGed
+</code></pre>
+<h2 id="example-scripts-and-data">Example scripts and data</h2>
+<p>Get the example scripts from the <a href="https://github.com/benhartz/pimged-example">GitHub repository</a>,
+it is cloned by using the following command</p>
+<pre><code class="language-commandline">git clone https://github.com/benhartz/pimged-example.git
+</code></pre>
+<h3 id="download-the-example-data-from-this-figshare-link"><a href="https://figshare.com/s/286bc4cf871abd25b1d1">Download the example data from this figshare link</a></h3>
+<p><strong>&ndash; OBS &ndash; &ndash; OBS &ndash;
+&ndash; OBS &ndash; &ndash; OBS &ndash;
+&ndash; OBS &ndash; &ndash; OBS &ndash;
+&ndash; OBS &ndash; &ndash; OBS &ndash;
+&ndash; OBS &ndash;</strong> </p>
+<p>The data folder is ~12 GB of data, as it consist of
+uncompressed tiff files directly from the
+high-speed camera sensor used.</p>
+<p><strong>&ndash; OBS &ndash; &ndash; OBS &ndash;
+&ndash; OBS &ndash; &ndash; OBS &ndash;
+&ndash; OBS &ndash; &ndash; OBS &ndash;
+&ndash; OBS &ndash; &ndash; OBS &ndash;
+&ndash; OBS &ndash;</strong> </p>
+<p>In the example folder is located an example script on using the PImGED package and its modules.
+The data folder contain 10 datasets obtained in the GASMIX test setup along with 10 pressure
+measurments in a ziped folder for speed-up of downloading instead of many small image files.</p>
+<p>Unzip the data folder so the folder path looks as seen here</p>
+<pre><code>pimged-example/
+  .gitignore
+  LICENSE
+  README.md
+  example/
+    pimged_example.py
+    pimged_big_data_example.py
+    pimged_pod_example.py
+  data/
+    data/
+     Pressure/
+      ...
+     Pictures/
+      ...
+</code></pre>
+<p>Now it should be possible to run the <code>pimged_example.py</code> script for testing simple data
+manangement and get these plots out
+<img alt="jet conc" src="https://i.ibb.co/dGX7NMC/jetconc.png">
+<img alt="jet staistics" src="https://i.ibb.co/sQFtL2D/jetstatistics.png">
+<img alt="Pressures" src="https://i.ibb.co/zQ2xTgh/pressure.png"></p>
+<p>The <code>pimged_big_data_example.py</code> script show how to use the code for handling larger amounts of
+data to get concentrations fields</p>
+<p>To use the POD calculation module, run <code>pimged_pod_example.py</code> for an example on use</p>
 <h2 id="code-structure">Code structure</h2>
-<p><img alt="codestructure" src="https://i.ibb.co/QbFw4RF/code-structure.png"></p>
+<p><img alt="codestructure" src="https://i.ibb.co/VDNfd9X/code-structure.png"></p>
 <p>To handle larger data amounts the code takes inspiration from Panda on datastructure and
 implement a dataset module used for loading/saving data. The data is handled by datacontainers
 with functions for manipulating the individual datatypes. With the datacontainer module implementing
@@ -152,16 +202,15 @@ datahandling&#160;<a class="footnote-backref" href="#fnref:fullpartfolder" title
 </summary>
 <pre><code class="python">&#34;&#34;&#34;.
 
-.. include:: ../readme.md
+.. include:: ../../readme.md
 
-.. include:: ../documentation.md
+.. include:: ../../documentation.md
 &#34;&#34;&#34;
-import pimged.calculate.jetparameters as jetparameters
-from pimged.datahandling import Dataset
-from pimged.bigdata.bigdata import Bigdata
-from pimged.calculate import Calculate
-from pimged.calculate.pod import POD
-from pimged.imageexport import Imageexport
+from .datahandling import Dataset
+from .bigdata.bigdata import Bigdata
+from .calculate import Calculate
+from .calculate.pod import POD
+from .imageexport import Imageexport
 from .utils.chixread import checkingchixfileset
 from .utils.naturalkeysort import naturalkeysort</code></pre>
 </details>
@@ -210,6 +259,10 @@ from .utils.naturalkeysort import naturalkeysort</code></pre>
 <ul>
 <li><a href="#code-pages-are-found-here">code pages are found here</a></li>
 <li><a href="#installation">Installation</a></li>
+<li><a href="#example-scripts-and-data">Example scripts and data</a><ul>
+<li><a href="#download-the-example-data-from-this-figshare-link">Download the example data from this figshare link</a></li>
+</ul>
+</li>
 <li><a href="#code-structure">Code structure</a></li>
 <li><a href="#support">Support</a></li>
 <li><a href="#authors-and-acknowledgment">Authors and acknowledgment</a></li>

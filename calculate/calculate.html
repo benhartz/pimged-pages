@@ -61,6 +61,7 @@ class Imagecalc:
         self.image_calcpresision = dataset.images._precision_calc
 
         self._imagearrays = dataset.images
+        self._pressure = dataset.pressures
         self._fileinfo = dataset.fileinfo
         self._individualcalibrations = True
 
@@ -124,9 +125,14 @@ class Imagecalc:
         print(&#39;Starting calibration calculations\n&#39;)
 
         # Loading the dataload structure to load in zero particles
-        loadingdata = Dataload(self._imagearrays, None, self._fileinfo, self._fileinfo.mainpath,
+        loadingdata = Dataload(self._imagearrays,
+                               self._pressure,
+                               self._fileinfo,
+                               self._fileinfo.mainpath,
                                self._fileinfo.imagesearchfolders,
                                self._fileinfo.zeroparticlesfolder,
+                               pressuresearchfolders=self._fileinfo.pressuresearchfolders,
+                               pressurefoldername=self._fileinfo.pressurefoldername,
                                imagefoldername=self._fileinfo.imagefoldername,
                                checkmeta=False,
                                loadmeta=True)
@@ -230,7 +236,7 @@ class Imagecalc:
                 _calibrationfunc(self, 0, i, None)
         else:
             _parellizearrayfunccalc(self, func=_calibrationfunc, memsave=&#34;parlow&#34;,
-                                   chunksize=1, setrange=None, ndataperload=lencalset, verb=verb)
+                                    chunksize=1, setrange=None, ndataperload=lencalset, verb=verb)
 
         # If the calibration should be flipped in values
         if flip:
@@ -486,6 +492,12 @@ class Imagecalc:
                                                                     dtype=self.image_calcpresision)
             pixmeanmax = pixmean[removeedgeh:-removeedgeh, removeedgew:-removeedgew].max(axis=(0,
                                                                                                1))
+
+            if np.any(pixmeanmax &gt;= 3900):
+                warn(&#34;The mean pixel value is above 3900 in greyscale value, check if the wall &#34;
+                     &#34;index is set at a suffecient position and no laser sheet parts on walls are &#34;
+                     &#34;within the search area&#34;)
+
             weighting = pixmean / pixmeanmax
             weighting[weighting &gt; 1] = 1
 
@@ -624,14 +636,15 @@ class Imagecalc:
         &#34;&#34;&#34;
         _errorlist(self._imagearrays.concentration.data, typeerror=0)
 
-        print(&#39;Starting nth moment calculations&#39;)
+        print(f&#39;Starting {nth}th moment calculations&#39;)
         idx = _timeidxcheck(self, timeidx)
 
         if isinstance(idx, slice):
             sizedata = np.shape(self._imagearrays.concentration.data)
-            tmpmoment = np.zeros((sizedata[0], sizedata[1], timeidx[1] - timeidx[0] + 1))
-            indecies = np.arange(timeidx[0], timeidx[1] + 1, 1)
+            tmpmoment = np.zeros((sizedata[0], sizedata[1], idx.stop - idx.start + 1))
+            indecies = np.arange(idx.start, idx.stop, 1)
             for i, val in enumerate(indecies):
+                print(f&#39;Moment calc at time idx: {i+1} of {idx.stop}&#39;, end=&#39;\r&#39;)
                 tmpmoment[:, :, i] = moment(self._imagearrays.concentration.data[:, :, val, :],
                                             moment=nth,
                                             axis=2)
@@ -640,7 +653,7 @@ class Imagecalc:
                                moment=nth,
                                axis=2)
 
-        print(&#39;Done with nth moment\n&#39;)
+        print(f&#39;Done with {nth}th moment\n&#39;)
         return tmpmoment
 
 
@@ -692,7 +705,26 @@ class Calculate(Presscalc):
 
     def __str__(self):
         &#34;&#34;&#34;Class info.&#34;&#34;&#34;
-        return &#34;Calculation object handling PImGED datasets&#34;
+        return self._infostring()
+
+    @staticmethod
+    def _infostring():
+        &#34;&#34;&#34;Info about object.
+
+        Returns
+        -------
+        type : str :
+            Info string about function for __str__ representation
+        &#34;&#34;&#34;
+        info = (&#34;Calculate object is the main calculation module of the PImGED package. It is &#34;
+                &#34;used for calculating image based data with fast rutines optimized for RAM and &#34;
+                &#34;multithreading.\n&#34;
+                &#34;With its own algorithm design for calibration and concentration estimation, &#34;
+                &#34;of linear intensity 2D gas jets images, it provide a flexible library for low &#34;
+                &#34;computational resources with large datasets.\n&#34;
+                &#34;It handle statistics as mean, variance and standard deviation calculations, &#34;
+                &#34;based on the numpy framework, and statistical moments through scipy.\n&#34;)
+        return info
 
 
 def _parellizearrayfunccalc(obj, func, memsave, chunksize, setrange, ndataperload, verb):
@@ -853,7 +885,7 @@ def _timeidxcheck(obj, timeidx):
     elif isinstance(timeidx, list):
         if timeidx[1] - timeidx[0] &lt; 0:
             raise ValueError(&#39;Time indices is not [startidx, endidx] format&#39;)
-        idx = slice(timeidx[1], timeidx[0])
+        idx = slice(timeidx[0], timeidx[1])
     elif isinstance(timeidx, int):
         if timeidx != abs(timeidx):
             raise ValueError(&#39;Timeidx has to be a positive number&#39;)
@@ -956,7 +988,26 @@ def _rawblackcorrinputcheck(obj, jetcenter, jetwidth, wallidx, shotidx):
 
     def __str__(self):
         &#34;&#34;&#34;Class info.&#34;&#34;&#34;
-        return &#34;Calculation object handling PImGED datasets&#34;</code></pre>
+        return self._infostring()
+
+    @staticmethod
+    def _infostring():
+        &#34;&#34;&#34;Info about object.
+
+        Returns
+        -------
+        type : str :
+            Info string about function for __str__ representation
+        &#34;&#34;&#34;
+        info = (&#34;Calculate object is the main calculation module of the PImGED package. It is &#34;
+                &#34;used for calculating image based data with fast rutines optimized for RAM and &#34;
+                &#34;multithreading.\n&#34;
+                &#34;With its own algorithm design for calibration and concentration estimation, &#34;
+                &#34;of linear intensity 2D gas jets images, it provide a flexible library for low &#34;
+                &#34;computational resources with large datasets.\n&#34;
+                &#34;It handle statistics as mean, variance and standard deviation calculations, &#34;
+                &#34;based on the numpy framework, and statistical moments through scipy.\n&#34;)
+        return info</code></pre>
 </details>
 <h3>Ancestors</h3>
 <ul class="hlist">
@@ -1017,6 +1068,7 @@ the imagearrays data container</p>
         self.image_calcpresision = dataset.images._precision_calc
 
         self._imagearrays = dataset.images
+        self._pressure = dataset.pressures
         self._fileinfo = dataset.fileinfo
         self._individualcalibrations = True
 
@@ -1080,9 +1132,14 @@ the imagearrays data container</p>
         print(&#39;Starting calibration calculations\n&#39;)
 
         # Loading the dataload structure to load in zero particles
-        loadingdata = Dataload(self._imagearrays, None, self._fileinfo, self._fileinfo.mainpath,
+        loadingdata = Dataload(self._imagearrays,
+                               self._pressure,
+                               self._fileinfo,
+                               self._fileinfo.mainpath,
                                self._fileinfo.imagesearchfolders,
                                self._fileinfo.zeroparticlesfolder,
+                               pressuresearchfolders=self._fileinfo.pressuresearchfolders,
+                               pressurefoldername=self._fileinfo.pressurefoldername,
                                imagefoldername=self._fileinfo.imagefoldername,
                                checkmeta=False,
                                loadmeta=True)
@@ -1186,7 +1243,7 @@ the imagearrays data container</p>
                 _calibrationfunc(self, 0, i, None)
         else:
             _parellizearrayfunccalc(self, func=_calibrationfunc, memsave=&#34;parlow&#34;,
-                                   chunksize=1, setrange=None, ndataperload=lencalset, verb=verb)
+                                    chunksize=1, setrange=None, ndataperload=lencalset, verb=verb)
 
         # If the calibration should be flipped in values
         if flip:
@@ -1442,6 +1499,12 @@ the imagearrays data container</p>
                                                                     dtype=self.image_calcpresision)
             pixmeanmax = pixmean[removeedgeh:-removeedgeh, removeedgew:-removeedgew].max(axis=(0,
                                                                                                1))
+
+            if np.any(pixmeanmax &gt;= 3900):
+                warn(&#34;The mean pixel value is above 3900 in greyscale value, check if the wall &#34;
+                     &#34;index is set at a suffecient position and no laser sheet parts on walls are &#34;
+                     &#34;within the search area&#34;)
+
             weighting = pixmean / pixmeanmax
             weighting[weighting &gt; 1] = 1
 
@@ -1580,14 +1643,15 @@ the imagearrays data container</p>
         &#34;&#34;&#34;
         _errorlist(self._imagearrays.concentration.data, typeerror=0)
 
-        print(&#39;Starting nth moment calculations&#39;)
+        print(f&#39;Starting {nth}th moment calculations&#39;)
         idx = _timeidxcheck(self, timeidx)
 
         if isinstance(idx, slice):
             sizedata = np.shape(self._imagearrays.concentration.data)
-            tmpmoment = np.zeros((sizedata[0], sizedata[1], timeidx[1] - timeidx[0] + 1))
-            indecies = np.arange(timeidx[0], timeidx[1] + 1, 1)
+            tmpmoment = np.zeros((sizedata[0], sizedata[1], idx.stop - idx.start + 1))
+            indecies = np.arange(idx.start, idx.stop, 1)
             for i, val in enumerate(indecies):
+                print(f&#39;Moment calc at time idx: {i+1} of {idx.stop}&#39;, end=&#39;\r&#39;)
                 tmpmoment[:, :, i] = moment(self._imagearrays.concentration.data[:, :, val, :],
                                             moment=nth,
                                             axis=2)
@@ -1596,7 +1660,7 @@ the imagearrays data container</p>
                                moment=nth,
                                axis=2)
 
-        print(&#39;Done with nth moment\n&#39;)
+        print(f&#39;Done with {nth}th moment\n&#39;)
         return tmpmoment</code></pre>
 </details>
 <h3>Subclasses</h3>
@@ -1872,9 +1936,14 @@ for the dataset</dd>
     print(&#39;Starting calibration calculations\n&#39;)
 
     # Loading the dataload structure to load in zero particles
-    loadingdata = Dataload(self._imagearrays, None, self._fileinfo, self._fileinfo.mainpath,
+    loadingdata = Dataload(self._imagearrays,
+                           self._pressure,
+                           self._fileinfo,
+                           self._fileinfo.mainpath,
                            self._fileinfo.imagesearchfolders,
                            self._fileinfo.zeroparticlesfolder,
+                           pressuresearchfolders=self._fileinfo.pressuresearchfolders,
+                           pressurefoldername=self._fileinfo.pressurefoldername,
                            imagefoldername=self._fileinfo.imagefoldername,
                            checkmeta=False,
                            loadmeta=True)
@@ -1978,7 +2047,7 @@ for the dataset</dd>
             _calibrationfunc(self, 0, i, None)
     else:
         _parellizearrayfunccalc(self, func=_calibrationfunc, memsave=&#34;parlow&#34;,
-                               chunksize=1, setrange=None, ndataperload=lencalset, verb=verb)
+                                chunksize=1, setrange=None, ndataperload=lencalset, verb=verb)
 
     # If the calibration should be flipped in values
     if flip:
@@ -2082,14 +2151,15 @@ stationary time index</dd>
     &#34;&#34;&#34;
     _errorlist(self._imagearrays.concentration.data, typeerror=0)
 
-    print(&#39;Starting nth moment calculations&#39;)
+    print(f&#39;Starting {nth}th moment calculations&#39;)
     idx = _timeidxcheck(self, timeidx)
 
     if isinstance(idx, slice):
         sizedata = np.shape(self._imagearrays.concentration.data)
-        tmpmoment = np.zeros((sizedata[0], sizedata[1], timeidx[1] - timeidx[0] + 1))
-        indecies = np.arange(timeidx[0], timeidx[1] + 1, 1)
+        tmpmoment = np.zeros((sizedata[0], sizedata[1], idx.stop - idx.start + 1))
+        indecies = np.arange(idx.start, idx.stop, 1)
         for i, val in enumerate(indecies):
+            print(f&#39;Moment calc at time idx: {i+1} of {idx.stop}&#39;, end=&#39;\r&#39;)
             tmpmoment[:, :, i] = moment(self._imagearrays.concentration.data[:, :, val, :],
                                         moment=nth,
                                         axis=2)
@@ -2098,7 +2168,7 @@ stationary time index</dd>
                            moment=nth,
                            axis=2)
 
-    print(&#39;Done with nth moment\n&#39;)
+    print(f&#39;Done with {nth}th moment\n&#39;)
     return tmpmoment</code></pre>
 </details>
 </dd>
@@ -2299,6 +2369,12 @@ images. default is False, which means it calculate raw corrections</dd>
                                                                 dtype=self.image_calcpresision)
         pixmeanmax = pixmean[removeedgeh:-removeedgeh, removeedgew:-removeedgew].max(axis=(0,
                                                                                            1))
+
+        if np.any(pixmeanmax &gt;= 3900):
+            warn(&#34;The mean pixel value is above 3900 in greyscale value, check if the wall &#34;
+                 &#34;index is set at a suffecient position and no laser sheet parts on walls are &#34;
+                 &#34;within the search area&#34;)
+
         weighting = pixmean / pixmeanmax
         weighting[weighting &gt; 1] = 1
 

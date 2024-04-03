@@ -56,8 +56,8 @@ class Dataset(Dataload):
                  loadmeta: bool = True):
         &#34;&#34;&#34;Dataset is a class handler for data storage of images.
 
-        Designed to handle images from PFV software with CHIX metadata. The object inhearit two
-        the main module:
+        Designed to handle images from PFV software with CHIX metadata. The object inhearit the
+        main module class:
         Dataload:
             Which is the module for loading data into the raw array under imagearrays and
             fileinformation about the loaded data.
@@ -170,7 +170,22 @@ class Dataset(Dataload):
 
     def __str__(self):
         &#34;&#34;&#34;Class representation.&#34;&#34;&#34;
-        return &#34;Main object for handling PImGED datasets with images&#34;</code></pre>
+        return self._infostring()
+
+    @staticmethod
+    def _infostring():
+        &#34;&#34;&#34;Info about object.
+
+        Returns
+        -------
+        type : str :
+            Info string about function for __str__ representation
+        &#34;&#34;&#34;
+        info = (&#34;Dataset is the main object of the PImGED package. It is used for handling image &#34;
+                &#34;datasets with fast rutines for loading and saving data.\n&#34;
+                &#34;The object is streamlined to provide a simple overview of the image data and &#34;
+                &#34;send it through the other modules for further calculations.&#34;)
+        return info</code></pre>
 </details>
 </section>
 <section>
@@ -189,8 +204,8 @@ class Dataset(Dataload):
 <dd>
 <div class="desc"><p>Datasetset class for the PIMGED framework.</p>
 <p>Dataset is a class handler for data storage of images.</p>
-<p>Designed to handle images from PFV software with CHIX metadata. The object inhearit two
-the main module:</p>
+<p>Designed to handle images from PFV software with CHIX metadata. The object inhearit the
+main module class:</p>
 <h2 id="dataload">Dataload</h2>
 <p>Which is the module for loading data into the raw array under imagearrays and
 fileinformation about the loaded data.</p>
@@ -282,8 +297,8 @@ If the metadata should be loaded</dd>
                  loadmeta: bool = True):
         &#34;&#34;&#34;Dataset is a class handler for data storage of images.
 
-        Designed to handle images from PFV software with CHIX metadata. The object inhearit two
-        the main module:
+        Designed to handle images from PFV software with CHIX metadata. The object inhearit the
+        main module class:
         Dataload:
             Which is the module for loading data into the raw array under imagearrays and
             fileinformation about the loaded data.
@@ -396,7 +411,22 @@ If the metadata should be loaded</dd>
 
     def __str__(self):
         &#34;&#34;&#34;Class representation.&#34;&#34;&#34;
-        return &#34;Main object for handling PImGED datasets with images&#34;</code></pre>
+        return self._infostring()
+
+    @staticmethod
+    def _infostring():
+        &#34;&#34;&#34;Info about object.
+
+        Returns
+        -------
+        type : str :
+            Info string about function for __str__ representation
+        &#34;&#34;&#34;
+        info = (&#34;Dataset is the main object of the PImGED package. It is used for handling image &#34;
+                &#34;datasets with fast rutines for loading and saving data.\n&#34;
+                &#34;The object is streamlined to provide a simple overview of the image data and &#34;
+                &#34;send it through the other modules for further calculations.&#34;)
+        return info</code></pre>
 </details>
 <h3>Ancestors</h3>
 <ul class="hlist">

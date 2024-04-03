@@ -59,8 +59,26 @@ class Bigdata:
 
     def __str__(self):
         &#34;&#34;&#34;Class info.&#34;&#34;&#34;
-        return (&#34;Module for handling large datasets for PImGED using the calculate functions and &#34;
-                &#34;saving intermediate files in chunks for loading&#34;)
+        return self._infostring()
+
+    @staticmethod
+    def _infostring():
+        &#34;&#34;&#34;Info about object.
+
+        Returns
+        -------
+        type : str :
+            Info string about function for __str__ representation
+        &#34;&#34;&#34;
+        info = (&#34;Bigdata utilize the capabilities from the Calculate module and load/save rutines &#34;
+                &#34;built into the Dataset module, to handle large amounts of datasets. \n&#34;
+                &#34;By saving and loading chunks of data, it is possible to apply settings for &#34;
+                &#34;computational power with low amounts of RAM, to calculate several TB of image &#34;
+                &#34;data, without the user handling file references. Everything is handled by the &#34;
+                &#34;module rutines.\n&#34;
+                &#34;The module implement methods for calibration, concentration and black point &#34;
+                &#34;correction of raw images.&#34;)
+        return info
 
     def rawblackcorr(self,
                      path_corr: (str, pathlib.Path),
@@ -671,8 +689,26 @@ class Concentrationsetup:
 
     def __str__(self):
         &#34;&#34;&#34;Class info.&#34;&#34;&#34;
-        return (&#34;Module for handling large datasets for PImGED using the calculate functions and &#34;
-                &#34;saving intermediate files in chunks for loading&#34;)
+        return self._infostring()
+
+    @staticmethod
+    def _infostring():
+        &#34;&#34;&#34;Info about object.
+
+        Returns
+        -------
+        type : str :
+            Info string about function for __str__ representation
+        &#34;&#34;&#34;
+        info = (&#34;Bigdata utilize the capabilities from the Calculate module and load/save rutines &#34;
+                &#34;built into the Dataset module, to handle large amounts of datasets. \n&#34;
+                &#34;By saving and loading chunks of data, it is possible to apply settings for &#34;
+                &#34;computational power with low amounts of RAM, to calculate several TB of image &#34;
+                &#34;data, without the user handling file references. Everything is handled by the &#34;
+                &#34;module rutines.\n&#34;
+                &#34;The module implement methods for calibration, concentration and black point &#34;
+                &#34;correction of raw images.&#34;)
+        return info
 
     def rawblackcorr(self,
                      path_corr: (str, pathlib.Path),

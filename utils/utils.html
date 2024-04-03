@@ -34,21 +34,21 @@ from os import listdir, path as ph, makedirs
 import numpy as np
 
 
-def range_load_check(inputvar: str, rangetoload, rangetoloaddefault, typetocheckfor, loadmethod):
+def range_load_check(inputvar: list, rangetoload, rangetoloaddefault, typetocheckfor, loadmethod):
     &#34;&#34;&#34;Check if inputs are consisten with code syntax for loading of imagearray range.
 
     Parameters
     ----------
-    inputvar :
+    inputvar : list :
         the input list
 
-    rangetoload :
+    rangetoload : :
         the range to load
 
-    rangetoloaddefault :
+    rangetoloaddefault : :
         the default value to check for
 
-    typetocheckfor :
+    typetocheckfor : :
         the type to check for, if it is not the default value
 
     loadmethod : str :
@@ -85,7 +85,11 @@ def range_load_check(inputvar: str, rangetoload, rangetoloaddefault, typetocheck
                 output = inputvar[:, :, rangetoload[0]:rangetoload[-1]]
 
         elif loadmethod == &#39;spec&#39;:
-            output = [inputvar[i] for i in rangetoload]
+            try:
+                output = [inputvar[i-1] for i in rangetoload]
+            except IndexError:
+                raise IndexError(f&#39;Image outside index is asked for, failed at asking, &#39;
+                                 f&#39;only {inputvar[-1]+1} is present in data&#39;)
     else:
         raise TypeError(&#34;rangetoload input not accepted, has to be in a list &#39;all&#39;&#34;)
 
@@ -423,20 +427,20 @@ end character (e.g. "\r", "\r\n")</dd>
 </details>
 </dd>
 <dt id="pimged.utils.utils.range_load_check"><code class="name flex">
-<span>def <span class="ident">range_load_check</span></span>(<span>inputvar: str, rangetoload, rangetoloaddefault, typetocheckfor, loadmethod)</span>
+<span>def <span class="ident">range_load_check</span></span>(<span>inputvar: list, rangetoload, rangetoloaddefault, typetocheckfor, loadmethod)</span>
 </code></dt>
 <dd>
 <div class="desc"><p>Check if inputs are consisten with code syntax for loading of imagearray range.</p>
 <h2 id="parameters">Parameters</h2>
-<p>inputvar :
-the input list</p>
-<p>rangetoload :
-the range to load</p>
-<p>rangetoloaddefault :
-the default value to check for</p>
-<p>typetocheckfor :
-the type to check for, if it is not the default value</p>
 <dl>
+<dt><strong><code>inputvar</code></strong> :&ensp;<code>list :</code></dt>
+<dd>the input list</dd>
+<dt><strong><code>rangetoload</code></strong> :&ensp;<code>:</code></dt>
+<dd>the range to load</dd>
+<dt><strong><code>rangetoloaddefault</code></strong> :&ensp;<code>:</code></dt>
+<dd>the default value to check for</dd>
+<dt><strong><code>typetocheckfor</code></strong> :&ensp;<code>:</code></dt>
+<dd>the type to check for, if it is not the default value</dd>
 <dt><strong><code>loadmethod</code></strong> :&ensp;<code>str :</code></dt>
 <dd>{'range', 'spec'}
 loadmethod can be 'range' or 'spec', only used if non-default case is chosen
@@ -457,21 +461,21 @@ loadmethod can be 'range' or 'spec', only used if non-default case is chosen
 <summary>
 <span>Expand source code</span>
 </summary>
-<pre><code class="python">def range_load_check(inputvar: str, rangetoload, rangetoloaddefault, typetocheckfor, loadmethod):
+<pre><code class="python">def range_load_check(inputvar: list, rangetoload, rangetoloaddefault, typetocheckfor, loadmethod):
     &#34;&#34;&#34;Check if inputs are consisten with code syntax for loading of imagearray range.
 
     Parameters
     ----------
-    inputvar :
+    inputvar : list :
         the input list
 
-    rangetoload :
+    rangetoload : :
         the range to load
 
-    rangetoloaddefault :
+    rangetoloaddefault : :
         the default value to check for
 
-    typetocheckfor :
+    typetocheckfor : :
         the type to check for, if it is not the default value
 
     loadmethod : str :
@@ -508,7 +512,11 @@ loadmethod can be 'range' or 'spec', only used if non-default case is chosen
                 output = inputvar[:, :, rangetoload[0]:rangetoload[-1]]
 
         elif loadmethod == &#39;spec&#39;:
-            output = [inputvar[i] for i in rangetoload]
+            try:
+                output = [inputvar[i-1] for i in rangetoload]
+            except IndexError:
+                raise IndexError(f&#39;Image outside index is asked for, failed at asking, &#39;
+                                 f&#39;only {inputvar[-1]+1} is present in data&#39;)
     else:
         raise TypeError(&#34;rangetoload input not accepted, has to be in a list &#39;all&#39;&#34;)
 

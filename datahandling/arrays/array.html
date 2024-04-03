@@ -265,6 +265,10 @@ class Voltagearray:
 
         self._arrayprecision = arrayprecision
 
+    def __str__(self):
+        &#34;&#34;&#34;Representation of class.&#34;&#34;&#34;
+        return f&#34;Data container for voltage based data for: {self.arrayinfo.arraytype}&#34;
+
     def applycalibration(self):
         &#34;&#34;&#34;Apply the calibration for the voltage signal, based on the array type.
 
@@ -277,7 +281,7 @@ class Voltagearray:
             raise IndexError(&#34;There is no voltage data. Load data into the array before applying &#34;
                              &#34;calibration&#34;)
 
-        if self.arrayinfo.arraytype == &#39;Pressure tranducer&#39;:
+        if self.arrayinfo.arraytype == &#39;Pressure transducer&#39;:
             self.pressure = self.calibration[0, :] * self.voltage - self.calibration[1, :]
 
 
@@ -733,7 +737,7 @@ if the amplified data should be limeted to a range of values</dd>
 </details>
 </dd>
 <dt id="pimged.datahandling.arrays.array.Imarray.load"><code class="name flex">
-<span>def <span class="ident">load</span></span>(<span>self, filename: str = 'imagearray', fformat: str = 'zarr', filepath: str = 'C:\\Users\\beakh\\Documents\\GASMIX project\\Coding\\Python\\Repo\\GASMIX-pimged', chunkeddata: bool = False, overlaperr: bool = True)</span>
+<span>def <span class="ident">load</span></span>(<span>self, filename: str = 'imagearray', fformat: str = 'zarr', filepath: str = 'C:\\Users\\beakh\\Documents\\GASMIX project\\Courses\\Scientific Python Programming\\SSP Coding\\pimged', chunkeddata: bool = False, overlaperr: bool = True)</span>
 </code></dt>
 <dd>
 <div class="desc"><p>Load saved imagearray data.</p>
@@ -820,7 +824,7 @@ a warning (False)</dd>
 </details>
 </dd>
 <dt id="pimged.datahandling.arrays.array.Imarray.save"><code class="name flex">
-<span>def <span class="ident">save</span></span>(<span>self, filename: str = 'imagearray', fformat: str = 'zarr', filepath: str = 'C:\\Users\\beakh\\Documents\\GASMIX project\\Coding\\Python\\Repo\\GASMIX-pimged')</span>
+<span>def <span class="ident">save</span></span>(<span>self, filename: str = 'imagearray', fformat: str = 'zarr', filepath: str = 'C:\\Users\\beakh\\Documents\\GASMIX project\\Courses\\Scientific Python Programming\\SSP Coding\\pimged')</span>
 </code></dt>
 <dd>
 <div class="desc"><p>Save method for storing data with loaded imagerange and datahandling range.</p>
@@ -942,6 +946,10 @@ defining the type of array</dd>
 
         self._arrayprecision = arrayprecision
 
+    def __str__(self):
+        &#34;&#34;&#34;Representation of class.&#34;&#34;&#34;
+        return f&#34;Data container for voltage based data for: {self.arrayinfo.arraytype}&#34;
+
     def applycalibration(self):
         &#34;&#34;&#34;Apply the calibration for the voltage signal, based on the array type.
 
@@ -954,7 +962,7 @@ defining the type of array</dd>
             raise IndexError(&#34;There is no voltage data. Load data into the array before applying &#34;
                              &#34;calibration&#34;)
 
-        if self.arrayinfo.arraytype == &#39;Pressure tranducer&#39;:
+        if self.arrayinfo.arraytype == &#39;Pressure transducer&#39;:
             self.pressure = self.calibration[0, :] * self.voltage - self.calibration[1, :]</code></pre>
 </details>
 <h3>Methods</h3>
@@ -985,7 +993,7 @@ defining the type of array</dd>
         raise IndexError(&#34;There is no voltage data. Load data into the array before applying &#34;
                          &#34;calibration&#34;)
 
-    if self.arrayinfo.arraytype == &#39;Pressure tranducer&#39;:
+    if self.arrayinfo.arraytype == &#39;Pressure transducer&#39;:
         self.pressure = self.calibration[0, :] * self.voltage - self.calibration[1, :]</code></pre>
 </details>
 </dd>
