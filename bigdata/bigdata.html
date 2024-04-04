@@ -77,7 +77,10 @@ class Bigdata:
                 &#34;data, without the user handling file references. Everything is handled by the &#34;
                 &#34;module rutines.\n&#34;
                 &#34;The module implement methods for calibration, concentration and black point &#34;
-                &#34;correction of raw images.&#34;)
+                &#34;correction of raw images.\n&#34;
+                &#34;If settings is made for a setup all ready calculated, the old data is loaded, &#34;
+                &#34;so it do not have to recalculate. The path has to be changed to avoid this &#34;
+                &#34;behavior or delete the files.&#34;)
         return info
 
     def rawblackcorr(self,
@@ -86,7 +89,7 @@ class Bigdata:
                      path_rawcorr: (str, pathlib.Path),
                      filename_rawcorr: str):
         &#34;&#34;&#34;Calculate raw image correction.
-        
+
         Calculating the corrected raw images and saving the results. The setup is based on the
         black point correction settings under the &#34;setup.blackcorrection&#34; object for chunksize.
         The number of files loaded for the raw correction is defined by the
@@ -96,13 +99,13 @@ class Bigdata:
         ----------
         path_corr : (str, pathlib.Path) :
             filepath for the black point correction file
-            
+
         filename_corr : str :
             filename of the black point correction file
-            
+
         path_rawcorr : (str, pathlib.Path) :
             filepath of the black point corrected raw files for calibration
-            
+
         filename_rawcorr : str :
             filename of the black point corrected raw files for calibration
 
@@ -186,7 +189,7 @@ class Bigdata:
                          path: (str, pathlib.Path),
                          filename: str):
         &#34;&#34;&#34;Calculate black correction factors.
-        
+
         Loading chunked data pieces and save a blackpoint correction file for the chosen dataset.
         It is forced to save the data, as this framework is designed for large datasets. Setup
         for the function is found in the setup section of the object and follow the same name
@@ -286,7 +289,7 @@ class Bigdata:
                       filename: str,
                       rawimpath: (str, pathlib.Path) = None):
         &#34;&#34;&#34;Calculate concentration calibration.
-        
+
         Loading chunked data pieces and save a calibration file for the chosen dataset. It is
         forced to save the data, as this framework is designed for large datasets. Setup
         for the function is found in the setup section of the object.
@@ -302,7 +305,7 @@ class Bigdata:
 
         filename : str :
             filename for file
-            
+
         rawimpath: (str, pathlib.Path)  :
             filepath for raw images, if saved in e.g. with black point correction.
             Checking the whole folder for files and load all files with the
@@ -404,11 +407,11 @@ class Bigdata:
                   conc_mean_type: str = &#34;off&#34;,
                   conc_method: bool = False):
         &#34;&#34;&#34;Calculate concentrations.
-        
+
         Calculating concentration based on the input calibration file and optional the correction
         file for black point correction. If not black point correction file is provided,
         the code calculate the concentration without a correction.
-        
+
         The code loops over raw files in chunks based on the settings in the
         &#39;setup.concentration&#39; object and save the files out in the number of folders that fit
         with the dataset setting and chunk size.
@@ -417,20 +420,20 @@ class Bigdata:
         ----------
         path_conc: (str, pathlib.Path) :
              (Default value = None)
-            filepath for the concentration folder
+            filepath for the concentration folder to save data
 
         filename_conc : str :
             filename of the concentration calculations
-            
+
         path_calib: (str, pathlib.Path)  :
             filepath of the calibration file
-            
+
         filename_calib : str :
             filename of the calibration file
-            
+
         path_corr: (str, pathlib.Path) :
             filepath for the black point correction file
-            
+
         filename_corr: str :
              (Default value = None)
             filename of the black point correction file
@@ -476,6 +479,9 @@ class Bigdata:
                 conc_mean_only = True
             case _:
                 raise NotImplementedError(&#34;The given input to &#39;conc_mean_type&#39; do not exist&#34;)
+
+        # Checking folder path for saving files
+        check_folder_path(path_conc, createdir=True)
 
         # Checking if there is given a correction file
         blackpointcorr_flag = (bool(path_corr) and bool(filename_corr))
@@ -594,7 +600,14 @@ class Setup:
     &#34;&#34;&#34;Class with setup parameters for organizing in Bigdata use class.&#34;&#34;&#34;
 
     def __init__(self):
-        &#34;&#34;&#34;Init setup parameters.&#34;&#34;&#34;
+        &#34;&#34;&#34;Init setup parameters.
+
+        Parameters
+        ----------
+        datasetrange : list :
+             (Default value = [1, 10])
+            The dataset range to prepare and download in the module from the collection of data
+        &#34;&#34;&#34;
         self.datasetrange = [1, 10]
         self.calibration = Calibarationsetup()
         self.blackcorrection = Blackcorrsetup()
@@ -605,7 +618,18 @@ class Calibarationsetup:
     &#34;&#34;&#34;Class with the calibration setup parameters.&#34;&#34;&#34;
 
     def __init__(self):
-        &#34;&#34;&#34;Init calibration parameters.&#34;&#34;&#34;
+        &#34;&#34;&#34;Init calibration parameters.
+
+        Parameters
+        ----------
+        chunksize : int :
+             (Default value = 50)
+            The chunksize to use in calculation of the calibration for RAM saving
+
+        imagerange : list :
+             (Default value = [1, 75])
+            The image range to use in the calibration. Has to include only non-jet shot images
+        &#34;&#34;&#34;
         self.chunksize = 50
         self.imagerange = [1, 75]
 
@@ -618,7 +642,34 @@ class Blackcorrsetup:
     &#34;&#34;&#34;Class with the calibration setup parameters.&#34;&#34;&#34;
 
     def __init__(self):
-        &#34;&#34;&#34;Init black correction setup.&#34;&#34;&#34;
+        &#34;&#34;&#34;Init black correction setup.
+
+        Parameters
+        ----------
+        chunksize : int :
+             (Default value = 50)
+            The chunk size of datasets to use in calculation of the black point correction for RAM
+            saving
+
+        nimages : int :
+             (Default value = 75)
+            Number of images used for initializing the background, correspond to [1, nimages]
+
+        removeedgeh : int :
+             (Default value = 10)
+            How many pixels is removed from top and bottom edge of the image to reduce edge errors
+
+        removeedgew : int :
+             (Default value = -1)
+            How many pixels is removed from width edges of the image to reduce edge errors. -1
+            correspond to remove wallidx pixels as set in the
+            dataset.images.blackpointcorr.arrayinfo.jetinfo.wallidx setting
+
+        flipped : bool :
+             (Default value = false)
+            If the jet is going from left to right, it is non-flipped (False). If the jet is
+            going from right to left, it is flipped (True).
+        &#34;&#34;&#34;
         self.chunksize = 50
         self.nimages = 75
         self.removeedgeh = 10
@@ -634,7 +685,15 @@ class Concentrationsetup:
     &#34;&#34;&#34;Class with the settings for the concentration calculation files.&#34;&#34;&#34;
 
     def __init__(self):
-        &#34;&#34;&#34;Init concentration calc setup.&#34;&#34;&#34;
+        &#34;&#34;&#34;Init concentration calc setup.
+        chunksize : int :
+             (Default value = 5)
+            The chunksize to use in calculation of the concentration for RAM saving
+
+        rawimagerange : list :
+             (Default value = [295, 305])
+            Number of images to calculate the concentration on
+        &#34;&#34;&#34;
         self.rawimagerange = [295, 305]
         self.chunksize = 5
 
@@ -707,7 +766,10 @@ class Concentrationsetup:
                 &#34;data, without the user handling file references. Everything is handled by the &#34;
                 &#34;module rutines.\n&#34;
                 &#34;The module implement methods for calibration, concentration and black point &#34;
-                &#34;correction of raw images.&#34;)
+                &#34;correction of raw images.\n&#34;
+                &#34;If settings is made for a setup all ready calculated, the old data is loaded, &#34;
+                &#34;so it do not have to recalculate. The path has to be changed to avoid this &#34;
+                &#34;behavior or delete the files.&#34;)
         return info
 
     def rawblackcorr(self,
@@ -716,7 +778,7 @@ class Concentrationsetup:
                      path_rawcorr: (str, pathlib.Path),
                      filename_rawcorr: str):
         &#34;&#34;&#34;Calculate raw image correction.
-        
+
         Calculating the corrected raw images and saving the results. The setup is based on the
         black point correction settings under the &#34;setup.blackcorrection&#34; object for chunksize.
         The number of files loaded for the raw correction is defined by the
@@ -726,13 +788,13 @@ class Concentrationsetup:
         ----------
         path_corr : (str, pathlib.Path) :
             filepath for the black point correction file
-            
+
         filename_corr : str :
             filename of the black point correction file
-            
+
         path_rawcorr : (str, pathlib.Path) :
             filepath of the black point corrected raw files for calibration
-            
+
         filename_rawcorr : str :
             filename of the black point corrected raw files for calibration
 
@@ -816,7 +878,7 @@ class Concentrationsetup:
                          path: (str, pathlib.Path),
                          filename: str):
         &#34;&#34;&#34;Calculate black correction factors.
-        
+
         Loading chunked data pieces and save a blackpoint correction file for the chosen dataset.
         It is forced to save the data, as this framework is designed for large datasets. Setup
         for the function is found in the setup section of the object and follow the same name
@@ -916,7 +978,7 @@ class Concentrationsetup:
                       filename: str,
                       rawimpath: (str, pathlib.Path) = None):
         &#34;&#34;&#34;Calculate concentration calibration.
-        
+
         Loading chunked data pieces and save a calibration file for the chosen dataset. It is
         forced to save the data, as this framework is designed for large datasets. Setup
         for the function is found in the setup section of the object.
@@ -932,7 +994,7 @@ class Concentrationsetup:
 
         filename : str :
             filename for file
-            
+
         rawimpath: (str, pathlib.Path)  :
             filepath for raw images, if saved in e.g. with black point correction.
             Checking the whole folder for files and load all files with the
@@ -1034,11 +1096,11 @@ class Concentrationsetup:
                   conc_mean_type: str = &#34;off&#34;,
                   conc_method: bool = False):
         &#34;&#34;&#34;Calculate concentrations.
-        
+
         Calculating concentration based on the input calibration file and optional the correction
         file for black point correction. If not black point correction file is provided,
         the code calculate the concentration without a correction.
-        
+
         The code loops over raw files in chunks based on the settings in the
         &#39;setup.concentration&#39; object and save the files out in the number of folders that fit
         with the dataset setting and chunk size.
@@ -1047,20 +1109,20 @@ class Concentrationsetup:
         ----------
         path_conc: (str, pathlib.Path) :
              (Default value = None)
-            filepath for the concentration folder
+            filepath for the concentration folder to save data
 
         filename_conc : str :
             filename of the concentration calculations
-            
+
         path_calib: (str, pathlib.Path)  :
             filepath of the calibration file
-            
+
         filename_calib : str :
             filename of the calibration file
-            
+
         path_corr: (str, pathlib.Path) :
             filepath for the black point correction file
-            
+
         filename_corr: str :
              (Default value = None)
             filename of the black point correction file
@@ -1106,6 +1168,9 @@ class Concentrationsetup:
                 conc_mean_only = True
             case _:
                 raise NotImplementedError(&#34;The given input to &#39;conc_mean_type&#39; do not exist&#34;)
+
+        # Checking folder path for saving files
+        check_folder_path(path_conc, createdir=True)
 
         # Checking if there is given a correction file
         blackpointcorr_flag = (bool(path_corr) and bool(filename_corr))
@@ -1255,7 +1320,7 @@ order. Therefore, settings has to followed saved data order</dd>
                   filename: str,
                   rawimpath: (str, pathlib.Path) = None):
     &#34;&#34;&#34;Calculate concentration calibration.
-    
+
     Loading chunked data pieces and save a calibration file for the chosen dataset. It is
     forced to save the data, as this framework is designed for large datasets. Setup
     for the function is found in the setup section of the object.
@@ -1271,7 +1336,7 @@ order. Therefore, settings has to followed saved data order</dd>
 
     filename : str :
         filename for file
-        
+
     rawimpath: (str, pathlib.Path)  :
         filepath for raw images, if saved in e.g. with black point correction.
         Checking the whole folder for files and load all files with the
@@ -1393,7 +1458,7 @@ correction</p>
                      path: (str, pathlib.Path),
                      filename: str):
     &#34;&#34;&#34;Calculate black correction factors.
-    
+
     Loading chunked data pieces and save a blackpoint correction file for the chosen dataset.
     It is forced to save the data, as this framework is designed for large datasets. Setup
     for the function is found in the setup section of the object and follow the same name
@@ -1504,7 +1569,7 @@ with the dataset setting and chunk size.</p>
 <dl>
 <dt><strong><code>path_conc</code></strong> :&ensp;<code>(str, pathlib.Path) :</code></dt>
 <dd>(Default value = None)
-filepath for the concentration folder</dd>
+filepath for the concentration folder to save data</dd>
 <dt><strong><code>filename_conc</code></strong> :&ensp;<code>str :</code></dt>
 <dd>filename of the concentration calculations</dd>
 <dt><strong><code>path_calib</code></strong> :&ensp;<code>(str, pathlib.Path)
@@ -1556,11 +1621,11 @@ False : Saving style as the concentration files</dd>
               conc_mean_type: str = &#34;off&#34;,
               conc_method: bool = False):
     &#34;&#34;&#34;Calculate concentrations.
-    
+
     Calculating concentration based on the input calibration file and optional the correction
     file for black point correction. If not black point correction file is provided,
     the code calculate the concentration without a correction.
-    
+
     The code loops over raw files in chunks based on the settings in the
     &#39;setup.concentration&#39; object and save the files out in the number of folders that fit
     with the dataset setting and chunk size.
@@ -1569,20 +1634,20 @@ False : Saving style as the concentration files</dd>
     ----------
     path_conc: (str, pathlib.Path) :
          (Default value = None)
-        filepath for the concentration folder
+        filepath for the concentration folder to save data
 
     filename_conc : str :
         filename of the concentration calculations
-        
+
     path_calib: (str, pathlib.Path)  :
         filepath of the calibration file
-        
+
     filename_calib : str :
         filename of the calibration file
-        
+
     path_corr: (str, pathlib.Path) :
         filepath for the black point correction file
-        
+
     filename_corr: str :
          (Default value = None)
         filename of the black point correction file
@@ -1628,6 +1693,9 @@ False : Saving style as the concentration files</dd>
             conc_mean_only = True
         case _:
             raise NotImplementedError(&#34;The given input to &#39;conc_mean_type&#39; do not exist&#34;)
+
+    # Checking folder path for saving files
+    check_folder_path(path_conc, createdir=True)
 
     # Checking if there is given a correction file
     blackpointcorr_flag = (bool(path_corr) and bool(filename_corr))
@@ -1779,7 +1847,7 @@ The number of files loaded for the raw correction is defined by the
                  path_rawcorr: (str, pathlib.Path),
                  filename_rawcorr: str):
     &#34;&#34;&#34;Calculate raw image correction.
-    
+
     Calculating the corrected raw images and saving the results. The setup is based on the
     black point correction settings under the &#34;setup.blackcorrection&#34; object for chunksize.
     The number of files loaded for the raw correction is defined by the
@@ -1789,13 +1857,13 @@ The number of files loaded for the raw correction is defined by the
     ----------
     path_corr : (str, pathlib.Path) :
         filepath for the black point correction file
-        
+
     filename_corr : str :
         filename of the black point correction file
-        
+
     path_rawcorr : (str, pathlib.Path) :
         filepath of the black point corrected raw files for calibration
-        
+
     filename_rawcorr : str :
         filename of the black point corrected raw files for calibration
 
@@ -1883,7 +1951,29 @@ The number of files loaded for the raw correction is defined by the
 </code></dt>
 <dd>
 <div class="desc"><p>Class with the calibration setup parameters.</p>
-<p>Init black correction setup.</p></div>
+<p>Init black correction setup.</p>
+<h2 id="parameters">Parameters</h2>
+<dl>
+<dt><strong><code>chunksize</code></strong> :&ensp;<code>int :</code></dt>
+<dd>(Default value = 50)
+The chunk size of datasets to use in calculation of the black point correction for RAM
+saving</dd>
+<dt><strong><code>nimages</code></strong> :&ensp;<code>int :</code></dt>
+<dd>(Default value = 75)
+Number of images used for initializing the background, correspond to [1, nimages]</dd>
+<dt><strong><code>removeedgeh</code></strong> :&ensp;<code>int :</code></dt>
+<dd>(Default value = 10)
+How many pixels is removed from top and bottom edge of the image to reduce edge errors</dd>
+<dt><strong><code>removeedgew</code></strong> :&ensp;<code>int :</code></dt>
+<dd>(Default value = -1)
+How many pixels is removed from width edges of the image to reduce edge errors. -1
+correspond to remove wallidx pixels as set in the
+dataset.images.blackpointcorr.arrayinfo.jetinfo.wallidx setting</dd>
+<dt><strong><code>flipped</code></strong> :&ensp;<code>bool :</code></dt>
+<dd>(Default value = false)
+If the jet is going from left to right, it is non-flipped (False). If the jet is
+going from right to left, it is flipped (True).</dd>
+</dl></div>
 <details class="source">
 <summary>
 <span>Expand source code</span>
@@ -1892,7 +1982,34 @@ The number of files loaded for the raw correction is defined by the
     &#34;&#34;&#34;Class with the calibration setup parameters.&#34;&#34;&#34;
 
     def __init__(self):
-        &#34;&#34;&#34;Init black correction setup.&#34;&#34;&#34;
+        &#34;&#34;&#34;Init black correction setup.
+
+        Parameters
+        ----------
+        chunksize : int :
+             (Default value = 50)
+            The chunk size of datasets to use in calculation of the black point correction for RAM
+            saving
+
+        nimages : int :
+             (Default value = 75)
+            Number of images used for initializing the background, correspond to [1, nimages]
+
+        removeedgeh : int :
+             (Default value = 10)
+            How many pixels is removed from top and bottom edge of the image to reduce edge errors
+
+        removeedgew : int :
+             (Default value = -1)
+            How many pixels is removed from width edges of the image to reduce edge errors. -1
+            correspond to remove wallidx pixels as set in the
+            dataset.images.blackpointcorr.arrayinfo.jetinfo.wallidx setting
+
+        flipped : bool :
+             (Default value = false)
+            If the jet is going from left to right, it is non-flipped (False). If the jet is
+            going from right to left, it is flipped (True).
+        &#34;&#34;&#34;
         self.chunksize = 50
         self.nimages = 75
         self.removeedgeh = 10
@@ -1909,7 +2026,16 @@ The number of files loaded for the raw correction is defined by the
 </code></dt>
 <dd>
 <div class="desc"><p>Class with the calibration setup parameters.</p>
-<p>Init calibration parameters.</p></div>
+<p>Init calibration parameters.</p>
+<h2 id="parameters">Parameters</h2>
+<dl>
+<dt><strong><code>chunksize</code></strong> :&ensp;<code>int :</code></dt>
+<dd>(Default value = 50)
+The chunksize to use in calculation of the calibration for RAM saving</dd>
+<dt><strong><code>imagerange</code></strong> :&ensp;<code>list :</code></dt>
+<dd>(Default value = [1, 75])
+The image range to use in the calibration. Has to include only non-jet shot images</dd>
+</dl></div>
 <details class="source">
 <summary>
 <span>Expand source code</span>
@@ -1918,7 +2044,18 @@ The number of files loaded for the raw correction is defined by the
     &#34;&#34;&#34;Class with the calibration setup parameters.&#34;&#34;&#34;
 
     def __init__(self):
-        &#34;&#34;&#34;Init calibration parameters.&#34;&#34;&#34;
+        &#34;&#34;&#34;Init calibration parameters.
+
+        Parameters
+        ----------
+        chunksize : int :
+             (Default value = 50)
+            The chunksize to use in calculation of the calibration for RAM saving
+
+        imagerange : list :
+             (Default value = [1, 75])
+            The image range to use in the calibration. Has to include only non-jet shot images
+        &#34;&#34;&#34;
         self.chunksize = 50
         self.imagerange = [1, 75]
 
@@ -1932,7 +2069,13 @@ The number of files loaded for the raw correction is defined by the
 </code></dt>
 <dd>
 <div class="desc"><p>Class with the settings for the concentration calculation files.</p>
-<p>Init concentration calc setup.</p></div>
+<p>Init concentration calc setup.
+chunksize : int :
+(Default value = 5)
+The chunksize to use in calculation of the concentration for RAM saving</p>
+<p>rawimagerange : list :
+(Default value = [295, 305])
+Number of images to calculate the concentration on</p></div>
 <details class="source">
 <summary>
 <span>Expand source code</span>
@@ -1941,7 +2084,15 @@ The number of files loaded for the raw correction is defined by the
     &#34;&#34;&#34;Class with the settings for the concentration calculation files.&#34;&#34;&#34;
 
     def __init__(self):
-        &#34;&#34;&#34;Init concentration calc setup.&#34;&#34;&#34;
+        &#34;&#34;&#34;Init concentration calc setup.
+        chunksize : int :
+             (Default value = 5)
+            The chunksize to use in calculation of the concentration for RAM saving
+
+        rawimagerange : list :
+             (Default value = [295, 305])
+            Number of images to calculate the concentration on
+        &#34;&#34;&#34;
         self.rawimagerange = [295, 305]
         self.chunksize = 5
 
@@ -1955,7 +2106,13 @@ The number of files loaded for the raw correction is defined by the
 </code></dt>
 <dd>
 <div class="desc"><p>Class with setup parameters for organizing in Bigdata use class.</p>
-<p>Init setup parameters.</p></div>
+<p>Init setup parameters.</p>
+<h2 id="parameters">Parameters</h2>
+<dl>
+<dt><strong><code>datasetrange</code></strong> :&ensp;<code>list :</code></dt>
+<dd>(Default value = [1, 10])
+The dataset range to prepare and download in the module from the collection of data</dd>
+</dl></div>
 <details class="source">
 <summary>
 <span>Expand source code</span>
@@ -1964,7 +2121,14 @@ The number of files loaded for the raw correction is defined by the
     &#34;&#34;&#34;Class with setup parameters for organizing in Bigdata use class.&#34;&#34;&#34;
 
     def __init__(self):
-        &#34;&#34;&#34;Init setup parameters.&#34;&#34;&#34;
+        &#34;&#34;&#34;Init setup parameters.
+
+        Parameters
+        ----------
+        datasetrange : list :
+             (Default value = [1, 10])
+            The dataset range to prepare and download in the module from the collection of data
+        &#34;&#34;&#34;
         self.datasetrange = [1, 10]
         self.calibration = Calibarationsetup()
         self.blackcorrection = Blackcorrsetup()

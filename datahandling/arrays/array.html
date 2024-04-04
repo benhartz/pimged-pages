@@ -187,7 +187,7 @@ class Imarray:
             saveimages(self, filename, fformat, filepath)
 
     def load(self, filename: str = &#34;imagearray&#34;, fformat: str = &#34;zarr&#34;, filepath: str = getcwd(),
-             chunkeddata: bool = False, overlaperr: bool = True):
+             chunkeddata: str = &#39;off&#39;, overlaperr: bool = True):
         &#34;&#34;&#34;Load saved imagearray data.
 
         Parameters
@@ -214,10 +214,18 @@ class Imarray:
             filedirectory to put the stores files. If nothing given the data is stored
             in the code location
 
-        chunkeddata: bool :
-             (Default value = False)
-            bool telling if chunked data should be loaded (True) or single files
-            (False)
+        chunkeddata : str :
+             (Default value = &#39;off&#39;)
+            str telling if chunked data should be loaded (True) or single files (False). Chunked
+            data can be produced by looping over several saving algorithmes and saving in the same
+            location.
+            If a location contain several saved folders with e.g. raw data defined in the metadata,
+            chunked setting load ALL folders and saved files for the specified array type into the
+            array. Mostly used for statistic calculated images during algorithm rutine for memory
+            saving.
+            &#39;off&#39; - the chunked algorithm will not run
+            &#39;image&#39; - data is chunked along the image range
+            &#39;sets&#39; - data is chunked along the dataset range
 
         overlaperr: bool :
              (Default value = True)
@@ -231,7 +239,12 @@ class Imarray:
                 filename = &#34;blackpointcorrarray&#34;
             loadpickle(self, filepath=filepath, filename=filename, fformat=&#39;pkl&#39;)
         else:
-            loadimages(self, filename, fformat, filepath, chunkeddata, overlaperr)
+            loadimages(self,
+                       filename=filename,
+                       fformat=fformat,
+                       filepath=filepath,
+                       chunkeddata=chunkeddata,
+                       overlaperr=overlaperr)
 
 
 class Voltagearray:
@@ -545,7 +558,7 @@ blackpoint correction as jet center, width etc.</dd>
             saveimages(self, filename, fformat, filepath)
 
     def load(self, filename: str = &#34;imagearray&#34;, fformat: str = &#34;zarr&#34;, filepath: str = getcwd(),
-             chunkeddata: bool = False, overlaperr: bool = True):
+             chunkeddata: str = &#39;off&#39;, overlaperr: bool = True):
         &#34;&#34;&#34;Load saved imagearray data.
 
         Parameters
@@ -572,10 +585,18 @@ blackpoint correction as jet center, width etc.</dd>
             filedirectory to put the stores files. If nothing given the data is stored
             in the code location
 
-        chunkeddata: bool :
-             (Default value = False)
-            bool telling if chunked data should be loaded (True) or single files
-            (False)
+        chunkeddata : str :
+             (Default value = &#39;off&#39;)
+            str telling if chunked data should be loaded (True) or single files (False). Chunked
+            data can be produced by looping over several saving algorithmes and saving in the same
+            location.
+            If a location contain several saved folders with e.g. raw data defined in the metadata,
+            chunked setting load ALL folders and saved files for the specified array type into the
+            array. Mostly used for statistic calculated images during algorithm rutine for memory
+            saving.
+            &#39;off&#39; - the chunked algorithm will not run
+            &#39;image&#39; - data is chunked along the image range
+            &#39;sets&#39; - data is chunked along the dataset range
 
         overlaperr: bool :
              (Default value = True)
@@ -589,7 +610,12 @@ blackpoint correction as jet center, width etc.</dd>
                 filename = &#34;blackpointcorrarray&#34;
             loadpickle(self, filepath=filepath, filename=filename, fformat=&#39;pkl&#39;)
         else:
-            loadimages(self, filename, fformat, filepath, chunkeddata, overlaperr)</code></pre>
+            loadimages(self,
+                       filename=filename,
+                       fformat=fformat,
+                       filepath=filepath,
+                       chunkeddata=chunkeddata,
+                       overlaperr=overlaperr)</code></pre>
 </details>
 <h3>Methods</h3>
 <dl>
@@ -737,7 +763,7 @@ if the amplified data should be limeted to a range of values</dd>
 </details>
 </dd>
 <dt id="pimged.datahandling.arrays.array.Imarray.load"><code class="name flex">
-<span>def <span class="ident">load</span></span>(<span>self, filename: str = 'imagearray', fformat: str = 'zarr', filepath: str = 'C:\\Users\\beakh\\Documents\\GASMIX project\\Courses\\Scientific Python Programming\\SSP Coding\\pimged', chunkeddata: bool = False, overlaperr: bool = True)</span>
+<span>def <span class="ident">load</span></span>(<span>self, filename: str = 'imagearray', fformat: str = 'zarr', filepath: str = 'C:\\Users\\beakh\\Documents\\GASMIX project\\Courses\\Scientific Python Programming\\SSP Coding\\pimged', chunkeddata: str = 'off', overlaperr: bool = True)</span>
 </code></dt>
 <dd>
 <div class="desc"><p>Load saved imagearray data.</p>
@@ -762,10 +788,18 @@ with e.g. Dask. Stores an arrayinfo file with array info about the data stores</
 <dd>(Default value = getcwd())
 filedirectory to put the stores files. If nothing given the data is stored
 in the code location</dd>
-<dt><strong><code>chunkeddata</code></strong> :&ensp;<code>bool :</code></dt>
-<dd>(Default value = False)
-bool telling if chunked data should be loaded (True) or single files
-(False)</dd>
+<dt><strong><code>chunkeddata</code></strong> :&ensp;<code>str :</code></dt>
+<dd>(Default value = 'off')
+str telling if chunked data should be loaded (True) or single files (False). Chunked
+data can be produced by looping over several saving algorithmes and saving in the same
+location.
+If a location contain several saved folders with e.g. raw data defined in the metadata,
+chunked setting load ALL folders and saved files for the specified array type into the
+array. Mostly used for statistic calculated images during algorithm rutine for memory
+saving.
+'off' - the chunked algorithm will not run
+'image' - data is chunked along the image range
+'sets' - data is chunked along the dataset range</dd>
 <dt><strong><code>overlaperr</code></strong> :&ensp;<code>bool :</code></dt>
 <dd>(Default value = True)
 bool asking if there should be raised an error if data overlap (True) or
@@ -776,7 +810,7 @@ a warning (False)</dd>
 <span>Expand source code</span>
 </summary>
 <pre><code class="python">def load(self, filename: str = &#34;imagearray&#34;, fformat: str = &#34;zarr&#34;, filepath: str = getcwd(),
-         chunkeddata: bool = False, overlaperr: bool = True):
+         chunkeddata: str = &#39;off&#39;, overlaperr: bool = True):
     &#34;&#34;&#34;Load saved imagearray data.
 
     Parameters
@@ -803,10 +837,18 @@ a warning (False)</dd>
         filedirectory to put the stores files. If nothing given the data is stored
         in the code location
 
-    chunkeddata: bool :
-         (Default value = False)
-        bool telling if chunked data should be loaded (True) or single files
-        (False)
+    chunkeddata : str :
+         (Default value = &#39;off&#39;)
+        str telling if chunked data should be loaded (True) or single files (False). Chunked
+        data can be produced by looping over several saving algorithmes and saving in the same
+        location.
+        If a location contain several saved folders with e.g. raw data defined in the metadata,
+        chunked setting load ALL folders and saved files for the specified array type into the
+        array. Mostly used for statistic calculated images during algorithm rutine for memory
+        saving.
+        &#39;off&#39; - the chunked algorithm will not run
+        &#39;image&#39; - data is chunked along the image range
+        &#39;sets&#39; - data is chunked along the dataset range
 
     overlaperr: bool :
          (Default value = True)
@@ -820,7 +862,12 @@ a warning (False)</dd>
             filename = &#34;blackpointcorrarray&#34;
         loadpickle(self, filepath=filepath, filename=filename, fformat=&#39;pkl&#39;)
     else:
-        loadimages(self, filename, fformat, filepath, chunkeddata, overlaperr)</code></pre>
+        loadimages(self,
+                   filename=filename,
+                   fformat=fformat,
+                   filepath=filepath,
+                   chunkeddata=chunkeddata,
+                   overlaperr=overlaperr)</code></pre>
 </details>
 </dd>
 <dt id="pimged.datahandling.arrays.array.Imarray.save"><code class="name flex">

@@ -149,6 +149,9 @@ def preparedata_mean(mainpodinfo: PODInfo, dataset: Dataset, folderlocation: str
             if end &gt; mainpodinfo.datasetimagerange[1]:
                 end = mainpodinfo.datasetimagerange[1]
 
+            if start &gt; end:
+                break
+
             totalcounts = int(np.ceil(mainpodinfo.phasepodinfo.time /
                                       mainpodinfo.phasepodinfo.blocksize_image))
             print(f&#39;Loop {counter} of {totalcounts}, start = {i}   end = {end}&#39;)
@@ -207,13 +210,13 @@ def preparedata_concentration(mainpodinfo: PODInfo, dataset: Dataset, folderloca
     ----------
     mainpodinfo: PODInfo :
         POD object from the pod package
-        
+
     dataset: Dataset :
         dataset object from pimged package
-        
+
     folderlocation : str :
         the &#34;prepare data&#34; commen folder location for the framework
-        
+
     ampfac : int :
         Amplification factor of the data
     &#34;&#34;&#34;
@@ -239,6 +242,9 @@ def preparedata_concentration(mainpodinfo: PODInfo, dataset: Dataset, folderloca
         end = i + mainpodinfo.phasepodinfo.blocksize_dataset - 1
         if end &gt; mainpodinfo.loaddatasets[1]:
             end = mainpodinfo.loaddatasets[1]
+
+        if start &gt; end:
+            break
 
         totalcounts = int(np.ceil(mainpodinfo.phasepodinfo.phase /
                                   mainpodinfo.phasepodinfo.blocksize_dataset))
@@ -388,13 +394,13 @@ def preparedata_concentration(mainpodinfo: PODInfo, dataset: Dataset, folderloca
     ----------
     mainpodinfo: PODInfo :
         POD object from the pod package
-        
+
     dataset: Dataset :
         dataset object from pimged package
-        
+
     folderlocation : str :
         the &#34;prepare data&#34; commen folder location for the framework
-        
+
     ampfac : int :
         Amplification factor of the data
     &#34;&#34;&#34;
@@ -420,6 +426,9 @@ def preparedata_concentration(mainpodinfo: PODInfo, dataset: Dataset, folderloca
         end = i + mainpodinfo.phasepodinfo.blocksize_dataset - 1
         if end &gt; mainpodinfo.loaddatasets[1]:
             end = mainpodinfo.loaddatasets[1]
+
+        if start &gt; end:
+            break
 
         totalcounts = int(np.ceil(mainpodinfo.phasepodinfo.phase /
                                   mainpodinfo.phasepodinfo.blocksize_dataset))
@@ -555,6 +564,9 @@ flag if rutine is used for loading data and not calculation</dd>
             end = i + mainpodinfo.phasepodinfo.blocksize_image - 1
             if end &gt; mainpodinfo.datasetimagerange[1]:
                 end = mainpodinfo.datasetimagerange[1]
+
+            if start &gt; end:
+                break
 
             totalcounts = int(np.ceil(mainpodinfo.phasepodinfo.time /
                                       mainpodinfo.phasepodinfo.blocksize_image))

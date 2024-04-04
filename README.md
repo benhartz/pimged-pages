@@ -17,8 +17,9 @@ python -m pip install --index-url https://test.pypi.org/simple/ --extra-index-ur
 ```
 
 ## Example scripts and data
-Get the example scripts from the [GitHub repository](https://github.com/benhartz/pimged-example), 
-it is cloned by using the following command
+
+### Get example scripts
+Get the example scripts from the [GitHub repository](https://github.com/benhartz/pimged-example), it is cloned by using the following command
 ```commandline
 git clone https://github.com/benhartz/pimged-example.git
 ``` 
@@ -34,6 +35,7 @@ high-speed camera sensor used.
 
 **-- OBS -- -- OBS --  -- OBS -- -- OBS --  -- OBS -- -- OBS --  -- OBS -- -- OBS --  -- OBS --** 
 
+### Folder setup
 In the example folder is located an example script on using the PImGED package and its modules. 
 The data folder contain 10 datasets obtained in the GASMIX test setup along with 10 pressure 
 measurments in a ziped folder for speed-up of downloading instead of many small image files.
@@ -56,7 +58,10 @@ pimged-example/
      Pictures/
       ...
 ```
+The working directory should be set inside the example folder, with the scripts.
 
+### Example results
+#### pimged_example.py
 Now it should be possible to run the `pimged_example.py` script for testing simple data 
 manangement and get these plots out. AVO translate to "After Valve Opening" and there is a delay 
 due to the air has to travel through the jet, valve opening delay and delay in the relays 
@@ -65,6 +70,7 @@ sending the opening signal.
 ![jet staistics](https://i.ibb.co/sQFtL2D/jetstatistics.png)
 ![Pressures](https://i.ibb.co/zQ2xTgh/pressure.png)
 
+#### pimged_big_data_example.py
 The `pimged_big_data_example.py` script show how to use the code for handling larger amounts of 
 data to get concentrations fields. 
 
@@ -78,7 +84,7 @@ The big data example should produce this plot
 ![Big data example](https://i.ibb.co/Ss9tr1D/bigdata.png)
 
 
-
+#### pimged_pod_example.py
 To use the POD calculation module, run `pimged_pod_example.py` for an example on use. This 
 example script takes some time to run, as it is an extensive algorithm. 
 
@@ -90,31 +96,6 @@ Running `pimged_pod_example.py` stores ~5.5 GB of data on the hard drive
 
 The following plot should be produced
 ![POD mode](https://i.ibb.co/qDVCn6X/phase-POD-mode-1.png)
-
-## Code structure
-![codestructure](https://i.ibb.co/VDNfd9X/code-structure.png)
-
-
-To handle larger data amounts the code takes inspiration from Panda on datastructure and 
-implement a dataset module used for loading/saving data. The data is handled by datacontainers 
-with functions for manipulating the individual datatypes. With the datacontainer module implementing
-versatile classes for image and pressure datahandling, with common internal functions, it is 
-possible to reduce code repetition and adding datacontainers to the module. The metadata from 
-data is handled and stored for the individual dataset in the same datacontainer for and sent around 
-with the data. The dataset module object is then used as an input for other modules that can use 
-the standardrised data setup.
- 
-Handling standard calculations a calculation module takes the dataset object as an input. 
-When new information is calculated it can then populate the dataset object with information, 
-utilizing the indirection implementation of list and numpy arrays in python. This streamline the 
-collection of data in one object that can load or save the data with minimal coding.
-
-Between the whole framework, several functions are reused with simple coding and these are 
-included in a utility package with the framework. Here is sorting of list elements widely used 
-in folder and filenames, checking folder paths, handling metadata etc. 
-
-Splitting the code framework into specialized modules decouple functionality and makes it 
-easy to update individual functionality in different modules, without breaking code coherence.
 
 ---
 

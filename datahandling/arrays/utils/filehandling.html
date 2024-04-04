@@ -135,7 +135,7 @@ def saveimages(obj, filename: str = &#34;imagearray&#34;, fformat: str = &#34;za
 
 
 def loadimages(obj, filename: str = &#34;imagearray&#34;, fformat: str = &#34;zarr&#34;, filepath: str = getcwd(),
-               chunkeddata: bool = False, overlaperr: bool = True):
+               chunkeddata: str = &#39;off&#39;, overlaperr: bool = True):
     &#34;&#34;&#34;Load saved imagearray data.
 
     Parameters
@@ -143,14 +143,14 @@ def loadimages(obj, filename: str = &#34;imagearray&#34;, fformat: str = &#34;za
     obj : object :
         Array object for image arrays
 
-    filename: str :
+    filename : str :
          (Default value = &#34;imagearray&#34;)
         filename for the saved file. If default is chosen the array type e.g. raw data,
         is appended as &#34;-raw&#34; on the name. If several files are present with the same name, the
         code iterate through
         and add &#34;_XX&#34; where XX is increasing in integer value
 
-    fformat: str :
+    fformat : str :
          (Default value = &#34;zarr&#34;)
         {&#39;npz&#39;, &#39;npz-comp&#39;, &#39;zarr&#39;}
         fileformat for the save file.
@@ -160,20 +160,23 @@ def loadimages(obj, filename: str = &#34;imagearray&#34;, fformat: str = &#34;za
         with e.g. Dask. Stores an arrayinfo file with array info about the
         data stores
 
-    filepath: str :
+    filepath : str :
          (Default value = getcwd())
         filedirectory to put the stores files. If nothing given the data is stored
         in the code location
 
-    chunkeddata: bool :
-         (Default value = False)
-        bool telling if chunked data should be loaded (True) or single files (False). Chunked
+    chunkeddata : str :
+         (Default value = &#39;off&#39;)
+        str telling if chunked data should be loaded (True) or single files (False). Chunked
         data can be produced by looping over several saving algorithmes and saving in the same
         location.
         If a location contain several saved folders with e.g. raw data defined in the metadata,
         chunked setting load ALL folders and saved files for the specified array type into the
         array. Mostly used for statistic calculated images during algorithm rutine for memory
         saving.
+        &#39;off&#39; - the chunked algorithm will not run
+        &#39;image&#39; - data is chunked along the image range
+        &#39;sets&#39; - data is chunked along the dataset range
 
     overlaperr: bool :
          (Default value = True)
@@ -191,6 +194,12 @@ def loadimages(obj, filename: str = &#34;imagearray&#34;, fformat: str = &#34;za
     ImportError: :
         The datatype do not match the array trying to load into
     &#34;&#34;&#34;
+    chunkedchecktuple = (&#39;images&#39;, &#39;sets&#39;)
+
+    if chunkeddata not in chunkedchecktuple and chunkeddata != &#39;off&#39;:
+        raise NotImplementedError(&#39;The chunked data settings is not correct. Check documentation &#39;
+                                  &#39;for possible settings&#39;)
+
     if filename == &#34;imagearray&#34;:
         filename = filename + &#34;-&#34; + obj.arrayinfo.arraytype
 
@@ -211,8 +220,8 @@ def loadimages(obj, filename: str = &#34;imagearray&#34;, fformat: str = &#34;za
 
     # Checking if data is chucked. If so, find all filepaths that fit the array type data,
     # in the path given
-    if chunkeddata:
-        infofilepaths = _ifchunked(fformat, filepath)
+    if chunkeddata in chunkedchecktuple:
+        infofilepaths = _ifchunked(fformat, filepath, filename)
     else:
         infofilepaths = infofilepath
 
@@ -245,9 +254,20 @@ def loadimages(obj, filename: str = &#34;imagearray&#34;, fformat: str = &#34;za
     imsizes = _sortlists(imsizes, indicesforarraytype)
 
     # Check if the loaded data is consistent and do not overlap
-    setrangecheck = _loaddatarangecheck(setrange)
-    imsizecheck = _loaddatarangecheck(imsizes)
-    imrangecheck = _imagerangecheck(imrange)
+    if chunkeddata == chunkedchecktuple[1]:
+        setrangecheck = _listoverlapcheck(setrange)
+    else:
+        setrangecheck = _listconsistentcheck(setrange)
+
+    imsizecheck = _listconsistentcheck(imsizes)
+    imrangecheck = _listoverlapcheck(imrange)
+
+    # Setting which data to overlap check
+    if chunkeddata == chunkedchecktuple[1]:
+        overlapcheckdata = setrangecheck
+    else:
+        overlapcheckdata = imrangecheck
+
     if not np.all(setrangecheck):
         raise ImportError(&#34;Data trying to be loaded in chunks are not consistent in all &#34;
                           &#34;datasets. Check JSON files&#34;
@@ -260,10 +280,10 @@ def loadimages(obj, filename: str = &#34;imagearray&#34;, fformat: str = &#34;za
                           f&#34; &#39;imsize&#39; if they are consistent between sets. \n&#34;
                           f&#34;Found ranges {imsizes} \n&#34;
                           f&#34;Sets are sorted in the located order for filetype {fformat}&#34;)
-    if not np.all(imrangecheck) and not overlaperr:
+    if not np.all(overlapcheckdata) and not overlaperr:
         warn(&#34;Some of the imported data overlap in the images and there will be &#34;
              &#34;overwritten data&#34;)
-    elif not np.all(imrangecheck) and overlaperr:
+    elif not np.all(overlapcheckdata) and overlaperr:
         raise ImportError(&#34;Some of the imported data overlap in the images and there will be &#34;
                           &#34;overwritten data&#34;)
 
@@ -273,10 +293,15 @@ def loadimages(obj, filename: str = &#34;imagearray&#34;, fformat: str = &#34;za
     obj.arrayinfo.loadeddatasets = [np.min(setrange), np.max(setrange)]
 
     # Building the slicer index list based on the chunked data metadata and ensuring to always
-    # load data into index 0
+    # load data into index 0 for the image range
     imrangesliceopt = np.array([x[:] for x in imrange])
     imrangesliceopt = np.array([[x[0] - 1, x[1]] for x in imrangesliceopt])
     imrangesliceopt -= np.min(imrangesliceopt)
+
+    # Building the slicer for the dataset range
+    setrangesliceopt = np.array([x[:] for x in setrange])
+    setrangesliceopt = np.array([[x[0] - 1, x[1]] for x in setrangesliceopt])
+    setrangesliceopt -= np.min(setrangesliceopt)
 
     # Initializing based on array type loaded
     arraytimesize = obj.arrayinfo.loadedimagerange[1]-obj.arrayinfo.loadedimagerange[0] + 1
@@ -293,24 +318,27 @@ def loadimages(obj, filename: str = &#34;imagearray&#34;, fformat: str = &#34;za
     # Going through the files and loading them with respect to there metadata into an array,
     # sliced based on the metadata
     for i, filepaths in enumerate(infofilepaths):
-        slic = slice(imrangesliceopt[i][0], imrangesliceopt[i][1])
+        slic_im = slice(imrangesliceopt[i][0], imrangesliceopt[i][1])
+        slic_set = slice(setrangesliceopt[i][0], setrangesliceopt[i][1])
+        print(&#39;===========================================&#39;)
+        print(f&#39;Loading file {i+1} of {len(infofilepaths)}&#39;, end=&#39;\r&#39;)
         match fformat:
             case &#34;npz&#34; | &#34;npz-comp&#34;:
                 fullfilepath = ph.join(*filepaths.split(&#39;-&#39;)[:-1]) + _saveprefixes(fformat)
                 with np.load(fullfilepath) as array:
                     match obj.arrayinfo.arraytype:
                         case &#34;raw&#34; | &#34;concentration&#34;:
-                            obj.data[:, :, slic, :] = array[&#39;array&#39;]
+                            obj.data[:, :, slic_im, slic_set] = array[&#39;array&#39;]
                         case _:
-                            obj.data[:, :, slic] = array[&#39;array&#39;]
+                            obj.data[:, :, slic_im] = array[&#39;array&#39;]
 
             case &#34;zarr&#34;:
                 fullfilepath = ph.join(*filepaths.split(_infofileprefixes(fformat))[:-1])[:-1]
                 match obj.arrayinfo.arraytype:
                     case &#34;raw&#34; | &#34;concentration&#34;:
-                        obj.data[:, :, slic, :] = zarrload(fullfilepath + _saveprefixes(fformat))
+                        obj.data[:, :, slic_im, slic_set] = zarrload(fullfilepath + _saveprefixes(fformat))
                     case _:
-                        obj.data[:, :, slic] = zarrload(fullfilepath + _saveprefixes(fformat))
+                        obj.data[:, :, slic_im] = zarrload(fullfilepath + _saveprefixes(fformat))
 
     print(&#39;Done loading data\n&#39;)
 
@@ -442,7 +470,7 @@ def loadpickle(obj, filename: str = &#34;pickleobject&#34;, fformat: str = &#34;
 
 def _safefilenamecheck(checkfunc, checkadd, tmpfullfilepath, tmpfilepath, tmpfilename):
     &#34;&#34;&#34;Check if filenames are safe to use.
-    
+
     Checking if the savefilename exist, based on a function. If it exists add a prefix until non
     exist
 
@@ -493,7 +521,7 @@ def _writetojsonfile(file_path, data):
         jsondump(data, fp)
 
 
-def _loaddatarangecheck(inputlist: list):
+def _listconsistentcheck(inputlist: list):
     &#34;&#34;&#34;Check if nested lists are consisten.
 
     Parameters
@@ -516,14 +544,14 @@ def _loaddatarangecheck(inputlist: list):
     return updatedlist
 
 
-def _imagerangecheck(inputlist: list):
+def _listoverlapcheck(inputlist: list):
     &#34;&#34;&#34;Check if the input list data overlap.
 
     Parameters
     ----------
     inputlist : list(list()) :
         nested list of image indicies with dim [:][0:1]
-        
+
 
     Returns
     -------
@@ -549,7 +577,7 @@ def _sortlists(inputlist: list, indicestosortout: list):
 
     indicestosortout : list :
         a list of idecies that need to be fetched from main list
-        
+
 
     Returns
     -------
@@ -584,7 +612,7 @@ def _infofileprefixes(dictkey: str):
     return prefixes[dictkey]
 
 
-def _ifchunked(fformat: str, filepath: str):
+def _ifchunked(fformat: str, filepath: str, substring: str):
     &#34;&#34;&#34;Take chunked data info files and sort them.
 
     Parameters
@@ -594,7 +622,10 @@ def _ifchunked(fformat: str, filepath: str):
 
     filepath : str :
         absolute filepath
-        
+
+    substring : str :
+        substring to check for in path
+
 
     Returns
     -------
@@ -606,10 +637,12 @@ def _ifchunked(fformat: str, filepath: str):
     findtype = _saveprefixes(fformat)
 
     for (dir_path, __, file_names) in walk(filepath):
-        indices = [i for i, s in enumerate(file_names) if findstr in s]
-        indicestype = [i for i, s in enumerate(file_names) if findtype in s]
-        if not len(indicestype) == 0 and not len(indices) == 0:
-            infofilepaths.append(ph.join(dir_path, file_names[indices[0]]))
+        foldername = dir_path.split(ph.sep)[-1]
+        if substring in foldername:
+            indices = [i for i, s in enumerate(file_names) if findstr in s]
+            indicestype = [i for i, s in enumerate(file_names) if findtype in s]
+            if not len(indicestype) == 0 and not len(indices) == 0:
+                infofilepaths.append(ph.join(dir_path, file_names[indices[0]]))
 
     return infofilepaths</code></pre>
 </details>
@@ -622,7 +655,7 @@ def _ifchunked(fformat: str, filepath: str):
 <h2 class="section-title" id="header-functions">Functions</h2>
 <dl>
 <dt id="pimged.datahandling.arrays.utils.filehandling.loadimages"><code class="name flex">
-<span>def <span class="ident">loadimages</span></span>(<span>obj, filename: str = 'imagearray', fformat: str = 'zarr', filepath: str = 'C:\\Users\\beakh\\Documents\\GASMIX project\\Courses\\Scientific Python Programming\\SSP Coding\\pimged', chunkeddata: bool = False, overlaperr: bool = True)</span>
+<span>def <span class="ident">loadimages</span></span>(<span>obj, filename: str = 'imagearray', fformat: str = 'zarr', filepath: str = 'C:\\Users\\beakh\\Documents\\GASMIX project\\Courses\\Scientific Python Programming\\SSP Coding\\pimged', chunkeddata: str = 'off', overlaperr: bool = True)</span>
 </code></dt>
 <dd>
 <div class="desc"><p>Load saved imagearray data.</p>
@@ -649,15 +682,18 @@ data stores</dd>
 <dd>(Default value = getcwd())
 filedirectory to put the stores files. If nothing given the data is stored
 in the code location</dd>
-<dt><strong><code>chunkeddata</code></strong> :&ensp;<code>bool :</code></dt>
-<dd>(Default value = False)
-bool telling if chunked data should be loaded (True) or single files (False). Chunked
+<dt><strong><code>chunkeddata</code></strong> :&ensp;<code>str :</code></dt>
+<dd>(Default value = 'off')
+str telling if chunked data should be loaded (True) or single files (False). Chunked
 data can be produced by looping over several saving algorithmes and saving in the same
 location.
 If a location contain several saved folders with e.g. raw data defined in the metadata,
 chunked setting load ALL folders and saved files for the specified array type into the
 array. Mostly used for statistic calculated images during algorithm rutine for memory
-saving.</dd>
+saving.
+'off' - the chunked algorithm will not run
+'image' - data is chunked along the image range
+'sets' - data is chunked along the dataset range</dd>
 <dt><strong><code>overlaperr</code></strong> :&ensp;<code>bool :</code></dt>
 <dd>(Default value = True)
 bool asking if there should be raised an error if data overlap (True) or
@@ -677,7 +713,7 @@ a warning (False)</dd>
 <span>Expand source code</span>
 </summary>
 <pre><code class="python">def loadimages(obj, filename: str = &#34;imagearray&#34;, fformat: str = &#34;zarr&#34;, filepath: str = getcwd(),
-               chunkeddata: bool = False, overlaperr: bool = True):
+               chunkeddata: str = &#39;off&#39;, overlaperr: bool = True):
     &#34;&#34;&#34;Load saved imagearray data.
 
     Parameters
@@ -685,14 +721,14 @@ a warning (False)</dd>
     obj : object :
         Array object for image arrays
 
-    filename: str :
+    filename : str :
          (Default value = &#34;imagearray&#34;)
         filename for the saved file. If default is chosen the array type e.g. raw data,
         is appended as &#34;-raw&#34; on the name. If several files are present with the same name, the
         code iterate through
         and add &#34;_XX&#34; where XX is increasing in integer value
 
-    fformat: str :
+    fformat : str :
          (Default value = &#34;zarr&#34;)
         {&#39;npz&#39;, &#39;npz-comp&#39;, &#39;zarr&#39;}
         fileformat for the save file.
@@ -702,20 +738,23 @@ a warning (False)</dd>
         with e.g. Dask. Stores an arrayinfo file with array info about the
         data stores
 
-    filepath: str :
+    filepath : str :
          (Default value = getcwd())
         filedirectory to put the stores files. If nothing given the data is stored
         in the code location
 
-    chunkeddata: bool :
-         (Default value = False)
-        bool telling if chunked data should be loaded (True) or single files (False). Chunked
+    chunkeddata : str :
+         (Default value = &#39;off&#39;)
+        str telling if chunked data should be loaded (True) or single files (False). Chunked
         data can be produced by looping over several saving algorithmes and saving in the same
         location.
         If a location contain several saved folders with e.g. raw data defined in the metadata,
         chunked setting load ALL folders and saved files for the specified array type into the
         array. Mostly used for statistic calculated images during algorithm rutine for memory
         saving.
+        &#39;off&#39; - the chunked algorithm will not run
+        &#39;image&#39; - data is chunked along the image range
+        &#39;sets&#39; - data is chunked along the dataset range
 
     overlaperr: bool :
          (Default value = True)
@@ -733,6 +772,12 @@ a warning (False)</dd>
     ImportError: :
         The datatype do not match the array trying to load into
     &#34;&#34;&#34;
+    chunkedchecktuple = (&#39;images&#39;, &#39;sets&#39;)
+
+    if chunkeddata not in chunkedchecktuple and chunkeddata != &#39;off&#39;:
+        raise NotImplementedError(&#39;The chunked data settings is not correct. Check documentation &#39;
+                                  &#39;for possible settings&#39;)
+
     if filename == &#34;imagearray&#34;:
         filename = filename + &#34;-&#34; + obj.arrayinfo.arraytype
 
@@ -753,8 +798,8 @@ a warning (False)</dd>
 
     # Checking if data is chucked. If so, find all filepaths that fit the array type data,
     # in the path given
-    if chunkeddata:
-        infofilepaths = _ifchunked(fformat, filepath)
+    if chunkeddata in chunkedchecktuple:
+        infofilepaths = _ifchunked(fformat, filepath, filename)
     else:
         infofilepaths = infofilepath
 
@@ -787,9 +832,20 @@ a warning (False)</dd>
     imsizes = _sortlists(imsizes, indicesforarraytype)
 
     # Check if the loaded data is consistent and do not overlap
-    setrangecheck = _loaddatarangecheck(setrange)
-    imsizecheck = _loaddatarangecheck(imsizes)
-    imrangecheck = _imagerangecheck(imrange)
+    if chunkeddata == chunkedchecktuple[1]:
+        setrangecheck = _listoverlapcheck(setrange)
+    else:
+        setrangecheck = _listconsistentcheck(setrange)
+
+    imsizecheck = _listconsistentcheck(imsizes)
+    imrangecheck = _listoverlapcheck(imrange)
+
+    # Setting which data to overlap check
+    if chunkeddata == chunkedchecktuple[1]:
+        overlapcheckdata = setrangecheck
+    else:
+        overlapcheckdata = imrangecheck
+
     if not np.all(setrangecheck):
         raise ImportError(&#34;Data trying to be loaded in chunks are not consistent in all &#34;
                           &#34;datasets. Check JSON files&#34;
@@ -802,10 +858,10 @@ a warning (False)</dd>
                           f&#34; &#39;imsize&#39; if they are consistent between sets. \n&#34;
                           f&#34;Found ranges {imsizes} \n&#34;
                           f&#34;Sets are sorted in the located order for filetype {fformat}&#34;)
-    if not np.all(imrangecheck) and not overlaperr:
+    if not np.all(overlapcheckdata) and not overlaperr:
         warn(&#34;Some of the imported data overlap in the images and there will be &#34;
              &#34;overwritten data&#34;)
-    elif not np.all(imrangecheck) and overlaperr:
+    elif not np.all(overlapcheckdata) and overlaperr:
         raise ImportError(&#34;Some of the imported data overlap in the images and there will be &#34;
                           &#34;overwritten data&#34;)
 
@@ -815,10 +871,15 @@ a warning (False)</dd>
     obj.arrayinfo.loadeddatasets = [np.min(setrange), np.max(setrange)]
 
     # Building the slicer index list based on the chunked data metadata and ensuring to always
-    # load data into index 0
+    # load data into index 0 for the image range
     imrangesliceopt = np.array([x[:] for x in imrange])
     imrangesliceopt = np.array([[x[0] - 1, x[1]] for x in imrangesliceopt])
     imrangesliceopt -= np.min(imrangesliceopt)
+
+    # Building the slicer for the dataset range
+    setrangesliceopt = np.array([x[:] for x in setrange])
+    setrangesliceopt = np.array([[x[0] - 1, x[1]] for x in setrangesliceopt])
+    setrangesliceopt -= np.min(setrangesliceopt)
 
     # Initializing based on array type loaded
     arraytimesize = obj.arrayinfo.loadedimagerange[1]-obj.arrayinfo.loadedimagerange[0] + 1
@@ -835,24 +896,27 @@ a warning (False)</dd>
     # Going through the files and loading them with respect to there metadata into an array,
     # sliced based on the metadata
     for i, filepaths in enumerate(infofilepaths):
-        slic = slice(imrangesliceopt[i][0], imrangesliceopt[i][1])
+        slic_im = slice(imrangesliceopt[i][0], imrangesliceopt[i][1])
+        slic_set = slice(setrangesliceopt[i][0], setrangesliceopt[i][1])
+        print(&#39;===========================================&#39;)
+        print(f&#39;Loading file {i+1} of {len(infofilepaths)}&#39;, end=&#39;\r&#39;)
         match fformat:
             case &#34;npz&#34; | &#34;npz-comp&#34;:
                 fullfilepath = ph.join(*filepaths.split(&#39;-&#39;)[:-1]) + _saveprefixes(fformat)
                 with np.load(fullfilepath) as array:
                     match obj.arrayinfo.arraytype:
                         case &#34;raw&#34; | &#34;concentration&#34;:
-                            obj.data[:, :, slic, :] = array[&#39;array&#39;]
+                            obj.data[:, :, slic_im, slic_set] = array[&#39;array&#39;]
                         case _:
-                            obj.data[:, :, slic] = array[&#39;array&#39;]
+                            obj.data[:, :, slic_im] = array[&#39;array&#39;]
 
             case &#34;zarr&#34;:
                 fullfilepath = ph.join(*filepaths.split(_infofileprefixes(fformat))[:-1])[:-1]
                 match obj.arrayinfo.arraytype:
                     case &#34;raw&#34; | &#34;concentration&#34;:
-                        obj.data[:, :, slic, :] = zarrload(fullfilepath + _saveprefixes(fformat))
+                        obj.data[:, :, slic_im, slic_set] = zarrload(fullfilepath + _saveprefixes(fformat))
                     case _:
-                        obj.data[:, :, slic] = zarrload(fullfilepath + _saveprefixes(fformat))
+                        obj.data[:, :, slic_im] = zarrload(fullfilepath + _saveprefixes(fformat))
 
     print(&#39;Done loading data\n&#39;)</code></pre>
 </details>
