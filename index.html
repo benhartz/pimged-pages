@@ -41,26 +41,19 @@ from testPyPi using the following command in the terminal for a Windows machine:
 <pre><code class="language-commandline">git clone https://github.com/benhartz/pimged-example.git
 </code></pre>
 <hr>
-<h3 id="download-the-example-data-from-this-figshare-link">Download the example data from this <a href="https://figshare.com/s/286bc4cf871abd25b1d1">figshare link</a></h3>
-<hr>
+<h2 id="download-the-example-data-from-this-figshare-link">Download the example data from this <a href="https://figshare.com/s/286bc4cf871abd25b1d1">figshare link</a></h2>
 <p><strong>&ndash; OBS &ndash; &ndash; OBS &ndash;
-&ndash; OBS &ndash; &ndash; OBS &ndash;
-&ndash; OBS &ndash; &ndash; OBS &ndash;
-&ndash; OBS &ndash; &ndash; OBS &ndash;
 &ndash; OBS &ndash;</strong> </p>
 <p>The data folder is ~6 GB of data, as it consist of
 uncompressed tiff files directly from the
 high-speed camera sensor used.</p>
-<p><strong>&ndash; OBS &ndash; &ndash; OBS &ndash;
-&ndash; OBS &ndash; &ndash; OBS &ndash;
-&ndash; OBS &ndash; &ndash; OBS &ndash;
-&ndash; OBS &ndash; &ndash; OBS &ndash;
-&ndash; OBS &ndash;</strong> </p>
+<hr>
 <h3 id="folder-setup">Folder setup</h3>
 <p>In the example folder is located an example script on using the PImGED package and its modules.
 The data folder contain 10 datasets obtained in the GASMIX test setup along with 10 pressure
 measurments in a ziped folder for speed-up of downloading instead of many small image files.</p>
-<p>Unzip the data folder so the folder path looks as seen here</p>
+<p>Unzip the data folder so the folder path looks as seen here, and the <code>working directory</code>
+should be set inside the example folder, with the scripts.</p>
 <pre><code>pimged-example/
   .gitignore
   LICENSE
@@ -76,48 +69,28 @@ measurments in a ziped folder for speed-up of downloading instead of many small 
      Pictures/
       ...
 </code></pre>
-<p>The working directory should be set inside the example folder, with the scripts.</p>
 <h3 id="example-results">Example results</h3>
 <h4 id="pimged_examplepy">pimged_example.py</h4>
 <p>Now it should be possible to run the <code>pimged_example.py</code> script for testing simple data
 manangement and get these plots out. AVO translate to "After Valve Opening" and there is a delay
 due to the air has to travel through the jet, valve opening delay and delay in the relays
 sending the opening signal.
-<img alt="jet conc" src="https://i.ibb.co/dGX7NMC/jetconc.png">
-<img alt="jet staistics" src="https://i.ibb.co/sQFtL2D/jetstatistics.png">
+<img alt="jet conc" src="https://i.ibb.co/DLsWmqR/jetconc.png">
+<img alt="jet staistics" src="https://i.ibb.co/34msz0d/jetstatistics.png">
 <img alt="Pressures" src="https://i.ibb.co/zQ2xTgh/pressure.png"></p>
 <h4 id="pimged_big_data_examplepy">pimged_big_data_example.py</h4>
 <p>The <code>pimged_big_data_example.py</code> script show how to use the code for handling larger amounts of
-data to get concentrations fields. </p>
-<p><strong>&ndash; OBS &ndash; &ndash; OBS &ndash;
-&ndash; OBS &ndash; &ndash; OBS &ndash;
-&ndash; OBS &ndash; &ndash; OBS &ndash;
-&ndash; OBS &ndash; &ndash; OBS &ndash;
-&ndash; OBS &ndash;</strong> </p>
-<p>Running <code>pimged_big_data_example.py</code> stores ~8.7 GB of data on the hard drive</p>
-<p><strong>&ndash; OBS &ndash; &ndash; OBS &ndash;
-&ndash; OBS &ndash; &ndash; OBS &ndash;
-&ndash; OBS &ndash; &ndash; OBS &ndash;
-&ndash; OBS &ndash; &ndash; OBS &ndash;
-&ndash; OBS &ndash;</strong> </p>
+data to get concentrations fields.
+Running <code>pimged_big_data_example.py</code> stores ~8.7 GB of data
+on the hard drive</p>
 <p>The big data example should produce this plot
-<img alt="Big data example" src="https://i.ibb.co/Ss9tr1D/bigdata.png"></p>
+<img alt="Big data example" src="https://i.ibb.co/mB6c003/bigdata.png"></p>
 <h4 id="pimged_pod_examplepy">pimged_pod_example.py</h4>
 <p>To use the POD calculation module, run <code>pimged_pod_example.py</code> for an example on use. This
-example script takes some time to run, as it is an extensive algorithm. </p>
-<p><strong>&ndash; OBS &ndash; &ndash; OBS &ndash;
-&ndash; OBS &ndash; &ndash; OBS &ndash;
-&ndash; OBS &ndash; &ndash; OBS &ndash;
-&ndash; OBS &ndash; &ndash; OBS &ndash;
-&ndash; OBS &ndash;</strong> </p>
-<p>Running <code>pimged_pod_example.py</code> stores ~5.5 GB of data on the hard drive</p>
-<p><strong>&ndash; OBS &ndash; &ndash; OBS &ndash;
-&ndash; OBS &ndash; &ndash; OBS &ndash;
-&ndash; OBS &ndash; &ndash; OBS &ndash;
-&ndash; OBS &ndash; &ndash; OBS &ndash;
-&ndash; OBS &ndash;</strong> </p>
+example script takes some time to run, as it is an extensive algorithm. Running
+<code>pimged_pod_example.py</code> stores ~5.5 GB of data on the hard drive</p>
 <p>The following plot should be produced
-<img alt="POD mode" src="https://i.ibb.co/qDVCn6X/phase-POD-mode-1.png"></p>
+<img alt="POD mode" src="https://i.ibb.co/YDfFQPJ/phase-POD-mode-1.png"></p>
 <hr>
 <h2 id="code-structure">Code structure</h2>
 <p><img alt="codestructure" src="https://i.ibb.co/VDNfd9X/code-structure.png"></p>
@@ -300,7 +273,9 @@ from .utils.naturalkeysort import naturalkeysort</code></pre>
 <li><a href="#installation">Installation</a></li>
 <li><a href="#example-scripts-and-data">Example scripts and data</a><ul>
 <li><a href="#get-example-scripts">Get example scripts</a></li>
-<li><a href="#download-the-example-data-from-this-figshare-link">Download the example data from this figshare link</a></li>
+</ul>
+</li>
+<li><a href="#download-the-example-data-from-this-figshare-link">Download the example data from this figshare link</a><ul>
 <li><a href="#folder-setup">Folder setup</a></li>
 <li><a href="#example-results">Example results</a><ul>
 <li><a href="#pimged_examplepy">pimged_example.py</a></li>
