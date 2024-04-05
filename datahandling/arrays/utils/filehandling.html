@@ -273,13 +273,17 @@ def loadimages(obj, filename: str = &#34;imagearray&#34;, fformat: str = &#34;za
                           &#34;datasets. Check JSON files&#34;
                           f&#34; &#39;setrange&#39; if they are consistent between sets. \n&#34;
                           f&#34;Found ranges {setrange} \n&#34;
-                          f&#34;Sets are sorted in the located order for filetype {fformat}&#34;)
+                          f&#34;Sets are sorted in the located order for filetype {fformat}\n&#34;
+                          f&#34;Check if filename is a substring of other save files. If so, &#34;
+                          f&#34;the function find all files with: &#39;{filename}&#39; as a substring&#34;)
     if not np.all(imsizecheck):
         raise ImportError(&#34;Data trying to be loaded in chunks are not consistent in all &#34;
                           &#34;datasets. Check JSON files&#34;
                           f&#34; &#39;imsize&#39; if they are consistent between sets. \n&#34;
                           f&#34;Found ranges {imsizes} \n&#34;
-                          f&#34;Sets are sorted in the located order for filetype {fformat}&#34;)
+                          f&#34;Sets are sorted in the located order for filetype {fformat}\n&#34;
+                          f&#34;Check if filename is a substring of other save files. If so, &#34;
+                          f&#34;the function find all files with: &#39;{filename}&#39; as a substring&#34;)
     if not np.all(overlapcheckdata) and not overlaperr:
         warn(&#34;Some of the imported data overlap in the images and there will be &#34;
              &#34;overwritten data&#34;)
@@ -851,13 +855,17 @@ a warning (False)</dd>
                           &#34;datasets. Check JSON files&#34;
                           f&#34; &#39;setrange&#39; if they are consistent between sets. \n&#34;
                           f&#34;Found ranges {setrange} \n&#34;
-                          f&#34;Sets are sorted in the located order for filetype {fformat}&#34;)
+                          f&#34;Sets are sorted in the located order for filetype {fformat}\n&#34;
+                          f&#34;Check if filename is a substring of other save files. If so, &#34;
+                          f&#34;the function find all files with: &#39;{filename}&#39; as a substring&#34;)
     if not np.all(imsizecheck):
         raise ImportError(&#34;Data trying to be loaded in chunks are not consistent in all &#34;
                           &#34;datasets. Check JSON files&#34;
                           f&#34; &#39;imsize&#39; if they are consistent between sets. \n&#34;
                           f&#34;Found ranges {imsizes} \n&#34;
-                          f&#34;Sets are sorted in the located order for filetype {fformat}&#34;)
+                          f&#34;Sets are sorted in the located order for filetype {fformat}\n&#34;
+                          f&#34;Check if filename is a substring of other save files. If so, &#34;
+                          f&#34;the function find all files with: &#39;{filename}&#39; as a substring&#34;)
     if not np.all(overlapcheckdata) and not overlaperr:
         warn(&#34;Some of the imported data overlap in the images and there will be &#34;
              &#34;overwritten data&#34;)
