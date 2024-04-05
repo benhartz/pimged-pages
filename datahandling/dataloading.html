@@ -137,6 +137,7 @@ class Dataload:
         self.fileinfo.zeroparticlesfolder = zeroparticlesfolder
         self.fileinfo.fullparticlesfolder = fullparticlesfolder
         self.fileinfo.errignor = errignor
+        self.fileinfo._loadmetadata = loadmeta
 
         self._imagearrays = imagearrays
         self._pressurearrays = pressurearrays
@@ -149,13 +150,21 @@ class Dataload:
             # Checking if the datahandling is coherent in accusition setup
             checkingchixfileset(self._imagesfullpath, imagesearchfolders, errignor)
 
+        # If the files are approved, the camera and image data from the first files is read and
+        # a list of each datahandling start recording times
         if loadmeta:
-            # If the files are approved, the camera and image data from the first files is read and
-            # a list of each datahandling start recording times
             print(&#39;Loading chosen files meta data&#39;)
-            self.fileinfo.imagedata = ImageData(self._imagesfullpath, imagesearchfolders)
-            self.fileinfo.cameradata = CameraData(self._imagesfullpath, imagesearchfolders)
-            print(&#39;Done\n\n&#39;)
+        else:
+            print(&#39;Initalizing meta data properties&#39;)
+
+        if hasattr(self.fileinfo.imagedata, &#39;totalframes&#39;):
+            pass
+        else:
+            self.fileinfo.imagedata = ImageData(self._imagesfullpath, imagesearchfolders,
+                                                not loadmeta)
+            self.fileinfo.cameradata = CameraData(self._imagesfullpath, imagesearchfolders,
+                                                  not loadmeta)
+        print(&#39;Done\n\n&#39;)
 
     def loadimages(self,
                    loadzeroimages: bool = False,
@@ -234,13 +243,18 @@ class Dataload:
 
         Raises
         ------
-        AttributeError : :
+        AttributeError
             If image metadata is not loaded
         &#34;&#34;&#34;
-        if not hasattr(self.fileinfo.imagedata, &#39;totalframes&#39;):
+        if self.fileinfo.imagedata.totalframes == 0:
             raise AttributeError(&#34;Imagedata are not loaded during the initilization of the &#34;
                                  &#34;framework. Specify the maximum number of images present in &#34;
-                                 &#34;the datasets by loading the metadata files at initilization.&#34;)
+                                 &#34;the datasets by loading the metadata files at initilization.\n&#34;
+                                 &#34;Or specify dataset.fileinfo.imagedata.totalframes&#34;)
+        elif self.fileinfo.imagedata.frameheight == 0 or self.fileinfo.imagedata.framewidth == 0:
+            raise AttributeError(&#34;No frame size is present. Load meta data or specify &#34;
+                                 &#34;dataset.fileinfo.imagedata.frameheight and &#34;
+                                 &#34;dataset.fileinfo.imagedata.framewidth.&#34;)
 
         if loadzeroimages:
             self._loadimageszeros(verb=True, parsetload=True)
@@ -867,6 +881,7 @@ If the metadata should be loaded</dd>
         self.fileinfo.zeroparticlesfolder = zeroparticlesfolder
         self.fileinfo.fullparticlesfolder = fullparticlesfolder
         self.fileinfo.errignor = errignor
+        self.fileinfo._loadmetadata = loadmeta
 
         self._imagearrays = imagearrays
         self._pressurearrays = pressurearrays
@@ -879,13 +894,21 @@ If the metadata should be loaded</dd>
             # Checking if the datahandling is coherent in accusition setup
             checkingchixfileset(self._imagesfullpath, imagesearchfolders, errignor)
 
+        # If the files are approved, the camera and image data from the first files is read and
+        # a list of each datahandling start recording times
         if loadmeta:
-            # If the files are approved, the camera and image data from the first files is read and
-            # a list of each datahandling start recording times
             print(&#39;Loading chosen files meta data&#39;)
-            self.fileinfo.imagedata = ImageData(self._imagesfullpath, imagesearchfolders)
-            self.fileinfo.cameradata = CameraData(self._imagesfullpath, imagesearchfolders)
-            print(&#39;Done\n\n&#39;)
+        else:
+            print(&#39;Initalizing meta data properties&#39;)
+
+        if hasattr(self.fileinfo.imagedata, &#39;totalframes&#39;):
+            pass
+        else:
+            self.fileinfo.imagedata = ImageData(self._imagesfullpath, imagesearchfolders,
+                                                not loadmeta)
+            self.fileinfo.cameradata = CameraData(self._imagesfullpath, imagesearchfolders,
+                                                  not loadmeta)
+        print(&#39;Done\n\n&#39;)
 
     def loadimages(self,
                    loadzeroimages: bool = False,
@@ -964,13 +987,18 @@ If the metadata should be loaded</dd>
 
         Raises
         ------
-        AttributeError : :
+        AttributeError
             If image metadata is not loaded
         &#34;&#34;&#34;
-        if not hasattr(self.fileinfo.imagedata, &#39;totalframes&#39;):
+        if self.fileinfo.imagedata.totalframes == 0:
             raise AttributeError(&#34;Imagedata are not loaded during the initilization of the &#34;
                                  &#34;framework. Specify the maximum number of images present in &#34;
-                                 &#34;the datasets by loading the metadata files at initilization.&#34;)
+                                 &#34;the datasets by loading the metadata files at initilization.\n&#34;
+                                 &#34;Or specify dataset.fileinfo.imagedata.totalframes&#34;)
+        elif self.fileinfo.imagedata.frameheight == 0 or self.fileinfo.imagedata.framewidth == 0:
+            raise AttributeError(&#34;No frame size is present. Load meta data or specify &#34;
+                                 &#34;dataset.fileinfo.imagedata.frameheight and &#34;
+                                 &#34;dataset.fileinfo.imagedata.framewidth.&#34;)
 
         if loadzeroimages:
             self._loadimageszeros(verb=True, parsetload=True)
@@ -1451,7 +1479,7 @@ natural key method</dd>
 </dl>
 <h2 id="raises">Raises</h2>
 <dl>
-<dt><strong><code>AttributeError</code></strong> :&ensp;<code>:</code></dt>
+<dt><code>AttributeError</code></dt>
 <dd>If image metadata is not loaded</dd>
 </dl></div>
 <details class="source">
@@ -1535,13 +1563,18 @@ natural key method</dd>
 
     Raises
     ------
-    AttributeError : :
+    AttributeError
         If image metadata is not loaded
     &#34;&#34;&#34;
-    if not hasattr(self.fileinfo.imagedata, &#39;totalframes&#39;):
+    if self.fileinfo.imagedata.totalframes == 0:
         raise AttributeError(&#34;Imagedata are not loaded during the initilization of the &#34;
                              &#34;framework. Specify the maximum number of images present in &#34;
-                             &#34;the datasets by loading the metadata files at initilization.&#34;)
+                             &#34;the datasets by loading the metadata files at initilization.\n&#34;
+                             &#34;Or specify dataset.fileinfo.imagedata.totalframes&#34;)
+    elif self.fileinfo.imagedata.frameheight == 0 or self.fileinfo.imagedata.framewidth == 0:
+        raise AttributeError(&#34;No frame size is present. Load meta data or specify &#34;
+                             &#34;dataset.fileinfo.imagedata.frameheight and &#34;
+                             &#34;dataset.fileinfo.imagedata.framewidth.&#34;)
 
     if loadzeroimages:
         self._loadimageszeros(verb=True, parsetload=True)

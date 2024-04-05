@@ -64,7 +64,7 @@ def range_load_check(inputvar: list, rangetoload, rangetoloaddefault, typetochec
 
     Raises
     ------
-    TypeError : :
+    TypeError
         Input variable is not a type implemented
     &#34;&#34;&#34;
     output = []
@@ -198,7 +198,7 @@ def check_folder_path(path: (str, pathlib.Path), createdir: bool):
 
     Raises
     ------
-    FileNotFoundError : :
+    FileNotFoundError
         If file is not found
     &#34;&#34;&#34;
     if ph.exists(path):
@@ -231,7 +231,7 @@ def check_folder_path(path: (str, pathlib.Path), createdir: bool):
 </dl>
 <h2 id="raises">Raises</h2>
 <dl>
-<dt><strong><code>FileNotFoundError</code></strong> :&ensp;<code>:</code></dt>
+<dt><code>FileNotFoundError</code></dt>
 <dd>If file is not found</dd>
 </dl></div>
 <details class="source">
@@ -251,7 +251,7 @@ def check_folder_path(path: (str, pathlib.Path), createdir: bool):
 
     Raises
     ------
-    FileNotFoundError : :
+    FileNotFoundError
         If file is not found
     &#34;&#34;&#34;
     if ph.exists(path):
@@ -454,7 +454,7 @@ loadmethod can be 'range' or 'spec', only used if non-default case is chosen
 </dl>
 <h2 id="raises">Raises</h2>
 <dl>
-<dt><strong><code>TypeError</code></strong> :&ensp;<code>:</code></dt>
+<dt><code>TypeError</code></dt>
 <dd>Input variable is not a type implemented</dd>
 </dl></div>
 <details class="source">
@@ -491,7 +491,7 @@ loadmethod can be 'range' or 'spec', only used if non-default case is chosen
 
     Raises
     ------
-    TypeError : :
+    TypeError
         Input variable is not a type implemented
     &#34;&#34;&#34;
     output = []

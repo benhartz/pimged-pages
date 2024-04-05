@@ -72,13 +72,13 @@ def saveimages(obj, filename: str = &#34;imagearray&#34;, fformat: str = &#34;za
 
     Raises
     ------
-    NotImplementedError: :
+    NotImplementedError
         The format if not implemented
 
-    NotADirectoryError: :
+    NotADirectoryError
         Not a valid directory
 
-    ValueError: :
+    ValueError
         Not data to save
     &#34;&#34;&#34;
     if obj.data.size == 0:
@@ -185,13 +185,13 @@ def loadimages(obj, filename: str = &#34;imagearray&#34;, fformat: str = &#34;za
 
     Raises
     ------
-    NotImplementedError: :
+    NotImplementedError
         The format if not implemented
 
-    NotADirectoryError: :
+    NotADirectoryError
         Not a valid directory or file do not exist
 
-    ImportError: :
+    ImportError
         The datatype do not match the array trying to load into
     &#34;&#34;&#34;
     chunkedchecktuple = (&#39;images&#39;, &#39;sets&#39;)
@@ -372,10 +372,10 @@ def savepickle(obj, filename: str = &#34;pickleobject&#34;, fformat: str = &#34;
 
     Raises
     ------
-    NotImplementedError: :
+    NotImplementedError
         The format if not implemented
 
-    NotADirectoryError: :
+    NotADirectoryError
         Not a valid directory
     &#34;&#34;&#34;
     if fformat != &#34;pkl&#34;:
@@ -432,10 +432,10 @@ def loadpickle(obj, filename: str = &#34;pickleobject&#34;, fformat: str = &#34;
 
     Raises
     ------
-    NotImplementedError: :
+    NotImplementedError
         The format if not implemented
 
-    NotADirectoryError: :
+    NotADirectoryError
         Not a valid directory
     &#34;&#34;&#34;
     if fformat != &#34;pkl&#34;:
@@ -470,7 +470,7 @@ def loadpickle(obj, filename: str = &#34;pickleobject&#34;, fformat: str = &#34;
 
 def _safefilenamecheck(checkfunc, checkadd, tmpfullfilepath, tmpfilepath, tmpfilename):
     &#34;&#34;&#34;Check if filenames are safe to use.
-
+    
     Checking if the savefilename exist, based on a function. If it exists add a prefix until non
     exist
 
@@ -551,7 +551,7 @@ def _listoverlapcheck(inputlist: list):
     ----------
     inputlist : list(list()) :
         nested list of image indicies with dim [:][0:1]
-
+        
 
     Returns
     -------
@@ -577,7 +577,7 @@ def _sortlists(inputlist: list, indicestosortout: list):
 
     indicestosortout : list :
         a list of idecies that need to be fetched from main list
-
+        
 
     Returns
     -------
@@ -625,7 +625,7 @@ def _ifchunked(fformat: str, filepath: str, substring: str):
 
     substring : str :
         substring to check for in path
-
+        
 
     Returns
     -------
@@ -701,11 +701,11 @@ a warning (False)</dd>
 </dl>
 <h2 id="raises">Raises</h2>
 <dl>
-<dt><strong><code>NotImplementedError</code></strong> :&ensp;<code>:</code></dt>
+<dt><code>NotImplementedError</code></dt>
 <dd>The format if not implemented</dd>
-<dt><strong><code>NotADirectoryError</code></strong> :&ensp;<code>:</code></dt>
+<dt><code>NotADirectoryError</code></dt>
 <dd>Not a valid directory or file do not exist</dd>
-<dt><strong><code>ImportError</code></strong> :&ensp;<code>:</code></dt>
+<dt><code>ImportError</code></dt>
 <dd>The datatype do not match the array trying to load into</dd>
 </dl></div>
 <details class="source">
@@ -763,13 +763,13 @@ a warning (False)</dd>
 
     Raises
     ------
-    NotImplementedError: :
+    NotImplementedError
         The format if not implemented
 
-    NotADirectoryError: :
+    NotADirectoryError
         Not a valid directory or file do not exist
 
-    ImportError: :
+    ImportError
         The datatype do not match the array trying to load into
     &#34;&#34;&#34;
     chunkedchecktuple = (&#39;images&#39;, &#39;sets&#39;)
@@ -948,9 +948,9 @@ in the code location</dd>
 </dl>
 <h2 id="raises">Raises</h2>
 <dl>
-<dt><strong><code>NotImplementedError</code></strong> :&ensp;<code>:</code></dt>
+<dt><code>NotImplementedError</code></dt>
 <dd>The format if not implemented</dd>
-<dt><strong><code>NotADirectoryError</code></strong> :&ensp;<code>:</code></dt>
+<dt><code>NotADirectoryError</code></dt>
 <dd>Not a valid directory</dd>
 </dl></div>
 <details class="source">
@@ -986,10 +986,10 @@ in the code location</dd>
 
     Raises
     ------
-    NotImplementedError: :
+    NotImplementedError
         The format if not implemented
 
-    NotADirectoryError: :
+    NotADirectoryError
         Not a valid directory
     &#34;&#34;&#34;
     if fformat != &#34;pkl&#34;:
@@ -1054,11 +1054,11 @@ the code location</dd>
 </dl>
 <h2 id="raises">Raises</h2>
 <dl>
-<dt><strong><code>NotImplementedError</code></strong> :&ensp;<code>:</code></dt>
+<dt><code>NotImplementedError</code></dt>
 <dd>The format if not implemented</dd>
-<dt><strong><code>NotADirectoryError</code></strong> :&ensp;<code>:</code></dt>
+<dt><code>NotADirectoryError</code></dt>
 <dd>Not a valid directory</dd>
-<dt><strong><code>ValueError</code></strong> :&ensp;<code>:</code></dt>
+<dt><code>ValueError</code></dt>
 <dd>Not data to save</dd>
 </dl></div>
 <details class="source">
@@ -1100,13 +1100,13 @@ the code location</dd>
 
     Raises
     ------
-    NotImplementedError: :
+    NotImplementedError
         The format if not implemented
 
-    NotADirectoryError: :
+    NotADirectoryError
         Not a valid directory
 
-    ValueError: :
+    ValueError
         Not data to save
     &#34;&#34;&#34;
     if obj.data.size == 0:
@@ -1189,9 +1189,9 @@ in the code location</dd>
 </dl>
 <h2 id="raises">Raises</h2>
 <dl>
-<dt><strong><code>NotImplementedError</code></strong> :&ensp;<code>:</code></dt>
+<dt><code>NotImplementedError</code></dt>
 <dd>The format if not implemented</dd>
-<dt><strong><code>NotADirectoryError</code></strong> :&ensp;<code>:</code></dt>
+<dt><code>NotADirectoryError</code></dt>
 <dd>Not a valid directory</dd>
 </dl></div>
 <details class="source">
@@ -1227,10 +1227,10 @@ in the code location</dd>
 
     Raises
     ------
-    NotImplementedError: :
+    NotImplementedError
         The format if not implemented
 
-    NotADirectoryError: :
+    NotADirectoryError
         Not a valid directory
     &#34;&#34;&#34;
     if fformat != &#34;pkl&#34;:

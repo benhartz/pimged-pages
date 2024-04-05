@@ -115,11 +115,11 @@ class Imagecalc:
 
         Raises
         ------
-        IndexError: :
+        IndexError
             Zero images are not the same size as rest of the dataset or the folder do not exist
             for the dataset
 
-        NotADirectoryError: :
+        NotADirectoryError
             full or zero particle folder do not exist
         &#34;&#34;&#34;
         print(&#39;Starting calibration calculations\n&#39;)
@@ -135,7 +135,7 @@ class Imagecalc:
                                pressurefoldername=self._fileinfo.pressurefoldername,
                                imagefoldername=self._fileinfo.imagefoldername,
                                checkmeta=False,
-                               loadmeta=True)
+                               loadmeta=self._fileinfo._loadmetadata)
 
         # Setting the individualcalc parameter
         self._individualcalibrations = indivical
@@ -302,10 +302,10 @@ class Imagecalc:
 
         Raises
         ------
-        LookupError: :
+        LookupError
             No calibration data calculated
 
-        NotImplementedError : :
+        NotImplementedError
             memsave method not implemented
         &#34;&#34;&#34;
         if not self._imagearrays.calibration.data.any():
@@ -452,7 +452,7 @@ class Imagecalc:
 
         Raises
         ------
-        ValueError : :
+        ValueError
             Not enough raw images loaded for asked inputs
         &#34;&#34;&#34;
         # Checking inputs
@@ -608,7 +608,7 @@ class Imagecalc:
             self._imagearrays.concentration.arrayinfo.loadeddatasets
         print(&#39;Done with variance\n&#39;)
 
-    def moment(self, nth: int, timeidx=None):
+    def moment(self, nth: int, timeidx: (list, int) = None):
         &#34;&#34;&#34;Calculate the nth moment around the mean.
 
         Based on the concentration images using the package &#39;scipy.stats&#39;
@@ -618,7 +618,7 @@ class Imagecalc:
 
         Parameters
         ----------
-        timeidx : :
+        timeidx : (list, int) :
              (Default value = None)
             the time frame to for staistics, formats are:
             list: start and end point in time, [startidx, endidx]
@@ -641,20 +641,22 @@ class Imagecalc:
 
         if isinstance(idx, slice):
             sizedata = np.shape(self._imagearrays.concentration.data)
-            tmpmoment = np.zeros((sizedata[0], sizedata[1], idx.stop - idx.start + 1))
+            self._imagearrays.moment.data = np.zeros((sizedata[0], sizedata[1], idx.stop - idx.start + 1))
             indecies = np.arange(idx.start, idx.stop, 1)
             for i, val in enumerate(indecies):
                 print(f&#39;Moment calc at time idx: {i+1} of {idx.stop}&#39;, end=&#39;\r&#39;)
-                tmpmoment[:, :, i] = moment(self._imagearrays.concentration.data[:, :, val, :],
-                                            moment=nth,
-                                            axis=2)
+                self._imagearrays.moment.data[:, :, i] = (
+                    moment(self._imagearrays.concentration.data[:, :, val, :], moment=nth, axis=2))
         else:
-            tmpmoment = moment(self._imagearrays.concentration.data[:, :, idx, :],
-                               moment=nth,
-                               axis=2)
+            self._imagearrays.moment.data = (
+                moment(self._imagearrays.concentration.data[:, :, idx, :], moment=nth, axis=2))
+
+        self._imagearrays.moment.arrayinfo.loadedimagerange = \
+            self._imagearrays.concentration.arrayinfo.loadedimagerange
+        self._imagearrays.moment.arrayinfo.loadeddatasets = \
+            self._imagearrays.concentration.arrayinfo.loadeddatasets
 
         print(f&#39;Done with {nth}th moment\n&#39;)
-        return tmpmoment
 
 
 class Presscalc(Imagecalc):
@@ -687,7 +689,7 @@ class Presscalc(Imagecalc):
 
         Raises
         ------
-        AttributeError : :
+        AttributeError
             Pressure array not present
         &#34;&#34;&#34;
         for i in self._pressurearrays.__dict__:
@@ -849,7 +851,7 @@ def _errorlist(imarray, typeerror):
 
     Raises
     -------
-    ValueError : :
+    ValueError
         No data present
     &#34;&#34;&#34;
     match typeerror:
@@ -877,7 +879,7 @@ def _timeidxcheck(obj, timeidx):
 
     Raises
     ------
-    ValueError : :
+    ValueError
         Indecies are not possible or timeidx is not a valid format
     &#34;&#34;&#34;
     if timeidx is None:
@@ -924,10 +926,10 @@ def _rawblackcorrinputcheck(obj, jetcenter, jetwidth, wallidx, shotidx):
 
     Raises
     ------
-    ValueError : :
+    ValueError
         Missing requiered inputs
 
-    IndexError : :
+    IndexError
         No zero particle data
     &#34;&#34;&#34;
     if jetcenter is None:
@@ -1122,11 +1124,11 @@ the imagearrays data container</p>
 
         Raises
         ------
-        IndexError: :
+        IndexError
             Zero images are not the same size as rest of the dataset or the folder do not exist
             for the dataset
 
-        NotADirectoryError: :
+        NotADirectoryError
             full or zero particle folder do not exist
         &#34;&#34;&#34;
         print(&#39;Starting calibration calculations\n&#39;)
@@ -1142,7 +1144,7 @@ the imagearrays data container</p>
                                pressurefoldername=self._fileinfo.pressurefoldername,
                                imagefoldername=self._fileinfo.imagefoldername,
                                checkmeta=False,
-                               loadmeta=True)
+                               loadmeta=self._fileinfo._loadmetadata)
 
         # Setting the individualcalc parameter
         self._individualcalibrations = indivical
@@ -1309,10 +1311,10 @@ the imagearrays data container</p>
 
         Raises
         ------
-        LookupError: :
+        LookupError
             No calibration data calculated
 
-        NotImplementedError : :
+        NotImplementedError
             memsave method not implemented
         &#34;&#34;&#34;
         if not self._imagearrays.calibration.data.any():
@@ -1459,7 +1461,7 @@ the imagearrays data container</p>
 
         Raises
         ------
-        ValueError : :
+        ValueError
             Not enough raw images loaded for asked inputs
         &#34;&#34;&#34;
         # Checking inputs
@@ -1615,7 +1617,7 @@ the imagearrays data container</p>
             self._imagearrays.concentration.arrayinfo.loadeddatasets
         print(&#39;Done with variance\n&#39;)
 
-    def moment(self, nth: int, timeidx=None):
+    def moment(self, nth: int, timeidx: (list, int) = None):
         &#34;&#34;&#34;Calculate the nth moment around the mean.
 
         Based on the concentration images using the package &#39;scipy.stats&#39;
@@ -1625,7 +1627,7 @@ the imagearrays data container</p>
 
         Parameters
         ----------
-        timeidx : :
+        timeidx : (list, int) :
              (Default value = None)
             the time frame to for staistics, formats are:
             list: start and end point in time, [startidx, endidx]
@@ -1648,20 +1650,22 @@ the imagearrays data container</p>
 
         if isinstance(idx, slice):
             sizedata = np.shape(self._imagearrays.concentration.data)
-            tmpmoment = np.zeros((sizedata[0], sizedata[1], idx.stop - idx.start + 1))
+            self._imagearrays.moment.data = np.zeros((sizedata[0], sizedata[1], idx.stop - idx.start + 1))
             indecies = np.arange(idx.start, idx.stop, 1)
             for i, val in enumerate(indecies):
                 print(f&#39;Moment calc at time idx: {i+1} of {idx.stop}&#39;, end=&#39;\r&#39;)
-                tmpmoment[:, :, i] = moment(self._imagearrays.concentration.data[:, :, val, :],
-                                            moment=nth,
-                                            axis=2)
+                self._imagearrays.moment.data[:, :, i] = (
+                    moment(self._imagearrays.concentration.data[:, :, val, :], moment=nth, axis=2))
         else:
-            tmpmoment = moment(self._imagearrays.concentration.data[:, :, idx, :],
-                               moment=nth,
-                               axis=2)
+            self._imagearrays.moment.data = (
+                moment(self._imagearrays.concentration.data[:, :, idx, :], moment=nth, axis=2))
 
-        print(f&#39;Done with {nth}th moment\n&#39;)
-        return tmpmoment</code></pre>
+        self._imagearrays.moment.arrayinfo.loadedimagerange = \
+            self._imagearrays.concentration.arrayinfo.loadedimagerange
+        self._imagearrays.moment.arrayinfo.loadeddatasets = \
+            self._imagearrays.concentration.arrayinfo.loadeddatasets
+
+        print(f&#39;Done with {nth}th moment\n&#39;)</code></pre>
 </details>
 <h3>Subclasses</h3>
 <ul class="hlist">
@@ -1710,9 +1714,9 @@ ensuring 0 to 1 concentration estimates.
 </dl>
 <h2 id="raises">Raises</h2>
 <dl>
-<dt><strong><code>LookupError</code></strong> :&ensp;<code>:</code></dt>
+<dt><code>LookupError</code></dt>
 <dd>No calibration data calculated</dd>
-<dt><strong><code>NotImplementedError</code></strong> :&ensp;<code>:</code></dt>
+<dt><code>NotImplementedError</code></dt>
 <dd>memsave method not implemented</dd>
 </dl></div>
 <details class="source">
@@ -1768,10 +1772,10 @@ ensuring 0 to 1 concentration estimates.
 
     Raises
     ------
-    LookupError: :
+    LookupError
         No calibration data calculated
 
-    NotImplementedError : :
+    NotImplementedError
         memsave method not implemented
     &#34;&#34;&#34;
     if not self._imagearrays.calibration.data.any():
@@ -1870,10 +1874,10 @@ if the calibration calculations should be threaded</dd>
 </dl>
 <h2 id="raises">Raises</h2>
 <dl>
-<dt><strong><code>IndexError</code></strong> :&ensp;<code>:</code></dt>
+<dt><code>IndexError</code></dt>
 <dd>Zero images are not the same size as rest of the dataset or the folder do not exist
 for the dataset</dd>
-<dt><strong><code>NotADirectoryError</code></strong> :&ensp;<code>:</code></dt>
+<dt><code>NotADirectoryError</code></dt>
 <dd>full or zero particle folder do not exist</dd>
 </dl></div>
 <details class="source">
@@ -1926,11 +1930,11 @@ for the dataset</dd>
 
     Raises
     ------
-    IndexError: :
+    IndexError
         Zero images are not the same size as rest of the dataset or the folder do not exist
         for the dataset
 
-    NotADirectoryError: :
+    NotADirectoryError
         full or zero particle folder do not exist
     &#34;&#34;&#34;
     print(&#39;Starting calibration calculations\n&#39;)
@@ -1946,7 +1950,7 @@ for the dataset</dd>
                            pressurefoldername=self._fileinfo.pressurefoldername,
                            imagefoldername=self._fileinfo.imagefoldername,
                            checkmeta=False,
-                           loadmeta=True)
+                           loadmeta=self._fileinfo._loadmetadata)
 
     # Setting the individualcalc parameter
     self._individualcalibrations = indivical
@@ -2095,7 +2099,7 @@ ndarray([H, W, Time, Statio. time])</p></div>
 </details>
 </dd>
 <dt id="pimged.calculate.calculate.Imagecalc.moment"><code class="name flex">
-<span>def <span class="ident">moment</span></span>(<span>self, nth: int, timeidx=None)</span>
+<span>def <span class="ident">moment</span></span>(<span>self, nth: int, timeidx: (<class 'list'>, <class 'int'>) = None)</span>
 </code></dt>
 <dd>
 <div class="desc"><p>Calculate the nth moment around the mean.</p>
@@ -2104,7 +2108,7 @@ ndarray([H, W, Time, Statio. time])</p></div>
 ndarray([H, W, Time, Statio. time])</p>
 <h2 id="parameters">Parameters</h2>
 <dl>
-<dt><strong><code>timeidx</code></strong> :&ensp;<code>:</code></dt>
+<dt><strong><code>timeidx</code></strong> :&ensp;<code>(list, int) :</code></dt>
 <dd>(Default value = None)
 the time frame to for staistics, formats are:
 list: start and end point in time, [startidx, endidx]
@@ -2123,7 +2127,7 @@ stationary time index</dd>
 <summary>
 <span>Expand source code</span>
 </summary>
-<pre><code class="python">def moment(self, nth: int, timeidx=None):
+<pre><code class="python">def moment(self, nth: int, timeidx: (list, int) = None):
     &#34;&#34;&#34;Calculate the nth moment around the mean.
 
     Based on the concentration images using the package &#39;scipy.stats&#39;
@@ -2133,7 +2137,7 @@ stationary time index</dd>
 
     Parameters
     ----------
-    timeidx : :
+    timeidx : (list, int) :
          (Default value = None)
         the time frame to for staistics, formats are:
         list: start and end point in time, [startidx, endidx]
@@ -2156,20 +2160,22 @@ stationary time index</dd>
 
     if isinstance(idx, slice):
         sizedata = np.shape(self._imagearrays.concentration.data)
-        tmpmoment = np.zeros((sizedata[0], sizedata[1], idx.stop - idx.start + 1))
+        self._imagearrays.moment.data = np.zeros((sizedata[0], sizedata[1], idx.stop - idx.start + 1))
         indecies = np.arange(idx.start, idx.stop, 1)
         for i, val in enumerate(indecies):
             print(f&#39;Moment calc at time idx: {i+1} of {idx.stop}&#39;, end=&#39;\r&#39;)
-            tmpmoment[:, :, i] = moment(self._imagearrays.concentration.data[:, :, val, :],
-                                        moment=nth,
-                                        axis=2)
+            self._imagearrays.moment.data[:, :, i] = (
+                moment(self._imagearrays.concentration.data[:, :, val, :], moment=nth, axis=2))
     else:
-        tmpmoment = moment(self._imagearrays.concentration.data[:, :, idx, :],
-                           moment=nth,
-                           axis=2)
+        self._imagearrays.moment.data = (
+            moment(self._imagearrays.concentration.data[:, :, idx, :], moment=nth, axis=2))
 
-    print(f&#39;Done with {nth}th moment\n&#39;)
-    return tmpmoment</code></pre>
+    self._imagearrays.moment.arrayinfo.loadedimagerange = \
+        self._imagearrays.concentration.arrayinfo.loadedimagerange
+    self._imagearrays.moment.arrayinfo.loadeddatasets = \
+        self._imagearrays.concentration.arrayinfo.loadeddatasets
+
+    print(f&#39;Done with {nth}th moment\n&#39;)</code></pre>
 </details>
 </dd>
 <dt id="pimged.calculate.calculate.Imagecalc.rawblackcorr"><code class="name flex">
@@ -2237,7 +2243,7 @@ images. default is False, which means it calculate raw corrections</dd>
 </dl>
 <h2 id="raises">Raises</h2>
 <dl>
-<dt><strong><code>ValueError</code></strong> :&ensp;<code>:</code></dt>
+<dt><code>ValueError</code></dt>
 <dd>Not enough raw images loaded for asked inputs</dd>
 </dl></div>
 <details class="source">
@@ -2329,7 +2335,7 @@ images. default is False, which means it calculate raw corrections</dd>
 
     Raises
     ------
-    ValueError : :
+    ValueError
         Not enough raw images loaded for asked inputs
     &#34;&#34;&#34;
     # Checking inputs
@@ -2541,7 +2547,7 @@ ndarray([H, W, Time, Statio. time])</p></div>
 
         Raises
         ------
-        AttributeError : :
+        AttributeError
             Pressure array not present
         &#34;&#34;&#34;
         for i in self._pressurearrays.__dict__:
@@ -2571,7 +2577,7 @@ ndarray([H, W, Time, Statio. time])</p></div>
 <p>Uses the pressure data in the dataset to covert from Voltage to pressure</p>
 <h2 id="raises">Raises</h2>
 <dl>
-<dt><strong><code>AttributeError</code></strong> :&ensp;<code>:</code></dt>
+<dt><code>AttributeError</code></dt>
 <dd>Pressure array not present</dd>
 </dl></div>
 <details class="source">
@@ -2585,7 +2591,7 @@ ndarray([H, W, Time, Statio. time])</p></div>
 
     Raises
     ------
-    AttributeError : :
+    AttributeError
         Pressure array not present
     &#34;&#34;&#34;
     for i in self._pressurearrays.__dict__:

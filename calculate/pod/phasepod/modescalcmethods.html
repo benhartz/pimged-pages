@@ -66,10 +66,10 @@ def modecalcaculation(mainpodinfo: PODInfo, correlationinfo: CorrelationInfo, da
 
     Raises
     -------
-    FileExistsError : :
+    FileExistsError
         Correlation file do not exist
 
-    LookupError : :
+    LookupError
         No calibration file exist in the framework for metadata handling
     &#34;&#34;&#34;
     moderebuildstart = mainpodinfo.phasepodinfo.modebuiltstart
@@ -339,7 +339,7 @@ def loadcalcmodes(mainpodinfo: PODInfo, folderlocation: str):
 
     Raises
     ------
-    FileExistsError: :
+    FileExistsError
         No calculated modes present
     &#34;&#34;&#34;
     modesfolder = ph.join(folderlocation, mainpodinfo.phasepodinfo.savefolder_modes)
@@ -440,7 +440,7 @@ def loadcalcmodes(mainpodinfo: PODInfo, folderlocation: str):
 </dl>
 <h2 id="raises">Raises</h2>
 <dl>
-<dt><strong><code>FileExistsError</code></strong> :&ensp;<code>:</code></dt>
+<dt><code>FileExistsError</code></dt>
 <dd>No calculated modes present</dd>
 </dl></div>
 <details class="source">
@@ -466,7 +466,7 @@ def loadcalcmodes(mainpodinfo: PODInfo, folderlocation: str):
 
     Raises
     ------
-    FileExistsError: :
+    FileExistsError
         No calculated modes present
     &#34;&#34;&#34;
     modesfolder = ph.join(folderlocation, mainpodinfo.phasepodinfo.savefolder_modes)
@@ -563,9 +563,9 @@ from the second. Error is based in "jidxcorr" in the modecalc method, not solved
 </dl>
 <h2 id="raises">Raises</h2>
 <dl>
-<dt><strong><code>FileExistsError</code></strong> :&ensp;<code>:</code></dt>
+<dt><code>FileExistsError</code></dt>
 <dd>Correlation file do not exist</dd>
-<dt><strong><code>LookupError</code></strong> :&ensp;<code>:</code></dt>
+<dt><code>LookupError</code></dt>
 <dd>No calibration file exist in the framework for metadata handling</dd>
 </dl></div>
 <details class="source">
@@ -598,10 +598,10 @@ from the second. Error is based in "jidxcorr" in the modecalc method, not solved
 
     Raises
     -------
-    FileExistsError : :
+    FileExistsError
         Correlation file do not exist
 
-    LookupError : :
+    LookupError
         No calibration file exist in the framework for metadata handling
     &#34;&#34;&#34;
     moderebuildstart = mainpodinfo.phasepodinfo.modebuiltstart

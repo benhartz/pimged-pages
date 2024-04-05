@@ -36,7 +36,7 @@ Shadow module for implementation of package rutines in a streamlined code struct
 implement different POD methods
 &#34;&#34;&#34;
 
-from os import path as ph, getcwd, mkdir
+from os import path as ph, getcwd, makedirs
 
 from ...datahandling.dataset import Dataset
 from ...calculate.pod.generalrutines import PODInfo, CorrelationInfo
@@ -73,8 +73,8 @@ class POD:
         if ph.isdir(savefolder):
             pass
         else:
-            print(f&#39;making folder {savefolder}&#39;)
-            mkdir(savefolder)
+            print(f&#39;Creating folder path to: {savefolder}&#39;)
+            makedirs(savefolder)
 
         if podmethod == &#39;phase&#39;:
             self.correlationinfo = CorrelationInfo()
@@ -170,8 +170,8 @@ The folder the POD framework is saved in</dd>
         if ph.isdir(savefolder):
             pass
         else:
-            print(f&#39;making folder {savefolder}&#39;)
-            mkdir(savefolder)
+            print(f&#39;Creating folder path to: {savefolder}&#39;)
+            makedirs(savefolder)
 
         if podmethod == &#39;phase&#39;:
             self.correlationinfo = CorrelationInfo()

@@ -77,10 +77,7 @@ class Bigdata:
                 &#34;data, without the user handling file references. Everything is handled by the &#34;
                 &#34;module rutines.\n&#34;
                 &#34;The module implement methods for calibration, concentration and black point &#34;
-                &#34;correction of raw images.\n&#34;
-                &#34;If settings is made for a setup all ready calculated, the old data is loaded, &#34;
-                &#34;so it do not have to recalculate. The path has to be changed to avoid this &#34;
-                &#34;behavior or delete the files.&#34;)
+                &#34;correction of raw images.&#34;)
         return info
 
     def rawblackcorr(self,
@@ -89,7 +86,7 @@ class Bigdata:
                      path_rawcorr: (str, pathlib.Path),
                      filename_rawcorr: str):
         &#34;&#34;&#34;Calculate raw image correction.
-
+        
         Calculating the corrected raw images and saving the results. The setup is based on the
         black point correction settings under the &#34;setup.blackcorrection&#34; object for chunksize.
         The number of files loaded for the raw correction is defined by the
@@ -99,22 +96,22 @@ class Bigdata:
         ----------
         path_corr : (str, pathlib.Path) :
             filepath for the black point correction file
-
+            
         filename_corr : str :
             filename of the black point correction file
-
+            
         path_rawcorr : (str, pathlib.Path) :
             filepath of the black point corrected raw files for calibration
-
+            
         filename_rawcorr : str :
             filename of the black point corrected raw files for calibration
 
         Raises
         ------
-        ValueError : :
+        ValueError
             Dataset and blackpoint correction size do not match up
 
-        FileNotFoundError : :
+        FileNotFoundError
             Blackpoint corretion factors do not exist
         &#34;&#34;&#34;
         # Checking folder path
@@ -189,7 +186,7 @@ class Bigdata:
                          path: (str, pathlib.Path),
                          filename: str):
         &#34;&#34;&#34;Calculate black correction factors.
-
+        
         Loading chunked data pieces and save a blackpoint correction file for the chosen dataset.
         It is forced to save the data, as this framework is designed for large datasets. Setup
         for the function is found in the setup section of the object and follow the same name
@@ -289,7 +286,7 @@ class Bigdata:
                       filename: str,
                       rawimpath: (str, pathlib.Path) = None):
         &#34;&#34;&#34;Calculate concentration calibration.
-
+        
         Loading chunked data pieces and save a calibration file for the chosen dataset. It is
         forced to save the data, as this framework is designed for large datasets. Setup
         for the function is found in the setup section of the object.
@@ -305,7 +302,7 @@ class Bigdata:
 
         filename : str :
             filename for file
-
+            
         rawimpath: (str, pathlib.Path)  :
             filepath for raw images, if saved in e.g. with black point correction.
             Checking the whole folder for files and load all files with the
@@ -407,11 +404,11 @@ class Bigdata:
                   conc_mean_type: str = &#34;off&#34;,
                   conc_method: bool = False):
         &#34;&#34;&#34;Calculate concentrations.
-
+        
         Calculating concentration based on the input calibration file and optional the correction
         file for black point correction. If not black point correction file is provided,
         the code calculate the concentration without a correction.
-
+        
         The code loops over raw files in chunks based on the settings in the
         &#39;setup.concentration&#39; object and save the files out in the number of folders that fit
         with the dataset setting and chunk size.
@@ -424,16 +421,16 @@ class Bigdata:
 
         filename_conc : str :
             filename of the concentration calculations
-
+            
         path_calib: (str, pathlib.Path)  :
             filepath of the calibration file
-
+            
         filename_calib : str :
             filename of the calibration file
-
+            
         path_corr: (str, pathlib.Path) :
             filepath for the black point correction file
-
+            
         filename_corr: str :
              (Default value = None)
             filename of the black point correction file
@@ -450,20 +447,21 @@ class Bigdata:
 
         conc_method: bool :
              (Default value = False)
-            if the concentration should be saved in dataset files or as a single
+            if the mean concentration should be saved in several dataset files or as a single
             file with all calculation stored in a temporary file untill saving
             True : Temporary file and only one save file with all data
-            False : Saving style as the concentration files
+            False : Saving style as the concentration files, where each files is the mean of the
+            corresponding concentrations
 
         Raises
         ------
-        ValueError : :
+        ValueError
             Dataset and blackpoint correction size do not match up
 
-        FileNotFoundError : :
+        FileNotFoundError
             The blackpoint correction factors is not created yet or not calibration file exist
 
-        NotImplementedError : :
+        NotImplementedError
             Method not implemented
         &#34;&#34;&#34;
         # Checking if mean should be calculated
@@ -766,10 +764,7 @@ class Concentrationsetup:
                 &#34;data, without the user handling file references. Everything is handled by the &#34;
                 &#34;module rutines.\n&#34;
                 &#34;The module implement methods for calibration, concentration and black point &#34;
-                &#34;correction of raw images.\n&#34;
-                &#34;If settings is made for a setup all ready calculated, the old data is loaded, &#34;
-                &#34;so it do not have to recalculate. The path has to be changed to avoid this &#34;
-                &#34;behavior or delete the files.&#34;)
+                &#34;correction of raw images.&#34;)
         return info
 
     def rawblackcorr(self,
@@ -778,7 +773,7 @@ class Concentrationsetup:
                      path_rawcorr: (str, pathlib.Path),
                      filename_rawcorr: str):
         &#34;&#34;&#34;Calculate raw image correction.
-
+        
         Calculating the corrected raw images and saving the results. The setup is based on the
         black point correction settings under the &#34;setup.blackcorrection&#34; object for chunksize.
         The number of files loaded for the raw correction is defined by the
@@ -788,22 +783,22 @@ class Concentrationsetup:
         ----------
         path_corr : (str, pathlib.Path) :
             filepath for the black point correction file
-
+            
         filename_corr : str :
             filename of the black point correction file
-
+            
         path_rawcorr : (str, pathlib.Path) :
             filepath of the black point corrected raw files for calibration
-
+            
         filename_rawcorr : str :
             filename of the black point corrected raw files for calibration
 
         Raises
         ------
-        ValueError : :
+        ValueError
             Dataset and blackpoint correction size do not match up
 
-        FileNotFoundError : :
+        FileNotFoundError
             Blackpoint corretion factors do not exist
         &#34;&#34;&#34;
         # Checking folder path
@@ -878,7 +873,7 @@ class Concentrationsetup:
                          path: (str, pathlib.Path),
                          filename: str):
         &#34;&#34;&#34;Calculate black correction factors.
-
+        
         Loading chunked data pieces and save a blackpoint correction file for the chosen dataset.
         It is forced to save the data, as this framework is designed for large datasets. Setup
         for the function is found in the setup section of the object and follow the same name
@@ -978,7 +973,7 @@ class Concentrationsetup:
                       filename: str,
                       rawimpath: (str, pathlib.Path) = None):
         &#34;&#34;&#34;Calculate concentration calibration.
-
+        
         Loading chunked data pieces and save a calibration file for the chosen dataset. It is
         forced to save the data, as this framework is designed for large datasets. Setup
         for the function is found in the setup section of the object.
@@ -994,7 +989,7 @@ class Concentrationsetup:
 
         filename : str :
             filename for file
-
+            
         rawimpath: (str, pathlib.Path)  :
             filepath for raw images, if saved in e.g. with black point correction.
             Checking the whole folder for files and load all files with the
@@ -1096,11 +1091,11 @@ class Concentrationsetup:
                   conc_mean_type: str = &#34;off&#34;,
                   conc_method: bool = False):
         &#34;&#34;&#34;Calculate concentrations.
-
+        
         Calculating concentration based on the input calibration file and optional the correction
         file for black point correction. If not black point correction file is provided,
         the code calculate the concentration without a correction.
-
+        
         The code loops over raw files in chunks based on the settings in the
         &#39;setup.concentration&#39; object and save the files out in the number of folders that fit
         with the dataset setting and chunk size.
@@ -1113,16 +1108,16 @@ class Concentrationsetup:
 
         filename_conc : str :
             filename of the concentration calculations
-
+            
         path_calib: (str, pathlib.Path)  :
             filepath of the calibration file
-
+            
         filename_calib : str :
             filename of the calibration file
-
+            
         path_corr: (str, pathlib.Path) :
             filepath for the black point correction file
-
+            
         filename_corr: str :
              (Default value = None)
             filename of the black point correction file
@@ -1139,20 +1134,21 @@ class Concentrationsetup:
 
         conc_method: bool :
              (Default value = False)
-            if the concentration should be saved in dataset files or as a single
+            if the mean concentration should be saved in several dataset files or as a single
             file with all calculation stored in a temporary file untill saving
             True : Temporary file and only one save file with all data
-            False : Saving style as the concentration files
+            False : Saving style as the concentration files, where each files is the mean of the
+            corresponding concentrations
 
         Raises
         ------
-        ValueError : :
+        ValueError
             Dataset and blackpoint correction size do not match up
 
-        FileNotFoundError : :
+        FileNotFoundError
             The blackpoint correction factors is not created yet or not calibration file exist
 
-        NotImplementedError : :
+        NotImplementedError
             Method not implemented
         &#34;&#34;&#34;
         # Checking if mean should be calculated
@@ -1320,7 +1316,7 @@ order. Therefore, settings has to followed saved data order</dd>
                   filename: str,
                   rawimpath: (str, pathlib.Path) = None):
     &#34;&#34;&#34;Calculate concentration calibration.
-
+    
     Loading chunked data pieces and save a calibration file for the chosen dataset. It is
     forced to save the data, as this framework is designed for large datasets. Setup
     for the function is found in the setup section of the object.
@@ -1336,7 +1332,7 @@ order. Therefore, settings has to followed saved data order</dd>
 
     filename : str :
         filename for file
-
+        
     rawimpath: (str, pathlib.Path)  :
         filepath for raw images, if saved in e.g. with black point correction.
         Checking the whole folder for files and load all files with the
@@ -1458,7 +1454,7 @@ correction</p>
                      path: (str, pathlib.Path),
                      filename: str):
     &#34;&#34;&#34;Calculate black correction factors.
-
+    
     Loading chunked data pieces and save a blackpoint correction file for the chosen dataset.
     It is forced to save the data, as this framework is designed for large datasets. Setup
     for the function is found in the setup section of the object and follow the same name
@@ -1593,18 +1589,19 @@ The save and calculation methods are:
 "only": Only calculate the mean and not instantanious</dd>
 <dt><strong><code>conc_method</code></strong> :&ensp;<code>bool :</code></dt>
 <dd>(Default value = False)
-if the concentration should be saved in dataset files or as a single
+if the mean concentration should be saved in several dataset files or as a single
 file with all calculation stored in a temporary file untill saving
 True : Temporary file and only one save file with all data
-False : Saving style as the concentration files</dd>
+False : Saving style as the concentration files, where each files is the mean of the
+corresponding concentrations</dd>
 </dl>
 <h2 id="raises">Raises</h2>
 <dl>
-<dt><strong><code>ValueError</code></strong> :&ensp;<code>:</code></dt>
+<dt><code>ValueError</code></dt>
 <dd>Dataset and blackpoint correction size do not match up</dd>
-<dt><strong><code>FileNotFoundError</code></strong> :&ensp;<code>:</code></dt>
+<dt><code>FileNotFoundError</code></dt>
 <dd>The blackpoint correction factors is not created yet or not calibration file exist</dd>
-<dt><strong><code>NotImplementedError</code></strong> :&ensp;<code>:</code></dt>
+<dt><code>NotImplementedError</code></dt>
 <dd>Method not implemented</dd>
 </dl></div>
 <details class="source">
@@ -1621,11 +1618,11 @@ False : Saving style as the concentration files</dd>
               conc_mean_type: str = &#34;off&#34;,
               conc_method: bool = False):
     &#34;&#34;&#34;Calculate concentrations.
-
+    
     Calculating concentration based on the input calibration file and optional the correction
     file for black point correction. If not black point correction file is provided,
     the code calculate the concentration without a correction.
-
+    
     The code loops over raw files in chunks based on the settings in the
     &#39;setup.concentration&#39; object and save the files out in the number of folders that fit
     with the dataset setting and chunk size.
@@ -1638,16 +1635,16 @@ False : Saving style as the concentration files</dd>
 
     filename_conc : str :
         filename of the concentration calculations
-
+        
     path_calib: (str, pathlib.Path)  :
         filepath of the calibration file
-
+        
     filename_calib : str :
         filename of the calibration file
-
+        
     path_corr: (str, pathlib.Path) :
         filepath for the black point correction file
-
+        
     filename_corr: str :
          (Default value = None)
         filename of the black point correction file
@@ -1664,20 +1661,21 @@ False : Saving style as the concentration files</dd>
 
     conc_method: bool :
          (Default value = False)
-        if the concentration should be saved in dataset files or as a single
+        if the mean concentration should be saved in several dataset files or as a single
         file with all calculation stored in a temporary file untill saving
         True : Temporary file and only one save file with all data
-        False : Saving style as the concentration files
+        False : Saving style as the concentration files, where each files is the mean of the
+        corresponding concentrations
 
     Raises
     ------
-    ValueError : :
+    ValueError
         Dataset and blackpoint correction size do not match up
 
-    FileNotFoundError : :
+    FileNotFoundError
         The blackpoint correction factors is not created yet or not calibration file exist
 
-    NotImplementedError : :
+    NotImplementedError
         Method not implemented
     &#34;&#34;&#34;
     # Checking if mean should be calculated
@@ -1832,9 +1830,9 @@ The number of files loaded for the raw correction is defined by the
 </dl>
 <h2 id="raises">Raises</h2>
 <dl>
-<dt><strong><code>ValueError</code></strong> :&ensp;<code>:</code></dt>
+<dt><code>ValueError</code></dt>
 <dd>Dataset and blackpoint correction size do not match up</dd>
-<dt><strong><code>FileNotFoundError</code></strong> :&ensp;<code>:</code></dt>
+<dt><code>FileNotFoundError</code></dt>
 <dd>Blackpoint corretion factors do not exist</dd>
 </dl></div>
 <details class="source">
@@ -1847,7 +1845,7 @@ The number of files loaded for the raw correction is defined by the
                  path_rawcorr: (str, pathlib.Path),
                  filename_rawcorr: str):
     &#34;&#34;&#34;Calculate raw image correction.
-
+    
     Calculating the corrected raw images and saving the results. The setup is based on the
     black point correction settings under the &#34;setup.blackcorrection&#34; object for chunksize.
     The number of files loaded for the raw correction is defined by the
@@ -1857,22 +1855,22 @@ The number of files loaded for the raw correction is defined by the
     ----------
     path_corr : (str, pathlib.Path) :
         filepath for the black point correction file
-
+        
     filename_corr : str :
         filename of the black point correction file
-
+        
     path_rawcorr : (str, pathlib.Path) :
         filepath of the black point corrected raw files for calibration
-
+        
     filename_rawcorr : str :
         filename of the black point corrected raw files for calibration
 
     Raises
     ------
-    ValueError : :
+    ValueError
         Dataset and blackpoint correction size do not match up
 
-    FileNotFoundError : :
+    FileNotFoundError
         Blackpoint corretion factors do not exist
     &#34;&#34;&#34;
     # Checking folder path
