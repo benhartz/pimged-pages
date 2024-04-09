@@ -1,0 +1,1932 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1" />
+<meta name="generator" content="pdoc 0.10.0" />
+<title>pimged.datahandling.bigdata.bigdata API documentation</title>
+<meta name="description" content="bigdata is a class used to handle large amount of datasets." />
+<link rel="preload stylesheet" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/10up-sanitize.css/11.0.1/sanitize.min.css" integrity="sha256-PK9q560IAAa6WVRRh76LtCaI8pjTJ2z11v0miyNNjrs=" crossorigin>
+<link rel="preload stylesheet" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/10up-sanitize.css/11.0.1/typography.min.css" integrity="sha256-7l/o7C8jubJiy74VsKTidCy1yBkRtiUGbVkYBylBqUg=" crossorigin>
+<link rel="stylesheet preload" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.1.1/styles/github.min.css" crossorigin>
+<style>:root{--highlight-color:#fe9}.flex{display:flex !important}body{line-height:1.5em}#content{padding:20px}#sidebar{padding:30px;overflow:hidden}#sidebar > *:last-child{margin-bottom:2cm}.http-server-breadcrumbs{font-size:130%;margin:0 0 15px 0}#footer{font-size:.75em;padding:5px 30px;border-top:1px solid #ddd;text-align:right}#footer p{margin:0 0 0 1em;display:inline-block}#footer p:last-child{margin-right:30px}h1,h2,h3,h4,h5{font-weight:300}h1{font-size:2.5em;line-height:1.1em}h2{font-size:1.75em;margin:1em 0 .50em 0}h3{font-size:1.4em;margin:25px 0 10px 0}h4{margin:0;font-size:105%}h1:target,h2:target,h3:target,h4:target,h5:target,h6:target{background:var(--highlight-color);padding:.2em 0}a{color:#058;text-decoration:none;transition:color .3s ease-in-out}a:hover{color:#e82}.title code{font-weight:bold}h2[id^="header-"]{margin-top:2em}.ident{color:#900}pre code{background:#f8f8f8;font-size:.8em;line-height:1.4em}code{background:#f2f2f1;padding:1px 4px;overflow-wrap:break-word}h1 code{background:transparent}pre{background:#f8f8f8;border:0;border-top:1px solid #ccc;border-bottom:1px solid #ccc;margin:1em 0;padding:1ex}#http-server-module-list{display:flex;flex-flow:column}#http-server-module-list div{display:flex}#http-server-module-list dt{min-width:10%}#http-server-module-list p{margin-top:0}.toc ul,#index{list-style-type:none;margin:0;padding:0}#index code{background:transparent}#index h3{border-bottom:1px solid #ddd}#index ul{padding:0}#index h4{margin-top:.6em;font-weight:bold}@media (min-width:200ex){#index .two-column{column-count:2}}@media (min-width:300ex){#index .two-column{column-count:3}}dl{margin-bottom:2em}dl dl:last-child{margin-bottom:4em}dd{margin:0 0 1em 3em}#header-classes + dl > dd{margin-bottom:3em}dd dd{margin-left:2em}dd p{margin:10px 0}.name{background:#eee;font-weight:bold;font-size:.85em;padding:5px 10px;display:inline-block;min-width:40%}.name:hover{background:#e0e0e0}dt:target .name{background:var(--highlight-color)}.name > span:first-child{white-space:nowrap}.name.class > span:nth-child(2){margin-left:.4em}.inherited{color:#999;border-left:5px solid #eee;padding-left:1em}.inheritance em{font-style:normal;font-weight:bold}.desc h2{font-weight:400;font-size:1.25em}.desc h3{font-size:1em}.desc dt code{background:inherit}.source summary,.git-link-div{color:#666;text-align:right;font-weight:400;font-size:.8em;text-transform:uppercase}.source summary > *{white-space:nowrap;cursor:pointer}.git-link{color:inherit;margin-left:1em}.source pre{max-height:500px;overflow:auto;margin:0}.source pre code{font-size:12px;overflow:visible}.hlist{list-style:none}.hlist li{display:inline}.hlist li:after{content:',\2002'}.hlist li:last-child:after{content:none}.hlist .hlist{display:inline;padding-left:1em}img{max-width:100%}td{padding:0 .5em}.admonition{padding:.1em .5em;margin-bottom:1em}.admonition-title{font-weight:bold}.admonition.note,.admonition.info,.admonition.important{background:#aef}.admonition.todo,.admonition.versionadded,.admonition.tip,.admonition.hint{background:#dfd}.admonition.warning,.admonition.versionchanged,.admonition.deprecated{background:#fd4}.admonition.error,.admonition.danger,.admonition.caution{background:lightpink}</style>
+<style media="screen and (min-width: 700px)">@media screen and (min-width:700px){#sidebar{width:30%;height:100vh;overflow:auto;position:sticky;top:0}#content{width:70%;max-width:100ch;padding:3em 4em;border-left:1px solid #ddd}pre code{font-size:1em}.item .name{font-size:1em}main{display:flex;flex-direction:row-reverse;justify-content:flex-end}.toc ul ul,#index ul{padding-left:1.5em}.toc > ul > li{margin-top:.5em}}</style>
+<style media="print">@media print{#sidebar h1{page-break-before:always}.source{display:none}}@media print{*{background:transparent !important;color:#000 !important;box-shadow:none !important;text-shadow:none !important}a[href]:after{content:" (" attr(href) ")";font-size:90%}a[href][title]:after{content:none}abbr[title]:after{content:" (" attr(title) ")"}.ir a:after,a[href^="javascript:"]:after,a[href^="#"]:after{content:""}pre,blockquote{border:1px solid #999;page-break-inside:avoid}thead{display:table-header-group}tr,img{page-break-inside:avoid}img{max-width:100% !important}@page{margin:0.5cm}p,h2,h3{orphans:3;widows:3}h1,h2,h3,h4,h5,h6{page-break-after:avoid}}</style>
+<script defer src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.1.1/highlight.min.js" integrity="sha256-Uv3H6lx7dJmRfRvH8TH6kJD1TSK1aFcwgx+mdg3epi8=" crossorigin></script>
+<script>window.addEventListener('DOMContentLoaded', () => hljs.initHighlighting())</script>
+<style>.homelink{display:block;font-size:2em;font-weight:bold;color:#555;padding-bottom:.5em;border-bottom:1px solid silver}.homelink:hover{color:inherit}.homelink img{max-width:100%;max-height:10em;margin:auto;margin-bottom:.3em;margin-top:.3em}</style>
+</head>
+<body>
+<main>
+<article id="content">
+<header>
+<h1 class="title">Module <code>pimged.datahandling.bigdata.bigdata</code></h1>
+</header>
+<section id="section-intro">
+<p>bigdata is a class used to handle large amount of datasets.</p>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">&#34;&#34;&#34;bigdata is a class used to handle large amount of datasets.&#34;&#34;&#34;
+import pathlib
+from os import path as ph, listdir
+import numpy as np
+from ...datahandling.dataset import Dataset
+from ...calculate.calculate import Calculate
+from ...utils.utils import check_folder_path
+from ...utils.naturalkeysort import naturalkeysort
+
+
+class Bigdata:
+    &#34;&#34;&#34;Handle large pimged dataset amounts by organizing chunked load and saveing routines.&#34;&#34;&#34;
+
+    def __init__(self,
+                 dataset: Dataset):
+        &#34;&#34;&#34;Initialize the Bigdata class object with a dataset object.
+
+        Parameters
+        ---------
+        dataset : pimged.Dataset
+            dataset object from pimged package
+        &#34;&#34;&#34;
+        # noinspection PyProtectedMember
+        self.calcpresision = dataset.images._precision_calc
+
+        self.setup = Setup()
+        self._dataset = dataset
+        self._datacalc = Calculate(dataset)
+
+    def rawblackcorr(self,
+                     path_corr: (str, pathlib.Path),
+                     filename_corr: str,
+                     path_rawcorr: (str, pathlib.Path),
+                     filename_rawcorr: str):
+        &#34;&#34;&#34;Calculate raw image correction.
+        
+        Calculating the corrected raw images and saving the results. The setup is based on the
+        black point correction settings under the &#34;setup.blackcorrection&#34; object for chunksize.
+        The number of files loaded for the raw correction is defined by the
+        &#34;setup.calibration.imagerange&#34; setting, as the calibration is built on these images
+
+        Parameters
+        ----------
+        path_corr : (str, pathlib.Path) :
+            filepath for the black point correction file
+            
+        filename_corr : str :
+            filename of the black point correction file
+            
+        path_rawcorr : (str, pathlib.Path) :
+            filepath of the black point corrected raw files for calibration
+            
+        filename_rawcorr : str :
+            filename of the black point corrected raw files for calibration
+
+        Raises
+        ------
+        ValueError
+        FileNotFoundError
+        &#34;&#34;&#34;
+        # Checking folder path
+        check_folder_path(path_rawcorr, createdir=True)
+
+        # Starting a counter
+        counter = 1
+        # Checking if the file exist, if it does - do not calculate it
+        if ph.isfile(ph.join(path_corr, filename_corr + &#39;.pkl&#39;)):
+            print(&#39;found black point correction file, loading\n&#39;)
+            self._dataset.images.blackpointcorr.load(filename=filename_corr, filepath=path_corr)
+            print(&#39;finished\n\n&#39;)
+        else:
+            raise FileNotFoundError(
+                &#39;The black point correction factors for the dataset do not exist.\n&#39;
+                &#39;Check the filename and file path\n&#39;
+                &#39;Or create the black correction factors first, before correcting the &#39;
+                &#39;raw data&#39;)
+
+        # Calculating initial values and initialize temporary calibration container
+        totalblocks = self.setup.datasetrange[1] - self.setup.datasetrange[0] + 1
+        totalcounts = int(np.ceil(totalblocks / self.setup.blackcorrection.chunksize))
+
+        if totalblocks &gt; self._dataset.images.blackpointcorr.data.shape[2]:
+            raise ValueError(
+                f&#39;Not enough datasets are present in the black point correction factor &#39;
+                f&#39;for what is tried to be loaded. \n&#39;
+                f&#39;Only {self._dataset.images.blackpointcorr.data.shape[2]} datasets in the &#39;
+                f&#39;black point file\n&#39;
+                f&#39;Tried to load {totalblocks} datasets of raw files&#39;)
+
+        # Looping over the dataset range and ensuring the end is reached for with chunk sizes
+        if (self.setup.datasetrange[1] / self.setup.blackcorrection.chunksize ==
+                int(self.setup.datasetrange[1] / self.setup.blackcorrection.chunksize)):
+            endrange = self.setup.datasetrange[1]
+        else:
+            endrange = self.setup.datasetrange[1] + self.setup.blackcorrection.chunksize - 1
+
+        # Checking if chunksize is larger than dataset range and corrects
+        if endrange &gt; self.setup.datasetrange[1]:
+            endrange = self.setup.datasetrange[1]
+
+        # Looping over images
+        for i in range(self.setup.datasetrange[0],
+                       endrange,
+                       self.setup.blackcorrection.chunksize):
+            start = i
+            end = min(i + self.setup.blackcorrection.chunksize - 1, self.setup.datasetrange[1])
+
+            print(f&#39;Loop {counter} of {totalcounts}, start = {i}   end = {end}&#39;)
+            self._dataset.loadimages(setfolderstoload=[start, end],
+                                     setimagestoload=self.setup.calibration.imagerange,
+                                     verb=True,
+                                     parset=True,
+                                     natkeysort=True)
+
+            self._datacalc.rawblackcorr(nimages=self.setup.blackcorrection.nimages,
+                                        removeedgeh=self.setup.blackcorrection.removeedgeh,
+                                        removeedgew=self.setup.blackcorrection.removeedgew,
+                                        flipped=self.setup.blackcorrection.flipped,
+                                        setrangeinput=[start - 1, end],
+                                        forcerecal=False,
+                                        onlycorr=False)
+
+            # Saving corrected raw files
+            savename_rawcorrset = filename_rawcorr + f&#39;_datasets_{start}-{end}&#39;
+            self._dataset.images.raw.save(filename=savename_rawcorrset, filepath=path_rawcorr)
+
+            counter += 1
+
+    def blackcorrfactors(self,
+                         path: (str, pathlib.Path),
+                         filename: str):
+        &#34;&#34;&#34;Calculate black correction factors.
+        
+        Loading chunked data pieces and save a blackpoint correction file for the chosen dataset.
+        It is forced to save the data, as this framework is designed for large datasets. Setup
+        for the function is found in the setup section of the object and follow the same name
+        convention as the &#39;rawblackcorr&#39; function in the &#39;Calculate()&#39; package for function
+        setup. But two settings differ:
+        datasetrange is the dataset range to load
+        chuncksize is the size of the chunks to load
+        nimages is the number of images at the start of the dataset to include in the blackpoint
+        correction
+
+        Parameters
+        ----------
+        path : (str, pathlib.Path) :
+            file path to save in
+
+        filename : str :
+            filename for file
+        &#34;&#34;&#34;
+        # Checking folder path
+        check_folder_path(path, createdir=True)
+
+        # Starting a counter
+        counter = 1
+        # Checking if the file exist, if it does - do not calculate it
+        if ph.isfile(ph.join(path, filename + &#39;.pkl&#39;)):
+            print(&#39;found black point correction file, loading\n&#39;)
+            self._dataset.images.blackpointcorr.load(filename=filename, filepath=path)
+            print(&#39;finished\n\n&#39;)
+        else:
+            print(&#39;no black point correction file found\n&#39;)
+
+            # Calculating initial values and initialize temporary calibration container
+            totalblocks = self.setup.datasetrange[1] - self.setup.datasetrange[0] + 1
+            totalcounts = int(np.ceil(totalblocks / self.setup.blackcorrection.chunksize))
+            tmpcalfile = np.zeros((self._dataset.fileinfo.imagedata.frameheight,
+                                   self._dataset.fileinfo.imagedata.framewidth,
+                                   totalblocks))
+
+            # Looping over the dataset range and ensuring the end is reached for with chunk sizes
+            if (self.setup.datasetrange[1]/self.setup.blackcorrection.chunksize ==
+                    int(self.setup.datasetrange[1]/self.setup.blackcorrection.chunksize)):
+                endrange = self.setup.datasetrange[1]
+            else:
+                endrange = self.setup.datasetrange[1] + self.setup.blackcorrection.chunksize - 1
+
+            # Checking if chunksize is larger than dataset range and corrects
+            if endrange &gt; self.setup.datasetrange[1]:
+                endrange = self.setup.datasetrange[1]
+
+            for i in range(self.setup.datasetrange[0],
+                           endrange,
+                           self.setup.blackcorrection.chunksize):
+                start = i
+                end = min(i + self.setup.blackcorrection.chunksize - 1, self.setup.datasetrange[1])
+
+                print(f&#39;Loop {counter} of {totalcounts}, start = {i}   end = {end}&#39;)
+                print(&#39;Loading the shot image to correct with&#39;)
+                self._dataset.loadimages(
+                    setfolderstoload=[start, end],
+                    setimagestoload=[self._dataset.images.blackpointcorr.arrayinfo.jetinfo.shotidx],
+                    loadmethodimage=&#39;spec&#39;,
+                    verb=True,
+                    parset=True,
+                    natkeysort=True)
+                tmpimfile = self._dataset.images.raw.data
+
+                print(&#39;Loading raw calibration image range&#39;)
+                self._dataset.loadimages(setfolderstoload=[start, end],
+                                         setimagestoload=[1, self.setup.blackcorrection.nimages],
+                                         verb=True,
+                                         parset=True,
+                                         natkeysort=True)
+
+                print(&#39;Adding the shot image to data set&#39;)
+                self._dataset.images.raw.data = np.append(self._dataset.images.raw.data,
+                                                          tmpimfile,
+                                                          axis=2)
+
+                self._datacalc.rawblackcorr(shotidx=self.setup.blackcorrection.nimages,
+                                            nimages=self.setup.blackcorrection.nimages,
+                                            removeedgeh=self.setup.blackcorrection.removeedgeh,
+                                            removeedgew=self.setup.blackcorrection.removeedgew,
+                                            flipped=self.setup.blackcorrection.flipped,
+                                            forcerecal=True,
+                                            onlycorr=True)
+
+                tmpcalfile[:, :, start-1:end] = self._dataset.images.blackpointcorr.data
+
+                counter += 1
+
+            self._dataset.images.blackpointcorr.data = tmpcalfile
+            self._dataset.images.blackpointcorr.arrayinfo.loadeddatasets = self.setup.datasetrange
+            self._dataset.images.blackpointcorr.save(filename=filename, filepath=path)
+
+    def bit2conccalib(self,
+                      path: (str, pathlib.Path),
+                      filename: str,
+                      rawimpath: (str, pathlib.Path) = None):
+        &#34;&#34;&#34;Calculate concentration calibration.
+        
+        Loading chunked data pieces and save a calibration file for the chosen dataset. It is
+        forced to save the data, as this framework is designed for large datasets. Setup
+        for the function is found in the setup section of the object.
+        datasetrange is the dataset range to load
+        chuncksize is the size of the chunks to load
+        imagerange is the image range to use for calibration estimation
+
+        Parameters
+        ----------
+        path : (str, pathlib.Path) :
+             (Default value = None)
+            file path to save in
+
+        filename : str :
+            filename for file
+            
+        rawimpath: (str, pathlib.Path)  :
+            filepath for raw images, if saved in e.g. with black point correction.
+            Checking the whole folder for files and load all files with the
+            chuncked setting and save the calibrations files in the same chunked
+            order. Therefore, settings has to followed saved data order
+        &#34;&#34;&#34;
+        # Checking folder path
+        check_folder_path(path, createdir=True)
+
+        # Checking if rawfile path input is given for loading
+        loadraw = bool(rawimpath)
+
+        # Starting a counter
+        counter = 1
+        # Checking if the file exist, if it does - do not calculate it
+        if ph.isfile(ph.join(path, filename + &#39;.pkl&#39;)):
+            print(&#39;found calibration file, loading\n&#39;)
+            self._dataset.images.calibration.load(filename=filename, filepath=path)
+            print(&#39;finished\n\n&#39;)
+        else:
+            print(&#39;no calibration file found\n&#39;)
+
+            if loadraw:
+                rawimagesinfolders = list(listdir(rawimpath))
+                naturalkeysort(rawimagesinfolders)
+            else:
+                rawimagesinfolders = []
+
+            # Calculating initial values and initialize temporary calibration container
+            totalblocks = self.setup.datasetrange[1] - self.setup.datasetrange[0] + 1
+            totalcounts = int(np.ceil(totalblocks / self.setup.calibration.chunksize))
+            tmpcalfile = np.zeros((self._dataset.fileinfo.imagedata.frameheight,
+                                   self._dataset.fileinfo.imagedata.framewidth,
+                                   totalblocks,
+                                   2))
+
+            # Ensuring endrange is defined for full data reach
+            if (self.setup.datasetrange[1] / self.setup.calibration.chunksize ==
+                    int(self.setup.datasetrange[1] / self.setup.calibration.chunksize)):
+                endrange = self.setup.datasetrange[1]
+            else:
+                endrange = self.setup.datasetrange[1] + self.setup.calibration.chunksize - 1
+
+            # Checking if chunksize is larger than dataset range and corrects
+            if endrange &gt; self.setup.datasetrange[1]:
+                endrange = self.setup.datasetrange[1]
+
+            # Setting up loop range
+            startrange = self.setup.datasetrange[0]
+            chunksize = self.setup.calibration.chunksize
+            endtrue = self.setup.datasetrange[1]
+
+            # Looping over the dataset range and ensuring the end is reached for with chunk sizes
+            for i in range(startrange,
+                           endrange,
+                           chunksize):
+                start = i
+                end = min(i + chunksize - 1, endtrue)
+                # if end &gt; endtrue:
+                #     end = endtrue
+
+                print(f&#39;Loop {counter} of {totalcounts}, start = {i}   end = {end}&#39;)
+                # Loading images
+                if loadraw:
+                    self._dataset.images.raw.load(filepath=rawimpath,
+                                                  filename=rawimagesinfolders[counter - 1])
+                else:
+                    self._dataset.loadimages(setfolderstoload=[start, end],
+                                             setimagestoload=self.setup.calibration.imagerange,
+                                             verb=True,
+                                             parset=True,
+                                             natkeysort=True)
+
+                # Calculating the calibration based on the images
+                self._datacalc.bit2conccalib(numberofimages=self.setup.calibration.imagerange[1],
+                                             indivical=True,
+                                             parsetcalc=True)
+
+                # Storing the calculated calibrations
+                tmpcalfile[:, :, start-1:end, :] = self._dataset.images.calibration.data
+
+                self._dataset.images.raw.clear()
+
+                counter += 1
+
+            # Replacing the data in the framework with the temporary files and save the
+            # calibration file with the given name
+            self._dataset.images.calibration.data = tmpcalfile
+            self._dataset.images.calibration.arrayinfo.loadeddatasets = self.setup.datasetrange
+            self._dataset.images.calibration.save(filename=filename, filepath=path)
+
+    def conc_calc(self,
+                  path_conc: (str, pathlib.Path),
+                  filename_conc: str,
+                  path_calib: (str, pathlib.Path),
+                  filename_calib: str,
+                  path_corr: (str, pathlib.Path) = None,
+                  filename_corr: str = None,
+                  conc_mean_type: str = &#34;off&#34;,
+                  conc_method: bool = False):
+        &#34;&#34;&#34;Calculate concentrations.
+        
+        Calculating concentration based on the input calibration file and optional the correction
+        file for black point correction. If not black point correction file is provided,
+        the code calculate the concentration without a correction.
+        
+        The code loops over raw files in chunks based on the settings in the
+        &#39;setup.concentration&#39; object and save the files out in the number of folders that fit
+        with the dataset setting and chunk size.
+
+        Parameters
+        ----------
+        path_conc: (str, pathlib.Path) :
+             (Default value = None)
+            filepath for the concentration folder
+
+        filename_conc : str :
+            filename of the concentration calculations
+            
+        path_calib: (str, pathlib.Path)  :
+            filepath of the calibration file
+            
+        filename_calib : str :
+            filename of the calibration file
+            
+        path_corr: (str, pathlib.Path) :
+            filepath for the black point correction file
+            
+        filename_corr: str :
+             (Default value = None)
+            filename of the black point correction file
+
+        conc_mean_type: str :
+             (Default value = &#34;off&#34;)
+            {&#39;off&#39;, &#39;on&#39;, &#39;only&#39;}
+            if the mean of the concentration field should be caculated and saved.
+            Adds &#34;MEAN_&#34; prefix to savefile name.
+            The save and calculation methods are:
+            &#34;off&#34;: No calculation of mean
+            &#34;on&#34;: Calculation of mean and instantanious
+            &#34;only&#34;: Only calculate the mean and not instantanious
+
+        conc_method: bool :
+             (Default value = False)
+            if the concentration should be saved in dataset files or as a single
+            file with all calculation stored in a temporary file untill saving
+            True : Temporary file and only one save file with all data
+            False : Saving style as the concentration files
+
+        Raises
+        ------
+        ValueError
+        FileNotFoundError
+        NotImplementedError
+        &#34;&#34;&#34;
+        # Checking if mean should be calculated
+        match conc_mean_type:
+            case &#34;off&#34;:
+                conc_mean = False
+                conc_mean_only = False
+            case &#34;on&#34;:
+                conc_mean = True
+                conc_mean_only = False
+            case &#34;only&#34;:
+                conc_mean = True
+                conc_mean_only = True
+            case _:
+                raise NotImplementedError(&#34;The given input to &#39;conc_mean_type&#39; do not exist&#34;)
+
+        # Checking if there is given a correction file
+        blackpointcorr_flag = (bool(path_corr) and bool(filename_corr))
+        if not blackpointcorr_flag:
+            path_corr = &#39;&#39;
+            filename_corr = &#39;&#39;
+
+        # Starting a counter
+        counter = 1
+        # Checking if the black point correction file exist, if it does - load it!
+        if ph.isfile(ph.join(path_corr, filename_corr + &#39;.pkl&#39;)):
+            print(&#39;found black point correction file, loading\n&#39;)
+            self._dataset.images.blackpointcorr.load(filename=filename_corr, filepath=path_corr)
+            print(&#39;finished\n\n&#39;)
+        elif blackpointcorr_flag:
+            raise FileNotFoundError(
+                &#39;The black point correction factors for the dataset do not exist.\n&#39;
+                &#39;Create the black correction factors first, before correcting the &#39;
+                &#39;raw data&#39;)
+
+        # Checking if the calibration file exist, if it does - load it!
+        if ph.isfile(ph.join(path_calib, filename_calib + &#39;.pkl&#39;)):
+            print(&#39;found calibration file, loading\n&#39;)
+            self._dataset.images.calibration.load(filename=filename_calib,
+                                                  filepath=path_calib)
+            print(&#39;finished\n\n&#39;)
+        else:
+            raise FileNotFoundError(&#39;No calibration file found\n&#39;
+                                    &#39;Calculate calibrations before concentrations with the Bigadata&#39;
+                                    &#39; framework functions&#39;)
+
+        # Calculating initial values and initialize temporary calibration container
+        totalblocks = self.setup.datasetrange[1] - self.setup.datasetrange[0] + 1
+        totalcounts = int(np.ceil(totalblocks / self.setup.concentration.chunksize))
+
+        if blackpointcorr_flag:
+            if totalblocks &gt; self._dataset.images.blackpointcorr.data.shape[2]:
+                raise ValueError(
+                    f&#39;Not enough datasets are present in the black point correction factor &#39;
+                    f&#39;for what is tried to be loaded. \n&#39;
+                    f&#39;Only {self._dataset.images.blackpointcorr.data.shape[2]} datasets in the &#39;
+                    f&#39;black point file\n&#39;
+                    f&#39;Tried to load {totalblocks} datasets of raw files&#39;)
+
+        # Looping over the dataset range and ensuring the end is reached for with chunk sizes
+        if (self.setup.datasetrange[1] / self.setup.concentration.chunksize ==
+                int(self.setup.datasetrange[1] / self.setup.concentration.chunksize)):
+            endrange = self.setup.datasetrange[1]
+        else:
+            endrange = self.setup.datasetrange[1] + self.setup.concentration.chunksize - 1
+
+        # Checking if chunksize is larger than dataset range and corrects
+        if endrange &gt; self.setup.datasetrange[1]:
+            endrange = self.setup.datasetrange[1]
+
+        for i in range(self.setup.datasetrange[0],
+                       endrange,
+                       self.setup.concentration.chunksize):
+            start = i
+            end = min(i + self.setup.concentration.chunksize - 1, self.setup.datasetrange[1])
+
+            print(f&#39;Loop {counter} of {totalcounts}, start = {i}   end = {end}&#39;)
+            self._dataset.loadimages(setfolderstoload=[start, end],
+                                     setimagestoload=self.setup.concentration.rawimagerange,
+                                     verb=True,
+                                     parset=True,
+                                     natkeysort=True)
+
+            if blackpointcorr_flag:
+                self._datacalc.rawblackcorr(nimages=self.setup.blackcorrection.nimages,
+                                            removeedgeh=self.setup.blackcorrection.removeedgeh,
+                                            removeedgew=self.setup.blackcorrection.removeedgew,
+                                            setrangeinput=[start - 1, end],
+                                            flipped=False,
+                                            forcerecal=False,
+                                            onlycorr=False)
+
+            self._datacalc.bit2conc(setrangeinput=[start - 1, end],
+                                    clip=&#39;infnan&#39;,
+                                    memsave=&#39;parlow&#39;,
+                                    verb=True)
+
+            savename_conccorrset = filename_conc + f&#39;_datasets_{start}-{end}&#39;
+
+            if not conc_mean_only:
+                self._dataset.images.concentration.save(filename=savename_conccorrset,
+                                                        filepath=path_conc)
+
+            if conc_mean or conc_mean_only:
+                # calculating mean
+                self._datacalc.mean()
+
+                if conc_method and &#39;tmp_mean&#39; not in locals():
+                    tmp_mean = self._dataset.images.mean.data
+
+                # Mean has to reflect the amount of datasets in each variable when combining the
+                # data. Taking uneven dataset counts into account by using loaded datasets ranges
+                if conc_method and counter &gt; 1:
+                    tmp_mean = (tmp_mean*(start-1)/end +
+                                self._dataset.images.mean.data*(end-start+1)/end)
+
+                if conc_method and counter == totalcounts:
+                    self._dataset.images.mean.data = tmp_mean
+                    self._dataset.images.mean.save(filename=&#34;MEAN_&#34; + filename_conc,
+                                                   filepath=path_conc)
+                elif not conc_method:
+                    self._dataset.images.mean.save(filename=&#34;MEAN_&#34; + savename_conccorrset,
+                                                   filepath=path_conc)
+            # To save ram
+            self._dataset.images.concentration.clear()
+
+            counter += 1
+
+
+class Setup:
+    &#34;&#34;&#34;Class with setup parameters for organizing in Bigdata use class.&#34;&#34;&#34;
+
+    def __init__(self):
+        &#34;&#34;&#34;Init setup parameters.&#34;&#34;&#34;
+        self.datasetrange = [1, 10]
+        self.calibration = Calibarationsetup()
+        self.blackcorrection = Blackcorrsetup()
+        self.concentration = Concentrationsetup()
+
+
+class Calibarationsetup:
+    &#34;&#34;&#34;Class with the calibration setup parameters.&#34;&#34;&#34;
+
+    def __init__(self):
+        &#34;&#34;&#34;Init calibration parameters.&#34;&#34;&#34;
+        self.chunksize = 50
+        self.imagerange = [1, 75]
+
+
+class Blackcorrsetup:
+    &#34;&#34;&#34;Class with the calibration setup parameters.&#34;&#34;&#34;
+
+    def __init__(self):
+        &#34;&#34;&#34;Init black correction setup.&#34;&#34;&#34;
+        self.chunksize = 50
+        self.nimages = 75
+        self.removeedgeh = 10
+        self.removeedgew = -1
+        self.flipped = False
+
+
+class Concentrationsetup:
+    &#34;&#34;&#34;Class with the settings for the concentration calculation files.&#34;&#34;&#34;
+
+    def __init__(self):
+        &#34;&#34;&#34;Init concentration calc setup.&#34;&#34;&#34;
+        self.rawimagerange = [295, 305]
+        self.chunksize = 5</code></pre>
+</details>
+</section>
+<section>
+</section>
+<section>
+</section>
+<section>
+</section>
+<section>
+<h2 class="section-title" id="header-classes">Classes</h2>
+<dl>
+<dt id="pimged.datahandling.bigdata.bigdata.Bigdata"><code class="flex name class">
+<span>class <span class="ident">Bigdata</span></span>
+<span>(</span><span>dataset: <a title="pimged.datahandling.dataset.Dataset" href="../dataset.html#pimged.datahandling.dataset.Dataset">Dataset</a>)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Handle large pimged dataset amounts by organizing chunked load and saveing routines.</p>
+<p>Initialize the Bigdata class object with a dataset object.</p>
+<h2 id="parameters">Parameters</h2>
+<dl>
+<dt><strong><code>dataset</code></strong> :&ensp;<code>pimged.Dataset</code></dt>
+<dd>dataset object from pimged package</dd>
+</dl></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">class Bigdata:
+    &#34;&#34;&#34;Handle large pimged dataset amounts by organizing chunked load and saveing routines.&#34;&#34;&#34;
+
+    def __init__(self,
+                 dataset: Dataset):
+        &#34;&#34;&#34;Initialize the Bigdata class object with a dataset object.
+
+        Parameters
+        ---------
+        dataset : pimged.Dataset
+            dataset object from pimged package
+        &#34;&#34;&#34;
+        # noinspection PyProtectedMember
+        self.calcpresision = dataset.images._precision_calc
+
+        self.setup = Setup()
+        self._dataset = dataset
+        self._datacalc = Calculate(dataset)
+
+    def rawblackcorr(self,
+                     path_corr: (str, pathlib.Path),
+                     filename_corr: str,
+                     path_rawcorr: (str, pathlib.Path),
+                     filename_rawcorr: str):
+        &#34;&#34;&#34;Calculate raw image correction.
+        
+        Calculating the corrected raw images and saving the results. The setup is based on the
+        black point correction settings under the &#34;setup.blackcorrection&#34; object for chunksize.
+        The number of files loaded for the raw correction is defined by the
+        &#34;setup.calibration.imagerange&#34; setting, as the calibration is built on these images
+
+        Parameters
+        ----------
+        path_corr : (str, pathlib.Path) :
+            filepath for the black point correction file
+            
+        filename_corr : str :
+            filename of the black point correction file
+            
+        path_rawcorr : (str, pathlib.Path) :
+            filepath of the black point corrected raw files for calibration
+            
+        filename_rawcorr : str :
+            filename of the black point corrected raw files for calibration
+
+        Raises
+        ------
+        ValueError
+        FileNotFoundError
+        &#34;&#34;&#34;
+        # Checking folder path
+        check_folder_path(path_rawcorr, createdir=True)
+
+        # Starting a counter
+        counter = 1
+        # Checking if the file exist, if it does - do not calculate it
+        if ph.isfile(ph.join(path_corr, filename_corr + &#39;.pkl&#39;)):
+            print(&#39;found black point correction file, loading\n&#39;)
+            self._dataset.images.blackpointcorr.load(filename=filename_corr, filepath=path_corr)
+            print(&#39;finished\n\n&#39;)
+        else:
+            raise FileNotFoundError(
+                &#39;The black point correction factors for the dataset do not exist.\n&#39;
+                &#39;Check the filename and file path\n&#39;
+                &#39;Or create the black correction factors first, before correcting the &#39;
+                &#39;raw data&#39;)
+
+        # Calculating initial values and initialize temporary calibration container
+        totalblocks = self.setup.datasetrange[1] - self.setup.datasetrange[0] + 1
+        totalcounts = int(np.ceil(totalblocks / self.setup.blackcorrection.chunksize))
+
+        if totalblocks &gt; self._dataset.images.blackpointcorr.data.shape[2]:
+            raise ValueError(
+                f&#39;Not enough datasets are present in the black point correction factor &#39;
+                f&#39;for what is tried to be loaded. \n&#39;
+                f&#39;Only {self._dataset.images.blackpointcorr.data.shape[2]} datasets in the &#39;
+                f&#39;black point file\n&#39;
+                f&#39;Tried to load {totalblocks} datasets of raw files&#39;)
+
+        # Looping over the dataset range and ensuring the end is reached for with chunk sizes
+        if (self.setup.datasetrange[1] / self.setup.blackcorrection.chunksize ==
+                int(self.setup.datasetrange[1] / self.setup.blackcorrection.chunksize)):
+            endrange = self.setup.datasetrange[1]
+        else:
+            endrange = self.setup.datasetrange[1] + self.setup.blackcorrection.chunksize - 1
+
+        # Checking if chunksize is larger than dataset range and corrects
+        if endrange &gt; self.setup.datasetrange[1]:
+            endrange = self.setup.datasetrange[1]
+
+        # Looping over images
+        for i in range(self.setup.datasetrange[0],
+                       endrange,
+                       self.setup.blackcorrection.chunksize):
+            start = i
+            end = min(i + self.setup.blackcorrection.chunksize - 1, self.setup.datasetrange[1])
+
+            print(f&#39;Loop {counter} of {totalcounts}, start = {i}   end = {end}&#39;)
+            self._dataset.loadimages(setfolderstoload=[start, end],
+                                     setimagestoload=self.setup.calibration.imagerange,
+                                     verb=True,
+                                     parset=True,
+                                     natkeysort=True)
+
+            self._datacalc.rawblackcorr(nimages=self.setup.blackcorrection.nimages,
+                                        removeedgeh=self.setup.blackcorrection.removeedgeh,
+                                        removeedgew=self.setup.blackcorrection.removeedgew,
+                                        flipped=self.setup.blackcorrection.flipped,
+                                        setrangeinput=[start - 1, end],
+                                        forcerecal=False,
+                                        onlycorr=False)
+
+            # Saving corrected raw files
+            savename_rawcorrset = filename_rawcorr + f&#39;_datasets_{start}-{end}&#39;
+            self._dataset.images.raw.save(filename=savename_rawcorrset, filepath=path_rawcorr)
+
+            counter += 1
+
+    def blackcorrfactors(self,
+                         path: (str, pathlib.Path),
+                         filename: str):
+        &#34;&#34;&#34;Calculate black correction factors.
+        
+        Loading chunked data pieces and save a blackpoint correction file for the chosen dataset.
+        It is forced to save the data, as this framework is designed for large datasets. Setup
+        for the function is found in the setup section of the object and follow the same name
+        convention as the &#39;rawblackcorr&#39; function in the &#39;Calculate()&#39; package for function
+        setup. But two settings differ:
+        datasetrange is the dataset range to load
+        chuncksize is the size of the chunks to load
+        nimages is the number of images at the start of the dataset to include in the blackpoint
+        correction
+
+        Parameters
+        ----------
+        path : (str, pathlib.Path) :
+            file path to save in
+
+        filename : str :
+            filename for file
+        &#34;&#34;&#34;
+        # Checking folder path
+        check_folder_path(path, createdir=True)
+
+        # Starting a counter
+        counter = 1
+        # Checking if the file exist, if it does - do not calculate it
+        if ph.isfile(ph.join(path, filename + &#39;.pkl&#39;)):
+            print(&#39;found black point correction file, loading\n&#39;)
+            self._dataset.images.blackpointcorr.load(filename=filename, filepath=path)
+            print(&#39;finished\n\n&#39;)
+        else:
+            print(&#39;no black point correction file found\n&#39;)
+
+            # Calculating initial values and initialize temporary calibration container
+            totalblocks = self.setup.datasetrange[1] - self.setup.datasetrange[0] + 1
+            totalcounts = int(np.ceil(totalblocks / self.setup.blackcorrection.chunksize))
+            tmpcalfile = np.zeros((self._dataset.fileinfo.imagedata.frameheight,
+                                   self._dataset.fileinfo.imagedata.framewidth,
+                                   totalblocks))
+
+            # Looping over the dataset range and ensuring the end is reached for with chunk sizes
+            if (self.setup.datasetrange[1]/self.setup.blackcorrection.chunksize ==
+                    int(self.setup.datasetrange[1]/self.setup.blackcorrection.chunksize)):
+                endrange = self.setup.datasetrange[1]
+            else:
+                endrange = self.setup.datasetrange[1] + self.setup.blackcorrection.chunksize - 1
+
+            # Checking if chunksize is larger than dataset range and corrects
+            if endrange &gt; self.setup.datasetrange[1]:
+                endrange = self.setup.datasetrange[1]
+
+            for i in range(self.setup.datasetrange[0],
+                           endrange,
+                           self.setup.blackcorrection.chunksize):
+                start = i
+                end = min(i + self.setup.blackcorrection.chunksize - 1, self.setup.datasetrange[1])
+
+                print(f&#39;Loop {counter} of {totalcounts}, start = {i}   end = {end}&#39;)
+                print(&#39;Loading the shot image to correct with&#39;)
+                self._dataset.loadimages(
+                    setfolderstoload=[start, end],
+                    setimagestoload=[self._dataset.images.blackpointcorr.arrayinfo.jetinfo.shotidx],
+                    loadmethodimage=&#39;spec&#39;,
+                    verb=True,
+                    parset=True,
+                    natkeysort=True)
+                tmpimfile = self._dataset.images.raw.data
+
+                print(&#39;Loading raw calibration image range&#39;)
+                self._dataset.loadimages(setfolderstoload=[start, end],
+                                         setimagestoload=[1, self.setup.blackcorrection.nimages],
+                                         verb=True,
+                                         parset=True,
+                                         natkeysort=True)
+
+                print(&#39;Adding the shot image to data set&#39;)
+                self._dataset.images.raw.data = np.append(self._dataset.images.raw.data,
+                                                          tmpimfile,
+                                                          axis=2)
+
+                self._datacalc.rawblackcorr(shotidx=self.setup.blackcorrection.nimages,
+                                            nimages=self.setup.blackcorrection.nimages,
+                                            removeedgeh=self.setup.blackcorrection.removeedgeh,
+                                            removeedgew=self.setup.blackcorrection.removeedgew,
+                                            flipped=self.setup.blackcorrection.flipped,
+                                            forcerecal=True,
+                                            onlycorr=True)
+
+                tmpcalfile[:, :, start-1:end] = self._dataset.images.blackpointcorr.data
+
+                counter += 1
+
+            self._dataset.images.blackpointcorr.data = tmpcalfile
+            self._dataset.images.blackpointcorr.arrayinfo.loadeddatasets = self.setup.datasetrange
+            self._dataset.images.blackpointcorr.save(filename=filename, filepath=path)
+
+    def bit2conccalib(self,
+                      path: (str, pathlib.Path),
+                      filename: str,
+                      rawimpath: (str, pathlib.Path) = None):
+        &#34;&#34;&#34;Calculate concentration calibration.
+        
+        Loading chunked data pieces and save a calibration file for the chosen dataset. It is
+        forced to save the data, as this framework is designed for large datasets. Setup
+        for the function is found in the setup section of the object.
+        datasetrange is the dataset range to load
+        chuncksize is the size of the chunks to load
+        imagerange is the image range to use for calibration estimation
+
+        Parameters
+        ----------
+        path : (str, pathlib.Path) :
+             (Default value = None)
+            file path to save in
+
+        filename : str :
+            filename for file
+            
+        rawimpath: (str, pathlib.Path)  :
+            filepath for raw images, if saved in e.g. with black point correction.
+            Checking the whole folder for files and load all files with the
+            chuncked setting and save the calibrations files in the same chunked
+            order. Therefore, settings has to followed saved data order
+        &#34;&#34;&#34;
+        # Checking folder path
+        check_folder_path(path, createdir=True)
+
+        # Checking if rawfile path input is given for loading
+        loadraw = bool(rawimpath)
+
+        # Starting a counter
+        counter = 1
+        # Checking if the file exist, if it does - do not calculate it
+        if ph.isfile(ph.join(path, filename + &#39;.pkl&#39;)):
+            print(&#39;found calibration file, loading\n&#39;)
+            self._dataset.images.calibration.load(filename=filename, filepath=path)
+            print(&#39;finished\n\n&#39;)
+        else:
+            print(&#39;no calibration file found\n&#39;)
+
+            if loadraw:
+                rawimagesinfolders = list(listdir(rawimpath))
+                naturalkeysort(rawimagesinfolders)
+            else:
+                rawimagesinfolders = []
+
+            # Calculating initial values and initialize temporary calibration container
+            totalblocks = self.setup.datasetrange[1] - self.setup.datasetrange[0] + 1
+            totalcounts = int(np.ceil(totalblocks / self.setup.calibration.chunksize))
+            tmpcalfile = np.zeros((self._dataset.fileinfo.imagedata.frameheight,
+                                   self._dataset.fileinfo.imagedata.framewidth,
+                                   totalblocks,
+                                   2))
+
+            # Ensuring endrange is defined for full data reach
+            if (self.setup.datasetrange[1] / self.setup.calibration.chunksize ==
+                    int(self.setup.datasetrange[1] / self.setup.calibration.chunksize)):
+                endrange = self.setup.datasetrange[1]
+            else:
+                endrange = self.setup.datasetrange[1] + self.setup.calibration.chunksize - 1
+
+            # Checking if chunksize is larger than dataset range and corrects
+            if endrange &gt; self.setup.datasetrange[1]:
+                endrange = self.setup.datasetrange[1]
+
+            # Setting up loop range
+            startrange = self.setup.datasetrange[0]
+            chunksize = self.setup.calibration.chunksize
+            endtrue = self.setup.datasetrange[1]
+
+            # Looping over the dataset range and ensuring the end is reached for with chunk sizes
+            for i in range(startrange,
+                           endrange,
+                           chunksize):
+                start = i
+                end = min(i + chunksize - 1, endtrue)
+                # if end &gt; endtrue:
+                #     end = endtrue
+
+                print(f&#39;Loop {counter} of {totalcounts}, start = {i}   end = {end}&#39;)
+                # Loading images
+                if loadraw:
+                    self._dataset.images.raw.load(filepath=rawimpath,
+                                                  filename=rawimagesinfolders[counter - 1])
+                else:
+                    self._dataset.loadimages(setfolderstoload=[start, end],
+                                             setimagestoload=self.setup.calibration.imagerange,
+                                             verb=True,
+                                             parset=True,
+                                             natkeysort=True)
+
+                # Calculating the calibration based on the images
+                self._datacalc.bit2conccalib(numberofimages=self.setup.calibration.imagerange[1],
+                                             indivical=True,
+                                             parsetcalc=True)
+
+                # Storing the calculated calibrations
+                tmpcalfile[:, :, start-1:end, :] = self._dataset.images.calibration.data
+
+                self._dataset.images.raw.clear()
+
+                counter += 1
+
+            # Replacing the data in the framework with the temporary files and save the
+            # calibration file with the given name
+            self._dataset.images.calibration.data = tmpcalfile
+            self._dataset.images.calibration.arrayinfo.loadeddatasets = self.setup.datasetrange
+            self._dataset.images.calibration.save(filename=filename, filepath=path)
+
+    def conc_calc(self,
+                  path_conc: (str, pathlib.Path),
+                  filename_conc: str,
+                  path_calib: (str, pathlib.Path),
+                  filename_calib: str,
+                  path_corr: (str, pathlib.Path) = None,
+                  filename_corr: str = None,
+                  conc_mean_type: str = &#34;off&#34;,
+                  conc_method: bool = False):
+        &#34;&#34;&#34;Calculate concentrations.
+        
+        Calculating concentration based on the input calibration file and optional the correction
+        file for black point correction. If not black point correction file is provided,
+        the code calculate the concentration without a correction.
+        
+        The code loops over raw files in chunks based on the settings in the
+        &#39;setup.concentration&#39; object and save the files out in the number of folders that fit
+        with the dataset setting and chunk size.
+
+        Parameters
+        ----------
+        path_conc: (str, pathlib.Path) :
+             (Default value = None)
+            filepath for the concentration folder
+
+        filename_conc : str :
+            filename of the concentration calculations
+            
+        path_calib: (str, pathlib.Path)  :
+            filepath of the calibration file
+            
+        filename_calib : str :
+            filename of the calibration file
+            
+        path_corr: (str, pathlib.Path) :
+            filepath for the black point correction file
+            
+        filename_corr: str :
+             (Default value = None)
+            filename of the black point correction file
+
+        conc_mean_type: str :
+             (Default value = &#34;off&#34;)
+            {&#39;off&#39;, &#39;on&#39;, &#39;only&#39;}
+            if the mean of the concentration field should be caculated and saved.
+            Adds &#34;MEAN_&#34; prefix to savefile name.
+            The save and calculation methods are:
+            &#34;off&#34;: No calculation of mean
+            &#34;on&#34;: Calculation of mean and instantanious
+            &#34;only&#34;: Only calculate the mean and not instantanious
+
+        conc_method: bool :
+             (Default value = False)
+            if the concentration should be saved in dataset files or as a single
+            file with all calculation stored in a temporary file untill saving
+            True : Temporary file and only one save file with all data
+            False : Saving style as the concentration files
+
+        Raises
+        ------
+        ValueError
+        FileNotFoundError
+        NotImplementedError
+        &#34;&#34;&#34;
+        # Checking if mean should be calculated
+        match conc_mean_type:
+            case &#34;off&#34;:
+                conc_mean = False
+                conc_mean_only = False
+            case &#34;on&#34;:
+                conc_mean = True
+                conc_mean_only = False
+            case &#34;only&#34;:
+                conc_mean = True
+                conc_mean_only = True
+            case _:
+                raise NotImplementedError(&#34;The given input to &#39;conc_mean_type&#39; do not exist&#34;)
+
+        # Checking if there is given a correction file
+        blackpointcorr_flag = (bool(path_corr) and bool(filename_corr))
+        if not blackpointcorr_flag:
+            path_corr = &#39;&#39;
+            filename_corr = &#39;&#39;
+
+        # Starting a counter
+        counter = 1
+        # Checking if the black point correction file exist, if it does - load it!
+        if ph.isfile(ph.join(path_corr, filename_corr + &#39;.pkl&#39;)):
+            print(&#39;found black point correction file, loading\n&#39;)
+            self._dataset.images.blackpointcorr.load(filename=filename_corr, filepath=path_corr)
+            print(&#39;finished\n\n&#39;)
+        elif blackpointcorr_flag:
+            raise FileNotFoundError(
+                &#39;The black point correction factors for the dataset do not exist.\n&#39;
+                &#39;Create the black correction factors first, before correcting the &#39;
+                &#39;raw data&#39;)
+
+        # Checking if the calibration file exist, if it does - load it!
+        if ph.isfile(ph.join(path_calib, filename_calib + &#39;.pkl&#39;)):
+            print(&#39;found calibration file, loading\n&#39;)
+            self._dataset.images.calibration.load(filename=filename_calib,
+                                                  filepath=path_calib)
+            print(&#39;finished\n\n&#39;)
+        else:
+            raise FileNotFoundError(&#39;No calibration file found\n&#39;
+                                    &#39;Calculate calibrations before concentrations with the Bigadata&#39;
+                                    &#39; framework functions&#39;)
+
+        # Calculating initial values and initialize temporary calibration container
+        totalblocks = self.setup.datasetrange[1] - self.setup.datasetrange[0] + 1
+        totalcounts = int(np.ceil(totalblocks / self.setup.concentration.chunksize))
+
+        if blackpointcorr_flag:
+            if totalblocks &gt; self._dataset.images.blackpointcorr.data.shape[2]:
+                raise ValueError(
+                    f&#39;Not enough datasets are present in the black point correction factor &#39;
+                    f&#39;for what is tried to be loaded. \n&#39;
+                    f&#39;Only {self._dataset.images.blackpointcorr.data.shape[2]} datasets in the &#39;
+                    f&#39;black point file\n&#39;
+                    f&#39;Tried to load {totalblocks} datasets of raw files&#39;)
+
+        # Looping over the dataset range and ensuring the end is reached for with chunk sizes
+        if (self.setup.datasetrange[1] / self.setup.concentration.chunksize ==
+                int(self.setup.datasetrange[1] / self.setup.concentration.chunksize)):
+            endrange = self.setup.datasetrange[1]
+        else:
+            endrange = self.setup.datasetrange[1] + self.setup.concentration.chunksize - 1
+
+        # Checking if chunksize is larger than dataset range and corrects
+        if endrange &gt; self.setup.datasetrange[1]:
+            endrange = self.setup.datasetrange[1]
+
+        for i in range(self.setup.datasetrange[0],
+                       endrange,
+                       self.setup.concentration.chunksize):
+            start = i
+            end = min(i + self.setup.concentration.chunksize - 1, self.setup.datasetrange[1])
+
+            print(f&#39;Loop {counter} of {totalcounts}, start = {i}   end = {end}&#39;)
+            self._dataset.loadimages(setfolderstoload=[start, end],
+                                     setimagestoload=self.setup.concentration.rawimagerange,
+                                     verb=True,
+                                     parset=True,
+                                     natkeysort=True)
+
+            if blackpointcorr_flag:
+                self._datacalc.rawblackcorr(nimages=self.setup.blackcorrection.nimages,
+                                            removeedgeh=self.setup.blackcorrection.removeedgeh,
+                                            removeedgew=self.setup.blackcorrection.removeedgew,
+                                            setrangeinput=[start - 1, end],
+                                            flipped=False,
+                                            forcerecal=False,
+                                            onlycorr=False)
+
+            self._datacalc.bit2conc(setrangeinput=[start - 1, end],
+                                    clip=&#39;infnan&#39;,
+                                    memsave=&#39;parlow&#39;,
+                                    verb=True)
+
+            savename_conccorrset = filename_conc + f&#39;_datasets_{start}-{end}&#39;
+
+            if not conc_mean_only:
+                self._dataset.images.concentration.save(filename=savename_conccorrset,
+                                                        filepath=path_conc)
+
+            if conc_mean or conc_mean_only:
+                # calculating mean
+                self._datacalc.mean()
+
+                if conc_method and &#39;tmp_mean&#39; not in locals():
+                    tmp_mean = self._dataset.images.mean.data
+
+                # Mean has to reflect the amount of datasets in each variable when combining the
+                # data. Taking uneven dataset counts into account by using loaded datasets ranges
+                if conc_method and counter &gt; 1:
+                    tmp_mean = (tmp_mean*(start-1)/end +
+                                self._dataset.images.mean.data*(end-start+1)/end)
+
+                if conc_method and counter == totalcounts:
+                    self._dataset.images.mean.data = tmp_mean
+                    self._dataset.images.mean.save(filename=&#34;MEAN_&#34; + filename_conc,
+                                                   filepath=path_conc)
+                elif not conc_method:
+                    self._dataset.images.mean.save(filename=&#34;MEAN_&#34; + savename_conccorrset,
+                                                   filepath=path_conc)
+            # To save ram
+            self._dataset.images.concentration.clear()
+
+            counter += 1</code></pre>
+</details>
+<h3>Methods</h3>
+<dl>
+<dt id="pimged.datahandling.bigdata.bigdata.Bigdata.bit2conccalib"><code class="name flex">
+<span>def <span class="ident">bit2conccalib</span></span>(<span>self, path: (<class 'str'>, <class 'pathlib.Path'>), filename: str, rawimpath: (<class 'str'>, <class 'pathlib.Path'>) = None)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Calculate concentration calibration.</p>
+<p>Loading chunked data pieces and save a calibration file for the chosen dataset. It is
+forced to save the data, as this framework is designed for large datasets. Setup
+for the function is found in the setup section of the object.
+datasetrange is the dataset range to load
+chuncksize is the size of the chunks to load
+imagerange is the image range to use for calibration estimation</p>
+<h2 id="parameters">Parameters</h2>
+<dl>
+<dt><strong><code>path</code></strong> :&ensp;<code>(str, pathlib.Path) :</code></dt>
+<dd>(Default value = None)
+file path to save in</dd>
+<dt><strong><code>filename</code></strong> :&ensp;<code>str :</code></dt>
+<dd>filename for file</dd>
+<dt><strong><code>rawimpath</code></strong> :&ensp;<code>(str, pathlib.Path)
+:</code></dt>
+<dd>filepath for raw images, if saved in e.g. with black point correction.
+Checking the whole folder for files and load all files with the
+chuncked setting and save the calibrations files in the same chunked
+order. Therefore, settings has to followed saved data order</dd>
+</dl></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def bit2conccalib(self,
+                  path: (str, pathlib.Path),
+                  filename: str,
+                  rawimpath: (str, pathlib.Path) = None):
+    &#34;&#34;&#34;Calculate concentration calibration.
+    
+    Loading chunked data pieces and save a calibration file for the chosen dataset. It is
+    forced to save the data, as this framework is designed for large datasets. Setup
+    for the function is found in the setup section of the object.
+    datasetrange is the dataset range to load
+    chuncksize is the size of the chunks to load
+    imagerange is the image range to use for calibration estimation
+
+    Parameters
+    ----------
+    path : (str, pathlib.Path) :
+         (Default value = None)
+        file path to save in
+
+    filename : str :
+        filename for file
+        
+    rawimpath: (str, pathlib.Path)  :
+        filepath for raw images, if saved in e.g. with black point correction.
+        Checking the whole folder for files and load all files with the
+        chuncked setting and save the calibrations files in the same chunked
+        order. Therefore, settings has to followed saved data order
+    &#34;&#34;&#34;
+    # Checking folder path
+    check_folder_path(path, createdir=True)
+
+    # Checking if rawfile path input is given for loading
+    loadraw = bool(rawimpath)
+
+    # Starting a counter
+    counter = 1
+    # Checking if the file exist, if it does - do not calculate it
+    if ph.isfile(ph.join(path, filename + &#39;.pkl&#39;)):
+        print(&#39;found calibration file, loading\n&#39;)
+        self._dataset.images.calibration.load(filename=filename, filepath=path)
+        print(&#39;finished\n\n&#39;)
+    else:
+        print(&#39;no calibration file found\n&#39;)
+
+        if loadraw:
+            rawimagesinfolders = list(listdir(rawimpath))
+            naturalkeysort(rawimagesinfolders)
+        else:
+            rawimagesinfolders = []
+
+        # Calculating initial values and initialize temporary calibration container
+        totalblocks = self.setup.datasetrange[1] - self.setup.datasetrange[0] + 1
+        totalcounts = int(np.ceil(totalblocks / self.setup.calibration.chunksize))
+        tmpcalfile = np.zeros((self._dataset.fileinfo.imagedata.frameheight,
+                               self._dataset.fileinfo.imagedata.framewidth,
+                               totalblocks,
+                               2))
+
+        # Ensuring endrange is defined for full data reach
+        if (self.setup.datasetrange[1] / self.setup.calibration.chunksize ==
+                int(self.setup.datasetrange[1] / self.setup.calibration.chunksize)):
+            endrange = self.setup.datasetrange[1]
+        else:
+            endrange = self.setup.datasetrange[1] + self.setup.calibration.chunksize - 1
+
+        # Checking if chunksize is larger than dataset range and corrects
+        if endrange &gt; self.setup.datasetrange[1]:
+            endrange = self.setup.datasetrange[1]
+
+        # Setting up loop range
+        startrange = self.setup.datasetrange[0]
+        chunksize = self.setup.calibration.chunksize
+        endtrue = self.setup.datasetrange[1]
+
+        # Looping over the dataset range and ensuring the end is reached for with chunk sizes
+        for i in range(startrange,
+                       endrange,
+                       chunksize):
+            start = i
+            end = min(i + chunksize - 1, endtrue)
+            # if end &gt; endtrue:
+            #     end = endtrue
+
+            print(f&#39;Loop {counter} of {totalcounts}, start = {i}   end = {end}&#39;)
+            # Loading images
+            if loadraw:
+                self._dataset.images.raw.load(filepath=rawimpath,
+                                              filename=rawimagesinfolders[counter - 1])
+            else:
+                self._dataset.loadimages(setfolderstoload=[start, end],
+                                         setimagestoload=self.setup.calibration.imagerange,
+                                         verb=True,
+                                         parset=True,
+                                         natkeysort=True)
+
+            # Calculating the calibration based on the images
+            self._datacalc.bit2conccalib(numberofimages=self.setup.calibration.imagerange[1],
+                                         indivical=True,
+                                         parsetcalc=True)
+
+            # Storing the calculated calibrations
+            tmpcalfile[:, :, start-1:end, :] = self._dataset.images.calibration.data
+
+            self._dataset.images.raw.clear()
+
+            counter += 1
+
+        # Replacing the data in the framework with the temporary files and save the
+        # calibration file with the given name
+        self._dataset.images.calibration.data = tmpcalfile
+        self._dataset.images.calibration.arrayinfo.loadeddatasets = self.setup.datasetrange
+        self._dataset.images.calibration.save(filename=filename, filepath=path)</code></pre>
+</details>
+</dd>
+<dt id="pimged.datahandling.bigdata.bigdata.Bigdata.blackcorrfactors"><code class="name flex">
+<span>def <span class="ident">blackcorrfactors</span></span>(<span>self, path: (<class 'str'>, <class 'pathlib.Path'>), filename: str)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Calculate black correction factors.</p>
+<p>Loading chunked data pieces and save a blackpoint correction file for the chosen dataset.
+It is forced to save the data, as this framework is designed for large datasets. Setup
+for the function is found in the setup section of the object and follow the same name
+convention as the 'rawblackcorr' function in the 'Calculate()' package for function
+setup. But two settings differ:
+datasetrange is the dataset range to load
+chuncksize is the size of the chunks to load
+nimages is the number of images at the start of the dataset to include in the blackpoint
+correction</p>
+<h2 id="parameters">Parameters</h2>
+<dl>
+<dt><strong><code>path</code></strong> :&ensp;<code>(str, pathlib.Path) :</code></dt>
+<dd>file path to save in</dd>
+<dt><strong><code>filename</code></strong> :&ensp;<code>str :</code></dt>
+<dd>filename for file</dd>
+</dl></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def blackcorrfactors(self,
+                     path: (str, pathlib.Path),
+                     filename: str):
+    &#34;&#34;&#34;Calculate black correction factors.
+    
+    Loading chunked data pieces and save a blackpoint correction file for the chosen dataset.
+    It is forced to save the data, as this framework is designed for large datasets. Setup
+    for the function is found in the setup section of the object and follow the same name
+    convention as the &#39;rawblackcorr&#39; function in the &#39;Calculate()&#39; package for function
+    setup. But two settings differ:
+    datasetrange is the dataset range to load
+    chuncksize is the size of the chunks to load
+    nimages is the number of images at the start of the dataset to include in the blackpoint
+    correction
+
+    Parameters
+    ----------
+    path : (str, pathlib.Path) :
+        file path to save in
+
+    filename : str :
+        filename for file
+    &#34;&#34;&#34;
+    # Checking folder path
+    check_folder_path(path, createdir=True)
+
+    # Starting a counter
+    counter = 1
+    # Checking if the file exist, if it does - do not calculate it
+    if ph.isfile(ph.join(path, filename + &#39;.pkl&#39;)):
+        print(&#39;found black point correction file, loading\n&#39;)
+        self._dataset.images.blackpointcorr.load(filename=filename, filepath=path)
+        print(&#39;finished\n\n&#39;)
+    else:
+        print(&#39;no black point correction file found\n&#39;)
+
+        # Calculating initial values and initialize temporary calibration container
+        totalblocks = self.setup.datasetrange[1] - self.setup.datasetrange[0] + 1
+        totalcounts = int(np.ceil(totalblocks / self.setup.blackcorrection.chunksize))
+        tmpcalfile = np.zeros((self._dataset.fileinfo.imagedata.frameheight,
+                               self._dataset.fileinfo.imagedata.framewidth,
+                               totalblocks))
+
+        # Looping over the dataset range and ensuring the end is reached for with chunk sizes
+        if (self.setup.datasetrange[1]/self.setup.blackcorrection.chunksize ==
+                int(self.setup.datasetrange[1]/self.setup.blackcorrection.chunksize)):
+            endrange = self.setup.datasetrange[1]
+        else:
+            endrange = self.setup.datasetrange[1] + self.setup.blackcorrection.chunksize - 1
+
+        # Checking if chunksize is larger than dataset range and corrects
+        if endrange &gt; self.setup.datasetrange[1]:
+            endrange = self.setup.datasetrange[1]
+
+        for i in range(self.setup.datasetrange[0],
+                       endrange,
+                       self.setup.blackcorrection.chunksize):
+            start = i
+            end = min(i + self.setup.blackcorrection.chunksize - 1, self.setup.datasetrange[1])
+
+            print(f&#39;Loop {counter} of {totalcounts}, start = {i}   end = {end}&#39;)
+            print(&#39;Loading the shot image to correct with&#39;)
+            self._dataset.loadimages(
+                setfolderstoload=[start, end],
+                setimagestoload=[self._dataset.images.blackpointcorr.arrayinfo.jetinfo.shotidx],
+                loadmethodimage=&#39;spec&#39;,
+                verb=True,
+                parset=True,
+                natkeysort=True)
+            tmpimfile = self._dataset.images.raw.data
+
+            print(&#39;Loading raw calibration image range&#39;)
+            self._dataset.loadimages(setfolderstoload=[start, end],
+                                     setimagestoload=[1, self.setup.blackcorrection.nimages],
+                                     verb=True,
+                                     parset=True,
+                                     natkeysort=True)
+
+            print(&#39;Adding the shot image to data set&#39;)
+            self._dataset.images.raw.data = np.append(self._dataset.images.raw.data,
+                                                      tmpimfile,
+                                                      axis=2)
+
+            self._datacalc.rawblackcorr(shotidx=self.setup.blackcorrection.nimages,
+                                        nimages=self.setup.blackcorrection.nimages,
+                                        removeedgeh=self.setup.blackcorrection.removeedgeh,
+                                        removeedgew=self.setup.blackcorrection.removeedgew,
+                                        flipped=self.setup.blackcorrection.flipped,
+                                        forcerecal=True,
+                                        onlycorr=True)
+
+            tmpcalfile[:, :, start-1:end] = self._dataset.images.blackpointcorr.data
+
+            counter += 1
+
+        self._dataset.images.blackpointcorr.data = tmpcalfile
+        self._dataset.images.blackpointcorr.arrayinfo.loadeddatasets = self.setup.datasetrange
+        self._dataset.images.blackpointcorr.save(filename=filename, filepath=path)</code></pre>
+</details>
+</dd>
+<dt id="pimged.datahandling.bigdata.bigdata.Bigdata.conc_calc"><code class="name flex">
+<span>def <span class="ident">conc_calc</span></span>(<span>self, path_conc: (<class 'str'>, <class 'pathlib.Path'>), filename_conc: str, path_calib: (<class 'str'>, <class 'pathlib.Path'>), filename_calib: str, path_corr: (<class 'str'>, <class 'pathlib.Path'>) = None, filename_corr: str = None, conc_mean_type: str = 'off', conc_method: bool = False)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Calculate concentrations.</p>
+<p>Calculating concentration based on the input calibration file and optional the correction
+file for black point correction. If not black point correction file is provided,
+the code calculate the concentration without a correction.</p>
+<p>The code loops over raw files in chunks based on the settings in the
+'setup.concentration' object and save the files out in the number of folders that fit
+with the dataset setting and chunk size.</p>
+<h2 id="parameters">Parameters</h2>
+<dl>
+<dt><strong><code>path_conc</code></strong> :&ensp;<code>(str, pathlib.Path) :</code></dt>
+<dd>(Default value = None)
+filepath for the concentration folder</dd>
+<dt><strong><code>filename_conc</code></strong> :&ensp;<code>str :</code></dt>
+<dd>filename of the concentration calculations</dd>
+<dt><strong><code>path_calib</code></strong> :&ensp;<code>(str, pathlib.Path)
+:</code></dt>
+<dd>filepath of the calibration file</dd>
+<dt><strong><code>filename_calib</code></strong> :&ensp;<code>str :</code></dt>
+<dd>filename of the calibration file</dd>
+<dt><strong><code>path_corr</code></strong> :&ensp;<code>(str, pathlib.Path) :</code></dt>
+<dd>filepath for the black point correction file</dd>
+<dt><strong><code>filename_corr</code></strong> :&ensp;<code>str :</code></dt>
+<dd>(Default value = None)
+filename of the black point correction file</dd>
+<dt><strong><code>conc_mean_type</code></strong> :&ensp;<code>str :</code></dt>
+<dd>(Default value = "off")
+{'off', 'on', 'only'}
+if the mean of the concentration field should be caculated and saved.
+Adds "MEAN_" prefix to savefile name.
+The save and calculation methods are:
+"off": No calculation of mean
+"on": Calculation of mean and instantanious
+"only": Only calculate the mean and not instantanious</dd>
+<dt><strong><code>conc_method</code></strong> :&ensp;<code>bool :</code></dt>
+<dd>(Default value = False)
+if the concentration should be saved in dataset files or as a single
+file with all calculation stored in a temporary file untill saving
+True : Temporary file and only one save file with all data
+False : Saving style as the concentration files</dd>
+</dl>
+<h2 id="raises">Raises</h2>
+<dl>
+<dt><code>ValueError</code></dt>
+<dd>&nbsp;</dd>
+<dt><code>FileNotFoundError</code></dt>
+<dd>&nbsp;</dd>
+<dt><code>NotImplementedError</code></dt>
+<dd>&nbsp;</dd>
+</dl></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def conc_calc(self,
+              path_conc: (str, pathlib.Path),
+              filename_conc: str,
+              path_calib: (str, pathlib.Path),
+              filename_calib: str,
+              path_corr: (str, pathlib.Path) = None,
+              filename_corr: str = None,
+              conc_mean_type: str = &#34;off&#34;,
+              conc_method: bool = False):
+    &#34;&#34;&#34;Calculate concentrations.
+    
+    Calculating concentration based on the input calibration file and optional the correction
+    file for black point correction. If not black point correction file is provided,
+    the code calculate the concentration without a correction.
+    
+    The code loops over raw files in chunks based on the settings in the
+    &#39;setup.concentration&#39; object and save the files out in the number of folders that fit
+    with the dataset setting and chunk size.
+
+    Parameters
+    ----------
+    path_conc: (str, pathlib.Path) :
+         (Default value = None)
+        filepath for the concentration folder
+
+    filename_conc : str :
+        filename of the concentration calculations
+        
+    path_calib: (str, pathlib.Path)  :
+        filepath of the calibration file
+        
+    filename_calib : str :
+        filename of the calibration file
+        
+    path_corr: (str, pathlib.Path) :
+        filepath for the black point correction file
+        
+    filename_corr: str :
+         (Default value = None)
+        filename of the black point correction file
+
+    conc_mean_type: str :
+         (Default value = &#34;off&#34;)
+        {&#39;off&#39;, &#39;on&#39;, &#39;only&#39;}
+        if the mean of the concentration field should be caculated and saved.
+        Adds &#34;MEAN_&#34; prefix to savefile name.
+        The save and calculation methods are:
+        &#34;off&#34;: No calculation of mean
+        &#34;on&#34;: Calculation of mean and instantanious
+        &#34;only&#34;: Only calculate the mean and not instantanious
+
+    conc_method: bool :
+         (Default value = False)
+        if the concentration should be saved in dataset files or as a single
+        file with all calculation stored in a temporary file untill saving
+        True : Temporary file and only one save file with all data
+        False : Saving style as the concentration files
+
+    Raises
+    ------
+    ValueError
+    FileNotFoundError
+    NotImplementedError
+    &#34;&#34;&#34;
+    # Checking if mean should be calculated
+    match conc_mean_type:
+        case &#34;off&#34;:
+            conc_mean = False
+            conc_mean_only = False
+        case &#34;on&#34;:
+            conc_mean = True
+            conc_mean_only = False
+        case &#34;only&#34;:
+            conc_mean = True
+            conc_mean_only = True
+        case _:
+            raise NotImplementedError(&#34;The given input to &#39;conc_mean_type&#39; do not exist&#34;)
+
+    # Checking if there is given a correction file
+    blackpointcorr_flag = (bool(path_corr) and bool(filename_corr))
+    if not blackpointcorr_flag:
+        path_corr = &#39;&#39;
+        filename_corr = &#39;&#39;
+
+    # Starting a counter
+    counter = 1
+    # Checking if the black point correction file exist, if it does - load it!
+    if ph.isfile(ph.join(path_corr, filename_corr + &#39;.pkl&#39;)):
+        print(&#39;found black point correction file, loading\n&#39;)
+        self._dataset.images.blackpointcorr.load(filename=filename_corr, filepath=path_corr)
+        print(&#39;finished\n\n&#39;)
+    elif blackpointcorr_flag:
+        raise FileNotFoundError(
+            &#39;The black point correction factors for the dataset do not exist.\n&#39;
+            &#39;Create the black correction factors first, before correcting the &#39;
+            &#39;raw data&#39;)
+
+    # Checking if the calibration file exist, if it does - load it!
+    if ph.isfile(ph.join(path_calib, filename_calib + &#39;.pkl&#39;)):
+        print(&#39;found calibration file, loading\n&#39;)
+        self._dataset.images.calibration.load(filename=filename_calib,
+                                              filepath=path_calib)
+        print(&#39;finished\n\n&#39;)
+    else:
+        raise FileNotFoundError(&#39;No calibration file found\n&#39;
+                                &#39;Calculate calibrations before concentrations with the Bigadata&#39;
+                                &#39; framework functions&#39;)
+
+    # Calculating initial values and initialize temporary calibration container
+    totalblocks = self.setup.datasetrange[1] - self.setup.datasetrange[0] + 1
+    totalcounts = int(np.ceil(totalblocks / self.setup.concentration.chunksize))
+
+    if blackpointcorr_flag:
+        if totalblocks &gt; self._dataset.images.blackpointcorr.data.shape[2]:
+            raise ValueError(
+                f&#39;Not enough datasets are present in the black point correction factor &#39;
+                f&#39;for what is tried to be loaded. \n&#39;
+                f&#39;Only {self._dataset.images.blackpointcorr.data.shape[2]} datasets in the &#39;
+                f&#39;black point file\n&#39;
+                f&#39;Tried to load {totalblocks} datasets of raw files&#39;)
+
+    # Looping over the dataset range and ensuring the end is reached for with chunk sizes
+    if (self.setup.datasetrange[1] / self.setup.concentration.chunksize ==
+            int(self.setup.datasetrange[1] / self.setup.concentration.chunksize)):
+        endrange = self.setup.datasetrange[1]
+    else:
+        endrange = self.setup.datasetrange[1] + self.setup.concentration.chunksize - 1
+
+    # Checking if chunksize is larger than dataset range and corrects
+    if endrange &gt; self.setup.datasetrange[1]:
+        endrange = self.setup.datasetrange[1]
+
+    for i in range(self.setup.datasetrange[0],
+                   endrange,
+                   self.setup.concentration.chunksize):
+        start = i
+        end = min(i + self.setup.concentration.chunksize - 1, self.setup.datasetrange[1])
+
+        print(f&#39;Loop {counter} of {totalcounts}, start = {i}   end = {end}&#39;)
+        self._dataset.loadimages(setfolderstoload=[start, end],
+                                 setimagestoload=self.setup.concentration.rawimagerange,
+                                 verb=True,
+                                 parset=True,
+                                 natkeysort=True)
+
+        if blackpointcorr_flag:
+            self._datacalc.rawblackcorr(nimages=self.setup.blackcorrection.nimages,
+                                        removeedgeh=self.setup.blackcorrection.removeedgeh,
+                                        removeedgew=self.setup.blackcorrection.removeedgew,
+                                        setrangeinput=[start - 1, end],
+                                        flipped=False,
+                                        forcerecal=False,
+                                        onlycorr=False)
+
+        self._datacalc.bit2conc(setrangeinput=[start - 1, end],
+                                clip=&#39;infnan&#39;,
+                                memsave=&#39;parlow&#39;,
+                                verb=True)
+
+        savename_conccorrset = filename_conc + f&#39;_datasets_{start}-{end}&#39;
+
+        if not conc_mean_only:
+            self._dataset.images.concentration.save(filename=savename_conccorrset,
+                                                    filepath=path_conc)
+
+        if conc_mean or conc_mean_only:
+            # calculating mean
+            self._datacalc.mean()
+
+            if conc_method and &#39;tmp_mean&#39; not in locals():
+                tmp_mean = self._dataset.images.mean.data
+
+            # Mean has to reflect the amount of datasets in each variable when combining the
+            # data. Taking uneven dataset counts into account by using loaded datasets ranges
+            if conc_method and counter &gt; 1:
+                tmp_mean = (tmp_mean*(start-1)/end +
+                            self._dataset.images.mean.data*(end-start+1)/end)
+
+            if conc_method and counter == totalcounts:
+                self._dataset.images.mean.data = tmp_mean
+                self._dataset.images.mean.save(filename=&#34;MEAN_&#34; + filename_conc,
+                                               filepath=path_conc)
+            elif not conc_method:
+                self._dataset.images.mean.save(filename=&#34;MEAN_&#34; + savename_conccorrset,
+                                               filepath=path_conc)
+        # To save ram
+        self._dataset.images.concentration.clear()
+
+        counter += 1</code></pre>
+</details>
+</dd>
+<dt id="pimged.datahandling.bigdata.bigdata.Bigdata.rawblackcorr"><code class="name flex">
+<span>def <span class="ident">rawblackcorr</span></span>(<span>self, path_corr: (<class 'str'>, <class 'pathlib.Path'>), filename_corr: str, path_rawcorr: (<class 'str'>, <class 'pathlib.Path'>), filename_rawcorr: str)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Calculate raw image correction.</p>
+<p>Calculating the corrected raw images and saving the results. The setup is based on the
+black point correction settings under the "setup.blackcorrection" object for chunksize.
+The number of files loaded for the raw correction is defined by the
+"setup.calibration.imagerange" setting, as the calibration is built on these images</p>
+<h2 id="parameters">Parameters</h2>
+<dl>
+<dt><strong><code>path_corr</code></strong> :&ensp;<code>(str, pathlib.Path) :</code></dt>
+<dd>filepath for the black point correction file</dd>
+<dt><strong><code>filename_corr</code></strong> :&ensp;<code>str :</code></dt>
+<dd>filename of the black point correction file</dd>
+<dt><strong><code>path_rawcorr</code></strong> :&ensp;<code>(str, pathlib.Path) :</code></dt>
+<dd>filepath of the black point corrected raw files for calibration</dd>
+<dt><strong><code>filename_rawcorr</code></strong> :&ensp;<code>str :</code></dt>
+<dd>filename of the black point corrected raw files for calibration</dd>
+</dl>
+<h2 id="raises">Raises</h2>
+<dl>
+<dt><code>ValueError</code></dt>
+<dd>&nbsp;</dd>
+<dt><code>FileNotFoundError</code></dt>
+<dd>&nbsp;</dd>
+</dl></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def rawblackcorr(self,
+                 path_corr: (str, pathlib.Path),
+                 filename_corr: str,
+                 path_rawcorr: (str, pathlib.Path),
+                 filename_rawcorr: str):
+    &#34;&#34;&#34;Calculate raw image correction.
+    
+    Calculating the corrected raw images and saving the results. The setup is based on the
+    black point correction settings under the &#34;setup.blackcorrection&#34; object for chunksize.
+    The number of files loaded for the raw correction is defined by the
+    &#34;setup.calibration.imagerange&#34; setting, as the calibration is built on these images
+
+    Parameters
+    ----------
+    path_corr : (str, pathlib.Path) :
+        filepath for the black point correction file
+        
+    filename_corr : str :
+        filename of the black point correction file
+        
+    path_rawcorr : (str, pathlib.Path) :
+        filepath of the black point corrected raw files for calibration
+        
+    filename_rawcorr : str :
+        filename of the black point corrected raw files for calibration
+
+    Raises
+    ------
+    ValueError
+    FileNotFoundError
+    &#34;&#34;&#34;
+    # Checking folder path
+    check_folder_path(path_rawcorr, createdir=True)
+
+    # Starting a counter
+    counter = 1
+    # Checking if the file exist, if it does - do not calculate it
+    if ph.isfile(ph.join(path_corr, filename_corr + &#39;.pkl&#39;)):
+        print(&#39;found black point correction file, loading\n&#39;)
+        self._dataset.images.blackpointcorr.load(filename=filename_corr, filepath=path_corr)
+        print(&#39;finished\n\n&#39;)
+    else:
+        raise FileNotFoundError(
+            &#39;The black point correction factors for the dataset do not exist.\n&#39;
+            &#39;Check the filename and file path\n&#39;
+            &#39;Or create the black correction factors first, before correcting the &#39;
+            &#39;raw data&#39;)
+
+    # Calculating initial values and initialize temporary calibration container
+    totalblocks = self.setup.datasetrange[1] - self.setup.datasetrange[0] + 1
+    totalcounts = int(np.ceil(totalblocks / self.setup.blackcorrection.chunksize))
+
+    if totalblocks &gt; self._dataset.images.blackpointcorr.data.shape[2]:
+        raise ValueError(
+            f&#39;Not enough datasets are present in the black point correction factor &#39;
+            f&#39;for what is tried to be loaded. \n&#39;
+            f&#39;Only {self._dataset.images.blackpointcorr.data.shape[2]} datasets in the &#39;
+            f&#39;black point file\n&#39;
+            f&#39;Tried to load {totalblocks} datasets of raw files&#39;)
+
+    # Looping over the dataset range and ensuring the end is reached for with chunk sizes
+    if (self.setup.datasetrange[1] / self.setup.blackcorrection.chunksize ==
+            int(self.setup.datasetrange[1] / self.setup.blackcorrection.chunksize)):
+        endrange = self.setup.datasetrange[1]
+    else:
+        endrange = self.setup.datasetrange[1] + self.setup.blackcorrection.chunksize - 1
+
+    # Checking if chunksize is larger than dataset range and corrects
+    if endrange &gt; self.setup.datasetrange[1]:
+        endrange = self.setup.datasetrange[1]
+
+    # Looping over images
+    for i in range(self.setup.datasetrange[0],
+                   endrange,
+                   self.setup.blackcorrection.chunksize):
+        start = i
+        end = min(i + self.setup.blackcorrection.chunksize - 1, self.setup.datasetrange[1])
+
+        print(f&#39;Loop {counter} of {totalcounts}, start = {i}   end = {end}&#39;)
+        self._dataset.loadimages(setfolderstoload=[start, end],
+                                 setimagestoload=self.setup.calibration.imagerange,
+                                 verb=True,
+                                 parset=True,
+                                 natkeysort=True)
+
+        self._datacalc.rawblackcorr(nimages=self.setup.blackcorrection.nimages,
+                                    removeedgeh=self.setup.blackcorrection.removeedgeh,
+                                    removeedgew=self.setup.blackcorrection.removeedgew,
+                                    flipped=self.setup.blackcorrection.flipped,
+                                    setrangeinput=[start - 1, end],
+                                    forcerecal=False,
+                                    onlycorr=False)
+
+        # Saving corrected raw files
+        savename_rawcorrset = filename_rawcorr + f&#39;_datasets_{start}-{end}&#39;
+        self._dataset.images.raw.save(filename=savename_rawcorrset, filepath=path_rawcorr)
+
+        counter += 1</code></pre>
+</details>
+</dd>
+</dl>
+</dd>
+<dt id="pimged.datahandling.bigdata.bigdata.Blackcorrsetup"><code class="flex name class">
+<span>class <span class="ident">Blackcorrsetup</span></span>
+</code></dt>
+<dd>
+<div class="desc"><p>Class with the calibration setup parameters.</p>
+<p>Init black correction setup.</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">class Blackcorrsetup:
+    &#34;&#34;&#34;Class with the calibration setup parameters.&#34;&#34;&#34;
+
+    def __init__(self):
+        &#34;&#34;&#34;Init black correction setup.&#34;&#34;&#34;
+        self.chunksize = 50
+        self.nimages = 75
+        self.removeedgeh = 10
+        self.removeedgew = -1
+        self.flipped = False</code></pre>
+</details>
+</dd>
+<dt id="pimged.datahandling.bigdata.bigdata.Calibarationsetup"><code class="flex name class">
+<span>class <span class="ident">Calibarationsetup</span></span>
+</code></dt>
+<dd>
+<div class="desc"><p>Class with the calibration setup parameters.</p>
+<p>Init calibration parameters.</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">class Calibarationsetup:
+    &#34;&#34;&#34;Class with the calibration setup parameters.&#34;&#34;&#34;
+
+    def __init__(self):
+        &#34;&#34;&#34;Init calibration parameters.&#34;&#34;&#34;
+        self.chunksize = 50
+        self.imagerange = [1, 75]</code></pre>
+</details>
+</dd>
+<dt id="pimged.datahandling.bigdata.bigdata.Concentrationsetup"><code class="flex name class">
+<span>class <span class="ident">Concentrationsetup</span></span>
+</code></dt>
+<dd>
+<div class="desc"><p>Class with the settings for the concentration calculation files.</p>
+<p>Init concentration calc setup.</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">class Concentrationsetup:
+    &#34;&#34;&#34;Class with the settings for the concentration calculation files.&#34;&#34;&#34;
+
+    def __init__(self):
+        &#34;&#34;&#34;Init concentration calc setup.&#34;&#34;&#34;
+        self.rawimagerange = [295, 305]
+        self.chunksize = 5</code></pre>
+</details>
+</dd>
+<dt id="pimged.datahandling.bigdata.bigdata.Setup"><code class="flex name class">
+<span>class <span class="ident">Setup</span></span>
+</code></dt>
+<dd>
+<div class="desc"><p>Class with setup parameters for organizing in Bigdata use class.</p>
+<p>Init setup parameters.</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">class Setup:
+    &#34;&#34;&#34;Class with setup parameters for organizing in Bigdata use class.&#34;&#34;&#34;
+
+    def __init__(self):
+        &#34;&#34;&#34;Init setup parameters.&#34;&#34;&#34;
+        self.datasetrange = [1, 10]
+        self.calibration = Calibarationsetup()
+        self.blackcorrection = Blackcorrsetup()
+        self.concentration = Concentrationsetup()</code></pre>
+</details>
+</dd>
+</dl>
+</section>
+</article>
+<nav id="sidebar">
+<header>
+<a class="homelink" rel="home" title="PImGED treat" href="https://youtu
+.be/mx86-rTclzA?si=RWJEgJIT8MdOsVn7">
+<center><img src="https://i.ibb.co/Tbp2rPk/logo.png" alt=""></center>
+</a>
+</header>
+<h1>Index</h1>
+<div class="toc">
+<ul></ul>
+</div>
+<ul id="index">
+<li><h3>Super-module</h3>
+<ul>
+<li><code><a title="pimged.datahandling.bigdata" href="index.html">pimged.datahandling.bigdata</a></code></li>
+</ul>
+</li>
+<li><h3><a href="#header-classes">Classes</a></h3>
+<ul>
+<li>
+<h4><code><a title="pimged.datahandling.bigdata.bigdata.Bigdata" href="#pimged.datahandling.bigdata.bigdata.Bigdata">Bigdata</a></code></h4>
+<ul class="">
+<li><code><a title="pimged.datahandling.bigdata.bigdata.Bigdata.bit2conccalib" href="#pimged.datahandling.bigdata.bigdata.Bigdata.bit2conccalib">bit2conccalib</a></code></li>
+<li><code><a title="pimged.datahandling.bigdata.bigdata.Bigdata.blackcorrfactors" href="#pimged.datahandling.bigdata.bigdata.Bigdata.blackcorrfactors">blackcorrfactors</a></code></li>
+<li><code><a title="pimged.datahandling.bigdata.bigdata.Bigdata.conc_calc" href="#pimged.datahandling.bigdata.bigdata.Bigdata.conc_calc">conc_calc</a></code></li>
+<li><code><a title="pimged.datahandling.bigdata.bigdata.Bigdata.rawblackcorr" href="#pimged.datahandling.bigdata.bigdata.Bigdata.rawblackcorr">rawblackcorr</a></code></li>
+</ul>
+</li>
+<li>
+<h4><code><a title="pimged.datahandling.bigdata.bigdata.Blackcorrsetup" href="#pimged.datahandling.bigdata.bigdata.Blackcorrsetup">Blackcorrsetup</a></code></h4>
+</li>
+<li>
+<h4><code><a title="pimged.datahandling.bigdata.bigdata.Calibarationsetup" href="#pimged.datahandling.bigdata.bigdata.Calibarationsetup">Calibarationsetup</a></code></h4>
+</li>
+<li>
+<h4><code><a title="pimged.datahandling.bigdata.bigdata.Concentrationsetup" href="#pimged.datahandling.bigdata.bigdata.Concentrationsetup">Concentrationsetup</a></code></h4>
+</li>
+<li>
+<h4><code><a title="pimged.datahandling.bigdata.bigdata.Setup" href="#pimged.datahandling.bigdata.bigdata.Setup">Setup</a></code></h4>
+</li>
+</ul>
+</li>
+</ul>
+</nav>
+</main>
+<footer id="footer">
+<p>Generated by <a href="https://pdoc3.github.io/pdoc" title="pdoc: Python API documentation generator"><cite>pdoc</cite> 0.10.0</a>.</p>
+</footer>
+</body>
+</html>

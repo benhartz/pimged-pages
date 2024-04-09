@@ -1,0 +1,932 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1" />
+<meta name="generator" content="pdoc 0.10.0" />
+<title>pimged.calculate.pod.phasepod.modescalcmethods API documentation</title>
+<meta name="description" content="Phase POD methods for calculating modes." />
+<link rel="preload stylesheet" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/10up-sanitize.css/11.0.1/sanitize.min.css" integrity="sha256-PK9q560IAAa6WVRRh76LtCaI8pjTJ2z11v0miyNNjrs=" crossorigin>
+<link rel="preload stylesheet" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/10up-sanitize.css/11.0.1/typography.min.css" integrity="sha256-7l/o7C8jubJiy74VsKTidCy1yBkRtiUGbVkYBylBqUg=" crossorigin>
+<link rel="stylesheet preload" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.1.1/styles/github.min.css" crossorigin>
+<style>:root{--highlight-color:#fe9}.flex{display:flex !important}body{line-height:1.5em}#content{padding:20px}#sidebar{padding:30px;overflow:hidden}#sidebar > *:last-child{margin-bottom:2cm}.http-server-breadcrumbs{font-size:130%;margin:0 0 15px 0}#footer{font-size:.75em;padding:5px 30px;border-top:1px solid #ddd;text-align:right}#footer p{margin:0 0 0 1em;display:inline-block}#footer p:last-child{margin-right:30px}h1,h2,h3,h4,h5{font-weight:300}h1{font-size:2.5em;line-height:1.1em}h2{font-size:1.75em;margin:1em 0 .50em 0}h3{font-size:1.4em;margin:25px 0 10px 0}h4{margin:0;font-size:105%}h1:target,h2:target,h3:target,h4:target,h5:target,h6:target{background:var(--highlight-color);padding:.2em 0}a{color:#058;text-decoration:none;transition:color .3s ease-in-out}a:hover{color:#e82}.title code{font-weight:bold}h2[id^="header-"]{margin-top:2em}.ident{color:#900}pre code{background:#f8f8f8;font-size:.8em;line-height:1.4em}code{background:#f2f2f1;padding:1px 4px;overflow-wrap:break-word}h1 code{background:transparent}pre{background:#f8f8f8;border:0;border-top:1px solid #ccc;border-bottom:1px solid #ccc;margin:1em 0;padding:1ex}#http-server-module-list{display:flex;flex-flow:column}#http-server-module-list div{display:flex}#http-server-module-list dt{min-width:10%}#http-server-module-list p{margin-top:0}.toc ul,#index{list-style-type:none;margin:0;padding:0}#index code{background:transparent}#index h3{border-bottom:1px solid #ddd}#index ul{padding:0}#index h4{margin-top:.6em;font-weight:bold}@media (min-width:200ex){#index .two-column{column-count:2}}@media (min-width:300ex){#index .two-column{column-count:3}}dl{margin-bottom:2em}dl dl:last-child{margin-bottom:4em}dd{margin:0 0 1em 3em}#header-classes + dl > dd{margin-bottom:3em}dd dd{margin-left:2em}dd p{margin:10px 0}.name{background:#eee;font-weight:bold;font-size:.85em;padding:5px 10px;display:inline-block;min-width:40%}.name:hover{background:#e0e0e0}dt:target .name{background:var(--highlight-color)}.name > span:first-child{white-space:nowrap}.name.class > span:nth-child(2){margin-left:.4em}.inherited{color:#999;border-left:5px solid #eee;padding-left:1em}.inheritance em{font-style:normal;font-weight:bold}.desc h2{font-weight:400;font-size:1.25em}.desc h3{font-size:1em}.desc dt code{background:inherit}.source summary,.git-link-div{color:#666;text-align:right;font-weight:400;font-size:.8em;text-transform:uppercase}.source summary > *{white-space:nowrap;cursor:pointer}.git-link{color:inherit;margin-left:1em}.source pre{max-height:500px;overflow:auto;margin:0}.source pre code{font-size:12px;overflow:visible}.hlist{list-style:none}.hlist li{display:inline}.hlist li:after{content:',\2002'}.hlist li:last-child:after{content:none}.hlist .hlist{display:inline;padding-left:1em}img{max-width:100%}td{padding:0 .5em}.admonition{padding:.1em .5em;margin-bottom:1em}.admonition-title{font-weight:bold}.admonition.note,.admonition.info,.admonition.important{background:#aef}.admonition.todo,.admonition.versionadded,.admonition.tip,.admonition.hint{background:#dfd}.admonition.warning,.admonition.versionchanged,.admonition.deprecated{background:#fd4}.admonition.error,.admonition.danger,.admonition.caution{background:lightpink}</style>
+<style media="screen and (min-width: 700px)">@media screen and (min-width:700px){#sidebar{width:30%;height:100vh;overflow:auto;position:sticky;top:0}#content{width:70%;max-width:100ch;padding:3em 4em;border-left:1px solid #ddd}pre code{font-size:1em}.item .name{font-size:1em}main{display:flex;flex-direction:row-reverse;justify-content:flex-end}.toc ul ul,#index ul{padding-left:1.5em}.toc > ul > li{margin-top:.5em}}</style>
+<style media="print">@media print{#sidebar h1{page-break-before:always}.source{display:none}}@media print{*{background:transparent !important;color:#000 !important;box-shadow:none !important;text-shadow:none !important}a[href]:after{content:" (" attr(href) ")";font-size:90%}a[href][title]:after{content:none}abbr[title]:after{content:" (" attr(title) ")"}.ir a:after,a[href^="javascript:"]:after,a[href^="#"]:after{content:""}pre,blockquote{border:1px solid #999;page-break-inside:avoid}thead{display:table-header-group}tr,img{page-break-inside:avoid}img{max-width:100% !important}@page{margin:0.5cm}p,h2,h3{orphans:3;widows:3}h1,h2,h3,h4,h5,h6{page-break-after:avoid}}</style>
+<script defer src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.1.1/highlight.min.js" integrity="sha256-Uv3H6lx7dJmRfRvH8TH6kJD1TSK1aFcwgx+mdg3epi8=" crossorigin></script>
+<script>window.addEventListener('DOMContentLoaded', () => hljs.initHighlighting())</script>
+<style>.homelink{display:block;font-size:2em;font-weight:bold;color:#555;padding-bottom:.5em;border-bottom:1px solid silver}.homelink:hover{color:inherit}.homelink img{max-width:100%;max-height:10em;margin:auto;margin-bottom:.3em;margin-top:.3em}</style>
+</head>
+<body>
+<main>
+<article id="content">
+<header>
+<h1 class="title">Module <code>pimged.calculate.pod.phasepod.modescalcmethods</code></h1>
+</header>
+<section id="section-intro">
+<p>Phase POD methods for calculating modes.</p>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">&#34;&#34;&#34;Phase POD methods for calculating modes.&#34;&#34;&#34;
+
+from warnings import warn
+from os import path as ph, mkdir, listdir
+from zarr import save as zarrsave, load as zarrload
+import numpy as np
+import numba
+
+from ....datahandling.dataset import Dataset
+from ....calculate.pod.generalrutines import PODInfo, CorrelationInfo
+from ....utils.utils import bigdata_corr_file_read
+
+
+def modecalcaculation(mainpodinfo: PODInfo, correlationinfo: CorrelationInfo, dataset: Dataset,
+                      folderlocation: str):
+    &#34;&#34;&#34;Load the correlation matrix and calculate the modes.
+    
+    It is possible to set the number of modes to rebuilt at a time and the start mode.
+    !!!!!OBS!!!! if less modes is chosen than is per file (blocksize_dataset), then the result is
+    not correct, unless it jump over a file loading with some modes from the first file and some
+    from the second. Error is based in &#34;jidxcorr&#34; in the modecalc method, not solved
+
+    Parameters
+    ----------
+    mainpodinfo : PODInfo :
+        POD object from the pod package
+        
+    correlationinfo : CorrelationInfo :
+        correlation parameters container
+        
+    dataset : Dataset :
+        dataset object from pimged package
+        
+    folderlocation : str :
+        top level folder location for the framework
+        
+
+    Raises
+    -------
+    FileExistsError
+        Correlation file do not exist
+
+    LookupError
+        No calibration file exist in the framework for metadata handling
+    &#34;&#34;&#34;
+    moderebuildstart = mainpodinfo.phasepodinfo.modebuiltstart
+    nmodestobuild = mainpodinfo.phasepodinfo.nmodestobuilt
+
+    if [xx for xx in (mainpodinfo.frameheight, mainpodinfo.framewidth) if xx is None]:
+        warn(&#39;frame width and height is not defined in the PODInfo. Loading the calibration files &#39;
+             &#39;to automatic define them&#39;)
+        checkcalifold = ph.join(folderlocation, mainpodinfo.phasepodinfo.savefolder_prepare)
+        checkcalifile = ph.join(checkcalifold, mainpodinfo.phasepodinfo.savename_preparecali)
+        if ph.exists(checkcalifile + &#39;.pkl&#39;):
+            print(&#39;calibration file exist, started loading&#39;)
+            dataset.images.calibration.load(filepath=checkcalifold,
+                                            filename=mainpodinfo.phasepodinfo.savename_preparecali)
+            print(&#39;Finished loading&#39;)
+
+            mainpodinfo.framewidth = dataset.images.calibration.data.shape[1]
+            mainpodinfo.frameheight = dataset.images.calibration.data.shape[0]
+        else:
+            raise LookupError(&#39;No calibration file exist in the given framework. Define the frame &#39;
+                              &#39;width and height manually&#39;)
+
+    xheight = mainpodinfo.framewidth
+    yheight = mainpodinfo.frameheight
+
+    poddim = xheight * yheight * mainpodinfo.phasepodinfo.time
+
+    blocksizeset = mainpodinfo.phasepodinfo.blocksize_dataset
+    ntotalblocks = mainpodinfo.phasepodinfo.phase
+
+    nmloops = int(np.ceil(nmodestobuild / blocksizeset)) + (moderebuildstart % blocksizeset != 1)
+    niloops = int(np.ceil(ntotalblocks / blocksizeset))
+
+    checkcorrfolder = ph.join(folderlocation, mainpodinfo.phasepodinfo.savefolder_correlation)
+    modesdsavefolder = ph.join(folderlocation, mainpodinfo.phasepodinfo.savefolder_modes)
+    checkcorrfile = ph.join(checkcorrfolder, mainpodinfo.phasepodinfo.savename_correlation) + &#39;.npz&#39;
+    concdir = ph.join(folderlocation,
+                      mainpodinfo.phasepodinfo.savefolder_prepare,
+                      mainpodinfo.phasepodinfo.savefolder_prepareconc)
+
+    if ph.isdir(modesdsavefolder):
+        pass
+    else:
+        print(f&#39;making folder {modesdsavefolder}&#39;)
+        mkdir(modesdsavefolder)
+
+    if ph.isfile(checkcorrfile):
+        bigdata_corr_file_read(correlationinfo, checkcorrfile)
+        # print(&#39;The correlation prameters exist, started loading&#39;)
+        # with np.load(checkcorrfile) as loadedcorr:
+        #     correlationinfo.corrmatrix = loadedcorr[&#39;corrematrix&#39;]
+        #     correlationinfo.psi = loadedcorr[&#39;psi&#39;]
+        #     correlationinfo.eigenvalues = loadedcorr[&#39;eigenvalues&#39;]
+        #     correlationinfo.accuenergy = loadedcorr[&#39;accuenergy&#39;]
+        # print(&#39;Finished loading&#39;)
+    else:
+        raise FileExistsError(&#39;The correlation data file do not exist. Check path or if &#39;
+                              &#39;correlation data are calculated for the setup&#39;)
+
+    # Calculation of the eigenvectors
+    print(&#39;Starting the eigenvector calculations&#39;)
+    counteri = 1
+    counterm = 1
+    countermskip = 1
+    for midx in range(mainpodinfo.loaddatasets[0], ntotalblocks, blocksizeset):
+        startm = midx
+        endm = midx + blocksizeset - 1
+        if endm &gt; mainpodinfo.loaddatasets[1]:
+            endm = mainpodinfo.loaddatasets[1]
+
+        # Checking if the starting point is reached, else continue
+        if startm &lt; moderebuildstart:
+            if not endm &gt;= moderebuildstart:
+                counterm += 1
+                continue
+
+        psi1idx = (counterm - 1) * blocksizeset
+        psi2idx = (counteri - 1) * blocksizeset
+
+        # Checking if the end point is reached and break
+        if psi2idx &gt; mainpodinfo.phasepodinfo.phase - 1:
+            if psi1idx &gt; nmodestobuild - 1 + moderebuildstart - 1 and not \
+                    moderebuildstart - 1 &lt;= psi1idx &lt; moderebuildstart - 1 + nmodestobuild:
+                break
+
+        print(f&#39;m: Datablock loop {countermskip} of {nmloops}, start = {startm}   end = {endm}\n&#39;)
+
+        if startm &lt;= nmodestobuild + moderebuildstart - 1 and \
+                endm &lt;= nmodestobuild + moderebuildstart - 1 and not \
+                startm &lt; moderebuildstart:
+
+            modesmatrixinisize = blocksizeset
+            print(f&#34;full initialize of mode matrix: {modesmatrixinisize} modes\n\n&#34;)
+        else:
+            if moderebuildstart - startm == abs(moderebuildstart - startm):
+                if moderebuildstart + nmodestobuild - startm &lt; blocksizeset:
+                    if blocksizeset &gt; nmodestobuild:
+                        modesmatrixinisize = nmodestobuild
+                    else:
+                        modesmatrixinisize = abs(moderebuildstart + nmodestobuild - startm)
+                else:
+                    modesmatrixinisize = abs(moderebuildstart - startm - blocksizeset)
+            else:
+                modesmatrixinisize = abs(moderebuildstart + nmodestobuild - startm)
+
+            print(f&#34;Partly initialize of modesmatrix {modesmatrixinisize}\n\n&#34;)
+
+        print(f&#39;Initializing mode matrix with {modesmatrixinisize} modes&#39;)
+        modesmatrix = np.ones((poddim, modesmatrixinisize), dtype=np.float64)
+        modesmatrix -= 1
+
+        counteri = 1
+        for i in range(mainpodinfo.loaddatasets[0], ntotalblocks + 1, blocksizeset):
+            starti = i
+            endi = i + blocksizeset - 1
+            if endi &gt; mainpodinfo.loaddatasets[1]:
+                endi = mainpodinfo.loaddatasets[1]
+
+            print(f&#39;i: Loading loop {counteri} of {niloops}, start = {starti}   end = {endi}\n&#39;)
+
+            print(&#39;Loading data&#39;)
+            savename_conc = mainpodinfo.phasepodinfo.savename_prepareconc(starti, endi)
+            concrehape = zarrload(ph.join(concdir, savename_conc))
+            print(&#39;Finished loading data&#39;)
+
+            print(&#39;Starting mode calc&#39;)
+            modescalc(concrehape, modesmatrix, correlationinfo.psi, blocksizeset,
+                      correlationinfo.eigenvalues, counterm, counteri,
+                      nmodestobuild, moderebuildstart, mainpodinfo.phasepodinfo.phase, countermskip,
+                      nmloops, modesmatrixinisize)
+
+            print(&#39;Finished mode calc&#39;)
+
+            print(&#39;Clearing data&#39;)
+            del concrehape
+
+            print(f&#39;Finished the inner loop {counteri} of {niloops} run\n\n\n&#39;)
+
+            counteri += 1
+
+        print(&#39;Normalizing modes&#39;)
+        normmodesmatrix = np.zeros(modesmatrixinisize)
+        for nidx in range(0, modesmatrixinisize):
+            normmodesmatrix[nidx] = np.linalg.norm(modesmatrix[:, nidx])
+        modesmatrix = modesmatrix.reshape((yheight, xheight,
+                                           mainpodinfo.phasepodinfo.time, modesmatrixinisize),
+                                          order=&#39;F&#39;)
+        modesmatrix /= normmodesmatrix
+        modesmatrix = modesmatrix.astype(np.float32)
+
+        print(&#39;Saving modes&#39;)
+        if startm &gt;= moderebuildstart:
+            startmode = startm
+        else:
+            startmode = endm - modesmatrixinisize + 1
+
+        if endm &gt; moderebuildstart + nmodestobuild:
+            endmode = startm + modesmatrixinisize - 1
+        else:
+            endmode = endm
+
+        savename_modes = mainpodinfo.phasepodinfo.savename_modes(startmode, endmode)
+        zarrsave(ph.join(modesdsavefolder, savename_modes), modesmatrix)
+        print(&#39;Finished saving modes\n&#39;)
+
+        counterm += 1
+        countermskip += 1
+
+    print(&#39;Finished eigenvector calculations&#39;)
+
+
+@numba.jit(nopython=True, parallel=True, fastmath=True)
+def modescalc(imdata, modesmatrix, psi, blocksizeset, eigenvalues, counterm,  counteri,
+              nmodestobuild, moderebuildstart, phase, countermskip, nmloops, modesmatrixinisize):
+    &#34;&#34;&#34;Mode calculation setup under a numba compile rutine for parallel and faster excecution.
+
+    Parameters
+    ----------
+    imdata : :
+        The framework concentration data matrix
+
+    modesmatrix : :
+        Mode matrix
+
+    psi : :
+        The phase POD weigthing matrix
+
+    blocksizeset : :
+        The number of dataset blocks in every file loaded
+
+    eigenvalues : :
+        The energy (eigenvalues) fitting with the weighting matrix
+
+    counterm : :
+        Counter from outer loop
+
+    counteri : :
+        Counter from inner loop
+
+    nmodestobuild : :
+        Total number of modes to rebuild
+
+    moderebuildstart : :
+        The start mode to rebuild from
+
+    phase : :
+        Number of datasets/time repetitions of the data
+
+    countermskip : :
+        Number of outer loops used in calculations if loops are skipped
+
+    nmloops : :
+        Total number of n and m loops
+
+    modesmatrixinisize : :
+        Size of the initial modes matrix - if less than blocksizeset is used
+    &#34;&#34;&#34;
+    if countermskip &lt; nmloops:
+        if modesmatrixinisize &lt; blocksizeset:
+            startcorr = modesmatrixinisize + 1
+            jidxcorr = blocksizeset - startcorr + 1
+        else:
+            startcorr = modesmatrixinisize - 1
+            jidxcorr = 0
+        endcorr = 0
+    else:
+        if modesmatrixinisize == blocksizeset:
+            startcorr = blocksizeset - 1
+            jidxcorr = 0
+            endcorr = 0
+        else:
+            startcorr = blocksizeset - 1
+            jidxcorr = 0
+            endcorr = 0
+
+    for j in numba.prange(blocksizeset-startcorr, blocksizeset - endcorr + 1): # pylint: disable=not-an-iterable
+        print(f&#39;Started outerloop counter at {j}&#39;)
+        for k in range(1, blocksizeset + 1):
+            psi1idx = (counterm - 1) * blocksizeset + j - 1
+            psi2idx = (counteri - 1) * blocksizeset + k - 1
+
+            jcorr = j - 1 - jidxcorr
+
+            if not psi2idx &gt; phase - 1:
+                if not psi1idx &gt;= nmodestobuild - 1 + moderebuildstart \
+                        and moderebuildstart - 1 &lt;= psi1idx &lt; phase:
+                    modesmatrix[:, jcorr] += imdata[:, k - 1] * \
+                                             psi[psi1idx, psi2idx] * \
+                                             eigenvalues[k-1]**(-0.5)
+
+
+def loadcalcmodes(mainpodinfo: PODInfo, folderlocation: str):
+    &#34;&#34;&#34;Load calcualted modes from the framework setup and return the modes.
+
+    Parameters
+    ----------
+    mainpodinfo : PODInfo :
+        POD object from the pod package
+        
+    folderlocation : str :
+        top level folder location for the framework
+        
+
+    Returns
+    -------
+    type: :
+        Loaded modes
+
+    Raises
+    ------
+    FileExistsError
+        No calculated modes present
+    &#34;&#34;&#34;
+    modesfolder = ph.join(folderlocation, mainpodinfo.phasepodinfo.savefolder_modes)
+    modesinfolder = listdir(modesfolder)
+
+    if modesinfolder is None or not modesinfolder:
+        raise FileExistsError(&#39;The chosen framework location do not contain any calculated modes. &#39;
+                              &#39;Check if the modes are calculated or main framework folder are &#39;
+                              &#39;correct&#39;)
+
+    lookfordatarange = f&#39;{mainpodinfo.datasetimagerange[0]}-{mainpodinfo.datasetimagerange[1]}&#39;
+    modesdatarangeinfiles = [moderange.split(&#34;_&#34;)[2] for moderange in modesinfolder]
+
+    if modesdatarangeinfiles is None or not modesdatarangeinfiles:
+        raise FileExistsError(&#39;The chosen framework location do not contain any calculated in the &#39;
+                              &#39;asked image range. Check if correct the folder is chosen or if the&#39;
+                              &#39;datarange is wrong&#39;)
+
+    startrangesinfiles = [int(moderange.split(&#34;_&#34;)[-1].split(&#34;-&#34;)[0]) for moderange in
+                          modesinfolder if moderange.split(&#34;_&#34;)[2] == lookfordatarange]
+    endrangesinfiles = [int(moderange.split(&#34;_&#34;)[-1].split(&#34;-&#34;)[1]) for moderange in modesinfolder
+                        if moderange.split(&#34;_&#34;)[2] == lookfordatarange]
+
+    if startrangesinfiles is None or not startrangesinfiles or endrangesinfiles is None or not \
+            endrangesinfiles:
+        raise FileExistsError(&#39;The chosen load range do not exist. Check if the modes are &#39;
+                              &#39;calculated, the chosen range are valid or that the image range &#39;
+                              &#39;exist with the chosen modes.&#39;)
+
+    startrangesinfiles = np.asarray(startrangesinfiles)
+    endrangesinfiles = np.asarray(endrangesinfiles)
+
+    firstfileidx = np.where(startrangesinfiles &lt;= mainpodinfo.phasepodinfo.loadwhichmodes[0])[0][-1]
+    lastfileidx = np.where(endrangesinfiles &gt;= mainpodinfo.phasepodinfo.loadwhichmodes[1])[0][0]
+
+    if firstfileidx == lastfileidx:
+        modesrows = [firstfileidx]
+    else:
+        modesrows = list(range(firstfileidx, lastfileidx+1))
+
+    modesinfiles = endrangesinfiles[0] - startrangesinfiles[0] + 1
+    numberofmodestoloaded = len(modesrows) * modesinfiles
+
+    if len(modesrows) == 1:
+        print(f&#39;Started loading modes. There is {len(modesrows)} file to load&#39;)
+    else:
+        print(f&#39;Started loading modes. There are {len(modesrows)} files to load&#39;)
+
+    counter = 1
+    for idx in modesrows:
+        filename = mainpodinfo.phasepodinfo.savename_modes(startrangesinfiles[idx],
+                                                           endrangesinfiles[idx])
+
+        print(f&#39;Loading modes {startrangesinfiles[idx]} to {endrangesinfiles[idx]}&#39;)
+        loadedmodes = zarrload(ph.join(modesfolder, filename))
+
+        if counter == 1:
+            loadedshape = loadedmodes.shape
+
+            print(&#39;Initializing returned array based on mode information&#39;)
+            returnedmodes = np.ones((loadedshape[0], loadedshape[1], loadedshape[2],
+                                     numberofmodestoloaded)) - 1
+        else:
+            pass
+
+        print(&#39;Indexing loaded modes into returned mode array\n&#39;)
+        returnedmodes[:, :, :, modesinfiles*(counter-1):modesinfiles*counter] = loadedmodes
+
+        counter += 1
+
+    print(&#39;Finished loading modes\n\n&#39;)
+    return returnedmodes</code></pre>
+</details>
+</section>
+<section>
+</section>
+<section>
+</section>
+<section>
+<h2 class="section-title" id="header-functions">Functions</h2>
+<dl>
+<dt id="pimged.calculate.pod.phasepod.modescalcmethods.loadcalcmodes"><code class="name flex">
+<span>def <span class="ident">loadcalcmodes</span></span>(<span>mainpodinfo: <a title="pimged.calculate.pod.generalrutines.podinfo.PODInfo" href="../generalrutines/podinfo.html#pimged.calculate.pod.generalrutines.podinfo.PODInfo">PODInfo</a>, folderlocation: str)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Load calcualted modes from the framework setup and return the modes.</p>
+<h2 id="parameters">Parameters</h2>
+<dl>
+<dt><strong><code>mainpodinfo</code></strong> :&ensp;<code>PODInfo :</code></dt>
+<dd>POD object from the pod package</dd>
+<dt><strong><code>folderlocation</code></strong> :&ensp;<code>str :</code></dt>
+<dd>top level folder location for the framework</dd>
+</dl>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><strong><code>type</code></strong> :&ensp;<code>:</code></dt>
+<dd>Loaded modes</dd>
+</dl>
+<h2 id="raises">Raises</h2>
+<dl>
+<dt><code>FileExistsError</code></dt>
+<dd>No calculated modes present</dd>
+</dl></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def loadcalcmodes(mainpodinfo: PODInfo, folderlocation: str):
+    &#34;&#34;&#34;Load calcualted modes from the framework setup and return the modes.
+
+    Parameters
+    ----------
+    mainpodinfo : PODInfo :
+        POD object from the pod package
+        
+    folderlocation : str :
+        top level folder location for the framework
+        
+
+    Returns
+    -------
+    type: :
+        Loaded modes
+
+    Raises
+    ------
+    FileExistsError
+        No calculated modes present
+    &#34;&#34;&#34;
+    modesfolder = ph.join(folderlocation, mainpodinfo.phasepodinfo.savefolder_modes)
+    modesinfolder = listdir(modesfolder)
+
+    if modesinfolder is None or not modesinfolder:
+        raise FileExistsError(&#39;The chosen framework location do not contain any calculated modes. &#39;
+                              &#39;Check if the modes are calculated or main framework folder are &#39;
+                              &#39;correct&#39;)
+
+    lookfordatarange = f&#39;{mainpodinfo.datasetimagerange[0]}-{mainpodinfo.datasetimagerange[1]}&#39;
+    modesdatarangeinfiles = [moderange.split(&#34;_&#34;)[2] for moderange in modesinfolder]
+
+    if modesdatarangeinfiles is None or not modesdatarangeinfiles:
+        raise FileExistsError(&#39;The chosen framework location do not contain any calculated in the &#39;
+                              &#39;asked image range. Check if correct the folder is chosen or if the&#39;
+                              &#39;datarange is wrong&#39;)
+
+    startrangesinfiles = [int(moderange.split(&#34;_&#34;)[-1].split(&#34;-&#34;)[0]) for moderange in
+                          modesinfolder if moderange.split(&#34;_&#34;)[2] == lookfordatarange]
+    endrangesinfiles = [int(moderange.split(&#34;_&#34;)[-1].split(&#34;-&#34;)[1]) for moderange in modesinfolder
+                        if moderange.split(&#34;_&#34;)[2] == lookfordatarange]
+
+    if startrangesinfiles is None or not startrangesinfiles or endrangesinfiles is None or not \
+            endrangesinfiles:
+        raise FileExistsError(&#39;The chosen load range do not exist. Check if the modes are &#39;
+                              &#39;calculated, the chosen range are valid or that the image range &#39;
+                              &#39;exist with the chosen modes.&#39;)
+
+    startrangesinfiles = np.asarray(startrangesinfiles)
+    endrangesinfiles = np.asarray(endrangesinfiles)
+
+    firstfileidx = np.where(startrangesinfiles &lt;= mainpodinfo.phasepodinfo.loadwhichmodes[0])[0][-1]
+    lastfileidx = np.where(endrangesinfiles &gt;= mainpodinfo.phasepodinfo.loadwhichmodes[1])[0][0]
+
+    if firstfileidx == lastfileidx:
+        modesrows = [firstfileidx]
+    else:
+        modesrows = list(range(firstfileidx, lastfileidx+1))
+
+    modesinfiles = endrangesinfiles[0] - startrangesinfiles[0] + 1
+    numberofmodestoloaded = len(modesrows) * modesinfiles
+
+    if len(modesrows) == 1:
+        print(f&#39;Started loading modes. There is {len(modesrows)} file to load&#39;)
+    else:
+        print(f&#39;Started loading modes. There are {len(modesrows)} files to load&#39;)
+
+    counter = 1
+    for idx in modesrows:
+        filename = mainpodinfo.phasepodinfo.savename_modes(startrangesinfiles[idx],
+                                                           endrangesinfiles[idx])
+
+        print(f&#39;Loading modes {startrangesinfiles[idx]} to {endrangesinfiles[idx]}&#39;)
+        loadedmodes = zarrload(ph.join(modesfolder, filename))
+
+        if counter == 1:
+            loadedshape = loadedmodes.shape
+
+            print(&#39;Initializing returned array based on mode information&#39;)
+            returnedmodes = np.ones((loadedshape[0], loadedshape[1], loadedshape[2],
+                                     numberofmodestoloaded)) - 1
+        else:
+            pass
+
+        print(&#39;Indexing loaded modes into returned mode array\n&#39;)
+        returnedmodes[:, :, :, modesinfiles*(counter-1):modesinfiles*counter] = loadedmodes
+
+        counter += 1
+
+    print(&#39;Finished loading modes\n\n&#39;)
+    return returnedmodes</code></pre>
+</details>
+</dd>
+<dt id="pimged.calculate.pod.phasepod.modescalcmethods.modecalcaculation"><code class="name flex">
+<span>def <span class="ident">modecalcaculation</span></span>(<span>mainpodinfo: <a title="pimged.calculate.pod.generalrutines.podinfo.PODInfo" href="../generalrutines/podinfo.html#pimged.calculate.pod.generalrutines.podinfo.PODInfo">PODInfo</a>, correlationinfo: <a title="pimged.calculate.pod.generalrutines.podinfo.CorrelationInfo" href="../generalrutines/podinfo.html#pimged.calculate.pod.generalrutines.podinfo.CorrelationInfo">CorrelationInfo</a>, dataset: <a title="pimged.datahandling.dataset.Dataset" href="../../../datahandling/dataset.html#pimged.datahandling.dataset.Dataset">Dataset</a>, folderlocation: str)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Load the correlation matrix and calculate the modes.</p>
+<p>It is possible to set the number of modes to rebuilt at a time and the start mode.
+!!!!!OBS!!!! if less modes is chosen than is per file (blocksize_dataset), then the result is
+not correct, unless it jump over a file loading with some modes from the first file and some
+from the second. Error is based in "jidxcorr" in the modecalc method, not solved</p>
+<h2 id="parameters">Parameters</h2>
+<dl>
+<dt><strong><code>mainpodinfo</code></strong> :&ensp;<code>PODInfo :</code></dt>
+<dd>POD object from the pod package</dd>
+<dt><strong><code>correlationinfo</code></strong> :&ensp;<code>CorrelationInfo :</code></dt>
+<dd>correlation parameters container</dd>
+<dt><strong><code>dataset</code></strong> :&ensp;<code>Dataset :</code></dt>
+<dd>dataset object from pimged package</dd>
+<dt><strong><code>folderlocation</code></strong> :&ensp;<code>str :</code></dt>
+<dd>top level folder location for the framework</dd>
+</dl>
+<h2 id="raises">Raises</h2>
+<dl>
+<dt><code>FileExistsError</code></dt>
+<dd>Correlation file do not exist</dd>
+<dt><code>LookupError</code></dt>
+<dd>No calibration file exist in the framework for metadata handling</dd>
+</dl></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def modecalcaculation(mainpodinfo: PODInfo, correlationinfo: CorrelationInfo, dataset: Dataset,
+                      folderlocation: str):
+    &#34;&#34;&#34;Load the correlation matrix and calculate the modes.
+    
+    It is possible to set the number of modes to rebuilt at a time and the start mode.
+    !!!!!OBS!!!! if less modes is chosen than is per file (blocksize_dataset), then the result is
+    not correct, unless it jump over a file loading with some modes from the first file and some
+    from the second. Error is based in &#34;jidxcorr&#34; in the modecalc method, not solved
+
+    Parameters
+    ----------
+    mainpodinfo : PODInfo :
+        POD object from the pod package
+        
+    correlationinfo : CorrelationInfo :
+        correlation parameters container
+        
+    dataset : Dataset :
+        dataset object from pimged package
+        
+    folderlocation : str :
+        top level folder location for the framework
+        
+
+    Raises
+    -------
+    FileExistsError
+        Correlation file do not exist
+
+    LookupError
+        No calibration file exist in the framework for metadata handling
+    &#34;&#34;&#34;
+    moderebuildstart = mainpodinfo.phasepodinfo.modebuiltstart
+    nmodestobuild = mainpodinfo.phasepodinfo.nmodestobuilt
+
+    if [xx for xx in (mainpodinfo.frameheight, mainpodinfo.framewidth) if xx is None]:
+        warn(&#39;frame width and height is not defined in the PODInfo. Loading the calibration files &#39;
+             &#39;to automatic define them&#39;)
+        checkcalifold = ph.join(folderlocation, mainpodinfo.phasepodinfo.savefolder_prepare)
+        checkcalifile = ph.join(checkcalifold, mainpodinfo.phasepodinfo.savename_preparecali)
+        if ph.exists(checkcalifile + &#39;.pkl&#39;):
+            print(&#39;calibration file exist, started loading&#39;)
+            dataset.images.calibration.load(filepath=checkcalifold,
+                                            filename=mainpodinfo.phasepodinfo.savename_preparecali)
+            print(&#39;Finished loading&#39;)
+
+            mainpodinfo.framewidth = dataset.images.calibration.data.shape[1]
+            mainpodinfo.frameheight = dataset.images.calibration.data.shape[0]
+        else:
+            raise LookupError(&#39;No calibration file exist in the given framework. Define the frame &#39;
+                              &#39;width and height manually&#39;)
+
+    xheight = mainpodinfo.framewidth
+    yheight = mainpodinfo.frameheight
+
+    poddim = xheight * yheight * mainpodinfo.phasepodinfo.time
+
+    blocksizeset = mainpodinfo.phasepodinfo.blocksize_dataset
+    ntotalblocks = mainpodinfo.phasepodinfo.phase
+
+    nmloops = int(np.ceil(nmodestobuild / blocksizeset)) + (moderebuildstart % blocksizeset != 1)
+    niloops = int(np.ceil(ntotalblocks / blocksizeset))
+
+    checkcorrfolder = ph.join(folderlocation, mainpodinfo.phasepodinfo.savefolder_correlation)
+    modesdsavefolder = ph.join(folderlocation, mainpodinfo.phasepodinfo.savefolder_modes)
+    checkcorrfile = ph.join(checkcorrfolder, mainpodinfo.phasepodinfo.savename_correlation) + &#39;.npz&#39;
+    concdir = ph.join(folderlocation,
+                      mainpodinfo.phasepodinfo.savefolder_prepare,
+                      mainpodinfo.phasepodinfo.savefolder_prepareconc)
+
+    if ph.isdir(modesdsavefolder):
+        pass
+    else:
+        print(f&#39;making folder {modesdsavefolder}&#39;)
+        mkdir(modesdsavefolder)
+
+    if ph.isfile(checkcorrfile):
+        bigdata_corr_file_read(correlationinfo, checkcorrfile)
+        # print(&#39;The correlation prameters exist, started loading&#39;)
+        # with np.load(checkcorrfile) as loadedcorr:
+        #     correlationinfo.corrmatrix = loadedcorr[&#39;corrematrix&#39;]
+        #     correlationinfo.psi = loadedcorr[&#39;psi&#39;]
+        #     correlationinfo.eigenvalues = loadedcorr[&#39;eigenvalues&#39;]
+        #     correlationinfo.accuenergy = loadedcorr[&#39;accuenergy&#39;]
+        # print(&#39;Finished loading&#39;)
+    else:
+        raise FileExistsError(&#39;The correlation data file do not exist. Check path or if &#39;
+                              &#39;correlation data are calculated for the setup&#39;)
+
+    # Calculation of the eigenvectors
+    print(&#39;Starting the eigenvector calculations&#39;)
+    counteri = 1
+    counterm = 1
+    countermskip = 1
+    for midx in range(mainpodinfo.loaddatasets[0], ntotalblocks, blocksizeset):
+        startm = midx
+        endm = midx + blocksizeset - 1
+        if endm &gt; mainpodinfo.loaddatasets[1]:
+            endm = mainpodinfo.loaddatasets[1]
+
+        # Checking if the starting point is reached, else continue
+        if startm &lt; moderebuildstart:
+            if not endm &gt;= moderebuildstart:
+                counterm += 1
+                continue
+
+        psi1idx = (counterm - 1) * blocksizeset
+        psi2idx = (counteri - 1) * blocksizeset
+
+        # Checking if the end point is reached and break
+        if psi2idx &gt; mainpodinfo.phasepodinfo.phase - 1:
+            if psi1idx &gt; nmodestobuild - 1 + moderebuildstart - 1 and not \
+                    moderebuildstart - 1 &lt;= psi1idx &lt; moderebuildstart - 1 + nmodestobuild:
+                break
+
+        print(f&#39;m: Datablock loop {countermskip} of {nmloops}, start = {startm}   end = {endm}\n&#39;)
+
+        if startm &lt;= nmodestobuild + moderebuildstart - 1 and \
+                endm &lt;= nmodestobuild + moderebuildstart - 1 and not \
+                startm &lt; moderebuildstart:
+
+            modesmatrixinisize = blocksizeset
+            print(f&#34;full initialize of mode matrix: {modesmatrixinisize} modes\n\n&#34;)
+        else:
+            if moderebuildstart - startm == abs(moderebuildstart - startm):
+                if moderebuildstart + nmodestobuild - startm &lt; blocksizeset:
+                    if blocksizeset &gt; nmodestobuild:
+                        modesmatrixinisize = nmodestobuild
+                    else:
+                        modesmatrixinisize = abs(moderebuildstart + nmodestobuild - startm)
+                else:
+                    modesmatrixinisize = abs(moderebuildstart - startm - blocksizeset)
+            else:
+                modesmatrixinisize = abs(moderebuildstart + nmodestobuild - startm)
+
+            print(f&#34;Partly initialize of modesmatrix {modesmatrixinisize}\n\n&#34;)
+
+        print(f&#39;Initializing mode matrix with {modesmatrixinisize} modes&#39;)
+        modesmatrix = np.ones((poddim, modesmatrixinisize), dtype=np.float64)
+        modesmatrix -= 1
+
+        counteri = 1
+        for i in range(mainpodinfo.loaddatasets[0], ntotalblocks + 1, blocksizeset):
+            starti = i
+            endi = i + blocksizeset - 1
+            if endi &gt; mainpodinfo.loaddatasets[1]:
+                endi = mainpodinfo.loaddatasets[1]
+
+            print(f&#39;i: Loading loop {counteri} of {niloops}, start = {starti}   end = {endi}\n&#39;)
+
+            print(&#39;Loading data&#39;)
+            savename_conc = mainpodinfo.phasepodinfo.savename_prepareconc(starti, endi)
+            concrehape = zarrload(ph.join(concdir, savename_conc))
+            print(&#39;Finished loading data&#39;)
+
+            print(&#39;Starting mode calc&#39;)
+            modescalc(concrehape, modesmatrix, correlationinfo.psi, blocksizeset,
+                      correlationinfo.eigenvalues, counterm, counteri,
+                      nmodestobuild, moderebuildstart, mainpodinfo.phasepodinfo.phase, countermskip,
+                      nmloops, modesmatrixinisize)
+
+            print(&#39;Finished mode calc&#39;)
+
+            print(&#39;Clearing data&#39;)
+            del concrehape
+
+            print(f&#39;Finished the inner loop {counteri} of {niloops} run\n\n\n&#39;)
+
+            counteri += 1
+
+        print(&#39;Normalizing modes&#39;)
+        normmodesmatrix = np.zeros(modesmatrixinisize)
+        for nidx in range(0, modesmatrixinisize):
+            normmodesmatrix[nidx] = np.linalg.norm(modesmatrix[:, nidx])
+        modesmatrix = modesmatrix.reshape((yheight, xheight,
+                                           mainpodinfo.phasepodinfo.time, modesmatrixinisize),
+                                          order=&#39;F&#39;)
+        modesmatrix /= normmodesmatrix
+        modesmatrix = modesmatrix.astype(np.float32)
+
+        print(&#39;Saving modes&#39;)
+        if startm &gt;= moderebuildstart:
+            startmode = startm
+        else:
+            startmode = endm - modesmatrixinisize + 1
+
+        if endm &gt; moderebuildstart + nmodestobuild:
+            endmode = startm + modesmatrixinisize - 1
+        else:
+            endmode = endm
+
+        savename_modes = mainpodinfo.phasepodinfo.savename_modes(startmode, endmode)
+        zarrsave(ph.join(modesdsavefolder, savename_modes), modesmatrix)
+        print(&#39;Finished saving modes\n&#39;)
+
+        counterm += 1
+        countermskip += 1
+
+    print(&#39;Finished eigenvector calculations&#39;)</code></pre>
+</details>
+</dd>
+<dt id="pimged.calculate.pod.phasepod.modescalcmethods.modescalc"><code class="name flex">
+<span>def <span class="ident">modescalc</span></span>(<span>imdata, modesmatrix, psi, blocksizeset, eigenvalues, counterm, counteri, nmodestobuild, moderebuildstart, phase, countermskip, nmloops, modesmatrixinisize)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Mode calculation setup under a numba compile rutine for parallel and faster excecution.</p>
+<h2 id="parameters">Parameters</h2>
+<dl>
+<dt><strong><code>imdata</code></strong> :&ensp;<code>:</code></dt>
+<dd>The framework concentration data matrix</dd>
+<dt><strong><code>modesmatrix</code></strong> :&ensp;<code>:</code></dt>
+<dd>Mode matrix</dd>
+<dt><strong><code>psi</code></strong> :&ensp;<code>:</code></dt>
+<dd>The phase POD weigthing matrix</dd>
+<dt><strong><code>blocksizeset</code></strong> :&ensp;<code>:</code></dt>
+<dd>The number of dataset blocks in every file loaded</dd>
+<dt><strong><code>eigenvalues</code></strong> :&ensp;<code>:</code></dt>
+<dd>The energy (eigenvalues) fitting with the weighting matrix</dd>
+<dt><strong><code>counterm</code></strong> :&ensp;<code>:</code></dt>
+<dd>Counter from outer loop</dd>
+<dt><strong><code>counteri</code></strong> :&ensp;<code>:</code></dt>
+<dd>Counter from inner loop</dd>
+<dt><strong><code>nmodestobuild</code></strong> :&ensp;<code>:</code></dt>
+<dd>Total number of modes to rebuild</dd>
+<dt><strong><code>moderebuildstart</code></strong> :&ensp;<code>:</code></dt>
+<dd>The start mode to rebuild from</dd>
+<dt><strong><code>phase</code></strong> :&ensp;<code>:</code></dt>
+<dd>Number of datasets/time repetitions of the data</dd>
+<dt><strong><code>countermskip</code></strong> :&ensp;<code>:</code></dt>
+<dd>Number of outer loops used in calculations if loops are skipped</dd>
+<dt><strong><code>nmloops</code></strong> :&ensp;<code>:</code></dt>
+<dd>Total number of n and m loops</dd>
+<dt><strong><code>modesmatrixinisize</code></strong> :&ensp;<code>:</code></dt>
+<dd>Size of the initial modes matrix - if less than blocksizeset is used</dd>
+</dl></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">@numba.jit(nopython=True, parallel=True, fastmath=True)
+def modescalc(imdata, modesmatrix, psi, blocksizeset, eigenvalues, counterm,  counteri,
+              nmodestobuild, moderebuildstart, phase, countermskip, nmloops, modesmatrixinisize):
+    &#34;&#34;&#34;Mode calculation setup under a numba compile rutine for parallel and faster excecution.
+
+    Parameters
+    ----------
+    imdata : :
+        The framework concentration data matrix
+
+    modesmatrix : :
+        Mode matrix
+
+    psi : :
+        The phase POD weigthing matrix
+
+    blocksizeset : :
+        The number of dataset blocks in every file loaded
+
+    eigenvalues : :
+        The energy (eigenvalues) fitting with the weighting matrix
+
+    counterm : :
+        Counter from outer loop
+
+    counteri : :
+        Counter from inner loop
+
+    nmodestobuild : :
+        Total number of modes to rebuild
+
+    moderebuildstart : :
+        The start mode to rebuild from
+
+    phase : :
+        Number of datasets/time repetitions of the data
+
+    countermskip : :
+        Number of outer loops used in calculations if loops are skipped
+
+    nmloops : :
+        Total number of n and m loops
+
+    modesmatrixinisize : :
+        Size of the initial modes matrix - if less than blocksizeset is used
+    &#34;&#34;&#34;
+    if countermskip &lt; nmloops:
+        if modesmatrixinisize &lt; blocksizeset:
+            startcorr = modesmatrixinisize + 1
+            jidxcorr = blocksizeset - startcorr + 1
+        else:
+            startcorr = modesmatrixinisize - 1
+            jidxcorr = 0
+        endcorr = 0
+    else:
+        if modesmatrixinisize == blocksizeset:
+            startcorr = blocksizeset - 1
+            jidxcorr = 0
+            endcorr = 0
+        else:
+            startcorr = blocksizeset - 1
+            jidxcorr = 0
+            endcorr = 0
+
+    for j in numba.prange(blocksizeset-startcorr, blocksizeset - endcorr + 1): # pylint: disable=not-an-iterable
+        print(f&#39;Started outerloop counter at {j}&#39;)
+        for k in range(1, blocksizeset + 1):
+            psi1idx = (counterm - 1) * blocksizeset + j - 1
+            psi2idx = (counteri - 1) * blocksizeset + k - 1
+
+            jcorr = j - 1 - jidxcorr
+
+            if not psi2idx &gt; phase - 1:
+                if not psi1idx &gt;= nmodestobuild - 1 + moderebuildstart \
+                        and moderebuildstart - 1 &lt;= psi1idx &lt; phase:
+                    modesmatrix[:, jcorr] += imdata[:, k - 1] * \
+                                             psi[psi1idx, psi2idx] * \
+                                             eigenvalues[k-1]**(-0.5)</code></pre>
+</details>
+</dd>
+</dl>
+</section>
+<section>
+</section>
+</article>
+<nav id="sidebar">
+<header>
+<center><a class="homelink" rel="home" title="PImGED treat" href="https://youtu
+.be/mx86-rTclzA?si=RWJEgJIT8MdOsVn7">
+<img src="https://i.ibb.co/Tbp2rPk/logo.png" alt="">
+</a></center>
+</header>
+<h1>Index</h1>
+<div class="toc">
+<ul></ul>
+</div>
+<ul id="index">
+<li><h3>Super-module</h3>
+<ul>
+<li><code><a title="pimged.calculate.pod.phasepod" href="index.html">pimged.calculate.pod.phasepod</a></code></li>
+</ul>
+</li>
+<li><h3><a href="#header-functions">Functions</a></h3>
+<ul class="">
+<li><code><a title="pimged.calculate.pod.phasepod.modescalcmethods.loadcalcmodes" href="#pimged.calculate.pod.phasepod.modescalcmethods.loadcalcmodes">loadcalcmodes</a></code></li>
+<li><code><a title="pimged.calculate.pod.phasepod.modescalcmethods.modecalcaculation" href="#pimged.calculate.pod.phasepod.modescalcmethods.modecalcaculation">modecalcaculation</a></code></li>
+<li><code><a title="pimged.calculate.pod.phasepod.modescalcmethods.modescalc" href="#pimged.calculate.pod.phasepod.modescalcmethods.modescalc">modescalc</a></code></li>
+</ul>
+</li>
+</ul>
+</nav>
+</main>
+<footer id="footer">
+<p>Generated by <a href="https://pdoc3.github.io/pdoc" title="pdoc: Python API documentation generator"><cite>pdoc</cite> 0.10.0</a>.</p>
+</footer>
+</body>
+</html>

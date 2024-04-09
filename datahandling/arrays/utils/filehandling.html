@@ -1,0 +1,1308 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1" />
+<meta name="generator" content="pdoc 0.10.0" />
+<title>pimged.datahandling.arrays.utils.filehandling API documentation</title>
+<meta name="description" content="Filehandling functions for the PIMGED framework." />
+<link rel="preload stylesheet" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/10up-sanitize.css/11.0.1/sanitize.min.css" integrity="sha256-PK9q560IAAa6WVRRh76LtCaI8pjTJ2z11v0miyNNjrs=" crossorigin>
+<link rel="preload stylesheet" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/10up-sanitize.css/11.0.1/typography.min.css" integrity="sha256-7l/o7C8jubJiy74VsKTidCy1yBkRtiUGbVkYBylBqUg=" crossorigin>
+<link rel="stylesheet preload" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.1.1/styles/github.min.css" crossorigin>
+<style>:root{--highlight-color:#fe9}.flex{display:flex !important}body{line-height:1.5em}#content{padding:20px}#sidebar{padding:30px;overflow:hidden}#sidebar > *:last-child{margin-bottom:2cm}.http-server-breadcrumbs{font-size:130%;margin:0 0 15px 0}#footer{font-size:.75em;padding:5px 30px;border-top:1px solid #ddd;text-align:right}#footer p{margin:0 0 0 1em;display:inline-block}#footer p:last-child{margin-right:30px}h1,h2,h3,h4,h5{font-weight:300}h1{font-size:2.5em;line-height:1.1em}h2{font-size:1.75em;margin:1em 0 .50em 0}h3{font-size:1.4em;margin:25px 0 10px 0}h4{margin:0;font-size:105%}h1:target,h2:target,h3:target,h4:target,h5:target,h6:target{background:var(--highlight-color);padding:.2em 0}a{color:#058;text-decoration:none;transition:color .3s ease-in-out}a:hover{color:#e82}.title code{font-weight:bold}h2[id^="header-"]{margin-top:2em}.ident{color:#900}pre code{background:#f8f8f8;font-size:.8em;line-height:1.4em}code{background:#f2f2f1;padding:1px 4px;overflow-wrap:break-word}h1 code{background:transparent}pre{background:#f8f8f8;border:0;border-top:1px solid #ccc;border-bottom:1px solid #ccc;margin:1em 0;padding:1ex}#http-server-module-list{display:flex;flex-flow:column}#http-server-module-list div{display:flex}#http-server-module-list dt{min-width:10%}#http-server-module-list p{margin-top:0}.toc ul,#index{list-style-type:none;margin:0;padding:0}#index code{background:transparent}#index h3{border-bottom:1px solid #ddd}#index ul{padding:0}#index h4{margin-top:.6em;font-weight:bold}@media (min-width:200ex){#index .two-column{column-count:2}}@media (min-width:300ex){#index .two-column{column-count:3}}dl{margin-bottom:2em}dl dl:last-child{margin-bottom:4em}dd{margin:0 0 1em 3em}#header-classes + dl > dd{margin-bottom:3em}dd dd{margin-left:2em}dd p{margin:10px 0}.name{background:#eee;font-weight:bold;font-size:.85em;padding:5px 10px;display:inline-block;min-width:40%}.name:hover{background:#e0e0e0}dt:target .name{background:var(--highlight-color)}.name > span:first-child{white-space:nowrap}.name.class > span:nth-child(2){margin-left:.4em}.inherited{color:#999;border-left:5px solid #eee;padding-left:1em}.inheritance em{font-style:normal;font-weight:bold}.desc h2{font-weight:400;font-size:1.25em}.desc h3{font-size:1em}.desc dt code{background:inherit}.source summary,.git-link-div{color:#666;text-align:right;font-weight:400;font-size:.8em;text-transform:uppercase}.source summary > *{white-space:nowrap;cursor:pointer}.git-link{color:inherit;margin-left:1em}.source pre{max-height:500px;overflow:auto;margin:0}.source pre code{font-size:12px;overflow:visible}.hlist{list-style:none}.hlist li{display:inline}.hlist li:after{content:',\2002'}.hlist li:last-child:after{content:none}.hlist .hlist{display:inline;padding-left:1em}img{max-width:100%}td{padding:0 .5em}.admonition{padding:.1em .5em;margin-bottom:1em}.admonition-title{font-weight:bold}.admonition.note,.admonition.info,.admonition.important{background:#aef}.admonition.todo,.admonition.versionadded,.admonition.tip,.admonition.hint{background:#dfd}.admonition.warning,.admonition.versionchanged,.admonition.deprecated{background:#fd4}.admonition.error,.admonition.danger,.admonition.caution{background:lightpink}</style>
+<style media="screen and (min-width: 700px)">@media screen and (min-width:700px){#sidebar{width:30%;height:100vh;overflow:auto;position:sticky;top:0}#content{width:70%;max-width:100ch;padding:3em 4em;border-left:1px solid #ddd}pre code{font-size:1em}.item .name{font-size:1em}main{display:flex;flex-direction:row-reverse;justify-content:flex-end}.toc ul ul,#index ul{padding-left:1.5em}.toc > ul > li{margin-top:.5em}}</style>
+<style media="print">@media print{#sidebar h1{page-break-before:always}.source{display:none}}@media print{*{background:transparent !important;color:#000 !important;box-shadow:none !important;text-shadow:none !important}a[href]:after{content:" (" attr(href) ")";font-size:90%}a[href][title]:after{content:none}abbr[title]:after{content:" (" attr(title) ")"}.ir a:after,a[href^="javascript:"]:after,a[href^="#"]:after{content:""}pre,blockquote{border:1px solid #999;page-break-inside:avoid}thead{display:table-header-group}tr,img{page-break-inside:avoid}img{max-width:100% !important}@page{margin:0.5cm}p,h2,h3{orphans:3;widows:3}h1,h2,h3,h4,h5,h6{page-break-after:avoid}}</style>
+<script defer src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.1.1/highlight.min.js" integrity="sha256-Uv3H6lx7dJmRfRvH8TH6kJD1TSK1aFcwgx+mdg3epi8=" crossorigin></script>
+<script>window.addEventListener('DOMContentLoaded', () => hljs.initHighlighting())</script>
+<style>.homelink{display:block;font-size:2em;font-weight:bold;color:#555;padding-bottom:.5em;border-bottom:1px solid silver}.homelink:hover{color:inherit}.homelink img{max-width:100%;max-height:10em;margin:auto;margin-bottom:.3em;margin-top:.3em}</style>
+</head>
+<body>
+<main>
+<article id="content">
+<header>
+<h1 class="title">Module <code>pimged.datahandling.arrays.utils.filehandling</code></h1>
+</header>
+<section id="section-intro">
+<p>Filehandling functions for the PIMGED framework.</p>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">&#34;&#34;&#34;Filehandling functions for the PIMGED framework.&#34;&#34;&#34;
+from warnings import warn
+from os import walk, path as ph, getcwd
+from json import dump as jsondump, load as jsonload
+from zarr import save as zarrsave, load as zarrload
+import numpy as np
+import dill as pickle
+
+
+def saveimages(obj, filename: str = &#34;imagearray&#34;, fformat: str = &#34;zarr&#34;,
+               filepath: str = getcwd()):
+    &#34;&#34;&#34;Save method for storing data with loaded imagerange and datahandling range.
+    
+    Saving images from PImGED calculations
+
+    Parameters
+    ----------
+    obj : object :
+        Array object for image arrays
+
+    filename: str :
+         (Default value = &#34;imagearray&#34;)
+        filename for the saved file. If default is chosen the array type e.g. raw
+        data, is appended as &#34;-raw&#34; on the name. If several files are present
+        with the same name, the code iterate throughand add &#34;_XX&#34; where XX is
+        increasing in integer value
+
+    fformat: str :
+         (Default value = &#34;zarr&#34;)
+        {&#39;npz&#39;, &#39;npz-comp&#39;, &#39;zarr&#39;}
+        fileformat for the save file.
+        &#34;npz&#34; is normal npz numpy format
+        &#34;npz-comp&#34; is compressed version of numpy bitformat (slow)
+        &#34;zarr&#34; parallizable compressed format, possible to read/write in parallel
+        with e.g. Dask. Stores an arrayinfo file with array info about the
+        data stores
+
+    filepath: str :
+         (Default value = getcwd())
+        filedirectory to put the stores files. If nothing given the data is stored in
+        the code location
+
+    Raises
+    ------
+    NotImplementedError
+        The format if not implemented
+
+    NotADirectoryError
+        Not a valid directory
+
+    ValueError
+        Not data to save
+    &#34;&#34;&#34;
+    if obj.data.size == 0:
+        raise ValueError(&#39;No data in the array to save&#39;)
+
+    if filename == &#34;imagearray&#34;:
+        filename = filename + &#34;-&#34; + obj.arrayinfo.arraytype
+
+    if not ph.exists(filepath):
+        raise NotADirectoryError(&#39;Defined directory is not a valid directory&#39;)
+
+    if fformat != &#34;npz-comp&#34;:
+        tmpformat = fformat
+    else:
+        tmpformat = &#34;npz&#34;
+
+    # Creating full filepath with filename
+    fullfilepath = ph.join(filepath, filename)
+    addedsavenameprefix = _saveprefixes(fformat)
+    addedinfonameprefix = _infofileprefixes(fformat)
+
+    print(&#39;Started saveing data\n&#39;)
+    jsoninfofile = {&#39;imrange&#39;: [int(obj.arrayinfo.loadedimagerange[0]),
+                                int(obj.arrayinfo.loadedimagerange[1])],
+                    &#39;setrange&#39;: [int(obj.arrayinfo.loadeddatasets[0]),
+                                 int(obj.arrayinfo.loadeddatasets[1])],
+                    &#39;arrayinfo&#39;: obj.arrayinfo.arraytype,
+                    &#39;imsizes&#39;: [obj.data.shape[0], obj.data.shape[1]]}
+    match fformat:
+        case &#34;npz&#34;:
+            # Checking if filename exist. If so, create new filename
+            fullfilepath = _safefilenamecheck(ph.isfile, addedsavenameprefix + &#34;.&#34; + tmpformat,
+                                              fullfilepath, filepath, filename)
+            np.savez(fullfilepath + addedsavenameprefix, array=obj.data)
+            _writetojsonfile(fullfilepath + addedinfonameprefix, jsoninfofile)
+
+        case &#34;npz-comp&#34;:
+            # Checking if filename exist. If so, create new filename
+            fullfilepath = _safefilenamecheck(ph.isfile, addedsavenameprefix + &#34;.&#34; + tmpformat,
+                                              fullfilepath, filepath, filename)
+            np.savez_compressed(fullfilepath + addedsavenameprefix, array=obj.data)
+            _writetojsonfile(fullfilepath + addedinfonameprefix, jsoninfofile)
+
+        case &#34;zarr&#34;:
+            # Checking if filename exist. If so, create new filename
+            fullfilepath = _safefilenamecheck(ph.isdir, addedsavenameprefix, fullfilepath, filepath,
+                                              filename)
+            zarrsave(fullfilepath + addedsavenameprefix, obj.data)
+            _writetojsonfile(fullfilepath + &#34;\\&#34; + addedinfonameprefix, jsoninfofile)
+
+        case _:
+            raise NotImplementedError(f&#39;{fformat} is not a possible extension for saving the data&#39;)
+    print(&#39;Done saveing data\n&#39;)
+
+
+def loadimages(obj, filename: str = &#34;imagearray&#34;, fformat: str = &#34;zarr&#34;, filepath: str = getcwd(),
+               chunkeddata: str = &#39;off&#39;, overlaperr: bool = True):
+    &#34;&#34;&#34;Load saved imagearray data.
+
+    Parameters
+    ----------
+    obj : object :
+        Array object for image arrays
+
+    filename : str :
+         (Default value = &#34;imagearray&#34;)
+        filename for the saved file. If default is chosen the array type e.g. raw data,
+        is appended as &#34;-raw&#34; on the name. If several files are present with the same name, the
+        code iterate through
+        and add &#34;_XX&#34; where XX is increasing in integer value
+
+    fformat : str :
+         (Default value = &#34;zarr&#34;)
+        {&#39;npz&#39;, &#39;npz-comp&#39;, &#39;zarr&#39;}
+        fileformat for the save file.
+        &#34;npz&#34; is normal npz numpy format
+        &#34;npz-comp&#34; is compressed version of numpy bitformat (slow)
+        &#34;zarr&#34; parallizable compressed format, possible to read/write in parallel
+        with e.g. Dask. Stores an arrayinfo file with array info about the
+        data stores
+
+    filepath : str :
+         (Default value = getcwd())
+        filedirectory to put the stores files. If nothing given the data is stored
+        in the code location
+
+    chunkeddata : str :
+         (Default value = &#39;off&#39;)
+        str telling if chunked data should be loaded (True) or single files (False). Chunked
+        data can be produced by looping over several saving algorithmes and saving in the same
+        location.
+        If a location contain several saved folders with e.g. raw data defined in the metadata,
+        chunked setting load ALL folders and saved files for the specified array type into the
+        array. Mostly used for statistic calculated images during algorithm rutine for memory
+        saving.
+        &#39;off&#39; - the chunked algorithm will not run
+        &#39;image&#39; - data is chunked along the image range
+        &#39;sets&#39; - data is chunked along the dataset range
+
+    overlaperr: bool :
+         (Default value = True)
+        bool asking if there should be raised an error if data overlap (True) or
+        a warning (False)
+
+    Raises
+    ------
+    NotImplementedError
+        The format if not implemented
+
+    NotADirectoryError
+        Not a valid directory or file do not exist
+
+    ImportError
+        The datatype do not match the array trying to load into
+    &#34;&#34;&#34;
+    chunkedchecktuple = (&#39;images&#39;, &#39;sets&#39;)
+
+    if chunkeddata not in chunkedchecktuple and chunkeddata != &#39;off&#39;:
+        raise NotImplementedError(&#39;The chunked data settings is not correct. Check documentation &#39;
+                                  &#39;for possible settings&#39;)
+
+    if filename == &#34;imagearray&#34;:
+        filename = filename + &#34;-&#34; + obj.arrayinfo.arraytype
+
+    if _saveprefixes(fformat) is None:
+        raise NotImplementedError(f&#39;{fformat} is not a possible extension for loading saved data&#39;)
+
+    if not ph.exists(filepath):
+        raise NotADirectoryError(&#39;Defined directory is not a valid directory&#39;)
+
+    if fformat == &#34;zarr&#34;:
+        infofilepath = [ph.join(filepath, filename, _infofileprefixes(fformat)) + &#39;.json&#39;]
+    else:
+        infofilepath = [ph.join(filepath, filename) +
+                        _infofileprefixes(fformat) + &#39;.json&#39;]
+
+    if not ph.isfile(infofilepath[0]) and not chunkeddata:
+        raise NotADirectoryError(f&#39;the file asked for do not exist {filename}&#39;)
+
+    # Checking if data is chucked. If so, find all filepaths that fit the array type data,
+    # in the path given
+    if chunkeddata in chunkedchecktuple:
+        infofilepaths = _ifchunked(fformat, filepath, filename)
+    else:
+        infofilepaths = infofilepath
+
+    # Check the metadata files for file info and create list with file data
+    imrange = []
+    setrange = []
+    arinfo = []
+    imsizes = []
+    for filepaths in infofilepaths:
+        with open(filepaths, mode=&#39;r&#39;, encoding=&#39;UTF-8&#39;) as jsonfile:
+            info = jsonload(jsonfile)
+            imrange.append(info[&#39;imrange&#39;])
+            setrange.append(info[&#39;setrange&#39;])
+            imsizes.append(info[&#39;imsizes&#39;])
+            arinfo.append(str(info[&#39;arrayinfo&#39;]))
+
+    # Finding array types that match the array type called and built list with indecies for all
+    # data matching
+    indicesforarraytype = [i for i, s in enumerate(arinfo) if obj.arrayinfo.arraytype in s]
+
+    if len(indicesforarraytype) == 0:
+        raise ImportError(f&#34;Trying to chunked data import into {obj.arrayinfo.arraytype} &#34;
+                          f&#34;array. No data in the directory given match this array type. &#34;
+                          f&#34;Found data of type {arinfo}&#34;)
+
+    # Sort all list out that do not match the array type
+    imrange = _sortlists(imrange, indicesforarraytype)
+    setrange = _sortlists(setrange, indicesforarraytype)
+    infofilepaths = _sortlists(infofilepaths, indicesforarraytype)
+    imsizes = _sortlists(imsizes, indicesforarraytype)
+
+    # Check if the loaded data is consistent and do not overlap
+    if chunkeddata == chunkedchecktuple[1]:
+        setrangecheck = _listoverlapcheck(setrange)
+    else:
+        setrangecheck = _listconsistentcheck(setrange)
+
+    imsizecheck = _listconsistentcheck(imsizes)
+    imrangecheck = _listoverlapcheck(imrange)
+
+    # Setting which data to overlap check
+    if chunkeddata == chunkedchecktuple[1]:
+        overlapcheckdata = setrangecheck
+    else:
+        overlapcheckdata = imrangecheck
+
+    if not np.all(setrangecheck):
+        raise ImportError(&#34;Data trying to be loaded in chunks are not consistent in all &#34;
+                          &#34;datasets. Check JSON files&#34;
+                          f&#34; &#39;setrange&#39; if they are consistent between sets. \n&#34;
+                          f&#34;Found ranges {setrange} \n&#34;
+                          f&#34;Sets are sorted in the located order for filetype {fformat}\n&#34;
+                          f&#34;Check if filename is a substring of other save files. If so, &#34;
+                          f&#34;the function find all files with: &#39;{filename}&#39; as a substring&#34;)
+    if not np.all(imsizecheck):
+        raise ImportError(&#34;Data trying to be loaded in chunks are not consistent in all &#34;
+                          &#34;datasets. Check JSON files&#34;
+                          f&#34; &#39;imsize&#39; if they are consistent between sets. \n&#34;
+                          f&#34;Found ranges {imsizes} \n&#34;
+                          f&#34;Sets are sorted in the located order for filetype {fformat}\n&#34;
+                          f&#34;Check if filename is a substring of other save files. If so, &#34;
+                          f&#34;the function find all files with: &#39;{filename}&#39; as a substring&#34;)
+    if not np.all(overlapcheckdata) and not overlaperr:
+        warn(&#34;Some of the imported data overlap in the images and there will be &#34;
+             &#34;overwritten data&#34;)
+    elif not np.all(overlapcheckdata) and overlaperr:
+        raise ImportError(&#34;Some of the imported data overlap in the images and there will be &#34;
+                          &#34;overwritten data&#34;)
+
+    # builting the dataset range and total number of images range per dataset and adding it to
+    # the object array info
+    obj.arrayinfo.loadedimagerange = [np.min(imrange), np.max(imrange)]
+    obj.arrayinfo.loadeddatasets = [np.min(setrange), np.max(setrange)]
+
+    # Building the slicer index list based on the chunked data metadata and ensuring to always
+    # load data into index 0 for the image range
+    imrangesliceopt = np.array([x[:] for x in imrange])
+    imrangesliceopt = np.array([[x[0] - 1, x[1]] for x in imrangesliceopt])
+    imrangesliceopt -= np.min(imrangesliceopt)
+
+    # Building the slicer for the dataset range
+    setrangesliceopt = np.array([x[:] for x in setrange])
+    setrangesliceopt = np.array([[x[0] - 1, x[1]] for x in setrangesliceopt])
+    setrangesliceopt -= np.min(setrangesliceopt)
+
+    # Initializing based on array type loaded
+    arraytimesize = obj.arrayinfo.loadedimagerange[1]-obj.arrayinfo.loadedimagerange[0] + 1
+    arraysetsize = obj.arrayinfo.loadeddatasets[1]-obj.arrayinfo.loadeddatasets[0] + 1
+    match obj.arrayinfo.arraytype:
+        case &#34;raw&#34; | &#34;concentration&#34;:
+            initialdim = np.array([imsizes[0][0], imsizes[0][1], arraytimesize,  arraysetsize])
+        case _:
+            initialdim = np.array([imsizes[0][0], imsizes[0][1], arraytimesize])
+
+    print(&#39;Started loading data&#39;)
+    obj.data = np.ones(initialdim)
+
+    # Going through the files and loading them with respect to there metadata into an array,
+    # sliced based on the metadata
+    for i, filepaths in enumerate(infofilepaths):
+        slic_im = slice(imrangesliceopt[i][0], imrangesliceopt[i][1])
+        slic_set = slice(setrangesliceopt[i][0], setrangesliceopt[i][1])
+        print(&#39;===========================================&#39;)
+        print(f&#39;Loading file {i+1} of {len(infofilepaths)}&#39;, end=&#39;\r&#39;)
+        match fformat:
+            case &#34;npz&#34; | &#34;npz-comp&#34;:
+                fullfilepath = ph.join(*filepaths.split(&#39;-&#39;)[:-1]) + _saveprefixes(fformat)
+                with np.load(fullfilepath) as array:
+                    match obj.arrayinfo.arraytype:
+                        case &#34;raw&#34; | &#34;concentration&#34;:
+                            obj.data[:, :, slic_im, slic_set] = array[&#39;array&#39;]
+                        case _:
+                            obj.data[:, :, slic_im] = array[&#39;array&#39;]
+
+            case &#34;zarr&#34;:
+                fullfilepath = ph.join(*filepaths.split(_infofileprefixes(fformat))[:-1])[:-1]
+                match obj.arrayinfo.arraytype:
+                    case &#34;raw&#34; | &#34;concentration&#34;:
+                        obj.data[:, :, slic_im, slic_set] = zarrload(fullfilepath +
+                                                                     _saveprefixes(fformat))
+                    case _:
+                        obj.data[:, :, slic_im] = zarrload(fullfilepath + _saveprefixes(fformat))
+
+    print(&#39;Done loading data\n&#39;)
+
+
+def savepickle(obj, filename: str = &#34;pickleobject&#34;, fformat: str = &#34;pkl&#34;,
+               filepath: str = getcwd()):
+    &#34;&#34;&#34;Save pickle objects.
+
+    Parameters
+    ----------
+    obj : object :
+        Array object for pressure arrays
+
+    filename: str :
+         (Default value = &#34;pickleobject&#34;)
+        filename for the saved file. If default is chosen the array type e.g. raw
+        data, is appended as &#34;-raw&#34; on the name. If several files are present
+        with the same name, the code iterate throughand add &#34;_XX&#34; where XX is
+        increasing in integer value
+
+    fformat: str :
+         (Default value = &#34;pkl&#34;)
+        {&#39;pkl&#39;}
+        fileformat for the save file.
+        &#34;pkl&#34; is pickled data
+
+    filepath: str :
+         (Default value = getcwd())
+        filedirectory to put the stores files. If nothing given the data is stored
+        in the code location
+
+    Raises
+    ------
+    NotImplementedError
+        The format if not implemented
+
+    NotADirectoryError
+        Not a valid directory
+    &#34;&#34;&#34;
+    if fformat != &#34;pkl&#34;:
+        raise NotImplementedError(f&#39;{fformat} is not a possible extension for saving data&#39;)
+
+    if not ph.exists(filepath):
+        raise NotADirectoryError(&#39;Defined directory is not a valid directory&#39;)
+
+    if fformat == &#34;pkl&#34;:
+        fformat = &#34;pkl&#34;
+
+    addedsavenameprefix = &#34;&#34;
+    tmpformat = fformat
+
+    fullfilepath = ph.join(filepath, filename)
+    fullfilepath = _safefilenamecheck(ph.isfile, addedsavenameprefix + &#34;.&#34; + tmpformat,
+                                      fullfilepath,
+                                      filepath, filename)
+    print(&#39;Saving pickle object&#39;)
+    # Save the file as a pickle
+    with open(fullfilepath + &#39;.&#39; + tmpformat, &#39;wb&#39;) as file:
+        pickle.dump(obj, file)
+
+    print(&#39;Saved pickle object here&#39;)
+    print(f&#39;{fullfilepath}\n\n&#39;)
+
+
+def loadpickle(obj, filename: str = &#34;pickleobject&#34;, fformat: str = &#34;pkl&#34;,
+               filepath: str = getcwd()):
+    &#34;&#34;&#34;Load pickle objects.
+
+    Parameters
+    ----------
+    obj : object :
+        Array object for pressure arrays
+
+    filename: str :
+         (Default value = &#34;pickleobject&#34;)
+        filename for the saved file. If default is chosen the array type e.g. raw
+        data, is appended as &#34;-raw&#34; on the name. If several files are present
+        with the same name, the code iterate throughand add &#34;_XX&#34; where XX is
+        increasing in integer value
+
+    fformat: str :
+         (Default value = &#34;pkl&#34;)
+        {&#39;pkl&#39;}
+        fileformat for the save file.
+        &#34;pkl&#34; is pickled data
+
+    filepath: str :
+         (Default value = getcwd())
+        filedirectory to put the stores files. If nothing given the data is stored
+        in the code location
+
+    Raises
+    ------
+    NotImplementedError
+        The format if not implemented
+
+    NotADirectoryError
+        Not a valid directory
+    &#34;&#34;&#34;
+    if fformat != &#34;pkl&#34;:
+        raise NotImplementedError(f&#39;{fformat} is not a possible extension for saving data&#39;)
+
+    if not ph.exists(filepath):
+        raise NotADirectoryError(&#39;Defined directory is not a valid directory&#39;)
+
+    if fformat == &#34;pkl&#34;:
+        fformat = &#34;pkl&#34;
+
+    filename = filename + &#39;.&#39; + fformat
+
+    fullfilepath = ph.join(filepath, filename)
+
+    print(f&#39;Loading {fullfilepath}&#39;)
+    with open(fullfilepath, &#39;rb&#39;) as file:
+        loadobj = pickle.load(file)
+
+    selfdict = obj.__dict__
+    loaddict = loadobj.__dict__
+
+    for key in loaddict:
+        if key in selfdict:
+            selfdict[key] = loaddict[key]
+        else:
+            warn(f&#39;The attribute &#34;{key}&#34; in the load file do not exist in the current object &#39;
+                 f&#39;object setup&#39;)
+
+    print(&#39;Done loading\n\n&#39;)
+
+
+def _safefilenamecheck(checkfunc, checkadd, tmpfullfilepath, tmpfilepath, tmpfilename):
+    &#34;&#34;&#34;Check if filenames are safe to use.
+    
+    Checking if the savefilename exist, based on a function. If it exists add a prefix until non
+    exist
+
+    Parameters
+    ----------
+    checkfunc : :
+        Function to use in the check
+
+    checkadd : :
+        What prefix is added the filename from standard
+
+    tmpfullfilepath : :
+        The found full file path
+
+    tmpfilepath : :
+        The file path without filename
+
+    tmpfilename : :
+        The filename
+
+
+    Returns
+    -------
+    type : str :
+        The checked savefilename with added prefix for no overwrite
+
+    &#34;&#34;&#34;
+    i = 1
+    while checkfunc(tmpfullfilepath + checkadd):
+        tmpfullfilepath = ph.join(tmpfilepath, tmpfilename + &#34;_&#34; + str(i))
+        i += 1
+    return tmpfullfilepath
+
+
+def _writetojsonfile(file_path, data):
+    &#34;&#34;&#34;Write a jason file.
+
+    Parameters
+    ----------
+    file_path : :
+        Filepath with filename
+
+    data : :
+        data to include in file
+    &#34;&#34;&#34;
+    filepathnamewext = file_path + &#39;.json&#39;
+    with open(filepathnamewext, mode=&#39;w&#39;, encoding=&#39;UTF-8&#39;) as fp:
+        jsondump(data, fp)
+
+
+def _listconsistentcheck(inputlist: list):
+    &#34;&#34;&#34;Check if nested lists are consisten.
+
+    Parameters
+    ----------
+    inputlist : list(list()) :
+        a 2-nested list with dimension [:][0:1]
+
+
+    Returns
+    -------
+    type : list(bool) :
+        boolean list with info if all nested lists are equal
+
+    &#34;&#34;&#34;
+    if len(inputlist[0]) == 0:
+        updatedlist = inputlist
+    else:
+        updatedlist = [x[0] == inputlist[0][0] and
+                       x[1] == inputlist[0][1] for i, x in enumerate(inputlist)]
+    return updatedlist
+
+
+def _listoverlapcheck(inputlist: list):
+    &#34;&#34;&#34;Check if the input list data overlap.
+
+    Parameters
+    ----------
+    inputlist : list(list()) :
+        nested list of image indicies with dim [:][0:1]
+        
+
+    Returns
+    -------
+    type : list(bool) :
+        bool list with info if the ranges overlap
+
+    &#34;&#34;&#34;
+    rangelow = np.array([x[0] for i, x in enumerate(inputlist)])
+    rangehigh = np.array([x[1] for i, x in enumerate(inputlist)])
+    sortidx = rangelow.argsort()
+    rangelow = rangelow[sortidx]
+    rangehigh = rangehigh[sortidx]
+    return [rangelow[i + 1] - rangehigh[i] &gt; 0 for i in range(len(inputlist) - 1)]
+
+
+def _sortlists(inputlist: list, indicestosortout: list):
+    &#34;&#34;&#34;Sort lists according parts that must be included.
+
+    Parameters
+    ----------
+    inputlist : list :
+        the full list of data
+
+    indicestosortout : list :
+        a list of idecies that need to be fetched from main list
+        
+
+    Returns
+    -------
+    type : list :
+        a new list with the data asked for
+
+    &#34;&#34;&#34;
+    return [inputlist[i][:] for i in indicestosortout]
+
+
+def _saveprefixes(dictkey: str):
+    &#34;&#34;&#34;Prefixe for saveing data.
+
+    Parameters
+    ----------
+    dictkey : str :
+        Dict key to return
+    &#34;&#34;&#34;
+    prefixes = {&#34;npz&#34;: &#34;-data&#34;, &#34;npz-comp&#34;: &#34;-compdata&#34;, &#34;zarr&#34;: &#34;&#34;}
+    return prefixes[dictkey]
+
+
+def _infofileprefixes(dictkey: str):
+    &#34;&#34;&#34;Prefixe for saveing infofile.
+
+    Parameters
+    ----------
+    dictkey : str :
+        Dict key to return
+    &#34;&#34;&#34;
+    prefixes = {&#34;npz&#34;: &#34;-arrayinfo&#34;, &#34;npz-comp&#34;: &#34;-comparrayinfo&#34;, &#34;zarr&#34;: &#34;zarrarrayinfo&#34;}
+    return prefixes[dictkey]
+
+
+def _ifchunked(fformat: str, filepath: str, substring: str):
+    &#34;&#34;&#34;Take chunked data info files and sort them.
+
+    Parameters
+    ----------
+    fformat : str :
+        fileformat to look for
+
+    filepath : str :
+        absolute filepath
+
+    substring : str :
+        substring to check for in path
+        
+
+    Returns
+    -------
+    type : list :
+        sorting chunked data names
+    &#34;&#34;&#34;
+    infofilepaths = []
+    findstr = _infofileprefixes(fformat)
+    findtype = _saveprefixes(fformat)
+
+    for (dir_path, __, file_names) in walk(filepath):
+        foldername = dir_path.split(ph.sep)[-1]
+        if substring in foldername:
+            indices = [i for i, s in enumerate(file_names) if findstr in s]
+            indicestype = [i for i, s in enumerate(file_names) if findtype in s]
+            if not len(indicestype) == 0 and not len(indices) == 0:
+                infofilepaths.append(ph.join(dir_path, file_names[indices[0]]))
+
+    return infofilepaths</code></pre>
+</details>
+</section>
+<section>
+</section>
+<section>
+</section>
+<section>
+<h2 class="section-title" id="header-functions">Functions</h2>
+<dl>
+<dt id="pimged.datahandling.arrays.utils.filehandling.loadimages"><code class="name flex">
+<span>def <span class="ident">loadimages</span></span>(<span>obj, filename: str = 'imagearray', fformat: str = 'zarr', filepath: str = 'C:\\Users\\beakh\\Documents\\GASMIX project\\Courses\\Scientific Python Programming\\SSP Coding\\pimged', chunkeddata: str = 'off', overlaperr: bool = True)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Load saved imagearray data.</p>
+<h2 id="parameters">Parameters</h2>
+<dl>
+<dt><strong><code>obj</code></strong> :&ensp;<code>object :</code></dt>
+<dd>Array object for image arrays</dd>
+<dt><strong><code>filename</code></strong> :&ensp;<code>str :</code></dt>
+<dd>(Default value = "imagearray")
+filename for the saved file. If default is chosen the array type e.g. raw data,
+is appended as "-raw" on the name. If several files are present with the same name, the
+code iterate through
+and add "_XX" where XX is increasing in integer value</dd>
+<dt><strong><code>fformat</code></strong> :&ensp;<code>str :</code></dt>
+<dd>(Default value = "zarr")
+{'npz', 'npz-comp', 'zarr'}
+fileformat for the save file.
+"npz" is normal npz numpy format
+"npz-comp" is compressed version of numpy bitformat (slow)
+"zarr" parallizable compressed format, possible to read/write in parallel
+with e.g. Dask. Stores an arrayinfo file with array info about the
+data stores</dd>
+<dt><strong><code>filepath</code></strong> :&ensp;<code>str :</code></dt>
+<dd>(Default value = getcwd())
+filedirectory to put the stores files. If nothing given the data is stored
+in the code location</dd>
+<dt><strong><code>chunkeddata</code></strong> :&ensp;<code>str :</code></dt>
+<dd>(Default value = 'off')
+str telling if chunked data should be loaded (True) or single files (False). Chunked
+data can be produced by looping over several saving algorithmes and saving in the same
+location.
+If a location contain several saved folders with e.g. raw data defined in the metadata,
+chunked setting load ALL folders and saved files for the specified array type into the
+array. Mostly used for statistic calculated images during algorithm rutine for memory
+saving.
+'off' - the chunked algorithm will not run
+'image' - data is chunked along the image range
+'sets' - data is chunked along the dataset range</dd>
+<dt><strong><code>overlaperr</code></strong> :&ensp;<code>bool :</code></dt>
+<dd>(Default value = True)
+bool asking if there should be raised an error if data overlap (True) or
+a warning (False)</dd>
+</dl>
+<h2 id="raises">Raises</h2>
+<dl>
+<dt><code>NotImplementedError</code></dt>
+<dd>The format if not implemented</dd>
+<dt><code>NotADirectoryError</code></dt>
+<dd>Not a valid directory or file do not exist</dd>
+<dt><code>ImportError</code></dt>
+<dd>The datatype do not match the array trying to load into</dd>
+</dl></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def loadimages(obj, filename: str = &#34;imagearray&#34;, fformat: str = &#34;zarr&#34;, filepath: str = getcwd(),
+               chunkeddata: str = &#39;off&#39;, overlaperr: bool = True):
+    &#34;&#34;&#34;Load saved imagearray data.
+
+    Parameters
+    ----------
+    obj : object :
+        Array object for image arrays
+
+    filename : str :
+         (Default value = &#34;imagearray&#34;)
+        filename for the saved file. If default is chosen the array type e.g. raw data,
+        is appended as &#34;-raw&#34; on the name. If several files are present with the same name, the
+        code iterate through
+        and add &#34;_XX&#34; where XX is increasing in integer value
+
+    fformat : str :
+         (Default value = &#34;zarr&#34;)
+        {&#39;npz&#39;, &#39;npz-comp&#39;, &#39;zarr&#39;}
+        fileformat for the save file.
+        &#34;npz&#34; is normal npz numpy format
+        &#34;npz-comp&#34; is compressed version of numpy bitformat (slow)
+        &#34;zarr&#34; parallizable compressed format, possible to read/write in parallel
+        with e.g. Dask. Stores an arrayinfo file with array info about the
+        data stores
+
+    filepath : str :
+         (Default value = getcwd())
+        filedirectory to put the stores files. If nothing given the data is stored
+        in the code location
+
+    chunkeddata : str :
+         (Default value = &#39;off&#39;)
+        str telling if chunked data should be loaded (True) or single files (False). Chunked
+        data can be produced by looping over several saving algorithmes and saving in the same
+        location.
+        If a location contain several saved folders with e.g. raw data defined in the metadata,
+        chunked setting load ALL folders and saved files for the specified array type into the
+        array. Mostly used for statistic calculated images during algorithm rutine for memory
+        saving.
+        &#39;off&#39; - the chunked algorithm will not run
+        &#39;image&#39; - data is chunked along the image range
+        &#39;sets&#39; - data is chunked along the dataset range
+
+    overlaperr: bool :
+         (Default value = True)
+        bool asking if there should be raised an error if data overlap (True) or
+        a warning (False)
+
+    Raises
+    ------
+    NotImplementedError
+        The format if not implemented
+
+    NotADirectoryError
+        Not a valid directory or file do not exist
+
+    ImportError
+        The datatype do not match the array trying to load into
+    &#34;&#34;&#34;
+    chunkedchecktuple = (&#39;images&#39;, &#39;sets&#39;)
+
+    if chunkeddata not in chunkedchecktuple and chunkeddata != &#39;off&#39;:
+        raise NotImplementedError(&#39;The chunked data settings is not correct. Check documentation &#39;
+                                  &#39;for possible settings&#39;)
+
+    if filename == &#34;imagearray&#34;:
+        filename = filename + &#34;-&#34; + obj.arrayinfo.arraytype
+
+    if _saveprefixes(fformat) is None:
+        raise NotImplementedError(f&#39;{fformat} is not a possible extension for loading saved data&#39;)
+
+    if not ph.exists(filepath):
+        raise NotADirectoryError(&#39;Defined directory is not a valid directory&#39;)
+
+    if fformat == &#34;zarr&#34;:
+        infofilepath = [ph.join(filepath, filename, _infofileprefixes(fformat)) + &#39;.json&#39;]
+    else:
+        infofilepath = [ph.join(filepath, filename) +
+                        _infofileprefixes(fformat) + &#39;.json&#39;]
+
+    if not ph.isfile(infofilepath[0]) and not chunkeddata:
+        raise NotADirectoryError(f&#39;the file asked for do not exist {filename}&#39;)
+
+    # Checking if data is chucked. If so, find all filepaths that fit the array type data,
+    # in the path given
+    if chunkeddata in chunkedchecktuple:
+        infofilepaths = _ifchunked(fformat, filepath, filename)
+    else:
+        infofilepaths = infofilepath
+
+    # Check the metadata files for file info and create list with file data
+    imrange = []
+    setrange = []
+    arinfo = []
+    imsizes = []
+    for filepaths in infofilepaths:
+        with open(filepaths, mode=&#39;r&#39;, encoding=&#39;UTF-8&#39;) as jsonfile:
+            info = jsonload(jsonfile)
+            imrange.append(info[&#39;imrange&#39;])
+            setrange.append(info[&#39;setrange&#39;])
+            imsizes.append(info[&#39;imsizes&#39;])
+            arinfo.append(str(info[&#39;arrayinfo&#39;]))
+
+    # Finding array types that match the array type called and built list with indecies for all
+    # data matching
+    indicesforarraytype = [i for i, s in enumerate(arinfo) if obj.arrayinfo.arraytype in s]
+
+    if len(indicesforarraytype) == 0:
+        raise ImportError(f&#34;Trying to chunked data import into {obj.arrayinfo.arraytype} &#34;
+                          f&#34;array. No data in the directory given match this array type. &#34;
+                          f&#34;Found data of type {arinfo}&#34;)
+
+    # Sort all list out that do not match the array type
+    imrange = _sortlists(imrange, indicesforarraytype)
+    setrange = _sortlists(setrange, indicesforarraytype)
+    infofilepaths = _sortlists(infofilepaths, indicesforarraytype)
+    imsizes = _sortlists(imsizes, indicesforarraytype)
+
+    # Check if the loaded data is consistent and do not overlap
+    if chunkeddata == chunkedchecktuple[1]:
+        setrangecheck = _listoverlapcheck(setrange)
+    else:
+        setrangecheck = _listconsistentcheck(setrange)
+
+    imsizecheck = _listconsistentcheck(imsizes)
+    imrangecheck = _listoverlapcheck(imrange)
+
+    # Setting which data to overlap check
+    if chunkeddata == chunkedchecktuple[1]:
+        overlapcheckdata = setrangecheck
+    else:
+        overlapcheckdata = imrangecheck
+
+    if not np.all(setrangecheck):
+        raise ImportError(&#34;Data trying to be loaded in chunks are not consistent in all &#34;
+                          &#34;datasets. Check JSON files&#34;
+                          f&#34; &#39;setrange&#39; if they are consistent between sets. \n&#34;
+                          f&#34;Found ranges {setrange} \n&#34;
+                          f&#34;Sets are sorted in the located order for filetype {fformat}\n&#34;
+                          f&#34;Check if filename is a substring of other save files. If so, &#34;
+                          f&#34;the function find all files with: &#39;{filename}&#39; as a substring&#34;)
+    if not np.all(imsizecheck):
+        raise ImportError(&#34;Data trying to be loaded in chunks are not consistent in all &#34;
+                          &#34;datasets. Check JSON files&#34;
+                          f&#34; &#39;imsize&#39; if they are consistent between sets. \n&#34;
+                          f&#34;Found ranges {imsizes} \n&#34;
+                          f&#34;Sets are sorted in the located order for filetype {fformat}\n&#34;
+                          f&#34;Check if filename is a substring of other save files. If so, &#34;
+                          f&#34;the function find all files with: &#39;{filename}&#39; as a substring&#34;)
+    if not np.all(overlapcheckdata) and not overlaperr:
+        warn(&#34;Some of the imported data overlap in the images and there will be &#34;
+             &#34;overwritten data&#34;)
+    elif not np.all(overlapcheckdata) and overlaperr:
+        raise ImportError(&#34;Some of the imported data overlap in the images and there will be &#34;
+                          &#34;overwritten data&#34;)
+
+    # builting the dataset range and total number of images range per dataset and adding it to
+    # the object array info
+    obj.arrayinfo.loadedimagerange = [np.min(imrange), np.max(imrange)]
+    obj.arrayinfo.loadeddatasets = [np.min(setrange), np.max(setrange)]
+
+    # Building the slicer index list based on the chunked data metadata and ensuring to always
+    # load data into index 0 for the image range
+    imrangesliceopt = np.array([x[:] for x in imrange])
+    imrangesliceopt = np.array([[x[0] - 1, x[1]] for x in imrangesliceopt])
+    imrangesliceopt -= np.min(imrangesliceopt)
+
+    # Building the slicer for the dataset range
+    setrangesliceopt = np.array([x[:] for x in setrange])
+    setrangesliceopt = np.array([[x[0] - 1, x[1]] for x in setrangesliceopt])
+    setrangesliceopt -= np.min(setrangesliceopt)
+
+    # Initializing based on array type loaded
+    arraytimesize = obj.arrayinfo.loadedimagerange[1]-obj.arrayinfo.loadedimagerange[0] + 1
+    arraysetsize = obj.arrayinfo.loadeddatasets[1]-obj.arrayinfo.loadeddatasets[0] + 1
+    match obj.arrayinfo.arraytype:
+        case &#34;raw&#34; | &#34;concentration&#34;:
+            initialdim = np.array([imsizes[0][0], imsizes[0][1], arraytimesize,  arraysetsize])
+        case _:
+            initialdim = np.array([imsizes[0][0], imsizes[0][1], arraytimesize])
+
+    print(&#39;Started loading data&#39;)
+    obj.data = np.ones(initialdim)
+
+    # Going through the files and loading them with respect to there metadata into an array,
+    # sliced based on the metadata
+    for i, filepaths in enumerate(infofilepaths):
+        slic_im = slice(imrangesliceopt[i][0], imrangesliceopt[i][1])
+        slic_set = slice(setrangesliceopt[i][0], setrangesliceopt[i][1])
+        print(&#39;===========================================&#39;)
+        print(f&#39;Loading file {i+1} of {len(infofilepaths)}&#39;, end=&#39;\r&#39;)
+        match fformat:
+            case &#34;npz&#34; | &#34;npz-comp&#34;:
+                fullfilepath = ph.join(*filepaths.split(&#39;-&#39;)[:-1]) + _saveprefixes(fformat)
+                with np.load(fullfilepath) as array:
+                    match obj.arrayinfo.arraytype:
+                        case &#34;raw&#34; | &#34;concentration&#34;:
+                            obj.data[:, :, slic_im, slic_set] = array[&#39;array&#39;]
+                        case _:
+                            obj.data[:, :, slic_im] = array[&#39;array&#39;]
+
+            case &#34;zarr&#34;:
+                fullfilepath = ph.join(*filepaths.split(_infofileprefixes(fformat))[:-1])[:-1]
+                match obj.arrayinfo.arraytype:
+                    case &#34;raw&#34; | &#34;concentration&#34;:
+                        obj.data[:, :, slic_im, slic_set] = zarrload(fullfilepath +
+                                                                     _saveprefixes(fformat))
+                    case _:
+                        obj.data[:, :, slic_im] = zarrload(fullfilepath + _saveprefixes(fformat))
+
+    print(&#39;Done loading data\n&#39;)</code></pre>
+</details>
+</dd>
+<dt id="pimged.datahandling.arrays.utils.filehandling.loadpickle"><code class="name flex">
+<span>def <span class="ident">loadpickle</span></span>(<span>obj, filename: str = 'pickleobject', fformat: str = 'pkl', filepath: str = 'C:\\Users\\beakh\\Documents\\GASMIX project\\Courses\\Scientific Python Programming\\SSP Coding\\pimged')</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Load pickle objects.</p>
+<h2 id="parameters">Parameters</h2>
+<dl>
+<dt><strong><code>obj</code></strong> :&ensp;<code>object :</code></dt>
+<dd>Array object for pressure arrays</dd>
+<dt><strong><code>filename</code></strong> :&ensp;<code>str :</code></dt>
+<dd>(Default value = "pickleobject")
+filename for the saved file. If default is chosen the array type e.g. raw
+data, is appended as "-raw" on the name. If several files are present
+with the same name, the code iterate throughand add "_XX" where XX is
+increasing in integer value</dd>
+<dt><strong><code>fformat</code></strong> :&ensp;<code>str :</code></dt>
+<dd>(Default value = "pkl")
+{'pkl'}
+fileformat for the save file.
+"pkl" is pickled data</dd>
+<dt><strong><code>filepath</code></strong> :&ensp;<code>str :</code></dt>
+<dd>(Default value = getcwd())
+filedirectory to put the stores files. If nothing given the data is stored
+in the code location</dd>
+</dl>
+<h2 id="raises">Raises</h2>
+<dl>
+<dt><code>NotImplementedError</code></dt>
+<dd>The format if not implemented</dd>
+<dt><code>NotADirectoryError</code></dt>
+<dd>Not a valid directory</dd>
+</dl></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def loadpickle(obj, filename: str = &#34;pickleobject&#34;, fformat: str = &#34;pkl&#34;,
+               filepath: str = getcwd()):
+    &#34;&#34;&#34;Load pickle objects.
+
+    Parameters
+    ----------
+    obj : object :
+        Array object for pressure arrays
+
+    filename: str :
+         (Default value = &#34;pickleobject&#34;)
+        filename for the saved file. If default is chosen the array type e.g. raw
+        data, is appended as &#34;-raw&#34; on the name. If several files are present
+        with the same name, the code iterate throughand add &#34;_XX&#34; where XX is
+        increasing in integer value
+
+    fformat: str :
+         (Default value = &#34;pkl&#34;)
+        {&#39;pkl&#39;}
+        fileformat for the save file.
+        &#34;pkl&#34; is pickled data
+
+    filepath: str :
+         (Default value = getcwd())
+        filedirectory to put the stores files. If nothing given the data is stored
+        in the code location
+
+    Raises
+    ------
+    NotImplementedError
+        The format if not implemented
+
+    NotADirectoryError
+        Not a valid directory
+    &#34;&#34;&#34;
+    if fformat != &#34;pkl&#34;:
+        raise NotImplementedError(f&#39;{fformat} is not a possible extension for saving data&#39;)
+
+    if not ph.exists(filepath):
+        raise NotADirectoryError(&#39;Defined directory is not a valid directory&#39;)
+
+    if fformat == &#34;pkl&#34;:
+        fformat = &#34;pkl&#34;
+
+    filename = filename + &#39;.&#39; + fformat
+
+    fullfilepath = ph.join(filepath, filename)
+
+    print(f&#39;Loading {fullfilepath}&#39;)
+    with open(fullfilepath, &#39;rb&#39;) as file:
+        loadobj = pickle.load(file)
+
+    selfdict = obj.__dict__
+    loaddict = loadobj.__dict__
+
+    for key in loaddict:
+        if key in selfdict:
+            selfdict[key] = loaddict[key]
+        else:
+            warn(f&#39;The attribute &#34;{key}&#34; in the load file do not exist in the current object &#39;
+                 f&#39;object setup&#39;)
+
+    print(&#39;Done loading\n\n&#39;)</code></pre>
+</details>
+</dd>
+<dt id="pimged.datahandling.arrays.utils.filehandling.saveimages"><code class="name flex">
+<span>def <span class="ident">saveimages</span></span>(<span>obj, filename: str = 'imagearray', fformat: str = 'zarr', filepath: str = 'C:\\Users\\beakh\\Documents\\GASMIX project\\Courses\\Scientific Python Programming\\SSP Coding\\pimged')</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Save method for storing data with loaded imagerange and datahandling range.</p>
+<p>Saving images from PImGED calculations</p>
+<h2 id="parameters">Parameters</h2>
+<dl>
+<dt><strong><code>obj</code></strong> :&ensp;<code>object :</code></dt>
+<dd>Array object for image arrays</dd>
+<dt><strong><code>filename</code></strong> :&ensp;<code>str :</code></dt>
+<dd>(Default value = "imagearray")
+filename for the saved file. If default is chosen the array type e.g. raw
+data, is appended as "-raw" on the name. If several files are present
+with the same name, the code iterate throughand add "_XX" where XX is
+increasing in integer value</dd>
+<dt><strong><code>fformat</code></strong> :&ensp;<code>str :</code></dt>
+<dd>(Default value = "zarr")
+{'npz', 'npz-comp', 'zarr'}
+fileformat for the save file.
+"npz" is normal npz numpy format
+"npz-comp" is compressed version of numpy bitformat (slow)
+"zarr" parallizable compressed format, possible to read/write in parallel
+with e.g. Dask. Stores an arrayinfo file with array info about the
+data stores</dd>
+<dt><strong><code>filepath</code></strong> :&ensp;<code>str :</code></dt>
+<dd>(Default value = getcwd())
+filedirectory to put the stores files. If nothing given the data is stored in
+the code location</dd>
+</dl>
+<h2 id="raises">Raises</h2>
+<dl>
+<dt><code>NotImplementedError</code></dt>
+<dd>The format if not implemented</dd>
+<dt><code>NotADirectoryError</code></dt>
+<dd>Not a valid directory</dd>
+<dt><code>ValueError</code></dt>
+<dd>Not data to save</dd>
+</dl></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def saveimages(obj, filename: str = &#34;imagearray&#34;, fformat: str = &#34;zarr&#34;,
+               filepath: str = getcwd()):
+    &#34;&#34;&#34;Save method for storing data with loaded imagerange and datahandling range.
+    
+    Saving images from PImGED calculations
+
+    Parameters
+    ----------
+    obj : object :
+        Array object for image arrays
+
+    filename: str :
+         (Default value = &#34;imagearray&#34;)
+        filename for the saved file. If default is chosen the array type e.g. raw
+        data, is appended as &#34;-raw&#34; on the name. If several files are present
+        with the same name, the code iterate throughand add &#34;_XX&#34; where XX is
+        increasing in integer value
+
+    fformat: str :
+         (Default value = &#34;zarr&#34;)
+        {&#39;npz&#39;, &#39;npz-comp&#39;, &#39;zarr&#39;}
+        fileformat for the save file.
+        &#34;npz&#34; is normal npz numpy format
+        &#34;npz-comp&#34; is compressed version of numpy bitformat (slow)
+        &#34;zarr&#34; parallizable compressed format, possible to read/write in parallel
+        with e.g. Dask. Stores an arrayinfo file with array info about the
+        data stores
+
+    filepath: str :
+         (Default value = getcwd())
+        filedirectory to put the stores files. If nothing given the data is stored in
+        the code location
+
+    Raises
+    ------
+    NotImplementedError
+        The format if not implemented
+
+    NotADirectoryError
+        Not a valid directory
+
+    ValueError
+        Not data to save
+    &#34;&#34;&#34;
+    if obj.data.size == 0:
+        raise ValueError(&#39;No data in the array to save&#39;)
+
+    if filename == &#34;imagearray&#34;:
+        filename = filename + &#34;-&#34; + obj.arrayinfo.arraytype
+
+    if not ph.exists(filepath):
+        raise NotADirectoryError(&#39;Defined directory is not a valid directory&#39;)
+
+    if fformat != &#34;npz-comp&#34;:
+        tmpformat = fformat
+    else:
+        tmpformat = &#34;npz&#34;
+
+    # Creating full filepath with filename
+    fullfilepath = ph.join(filepath, filename)
+    addedsavenameprefix = _saveprefixes(fformat)
+    addedinfonameprefix = _infofileprefixes(fformat)
+
+    print(&#39;Started saveing data\n&#39;)
+    jsoninfofile = {&#39;imrange&#39;: [int(obj.arrayinfo.loadedimagerange[0]),
+                                int(obj.arrayinfo.loadedimagerange[1])],
+                    &#39;setrange&#39;: [int(obj.arrayinfo.loadeddatasets[0]),
+                                 int(obj.arrayinfo.loadeddatasets[1])],
+                    &#39;arrayinfo&#39;: obj.arrayinfo.arraytype,
+                    &#39;imsizes&#39;: [obj.data.shape[0], obj.data.shape[1]]}
+    match fformat:
+        case &#34;npz&#34;:
+            # Checking if filename exist. If so, create new filename
+            fullfilepath = _safefilenamecheck(ph.isfile, addedsavenameprefix + &#34;.&#34; + tmpformat,
+                                              fullfilepath, filepath, filename)
+            np.savez(fullfilepath + addedsavenameprefix, array=obj.data)
+            _writetojsonfile(fullfilepath + addedinfonameprefix, jsoninfofile)
+
+        case &#34;npz-comp&#34;:
+            # Checking if filename exist. If so, create new filename
+            fullfilepath = _safefilenamecheck(ph.isfile, addedsavenameprefix + &#34;.&#34; + tmpformat,
+                                              fullfilepath, filepath, filename)
+            np.savez_compressed(fullfilepath + addedsavenameprefix, array=obj.data)
+            _writetojsonfile(fullfilepath + addedinfonameprefix, jsoninfofile)
+
+        case &#34;zarr&#34;:
+            # Checking if filename exist. If so, create new filename
+            fullfilepath = _safefilenamecheck(ph.isdir, addedsavenameprefix, fullfilepath, filepath,
+                                              filename)
+            zarrsave(fullfilepath + addedsavenameprefix, obj.data)
+            _writetojsonfile(fullfilepath + &#34;\\&#34; + addedinfonameprefix, jsoninfofile)
+
+        case _:
+            raise NotImplementedError(f&#39;{fformat} is not a possible extension for saving the data&#39;)
+    print(&#39;Done saveing data\n&#39;)</code></pre>
+</details>
+</dd>
+<dt id="pimged.datahandling.arrays.utils.filehandling.savepickle"><code class="name flex">
+<span>def <span class="ident">savepickle</span></span>(<span>obj, filename: str = 'pickleobject', fformat: str = 'pkl', filepath: str = 'C:\\Users\\beakh\\Documents\\GASMIX project\\Courses\\Scientific Python Programming\\SSP Coding\\pimged')</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Save pickle objects.</p>
+<h2 id="parameters">Parameters</h2>
+<dl>
+<dt><strong><code>obj</code></strong> :&ensp;<code>object :</code></dt>
+<dd>Array object for pressure arrays</dd>
+<dt><strong><code>filename</code></strong> :&ensp;<code>str :</code></dt>
+<dd>(Default value = "pickleobject")
+filename for the saved file. If default is chosen the array type e.g. raw
+data, is appended as "-raw" on the name. If several files are present
+with the same name, the code iterate throughand add "_XX" where XX is
+increasing in integer value</dd>
+<dt><strong><code>fformat</code></strong> :&ensp;<code>str :</code></dt>
+<dd>(Default value = "pkl")
+{'pkl'}
+fileformat for the save file.
+"pkl" is pickled data</dd>
+<dt><strong><code>filepath</code></strong> :&ensp;<code>str :</code></dt>
+<dd>(Default value = getcwd())
+filedirectory to put the stores files. If nothing given the data is stored
+in the code location</dd>
+</dl>
+<h2 id="raises">Raises</h2>
+<dl>
+<dt><code>NotImplementedError</code></dt>
+<dd>The format if not implemented</dd>
+<dt><code>NotADirectoryError</code></dt>
+<dd>Not a valid directory</dd>
+</dl></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def savepickle(obj, filename: str = &#34;pickleobject&#34;, fformat: str = &#34;pkl&#34;,
+               filepath: str = getcwd()):
+    &#34;&#34;&#34;Save pickle objects.
+
+    Parameters
+    ----------
+    obj : object :
+        Array object for pressure arrays
+
+    filename: str :
+         (Default value = &#34;pickleobject&#34;)
+        filename for the saved file. If default is chosen the array type e.g. raw
+        data, is appended as &#34;-raw&#34; on the name. If several files are present
+        with the same name, the code iterate throughand add &#34;_XX&#34; where XX is
+        increasing in integer value
+
+    fformat: str :
+         (Default value = &#34;pkl&#34;)
+        {&#39;pkl&#39;}
+        fileformat for the save file.
+        &#34;pkl&#34; is pickled data
+
+    filepath: str :
+         (Default value = getcwd())
+        filedirectory to put the stores files. If nothing given the data is stored
+        in the code location
+
+    Raises
+    ------
+    NotImplementedError
+        The format if not implemented
+
+    NotADirectoryError
+        Not a valid directory
+    &#34;&#34;&#34;
+    if fformat != &#34;pkl&#34;:
+        raise NotImplementedError(f&#39;{fformat} is not a possible extension for saving data&#39;)
+
+    if not ph.exists(filepath):
+        raise NotADirectoryError(&#39;Defined directory is not a valid directory&#39;)
+
+    if fformat == &#34;pkl&#34;:
+        fformat = &#34;pkl&#34;
+
+    addedsavenameprefix = &#34;&#34;
+    tmpformat = fformat
+
+    fullfilepath = ph.join(filepath, filename)
+    fullfilepath = _safefilenamecheck(ph.isfile, addedsavenameprefix + &#34;.&#34; + tmpformat,
+                                      fullfilepath,
+                                      filepath, filename)
+    print(&#39;Saving pickle object&#39;)
+    # Save the file as a pickle
+    with open(fullfilepath + &#39;.&#39; + tmpformat, &#39;wb&#39;) as file:
+        pickle.dump(obj, file)
+
+    print(&#39;Saved pickle object here&#39;)
+    print(f&#39;{fullfilepath}\n\n&#39;)</code></pre>
+</details>
+</dd>
+</dl>
+</section>
+<section>
+</section>
+</article>
+<nav id="sidebar">
+<header>
+<center><a class="homelink" rel="home" title="PImGED treat" href="https://youtu
+.be/mx86-rTclzA?si=RWJEgJIT8MdOsVn7">
+<img src="https://i.ibb.co/Tbp2rPk/logo.png" alt="">
+</a></center>
+</header>
+<h1>Index</h1>
+<div class="toc">
+<ul></ul>
+</div>
+<ul id="index">
+<li><h3>Super-module</h3>
+<ul>
+<li><code><a title="pimged.datahandling.arrays.utils" href="index.html">pimged.datahandling.arrays.utils</a></code></li>
+</ul>
+</li>
+<li><h3><a href="#header-functions">Functions</a></h3>
+<ul class="">
+<li><code><a title="pimged.datahandling.arrays.utils.filehandling.loadimages" href="#pimged.datahandling.arrays.utils.filehandling.loadimages">loadimages</a></code></li>
+<li><code><a title="pimged.datahandling.arrays.utils.filehandling.loadpickle" href="#pimged.datahandling.arrays.utils.filehandling.loadpickle">loadpickle</a></code></li>
+<li><code><a title="pimged.datahandling.arrays.utils.filehandling.saveimages" href="#pimged.datahandling.arrays.utils.filehandling.saveimages">saveimages</a></code></li>
+<li><code><a title="pimged.datahandling.arrays.utils.filehandling.savepickle" href="#pimged.datahandling.arrays.utils.filehandling.savepickle">savepickle</a></code></li>
+</ul>
+</li>
+</ul>
+</nav>
+</main>
+<footer id="footer">
+<p>Generated by <a href="https://pdoc3.github.io/pdoc" title="pdoc: Python API documentation generator"><cite>pdoc</cite> 0.10.0</a>.</p>
+</footer>
+</body>
+</html>
