@@ -221,7 +221,8 @@ class ImageData(CHIXFileRead):
         self.effectivebitside = self.getstringfromfile(inifilestring, &#34;side&#34;, noload)
         self.colortype = self.getstringfromfile(inifilestring, &#34;type&#34;, noload)
         self.fileformat = self.imagetypecheck(self.getstringfromfile(inifilestring,
-                                                                     &#34;fileFormat&#34;, noload) or &#34;TIFF&#34;)
+                                                                     &#34;fileFormat&#34;,
+                                                                     noload) or &#34;TIFF&#34;)
         self.recordstarttime = []
         self.recorddate = []
 
@@ -897,7 +898,8 @@ if False, the code load .cihx files, if True the property is just initialized</d
         self.effectivebitside = self.getstringfromfile(inifilestring, &#34;side&#34;, noload)
         self.colortype = self.getstringfromfile(inifilestring, &#34;type&#34;, noload)
         self.fileformat = self.imagetypecheck(self.getstringfromfile(inifilestring,
-                                                                     &#34;fileFormat&#34;, noload) or &#34;TIFF&#34;)
+                                                                     &#34;fileFormat&#34;,
+                                                                     noload) or &#34;TIFF&#34;)
         self.recordstarttime = []
         self.recorddate = []
 

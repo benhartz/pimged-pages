@@ -29,14 +29,15 @@
 <span>Expand source code</span>
 </summary>
 <pre><code class="python">&#34;&#34;&#34;Dataload structure for the PImGED framework.&#34;&#34;&#34;
-from cv2 import imread, IMREAD_UNCHANGED
 from os import path as ph, listdir
 from glob import glob
+from re import split, findall, sub
+
+import fnmatch
+import cv2
 from joblib import Parallel, delayed, cpu_count
 from tqdm import tqdm
-from re import split, findall, sub
 import numpy as np
-import fnmatch
 
 from ..utils.utils import range_load_check, find_dir_contains, get_folder_paths
 from ..utils.chixread import checkingchixfileset
@@ -137,7 +138,7 @@ class Dataload:
         self.fileinfo.zeroparticlesfolder = zeroparticlesfolder
         self.fileinfo.fullparticlesfolder = fullparticlesfolder
         self.fileinfo.errignor = errignor
-        self.fileinfo._loadmetadata = loadmeta
+        self.fileinfo.loadmetadata = loadmeta
 
         self._imagearrays = imagearrays
         self._pressurearrays = pressurearrays
@@ -160,10 +161,15 @@ class Dataload:
         if hasattr(self.fileinfo.imagedata, &#39;totalframes&#39;):
             pass
         else:
-            self.fileinfo.imagedata = ImageData(self._imagesfullpath, imagesearchfolders,
-                                                not loadmeta)
-            self.fileinfo.cameradata = CameraData(self._imagesfullpath, imagesearchfolders,
-                                                  not loadmeta)
+            if not loadmeta:
+                self.fileinfo.imagedata = []
+                self.fileinfo.cameradata = []
+
+            else:
+                self.fileinfo.imagedata = ImageData(self._imagesfullpath, imagesearchfolders,
+                                                    not loadmeta)
+                self.fileinfo.cameradata = CameraData(self._imagesfullpath, imagesearchfolders,
+                                                      not loadmeta)
         print(&#39;Done\n\n&#39;)
 
     def loadimages(self,
@@ -251,7 +257,7 @@ class Dataload:
                                  &#34;framework. Specify the maximum number of images present in &#34;
                                  &#34;the datasets by loading the metadata files at initilization.\n&#34;
                                  &#34;Or specify dataset.fileinfo.imagedata.totalframes&#34;)
-        elif self.fileinfo.imagedata.frameheight == 0 or self.fileinfo.imagedata.framewidth == 0:
+        if self.fileinfo.imagedata.frameheight == 0 or self.fileinfo.imagedata.framewidth == 0:
             raise AttributeError(&#34;No frame size is present. Load meta data or specify &#34;
                                  &#34;dataset.fileinfo.imagedata.frameheight and &#34;
                                  &#34;dataset.fileinfo.imagedata.framewidth.&#34;)
@@ -352,7 +358,7 @@ class Dataload:
 
         print(&#39;Done loading images\n\n&#39;)
 
-    def loadpressuresOLD(self,
+    def loadpressuresold(self,
                          setfilestoload: list = &#39;all&#39;,
                          natkeysort: bool = True,
                          loadmethodfolder: str = &#39;range&#39;,
@@ -412,7 +418,7 @@ class Dataload:
         # Building path to first file for reading basic info
         filepath = ph.join(self._pressuresfullpath, pressfiles[0])
 
-        with open(filepath, &#39;r&#39;) as f:
+        with open(filepath, &#39;r&#39;, encoding=&#39;UTF-8&#39;) as f:
             readlines = f.readlines()
             ndatapoints = len(readlines[datarowidxstart:])
 
@@ -426,14 +432,18 @@ class Dataload:
         self._pressurearrays.temperature = np.zeros(nsets, dtype=precision)
         self._pressurearrays.pressure_atm = np.zeros(nsets, dtype=precision)
         for i in range(1, npresslines+1):
-            exec(&#39;self._pressurearrays.pressure&#39; + str(i) +
-                 &#39;.voltage= np.zeros((ndatapoints, nsets), dtype=precision)&#39;)
-            exec(&#39;self._pressurearrays.pressure&#39; + str(i) +
-                 &#39;.calibration = np.zeros((2, nsets), dtype=precision)&#39;)
+            setattr(self._pressurearrays, &#39;pressure&#39; + str(i) + &#39;.voltage&#39;,
+                    np.zeros((ndatapoints, nsets), dtype=precision))
+            setattr(self._pressurearrays, &#39;pressure&#39; + str(i) + &#39;.calibration&#39;,
+                    np.zeros((2, nsets), dtype=precision))
+            # exec(&#39;self._pressurearrays.pressure&#39; + str(i) +
+            #      &#39;.voltage= np.zeros((ndatapoints, nsets), dtype=precision)&#39;)
+            # exec(&#39;self._pressurearrays.pressure&#39; + str(i) +
+            #      &#39;.calibration = np.zeros((2, nsets), dtype=precision)&#39;)
 
         for i, file in enumerate(pressfiles):
             filepath = ph.join(self._pressuresfullpath, file)
-            with open(filepath, &#39;r&#39;) as f:
+            with open(filepath, &#39;r&#39;, encoding=&#39;UTF-8&#39;) as f:
                 readlines = f.readlines()
 
                 # reads the pressure and temperature in
@@ -448,8 +458,11 @@ class Dataload:
                     calibrations[:, j] = np.array(listofsplits)
 
                 for j in range(1, npresslines+1):
-                    exec(&#39;self._pressurearrays.pressure&#39; + str(j) +
-                         &#39;.calibration[:, i] = calibrations[&#39; + str(j-1) + &#39;, :]&#39;)
+                    setattr(getattr(self._pressurearrays,
+                                    &#39;pressure&#39; + str(j)),
+                            &#39;calibration[:, i]&#39;, calibrations[:, j-1])
+                    # exec(&#39;self._pressurearrays.pressure&#39; + str(j) +
+                    #      &#39;.calibration[:, i] = calibrations[&#39; + str(j-1) + &#39;, :]&#39;)
 
                 # Subtract data series from file
                 flatlines = sub(&#39;,&#39;, &#39;.&#39;, &#34;&#34;.join(readlines[datarowidxstart:]))
@@ -461,8 +474,11 @@ class Dataload:
                 self._pressurearrays.time[:, i] = data[:, 0]
                 self._pressurearrays.valve[:, i] = data[:, npresslines+1]
                 for j in range(1, npresslines+1):
-                    exec(&#39;self._pressurearrays.pressure&#39; + str(j) +
-                         &#39;.voltage[:, i] = data[: ,&#39; + str(j) + &#39;]&#39;)
+                    setattr(getattr(self._pressurearrays,
+                                    &#39;pressure&#39; + str(j)),
+                            &#39;voltage[:, i]&#39;, data[:, j])
+                    # exec(&#39;self._pressurearrays.pressure&#39; + str(j) +
+                    #      &#39;.voltage[:, i] = data[: ,&#39; + str(j) + &#39;]&#39;)
 
         print(&#39;Done loading pressure data\n\n&#39;)
 
@@ -524,7 +540,7 @@ class Dataload:
         # Building path to first file for reading basic info
         filepath = ph.join(self._pressuresfullpath, pressfiles[0])
 
-        with open(filepath, &#39;r&#39;) as f:
+        with open(filepath, &#39;r&#39;, encoding=&#39;UTF-8&#39;) as f:
             readlines = f.readlines()
             ndatapoints = len(readlines[datarowidxstart:])
 
@@ -539,14 +555,18 @@ class Dataload:
         self._pressurearrays.temperature = np.zeros(nsets, dtype=precision)
         self._pressurearrays.pressure_atm = np.zeros(nsets, dtype=precision)
         for i in range(1, npresslines+1):
-            exec(&#39;self._pressurearrays.pressure&#39; + str(i) +
-                 &#39;.voltage= np.zeros((ndatapoints, nsets), dtype=precision)&#39;)
-            exec(&#39;self._pressurearrays.pressure&#39; + str(i) +
-                 &#39;.calibration = np.zeros((2, nsets), dtype=precision)&#39;)
+            setattr(self._pressurearrays, &#39;pressure&#39; + str(i) + &#39;.voltage&#39;,
+                    np.zeros((ndatapoints, nsets), dtype=precision))
+            setattr(self._pressurearrays, &#39;pressure&#39; + str(i) + &#39;.calibration&#39;,
+                    np.zeros((2, nsets), dtype=precision))
+            # exec(&#39;self._pressurearrays.pressure&#39; + str(i) +
+            #      &#39;.voltage= np.zeros((ndatapoints, nsets), dtype=precision)&#39;)
+            # exec(&#39;self._pressurearrays.pressure&#39; + str(i) +
+            #      &#39;.calibration = np.zeros((2, nsets), dtype=precision)&#39;)
 
         for i, file in enumerate(pressfiles):
             filepath = ph.join(self._pressuresfullpath, file)
-            with open(filepath, &#39;r&#39;) as f:
+            with open(filepath, &#39;r&#39;, encoding=&#39;UTF-8&#39;) as f:
                 readlines = f.readlines()
 
                 # reads the pressure and temperature in
@@ -561,8 +581,11 @@ class Dataload:
                     calibrations[:, j] = np.array(listofsplits)
 
                 for j in range(1, npresslines+1):
-                    exec(&#39;self._pressurearrays.pressure&#39; + str(j) +
-                         &#39;.calibration[:, i] = calibrations[&#39; + str(j-1) + &#39;, :]&#39;)
+                    setattr(getattr(self._pressurearrays,
+                                    &#39;pressure&#39; + str(j)),
+                            &#39;calibration[:, i]&#39;, calibrations[:, j-1])
+                    # exec(&#39;self._pressurearrays.pressure&#39; + str(j) +
+                    #      &#39;.calibration[:, i] = calibrations[&#39; + str(j-1) + &#39;, :]&#39;)
 
                 # Subtract data series from file
                 flatlines = sub(&#39;,&#39;, &#39;.&#39;, &#34;&#34;.join(readlines[datarowidxstart:]))
@@ -575,8 +598,11 @@ class Dataload:
                 self._pressurearrays.valve[:, i] = data[:, npresslines+1]
                 self._pressurearrays.camera[:, i] = data[:, npresslines+2]
                 for j in range(1, npresslines+1):
-                    exec(&#39;self._pressurearrays.pressure&#39; + str(j) +
-                         &#39;.voltage[:, i] = data[: ,&#39; + str(j) + &#39;]&#39;)
+                    setattr(getattr(self._pressurearrays,
+                                    &#39;pressure&#39; + str(j)),
+                            &#39;voltage[:, i]&#39;, data[:, j])
+                    # exec(&#39;self._pressurearrays.pressure&#39; + str(j) +
+                    #      &#39;.voltage[:, i] = data[: ,&#39; + str(j) + &#39;]&#39;)
 
         print(&#39;Done loading pressure data\n\n&#39;)
 
@@ -656,7 +682,7 @@ class Dataload:
                        for filepath in filepaths]
 
         # Sorting to ensure correct file order
-        [naturalkeysort(filelists) for filelists in filesinpath]
+        _ = [naturalkeysort(filelists) for filelists in filesinpath]
 
         # finding the images to load
         filesinpath = [[filesinpath[i][x] for x in useimages] for i in range(len(filesinpath))]
@@ -690,7 +716,7 @@ def _loadimagestoarray(array, k, p, filesinpathlist):
     filesinpathlist : :
         the total file paths for each image
     &#34;&#34;&#34;
-    array[:, :, k, p] = imread(filesinpathlist[p][k], IMREAD_UNCHANGED)
+    array[:, :, k, p] = cv2.imread(filesinpathlist[p][k], cv2.IMREAD_UNCHANGED)
 
 
 def _folderfind(obj, foldername):
@@ -881,7 +907,7 @@ If the metadata should be loaded</dd>
         self.fileinfo.zeroparticlesfolder = zeroparticlesfolder
         self.fileinfo.fullparticlesfolder = fullparticlesfolder
         self.fileinfo.errignor = errignor
-        self.fileinfo._loadmetadata = loadmeta
+        self.fileinfo.loadmetadata = loadmeta
 
         self._imagearrays = imagearrays
         self._pressurearrays = pressurearrays
@@ -904,10 +930,15 @@ If the metadata should be loaded</dd>
         if hasattr(self.fileinfo.imagedata, &#39;totalframes&#39;):
             pass
         else:
-            self.fileinfo.imagedata = ImageData(self._imagesfullpath, imagesearchfolders,
-                                                not loadmeta)
-            self.fileinfo.cameradata = CameraData(self._imagesfullpath, imagesearchfolders,
-                                                  not loadmeta)
+            if not loadmeta:
+                self.fileinfo.imagedata = []
+                self.fileinfo.cameradata = []
+
+            else:
+                self.fileinfo.imagedata = ImageData(self._imagesfullpath, imagesearchfolders,
+                                                    not loadmeta)
+                self.fileinfo.cameradata = CameraData(self._imagesfullpath, imagesearchfolders,
+                                                      not loadmeta)
         print(&#39;Done\n\n&#39;)
 
     def loadimages(self,
@@ -995,7 +1026,7 @@ If the metadata should be loaded</dd>
                                  &#34;framework. Specify the maximum number of images present in &#34;
                                  &#34;the datasets by loading the metadata files at initilization.\n&#34;
                                  &#34;Or specify dataset.fileinfo.imagedata.totalframes&#34;)
-        elif self.fileinfo.imagedata.frameheight == 0 or self.fileinfo.imagedata.framewidth == 0:
+        if self.fileinfo.imagedata.frameheight == 0 or self.fileinfo.imagedata.framewidth == 0:
             raise AttributeError(&#34;No frame size is present. Load meta data or specify &#34;
                                  &#34;dataset.fileinfo.imagedata.frameheight and &#34;
                                  &#34;dataset.fileinfo.imagedata.framewidth.&#34;)
@@ -1096,7 +1127,7 @@ If the metadata should be loaded</dd>
 
         print(&#39;Done loading images\n\n&#39;)
 
-    def loadpressuresOLD(self,
+    def loadpressuresold(self,
                          setfilestoload: list = &#39;all&#39;,
                          natkeysort: bool = True,
                          loadmethodfolder: str = &#39;range&#39;,
@@ -1156,7 +1187,7 @@ If the metadata should be loaded</dd>
         # Building path to first file for reading basic info
         filepath = ph.join(self._pressuresfullpath, pressfiles[0])
 
-        with open(filepath, &#39;r&#39;) as f:
+        with open(filepath, &#39;r&#39;, encoding=&#39;UTF-8&#39;) as f:
             readlines = f.readlines()
             ndatapoints = len(readlines[datarowidxstart:])
 
@@ -1170,14 +1201,18 @@ If the metadata should be loaded</dd>
         self._pressurearrays.temperature = np.zeros(nsets, dtype=precision)
         self._pressurearrays.pressure_atm = np.zeros(nsets, dtype=precision)
         for i in range(1, npresslines+1):
-            exec(&#39;self._pressurearrays.pressure&#39; + str(i) +
-                 &#39;.voltage= np.zeros((ndatapoints, nsets), dtype=precision)&#39;)
-            exec(&#39;self._pressurearrays.pressure&#39; + str(i) +
-                 &#39;.calibration = np.zeros((2, nsets), dtype=precision)&#39;)
+            setattr(self._pressurearrays, &#39;pressure&#39; + str(i) + &#39;.voltage&#39;,
+                    np.zeros((ndatapoints, nsets), dtype=precision))
+            setattr(self._pressurearrays, &#39;pressure&#39; + str(i) + &#39;.calibration&#39;,
+                    np.zeros((2, nsets), dtype=precision))
+            # exec(&#39;self._pressurearrays.pressure&#39; + str(i) +
+            #      &#39;.voltage= np.zeros((ndatapoints, nsets), dtype=precision)&#39;)
+            # exec(&#39;self._pressurearrays.pressure&#39; + str(i) +
+            #      &#39;.calibration = np.zeros((2, nsets), dtype=precision)&#39;)
 
         for i, file in enumerate(pressfiles):
             filepath = ph.join(self._pressuresfullpath, file)
-            with open(filepath, &#39;r&#39;) as f:
+            with open(filepath, &#39;r&#39;, encoding=&#39;UTF-8&#39;) as f:
                 readlines = f.readlines()
 
                 # reads the pressure and temperature in
@@ -1192,8 +1227,11 @@ If the metadata should be loaded</dd>
                     calibrations[:, j] = np.array(listofsplits)
 
                 for j in range(1, npresslines+1):
-                    exec(&#39;self._pressurearrays.pressure&#39; + str(j) +
-                         &#39;.calibration[:, i] = calibrations[&#39; + str(j-1) + &#39;, :]&#39;)
+                    setattr(getattr(self._pressurearrays,
+                                    &#39;pressure&#39; + str(j)),
+                            &#39;calibration[:, i]&#39;, calibrations[:, j-1])
+                    # exec(&#39;self._pressurearrays.pressure&#39; + str(j) +
+                    #      &#39;.calibration[:, i] = calibrations[&#39; + str(j-1) + &#39;, :]&#39;)
 
                 # Subtract data series from file
                 flatlines = sub(&#39;,&#39;, &#39;.&#39;, &#34;&#34;.join(readlines[datarowidxstart:]))
@@ -1205,8 +1243,11 @@ If the metadata should be loaded</dd>
                 self._pressurearrays.time[:, i] = data[:, 0]
                 self._pressurearrays.valve[:, i] = data[:, npresslines+1]
                 for j in range(1, npresslines+1):
-                    exec(&#39;self._pressurearrays.pressure&#39; + str(j) +
-                         &#39;.voltage[:, i] = data[: ,&#39; + str(j) + &#39;]&#39;)
+                    setattr(getattr(self._pressurearrays,
+                                    &#39;pressure&#39; + str(j)),
+                            &#39;voltage[:, i]&#39;, data[:, j])
+                    # exec(&#39;self._pressurearrays.pressure&#39; + str(j) +
+                    #      &#39;.voltage[:, i] = data[: ,&#39; + str(j) + &#39;]&#39;)
 
         print(&#39;Done loading pressure data\n\n&#39;)
 
@@ -1268,7 +1309,7 @@ If the metadata should be loaded</dd>
         # Building path to first file for reading basic info
         filepath = ph.join(self._pressuresfullpath, pressfiles[0])
 
-        with open(filepath, &#39;r&#39;) as f:
+        with open(filepath, &#39;r&#39;, encoding=&#39;UTF-8&#39;) as f:
             readlines = f.readlines()
             ndatapoints = len(readlines[datarowidxstart:])
 
@@ -1283,14 +1324,18 @@ If the metadata should be loaded</dd>
         self._pressurearrays.temperature = np.zeros(nsets, dtype=precision)
         self._pressurearrays.pressure_atm = np.zeros(nsets, dtype=precision)
         for i in range(1, npresslines+1):
-            exec(&#39;self._pressurearrays.pressure&#39; + str(i) +
-                 &#39;.voltage= np.zeros((ndatapoints, nsets), dtype=precision)&#39;)
-            exec(&#39;self._pressurearrays.pressure&#39; + str(i) +
-                 &#39;.calibration = np.zeros((2, nsets), dtype=precision)&#39;)
+            setattr(self._pressurearrays, &#39;pressure&#39; + str(i) + &#39;.voltage&#39;,
+                    np.zeros((ndatapoints, nsets), dtype=precision))
+            setattr(self._pressurearrays, &#39;pressure&#39; + str(i) + &#39;.calibration&#39;,
+                    np.zeros((2, nsets), dtype=precision))
+            # exec(&#39;self._pressurearrays.pressure&#39; + str(i) +
+            #      &#39;.voltage= np.zeros((ndatapoints, nsets), dtype=precision)&#39;)
+            # exec(&#39;self._pressurearrays.pressure&#39; + str(i) +
+            #      &#39;.calibration = np.zeros((2, nsets), dtype=precision)&#39;)
 
         for i, file in enumerate(pressfiles):
             filepath = ph.join(self._pressuresfullpath, file)
-            with open(filepath, &#39;r&#39;) as f:
+            with open(filepath, &#39;r&#39;, encoding=&#39;UTF-8&#39;) as f:
                 readlines = f.readlines()
 
                 # reads the pressure and temperature in
@@ -1305,8 +1350,11 @@ If the metadata should be loaded</dd>
                     calibrations[:, j] = np.array(listofsplits)
 
                 for j in range(1, npresslines+1):
-                    exec(&#39;self._pressurearrays.pressure&#39; + str(j) +
-                         &#39;.calibration[:, i] = calibrations[&#39; + str(j-1) + &#39;, :]&#39;)
+                    setattr(getattr(self._pressurearrays,
+                                    &#39;pressure&#39; + str(j)),
+                            &#39;calibration[:, i]&#39;, calibrations[:, j-1])
+                    # exec(&#39;self._pressurearrays.pressure&#39; + str(j) +
+                    #      &#39;.calibration[:, i] = calibrations[&#39; + str(j-1) + &#39;, :]&#39;)
 
                 # Subtract data series from file
                 flatlines = sub(&#39;,&#39;, &#39;.&#39;, &#34;&#34;.join(readlines[datarowidxstart:]))
@@ -1319,8 +1367,11 @@ If the metadata should be loaded</dd>
                 self._pressurearrays.valve[:, i] = data[:, npresslines+1]
                 self._pressurearrays.camera[:, i] = data[:, npresslines+2]
                 for j in range(1, npresslines+1):
-                    exec(&#39;self._pressurearrays.pressure&#39; + str(j) +
-                         &#39;.voltage[:, i] = data[: ,&#39; + str(j) + &#39;]&#39;)
+                    setattr(getattr(self._pressurearrays,
+                                    &#39;pressure&#39; + str(j)),
+                            &#39;voltage[:, i]&#39;, data[:, j])
+                    # exec(&#39;self._pressurearrays.pressure&#39; + str(j) +
+                    #      &#39;.voltage[:, i] = data[: ,&#39; + str(j) + &#39;]&#39;)
 
         print(&#39;Done loading pressure data\n\n&#39;)
 
@@ -1400,7 +1451,7 @@ If the metadata should be loaded</dd>
                        for filepath in filepaths]
 
         # Sorting to ensure correct file order
-        [naturalkeysort(filelists) for filelists in filesinpath]
+        _ = [naturalkeysort(filelists) for filelists in filesinpath]
 
         # finding the images to load
         filesinpath = [[filesinpath[i][x] for x in useimages] for i in range(len(filesinpath))]
@@ -1571,7 +1622,7 @@ natural key method</dd>
                              &#34;framework. Specify the maximum number of images present in &#34;
                              &#34;the datasets by loading the metadata files at initilization.\n&#34;
                              &#34;Or specify dataset.fileinfo.imagedata.totalframes&#34;)
-    elif self.fileinfo.imagedata.frameheight == 0 or self.fileinfo.imagedata.framewidth == 0:
+    if self.fileinfo.imagedata.frameheight == 0 or self.fileinfo.imagedata.framewidth == 0:
         raise AttributeError(&#34;No frame size is present. Load meta data or specify &#34;
                              &#34;dataset.fileinfo.imagedata.frameheight and &#34;
                              &#34;dataset.fileinfo.imagedata.framewidth.&#34;)
@@ -1713,7 +1764,7 @@ numboer of pressure sensors in file</dd>
     # Building path to first file for reading basic info
     filepath = ph.join(self._pressuresfullpath, pressfiles[0])
 
-    with open(filepath, &#39;r&#39;) as f:
+    with open(filepath, &#39;r&#39;, encoding=&#39;UTF-8&#39;) as f:
         readlines = f.readlines()
         ndatapoints = len(readlines[datarowidxstart:])
 
@@ -1728,14 +1779,18 @@ numboer of pressure sensors in file</dd>
     self._pressurearrays.temperature = np.zeros(nsets, dtype=precision)
     self._pressurearrays.pressure_atm = np.zeros(nsets, dtype=precision)
     for i in range(1, npresslines+1):
-        exec(&#39;self._pressurearrays.pressure&#39; + str(i) +
-             &#39;.voltage= np.zeros((ndatapoints, nsets), dtype=precision)&#39;)
-        exec(&#39;self._pressurearrays.pressure&#39; + str(i) +
-             &#39;.calibration = np.zeros((2, nsets), dtype=precision)&#39;)
+        setattr(self._pressurearrays, &#39;pressure&#39; + str(i) + &#39;.voltage&#39;,
+                np.zeros((ndatapoints, nsets), dtype=precision))
+        setattr(self._pressurearrays, &#39;pressure&#39; + str(i) + &#39;.calibration&#39;,
+                np.zeros((2, nsets), dtype=precision))
+        # exec(&#39;self._pressurearrays.pressure&#39; + str(i) +
+        #      &#39;.voltage= np.zeros((ndatapoints, nsets), dtype=precision)&#39;)
+        # exec(&#39;self._pressurearrays.pressure&#39; + str(i) +
+        #      &#39;.calibration = np.zeros((2, nsets), dtype=precision)&#39;)
 
     for i, file in enumerate(pressfiles):
         filepath = ph.join(self._pressuresfullpath, file)
-        with open(filepath, &#39;r&#39;) as f:
+        with open(filepath, &#39;r&#39;, encoding=&#39;UTF-8&#39;) as f:
             readlines = f.readlines()
 
             # reads the pressure and temperature in
@@ -1750,8 +1805,11 @@ numboer of pressure sensors in file</dd>
                 calibrations[:, j] = np.array(listofsplits)
 
             for j in range(1, npresslines+1):
-                exec(&#39;self._pressurearrays.pressure&#39; + str(j) +
-                     &#39;.calibration[:, i] = calibrations[&#39; + str(j-1) + &#39;, :]&#39;)
+                setattr(getattr(self._pressurearrays,
+                                &#39;pressure&#39; + str(j)),
+                        &#39;calibration[:, i]&#39;, calibrations[:, j-1])
+                # exec(&#39;self._pressurearrays.pressure&#39; + str(j) +
+                #      &#39;.calibration[:, i] = calibrations[&#39; + str(j-1) + &#39;, :]&#39;)
 
             # Subtract data series from file
             flatlines = sub(&#39;,&#39;, &#39;.&#39;, &#34;&#34;.join(readlines[datarowidxstart:]))
@@ -1764,14 +1822,17 @@ numboer of pressure sensors in file</dd>
             self._pressurearrays.valve[:, i] = data[:, npresslines+1]
             self._pressurearrays.camera[:, i] = data[:, npresslines+2]
             for j in range(1, npresslines+1):
-                exec(&#39;self._pressurearrays.pressure&#39; + str(j) +
-                     &#39;.voltage[:, i] = data[: ,&#39; + str(j) + &#39;]&#39;)
+                setattr(getattr(self._pressurearrays,
+                                &#39;pressure&#39; + str(j)),
+                        &#39;voltage[:, i]&#39;, data[:, j])
+                # exec(&#39;self._pressurearrays.pressure&#39; + str(j) +
+                #      &#39;.voltage[:, i] = data[: ,&#39; + str(j) + &#39;]&#39;)
 
     print(&#39;Done loading pressure data\n\n&#39;)</code></pre>
 </details>
 </dd>
-<dt id="pimged.datahandling.dataloading.Dataload.loadpressuresOLD"><code class="name flex">
-<span>def <span class="ident">loadpressuresOLD</span></span>(<span>self, setfilestoload: list = 'all', natkeysort: bool = True, loadmethodfolder: str = 'range', ndatalines: int = 5, npresslines: int = 3)</span>
+<dt id="pimged.datahandling.dataloading.Dataload.loadpressuresold"><code class="name flex">
+<span>def <span class="ident">loadpressuresold</span></span>(<span>self, setfilestoload: list = 'all', natkeysort: bool = True, loadmethodfolder: str = 'range', ndatalines: int = 5, npresslines: int = 3)</span>
 </code></dt>
 <dd>
 <div class="desc"><p>Load data into the pressure, time and vale signal into the pressure arrays.</p>
@@ -1802,7 +1863,7 @@ numboer of pressure sensors in file</dd>
 <summary>
 <span>Expand source code</span>
 </summary>
-<pre><code class="python">def loadpressuresOLD(self,
+<pre><code class="python">def loadpressuresold(self,
                      setfilestoload: list = &#39;all&#39;,
                      natkeysort: bool = True,
                      loadmethodfolder: str = &#39;range&#39;,
@@ -1862,7 +1923,7 @@ numboer of pressure sensors in file</dd>
     # Building path to first file for reading basic info
     filepath = ph.join(self._pressuresfullpath, pressfiles[0])
 
-    with open(filepath, &#39;r&#39;) as f:
+    with open(filepath, &#39;r&#39;, encoding=&#39;UTF-8&#39;) as f:
         readlines = f.readlines()
         ndatapoints = len(readlines[datarowidxstart:])
 
@@ -1876,14 +1937,18 @@ numboer of pressure sensors in file</dd>
     self._pressurearrays.temperature = np.zeros(nsets, dtype=precision)
     self._pressurearrays.pressure_atm = np.zeros(nsets, dtype=precision)
     for i in range(1, npresslines+1):
-        exec(&#39;self._pressurearrays.pressure&#39; + str(i) +
-             &#39;.voltage= np.zeros((ndatapoints, nsets), dtype=precision)&#39;)
-        exec(&#39;self._pressurearrays.pressure&#39; + str(i) +
-             &#39;.calibration = np.zeros((2, nsets), dtype=precision)&#39;)
+        setattr(self._pressurearrays, &#39;pressure&#39; + str(i) + &#39;.voltage&#39;,
+                np.zeros((ndatapoints, nsets), dtype=precision))
+        setattr(self._pressurearrays, &#39;pressure&#39; + str(i) + &#39;.calibration&#39;,
+                np.zeros((2, nsets), dtype=precision))
+        # exec(&#39;self._pressurearrays.pressure&#39; + str(i) +
+        #      &#39;.voltage= np.zeros((ndatapoints, nsets), dtype=precision)&#39;)
+        # exec(&#39;self._pressurearrays.pressure&#39; + str(i) +
+        #      &#39;.calibration = np.zeros((2, nsets), dtype=precision)&#39;)
 
     for i, file in enumerate(pressfiles):
         filepath = ph.join(self._pressuresfullpath, file)
-        with open(filepath, &#39;r&#39;) as f:
+        with open(filepath, &#39;r&#39;, encoding=&#39;UTF-8&#39;) as f:
             readlines = f.readlines()
 
             # reads the pressure and temperature in
@@ -1898,8 +1963,11 @@ numboer of pressure sensors in file</dd>
                 calibrations[:, j] = np.array(listofsplits)
 
             for j in range(1, npresslines+1):
-                exec(&#39;self._pressurearrays.pressure&#39; + str(j) +
-                     &#39;.calibration[:, i] = calibrations[&#39; + str(j-1) + &#39;, :]&#39;)
+                setattr(getattr(self._pressurearrays,
+                                &#39;pressure&#39; + str(j)),
+                        &#39;calibration[:, i]&#39;, calibrations[:, j-1])
+                # exec(&#39;self._pressurearrays.pressure&#39; + str(j) +
+                #      &#39;.calibration[:, i] = calibrations[&#39; + str(j-1) + &#39;, :]&#39;)
 
             # Subtract data series from file
             flatlines = sub(&#39;,&#39;, &#39;.&#39;, &#34;&#34;.join(readlines[datarowidxstart:]))
@@ -1911,8 +1979,11 @@ numboer of pressure sensors in file</dd>
             self._pressurearrays.time[:, i] = data[:, 0]
             self._pressurearrays.valve[:, i] = data[:, npresslines+1]
             for j in range(1, npresslines+1):
-                exec(&#39;self._pressurearrays.pressure&#39; + str(j) +
-                     &#39;.voltage[:, i] = data[: ,&#39; + str(j) + &#39;]&#39;)
+                setattr(getattr(self._pressurearrays,
+                                &#39;pressure&#39; + str(j)),
+                        &#39;voltage[:, i]&#39;, data[:, j])
+                # exec(&#39;self._pressurearrays.pressure&#39; + str(j) +
+                #      &#39;.voltage[:, i] = data[: ,&#39; + str(j) + &#39;]&#39;)
 
     print(&#39;Done loading pressure data\n\n&#39;)</code></pre>
 </details>
@@ -1946,7 +2017,7 @@ numboer of pressure sensors in file</dd>
 <ul class="">
 <li><code><a title="pimged.datahandling.dataloading.Dataload.loadimages" href="#pimged.datahandling.dataloading.Dataload.loadimages">loadimages</a></code></li>
 <li><code><a title="pimged.datahandling.dataloading.Dataload.loadpressures" href="#pimged.datahandling.dataloading.Dataload.loadpressures">loadpressures</a></code></li>
-<li><code><a title="pimged.datahandling.dataloading.Dataload.loadpressuresOLD" href="#pimged.datahandling.dataloading.Dataload.loadpressuresOLD">loadpressuresOLD</a></code></li>
+<li><code><a title="pimged.datahandling.dataloading.Dataload.loadpressuresold" href="#pimged.datahandling.dataloading.Dataload.loadpressuresold">loadpressuresold</a></code></li>
 </ul>
 </li>
 </ul>

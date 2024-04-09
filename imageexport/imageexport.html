@@ -358,7 +358,8 @@ class Imageexport:
             else:
                 self._imageref.set_data(imagearray[:, :, frame])
 
-        # Open a ffmpeg process
+        # pylint: disable=consider-using-f-string
+        # Open a ffmpeg process output encoding
         cmdstring = (&#39;ffmpeg&#39;, &#39;-loglevel&#39;, &#39;warning&#39;, &#39;-hide_banner&#39;,
                      &#39;-y&#39;, &#39;-r&#39;, str(self.fps),  # Set FPS
                      &#39;-s&#39;, &#39;%dx%d&#39; % (canvas_width, canvas_height),  # size of image string
@@ -368,7 +369,7 @@ class Imageexport:
                      &#39;-i&#39;, &#39;-&#39;,  # input stream
                      &#39;-vcodec&#39;, &#39;libx264&#39;, &#39;-pix_fmt&#39;, &#39;yuv420p&#39;,
                      &#39;-crf&#39;, str(self.cfr),
-                     outputfilename)  # output encoding
+                     outputfilename)
 
         with subprocess.Popen(cmdstring, stdin=subprocess.PIPE, stdout=subprocess.PIPE) as p:
             print(f&#34;Starting encoding video: {filename + self.moviefileextension}&#34;)
@@ -807,7 +808,8 @@ the function add data</dd>
             else:
                 self._imageref.set_data(imagearray[:, :, frame])
 
-        # Open a ffmpeg process
+        # pylint: disable=consider-using-f-string
+        # Open a ffmpeg process output encoding
         cmdstring = (&#39;ffmpeg&#39;, &#39;-loglevel&#39;, &#39;warning&#39;, &#39;-hide_banner&#39;,
                      &#39;-y&#39;, &#39;-r&#39;, str(self.fps),  # Set FPS
                      &#39;-s&#39;, &#39;%dx%d&#39; % (canvas_width, canvas_height),  # size of image string
@@ -817,7 +819,7 @@ the function add data</dd>
                      &#39;-i&#39;, &#39;-&#39;,  # input stream
                      &#39;-vcodec&#39;, &#39;libx264&#39;, &#39;-pix_fmt&#39;, &#39;yuv420p&#39;,
                      &#39;-crf&#39;, str(self.cfr),
-                     outputfilename)  # output encoding
+                     outputfilename)
 
         with subprocess.Popen(cmdstring, stdin=subprocess.PIPE, stdout=subprocess.PIPE) as p:
             print(f&#34;Starting encoding video: {filename + self.moviefileextension}&#34;)
@@ -1051,7 +1053,7 @@ exist or the dataset do not contain data</dd>
 </details>
 </dd>
 <dt id="pimged.imageexport.imageexport.Imageexport.videosave"><code class="name flex">
-<span>def <span class="ident">videosave</span></span>(<span>self, arraytouse='raw', setframes: list = 'all', setdataset: int = 1, filename: str = 'defaultfilename', path='C:\\Users\\beakh\\Documents\\GASMIX project\\Coding\\Python\\Repo\\GASMIX-pimged')</span>
+<span>def <span class="ident">videosave</span></span>(<span>self, arraytouse='raw', setframes: list = 'all', setdataset: int = 1, filename: str = 'defaultfilename', path='C:\\Users\\beakh\\Documents\\GASMIX project\\Courses\\Scientific Python Programming\\SSP Coding\\pimged')</span>
 </code></dt>
 <dd>
 <div class="desc"><p>Export video based on ffmpeg - demand ffmpeg is installed on the computer.</p>
@@ -1239,7 +1241,8 @@ specified path for saving the movie</dd>
         else:
             self._imageref.set_data(imagearray[:, :, frame])
 
-    # Open a ffmpeg process
+    # pylint: disable=consider-using-f-string
+    # Open a ffmpeg process output encoding
     cmdstring = (&#39;ffmpeg&#39;, &#39;-loglevel&#39;, &#39;warning&#39;, &#39;-hide_banner&#39;,
                  &#39;-y&#39;, &#39;-r&#39;, str(self.fps),  # Set FPS
                  &#39;-s&#39;, &#39;%dx%d&#39; % (canvas_width, canvas_height),  # size of image string
@@ -1249,7 +1252,7 @@ specified path for saving the movie</dd>
                  &#39;-i&#39;, &#39;-&#39;,  # input stream
                  &#39;-vcodec&#39;, &#39;libx264&#39;, &#39;-pix_fmt&#39;, &#39;yuv420p&#39;,
                  &#39;-crf&#39;, str(self.cfr),
-                 outputfilename)  # output encoding
+                 outputfilename)
 
     with subprocess.Popen(cmdstring, stdin=subprocess.PIPE, stdout=subprocess.PIPE) as p:
         print(f&#34;Starting encoding video: {filename + self.moviefileextension}&#34;)

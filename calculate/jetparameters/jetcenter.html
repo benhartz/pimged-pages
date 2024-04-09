@@ -35,7 +35,7 @@ Module not working. Obsuleet code.
 &#34;&#34;&#34;
 import numpy as np
 import matplotlib.pyplot as plt
-import matplotlib.gridspec as gridspec
+from matplotlib import gridspec
 
 from .template import JetParameters
 
@@ -178,8 +178,8 @@ class JetCenter(JetParameters):
         try:
             walllogic = (jetposwallgradient == 1) &amp; \
                         (jetpositionindicies &gt; np.where(jetposwallgradient &gt; 1)[0][-1])
-        except IndexError:
-            raise IndexError(&#39;No wall is found with the provided threshold_wall&#39;)
+        except IndexError as exc:
+            raise IndexError(&#39;No wall is found with the provided threshold_wall&#39;) from exc
 
         self.jet_wallposition = jetpositionindicies[walllogic][0]
 
@@ -556,8 +556,8 @@ calculations</dd>
         try:
             walllogic = (jetposwallgradient == 1) &amp; \
                         (jetpositionindicies &gt; np.where(jetposwallgradient &gt; 1)[0][-1])
-        except IndexError:
-            raise IndexError(&#39;No wall is found with the provided threshold_wall&#39;)
+        except IndexError as exc:
+            raise IndexError(&#39;No wall is found with the provided threshold_wall&#39;) from exc
 
         self.jet_wallposition = jetpositionindicies[walllogic][0]
 
@@ -829,8 +829,8 @@ if the jet width is not possible to estimate</dd>
     try:
         walllogic = (jetposwallgradient == 1) &amp; \
                     (jetpositionindicies &gt; np.where(jetposwallgradient &gt; 1)[0][-1])
-    except IndexError:
-        raise IndexError(&#39;No wall is found with the provided threshold_wall&#39;)
+    except IndexError as exc:
+        raise IndexError(&#39;No wall is found with the provided threshold_wall&#39;) from exc
 
     self.jet_wallposition = jetpositionindicies[walllogic][0]
 

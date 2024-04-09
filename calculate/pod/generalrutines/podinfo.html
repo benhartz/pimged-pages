@@ -230,7 +230,7 @@ class PhasePODInfo:
         &#34;&#34;&#34;
         if len(value) != 2 or not \
                 isinstance(value, list) or not \
-                all([isinstance(i, int) for i in value]):
+                all(isinstance(i, int) for i in value):
 
             raise TypeError(&#39;The input has to be a list with two int values, where the first &#39;
                             &#39;indicate the start of the mode range to load&#39;)
@@ -714,7 +714,7 @@ Which range of saved modes to load, finds the nearest that fit and load whole fi
         &#34;&#34;&#34;
         if len(value) != 2 or not \
                 isinstance(value, list) or not \
-                all([isinstance(i, int) for i in value]):
+                all(isinstance(i, int) for i in value):
 
             raise TypeError(&#39;The input has to be a list with two int values, where the first &#39;
                             &#39;indicate the start of the mode range to load&#39;)

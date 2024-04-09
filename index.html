@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1" />
 <meta name="generator" content="pdoc 0.10.0" />
 <title>pimged API documentation</title>
-<meta name="description" content="…" />
+<meta name="description" content="![logo](https://i.ibb.co/5rdDr7p/header.png) …" />
 <link rel="preload stylesheet" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/10up-sanitize.css/11.0.1/sanitize.min.css" integrity="sha256-PK9q560IAAa6WVRRh76LtCaI8pjTJ2z11v0miyNNjrs=" crossorigin>
 <link rel="preload stylesheet" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/10up-sanitize.css/11.0.1/typography.min.css" integrity="sha256-7l/o7C8jubJiy74VsKTidCy1yBkRtiUGbVkYBylBqUg=" crossorigin>
 <link rel="stylesheet preload" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.1.1/styles/github.min.css" crossorigin>
@@ -23,14 +23,15 @@
 <h1 class="title">Package <code>pimged</code></h1>
 </header>
 <section id="section-intro">
-<p>.</p>
 <p><img alt="logo" src="https://i.ibb.co/5rdDr7p/header.png"></p>
 <p>Python Image library for GASMIX EUDP Distro (PImGED) is used for handling image data collected
 during the experiments of the GASMIX project supported by EUDP, MAN ES and DTU. </p>
 <p>The framework is designed to handle large amounts of image data with limited computational
 resources. Several optimized function utilizing OpenCV C++, numba compilation and multithreading
 through the Joblib package, are used to speed-up computations and memory handling.</p>
-<h2 id="code-pages-are-found-here"><a href="https://benhartz.github.io/pimged-pages/">code pages are found here</a></h2>
+<p>GASMIX experiments consist of inverse seeded jet flows, where the environment is seeded and use
+a jet of clean air for negative image. From the negative image a concentration is estimated
+½based on initial images before seeding and fully seeded.</p>
 <h2 id="installation">Installation</h2>
 <p>A test package is created for the project, and it is possible to install it, with dependencies
 from testPyPi using the following command in the terminal for a Windows machine:</p>
@@ -212,11 +213,11 @@ datahandling&#160;<a class="footnote-backref" href="#fnref:fullpartfolder" title
 <summary>
 <span>Expand source code</span>
 </summary>
-<pre><code class="python">&#34;&#34;&#34;.
+<pre><code class="python">&#34;&#34;&#34;
 
-.. include:: ../readme.md
+.. include:: ../../readme.md
 
-.. include:: ../documentation.md
+.. include:: ../../documentation.md
 &#34;&#34;&#34;
 from .calculate.jetparameters import spreadangle, jetcenter
 from .datahandling import Dataset
@@ -270,7 +271,7 @@ from .utils.naturalkeysort import naturalkeysort</code></pre>
 <h1>Index</h1>
 <div class="toc">
 <ul>
-<li><a href="#code-pages-are-found-here">code pages are found here</a></li>
+<li><a href="#for-more-explicit-information-about-the-code-see-the-code-pages-found-here">For more explicit information about the code, see the code pages found here</a></li>
 <li><a href="#installation">Installation</a></li>
 <li><a href="#example-scripts-and-data">Example scripts and data</a><ul>
 <li><a href="#get-example-scripts">Get example scripts</a></li>

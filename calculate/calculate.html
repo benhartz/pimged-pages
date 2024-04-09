@@ -135,7 +135,7 @@ class Imagecalc:
                                pressurefoldername=self._fileinfo.pressurefoldername,
                                imagefoldername=self._fileinfo.imagefoldername,
                                checkmeta=False,
-                               loadmeta=self._fileinfo._loadmetadata)
+                               loadmeta=self._fileinfo.loadmetadata)
 
         # Setting the individualcalc parameter
         self._individualcalibrations = indivical
@@ -641,7 +641,8 @@ class Imagecalc:
 
         if isinstance(idx, slice):
             sizedata = np.shape(self._imagearrays.concentration.data)
-            self._imagearrays.moment.data = np.zeros((sizedata[0], sizedata[1], idx.stop - idx.start + 1))
+            self._imagearrays.moment.data = np.zeros((sizedata[0], sizedata[1],
+                                                      idx.stop - idx.start + 1))
             indecies = np.arange(idx.start, idx.stop, 1)
             for i, val in enumerate(indecies):
                 print(f&#39;Moment calc at time idx: {i+1} of {idx.stop}&#39;, end=&#39;\r&#39;)
@@ -696,7 +697,8 @@ class Presscalc(Imagecalc):
             if &#39;pressure&#39; in i:
                 # Catch the error if it is on the pressure_atm, pass other errors through
                 try:
-                    eval(&#39;self._pressurearrays.&#39; + i + &#39;.applycalibration()&#39;)
+                    getattr(self, &#39;_pressurearrays.&#39; + i + &#39;.applycalibration()&#39;)
+                    # eval(&#39;self._pressurearrays.&#39; + i + &#39;.applycalibration()&#39;)
                 except AttributeError as err:
                     if &#34;no attribute &#39;applycalibration&#39;&#34; in str(err):
                         pass
@@ -1144,7 +1146,7 @@ the imagearrays data container</p>
                                pressurefoldername=self._fileinfo.pressurefoldername,
                                imagefoldername=self._fileinfo.imagefoldername,
                                checkmeta=False,
-                               loadmeta=self._fileinfo._loadmetadata)
+                               loadmeta=self._fileinfo.loadmetadata)
 
         # Setting the individualcalc parameter
         self._individualcalibrations = indivical
@@ -1650,7 +1652,8 @@ the imagearrays data container</p>
 
         if isinstance(idx, slice):
             sizedata = np.shape(self._imagearrays.concentration.data)
-            self._imagearrays.moment.data = np.zeros((sizedata[0], sizedata[1], idx.stop - idx.start + 1))
+            self._imagearrays.moment.data = np.zeros((sizedata[0], sizedata[1],
+                                                      idx.stop - idx.start + 1))
             indecies = np.arange(idx.start, idx.stop, 1)
             for i, val in enumerate(indecies):
                 print(f&#39;Moment calc at time idx: {i+1} of {idx.stop}&#39;, end=&#39;\r&#39;)
@@ -1950,7 +1953,7 @@ for the dataset</dd>
                            pressurefoldername=self._fileinfo.pressurefoldername,
                            imagefoldername=self._fileinfo.imagefoldername,
                            checkmeta=False,
-                           loadmeta=self._fileinfo._loadmetadata)
+                           loadmeta=self._fileinfo.loadmetadata)
 
     # Setting the individualcalc parameter
     self._individualcalibrations = indivical
@@ -2160,7 +2163,8 @@ stationary time index</dd>
 
     if isinstance(idx, slice):
         sizedata = np.shape(self._imagearrays.concentration.data)
-        self._imagearrays.moment.data = np.zeros((sizedata[0], sizedata[1], idx.stop - idx.start + 1))
+        self._imagearrays.moment.data = np.zeros((sizedata[0], sizedata[1],
+                                                  idx.stop - idx.start + 1))
         indecies = np.arange(idx.start, idx.stop, 1)
         for i, val in enumerate(indecies):
             print(f&#39;Moment calc at time idx: {i+1} of {idx.stop}&#39;, end=&#39;\r&#39;)
@@ -2554,7 +2558,8 @@ ndarray([H, W, Time, Statio. time])</p></div>
             if &#39;pressure&#39; in i:
                 # Catch the error if it is on the pressure_atm, pass other errors through
                 try:
-                    eval(&#39;self._pressurearrays.&#39; + i + &#39;.applycalibration()&#39;)
+                    getattr(self, &#39;_pressurearrays.&#39; + i + &#39;.applycalibration()&#39;)
+                    # eval(&#39;self._pressurearrays.&#39; + i + &#39;.applycalibration()&#39;)
                 except AttributeError as err:
                     if &#34;no attribute &#39;applycalibration&#39;&#34; in str(err):
                         pass</code></pre>
@@ -2598,7 +2603,8 @@ ndarray([H, W, Time, Statio. time])</p></div>
         if &#39;pressure&#39; in i:
             # Catch the error if it is on the pressure_atm, pass other errors through
             try:
-                eval(&#39;self._pressurearrays.&#39; + i + &#39;.applycalibration()&#39;)
+                getattr(self, &#39;_pressurearrays.&#39; + i + &#39;.applycalibration()&#39;)
+                # eval(&#39;self._pressurearrays.&#39; + i + &#39;.applycalibration()&#39;)
             except AttributeError as err:
                 if &#34;no attribute &#39;applycalibration&#39;&#34; in str(err):
                     pass</code></pre>

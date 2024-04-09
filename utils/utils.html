@@ -87,9 +87,9 @@ def range_load_check(inputvar: list, rangetoload, rangetoloaddefault, typetochec
         elif loadmethod == &#39;spec&#39;:
             try:
                 output = [inputvar[i-1] for i in rangetoload]
-            except IndexError:
+            except IndexError as exc:
                 raise IndexError(f&#39;Image outside index is asked for, failed at asking, &#39;
-                                 f&#39;only {inputvar[-1]+1} is present in data&#39;)
+                                 f&#39;only {inputvar[-1]+1} is present in data&#39;) from exc
     else:
         raise TypeError(&#34;rangetoload input not accepted, has to be in a list &#39;all&#39;&#34;)
 
@@ -207,7 +207,29 @@ def check_folder_path(path: (str, pathlib.Path), createdir: bool):
         print(&#34;Path to file do not exist, creating path&#34;)
         makedirs(path)
     else:
-        raise FileNotFoundError(&#39;Folder do not exist&#39;)</code></pre>
+        raise FileNotFoundError(&#39;Folder do not exist&#39;)
+
+
+def bigdata_corr_file_read(correlationinfo, checkcorrfile: (str, pathlib.Path)):
+    &#34;&#34;&#34;Update the POD correlation matrix information.
+
+    Update the POD correlation information used by Phase POD
+
+    Parameters
+    ----------
+    correlationinfo :  :
+        infofile object from POD
+
+    checkcorrfile : (str, pathlib.Path) :
+        POD correlation file path
+    &#34;&#34;&#34;
+    print(&#39;The correlation prameters exist, started loading&#39;)
+    with np.load(checkcorrfile) as loadedcorr:
+        correlationinfo.corrmatrix = loadedcorr[&#39;corrematrix&#39;]
+        correlationinfo.psi = loadedcorr[&#39;psi&#39;]
+        correlationinfo.eigenvalues = loadedcorr[&#39;eigenvalues&#39;]
+        correlationinfo.accuenergy = loadedcorr[&#39;accuenergy&#39;]
+    print(&#39;Finished loading\n\n&#39;)</code></pre>
 </details>
 </section>
 <section>
@@ -217,6 +239,45 @@ def check_folder_path(path: (str, pathlib.Path), createdir: bool):
 <section>
 <h2 class="section-title" id="header-functions">Functions</h2>
 <dl>
+<dt id="pimged.utils.utils.bigdata_corr_file_read"><code class="name flex">
+<span>def <span class="ident">bigdata_corr_file_read</span></span>(<span>correlationinfo, checkcorrfile: (<class 'str'>, <class 'pathlib.Path'>))</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Update the POD correlation matrix information.</p>
+<p>Update the POD correlation information used by Phase POD</p>
+<h2 id="parameters">Parameters</h2>
+<dl>
+<dt><strong><code>correlationinfo</code></strong> :&ensp;<code>:</code></dt>
+<dd>infofile object from POD</dd>
+<dt><strong><code>checkcorrfile</code></strong> :&ensp;<code>(str, pathlib.Path) :</code></dt>
+<dd>POD correlation file path</dd>
+</dl></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def bigdata_corr_file_read(correlationinfo, checkcorrfile: (str, pathlib.Path)):
+    &#34;&#34;&#34;Update the POD correlation matrix information.
+
+    Update the POD correlation information used by Phase POD
+
+    Parameters
+    ----------
+    correlationinfo :  :
+        infofile object from POD
+
+    checkcorrfile : (str, pathlib.Path) :
+        POD correlation file path
+    &#34;&#34;&#34;
+    print(&#39;The correlation prameters exist, started loading&#39;)
+    with np.load(checkcorrfile) as loadedcorr:
+        correlationinfo.corrmatrix = loadedcorr[&#39;corrematrix&#39;]
+        correlationinfo.psi = loadedcorr[&#39;psi&#39;]
+        correlationinfo.eigenvalues = loadedcorr[&#39;eigenvalues&#39;]
+        correlationinfo.accuenergy = loadedcorr[&#39;accuenergy&#39;]
+    print(&#39;Finished loading\n\n&#39;)</code></pre>
+</details>
+</dd>
 <dt id="pimged.utils.utils.check_folder_path"><code class="name flex">
 <span>def <span class="ident">check_folder_path</span></span>(<span>path: (<class 'str'>, <class 'pathlib.Path'>), createdir: bool)</span>
 </code></dt>
@@ -514,9 +575,9 @@ loadmethod can be 'range' or 'spec', only used if non-default case is chosen
         elif loadmethod == &#39;spec&#39;:
             try:
                 output = [inputvar[i-1] for i in rangetoload]
-            except IndexError:
+            except IndexError as exc:
                 raise IndexError(f&#39;Image outside index is asked for, failed at asking, &#39;
-                                 f&#39;only {inputvar[-1]+1} is present in data&#39;)
+                                 f&#39;only {inputvar[-1]+1} is present in data&#39;) from exc
     else:
         raise TypeError(&#34;rangetoload input not accepted, has to be in a list &#39;all&#39;&#34;)
 
@@ -547,6 +608,7 @@ loadmethod can be 'range' or 'spec', only used if non-default case is chosen
 </li>
 <li><h3><a href="#header-functions">Functions</a></h3>
 <ul class="">
+<li><code><a title="pimged.utils.utils.bigdata_corr_file_read" href="#pimged.utils.utils.bigdata_corr_file_read">bigdata_corr_file_read</a></code></li>
 <li><code><a title="pimged.utils.utils.check_folder_path" href="#pimged.utils.utils.check_folder_path">check_folder_path</a></code></li>
 <li><code><a title="pimged.utils.utils.find_dir_contains" href="#pimged.utils.utils.find_dir_contains">find_dir_contains</a></code></li>
 <li><code><a title="pimged.utils.utils.get_folder_paths" href="#pimged.utils.utils.get_folder_paths">get_folder_paths</a></code></li>
