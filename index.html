@@ -31,24 +31,28 @@ resources. Several optimized function utilizing OpenCV C++, numba compilation an
 through the Joblib package, are used to speed-up computations and memory handling.</p>
 <p>GASMIX experiments consist of inverse seeded jet flows, where the environment is seeded and use
 a jet of clean air for negative image. From the negative image a concentration is estimated
-½based on initial images before seeding and fully seeded.</p>
+based on initial images before seeding and fully seeded.</p>
+<hr>
+<blockquote>
+<p><strong>For more information, see the code pages &ndash;&gt; <a href="https://benhartz.github.io/pimged-pages/">found here</a> &lt;&ndash;</strong></p>
+</blockquote>
+<hr>
 <h2 id="installation">Installation</h2>
 <p>A test package is created for the project, and it is possible to install it, with dependencies
 from testPyPi using the following command in the terminal for a Windows machine:</p>
 <pre><code>python -m pip install --index-url https://test.pypi.org/simple/ --extra-index-url https://pypi.org/simple PImGed
 </code></pre>
+<hr>
 <h2 id="example-scripts-and-data">Example scripts and data</h2>
-<h3 id="get-example-scripts">Get example scripts</h3>
 <p>Get the example scripts from the <a href="https://github.com/benhartz/pimged-example">GitHub repository</a>, it is cloned by using the following command</p>
 <pre><code class="language-commandline">git clone https://github.com/benhartz/pimged-example.git
 </code></pre>
-<hr>
-<h2 id="download-the-example-data-from-this-figshare-link">Download the example data from this <a href="https://figshare.com/s/286bc4cf871abd25b1d1">figshare link</a></h2>
-<p><strong>&ndash; OBS &ndash; &ndash; OBS &ndash;
-&ndash; OBS &ndash;</strong> </p>
-<p>The data folder is ~6 GB of data, as it consist of
-uncompressed tiff files directly from the
+<h3 id="download-the-example-data-from-this-figshare-link-">Download the example data from this &ndash;&gt; <a href="https://figshare.com/s/286bc4cf871abd25b1d1">figshare link</a> &lt;&ndash;</h3>
+<blockquote>
+<p><strong>&ndash; OBS &ndash; &ndash; OBS &ndash; &ndash; OBS &ndash;</strong></p>
+<p>The data folder is ~6 GB of data, as it consist of uncompressed tiff files directly from the
 high-speed camera sensor used.</p>
+</blockquote>
 <hr>
 <h3 id="folder-setup">Folder setup</h3>
 <p>In the example folder is located an example script on using the PImGED package and its modules.
@@ -57,42 +61,54 @@ measurments in a ziped folder for speed-up of downloading instead of many small 
 <p>Unzip the data folder so the folder path looks as seen here, and the <code>working directory</code>
 should be set inside the example folder, with the scripts.</p>
 <pre><code>pimged-example/
-  .gitignore
-  LICENSE
-  README.md
-  example/
-    pimged_example.py
-    pimged_big_data_example.py
-    pimged_pod_example.py
-  data/
-    data/
-     Pressure/
-      ...
-     Pictures/
-      ...
+|   .gitignore
+|   LICENSE
+|   README.md
+|
+|-- example/
+|       pimged_example.py
+|       pimged_big_data_example.py
+|       pimged_pod_example.py
+|
+`-- data/
+    `-- data/
+        `-- Pressure/
+        |     ...
+        `-- Pictures/
+              ...
 </code></pre>
+<hr>
 <h3 id="example-results">Example results</h3>
+<p>All examples are designed so they should be able to run on most computeres of todays standard
+with 16 GB of RAM. If less RAM is installed in the computer, there could be issues with running the
+examples</p>
 <h4 id="pimged_examplepy">pimged_example.py</h4>
+<blockquote>
 <p>Now it should be possible to run the <code>pimged_example.py</code> script for testing simple data
 manangement and get these plots out. AVO translate to "After Valve Opening" and there is a delay
 due to the air has to travel through the jet, valve opening delay and delay in the relays
-sending the opening signal.
-<img alt="jet conc" src="https://i.ibb.co/DLsWmqR/jetconc.png">
-<img alt="jet staistics" src="https://i.ibb.co/34msz0d/jetstatistics.png">
-<img alt="Pressures" src="https://i.ibb.co/zQ2xTgh/pressure.png"></p>
+sending the opening signal.</p>
+<p><img src="https://i.ibb.co/DLsWmqR/jetconc.png" alt="drawing" width="800"/>
+<img src="https://i.ibb.co/34msz0d/jetstatistics.png" alt="drawing" width="800"/>
+<img src="https://i.ibb.co/zQ2xTgh/pressure.png" alt="drawing" width="500"/></p>
+</blockquote>
 <h4 id="pimged_big_data_examplepy">pimged_big_data_example.py</h4>
-<p>The <code>pimged_big_data_example.py</code> script show how to use the code for handling larger amounts of
-data to get concentrations fields.
-Running <code>pimged_big_data_example.py</code> stores ~8.7 GB of data
-on the hard drive</p>
+<blockquote>
+<p>The <code>pimged_big_data_example.py</code> script show how to use the code for handling larger amounts
+of data to get concentrations fields.
+</p>
+<p><strong>Running <code>pimged_big_data_example.py</code> stores ~8.7 GB of data on the hard drive</strong></p>
 <p>The big data example should produce this plot
-<img alt="Big data example" src="https://i.ibb.co/mB6c003/bigdata.png"></p>
+<img src="https://i.ibb.co/mB6c003/bigdata.png" alt="drawing" width="800"/></p>
+</blockquote>
 <h4 id="pimged_pod_examplepy">pimged_pod_example.py</h4>
+<blockquote>
 <p>To use the POD calculation module, run <code>pimged_pod_example.py</code> for an example on use. This
-example script takes some time to run, as it is an extensive algorithm. Running
-<code>pimged_pod_example.py</code> stores ~5.5 GB of data on the hard drive</p>
+example script takes some time to run, as it is an extensive algorithm.</p>
+<p><strong>Running <code>pimged_pod_example.py</code> stores ~5.5 GB of data on the hard drive</strong></p>
 <p>The following plot should be produced
-<img alt="POD mode" src="https://i.ibb.co/YDfFQPJ/phase-POD-mode-1.png"></p>
+<img src="https://i.ibb.co/YDfFQPJ/phase-POD-mode-1.png" alt="drawing" width="500"/></p>
+</blockquote>
 <hr>
 <h2 id="code-structure">Code structure</h2>
 <p><img alt="codestructure" src="https://i.ibb.co/VDNfd9X/code-structure.png"></p>
@@ -117,28 +133,34 @@ easy to update individual functionality in different modules, without breaking c
 <h2 id="support">Support</h2>
 <p>The code is maintained during the GASMIX project from 2022 till start of 2025 by Benjamin Hartz</p>
 <p>After project end there are no plans for further support of the code from main authors. </p>
+<hr>
 <h2 id="authors-and-acknowledgment">Authors and acknowledgment</h2>
 <p>Created by Benjamin Hartz</p>
 <p>Created during the GASMIX PhD project at DTU Construct under FVM, supported by EUPD and MAN ES </p>
+<hr>
 <h2 id="license">License</h2>
 <p><a href="LICENSE">BSD 3-Clause License</a></p>
 <p>Copyright (c) 2024, Benjamin Arnold Krekeler Hartz</p>
 <hr>
-<h2 id="quick-overview">Quick Overview</h2>
+<h2 id="quick-function-overview">Quick Function Overview</h2>
 <p>These examples assume that <code><a title="pimged" href="#pimged">pimged</a></code> has been imported as <code>pg</code></p>
-<pre><code>import pimged as pg
+<pre><code class="language-python">    import pimged as pg
 </code></pre>
 <h3 id="load-raw-data">Load raw data</h3>
 <p>The following creates a datahandling object with the working directory of the file folders,
 <code>filedir</code>, a list of folders with image data that is searched in the natural sorted order,
 <code>searchfolders</code>, and the zero particle folder with images without particles, <code>zeroparticlesfolder</code>.
-It is possible to set <code>fullparticlesfolder</code><sup id="fnref:fullpartfolder"><a class="footnote-ref" href="#fn:fullpartfolder">1</a></sup>, which is a folder containing initial
+It is possible to set <code>fullparticlesfolder</code>, which is a folder containing initial
 images with particles. If this is set, the calibration function later will use this folder in the
 calculations. </p>
-<pre><code>image_path = "C:\user\documents\imagefolder"
-folderwithimages = ["dataset1", "dataset2", "dataset3", .... , "datasetN"]
-zerofoldername = "zero"
-dataset = pg.Dataset(filedir=image_path, searchfolders=folderwithimages, zeroparticlesfolder=zerofoldername)
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>It is adviced only to use <code>fullparticlesfolder</code>, if experienced with the package and datahandling</p>
+</div>
+<pre><code class="language-python">    image_path = &quot;C:\user\documents\imagefolder&quot;
+    folderwithimages = [&quot;dataset1&quot;, &quot;dataset2&quot;, &quot;dataset3&quot;, .... , &quot;datasetN&quot;]
+    zerofoldername = &quot;zero&quot;
+    dataset = pg.Dataset(filedir=image_path, searchfolders=folderwithimages, zeroparticlesfolder=zerofoldername)
 </code></pre>
 <p>To load data there has to be called the <code>load</code> function within the <code>dataset.images.raw</code> object.
 This load data into the raw image array object. If no input is given, all data is loaded. If the
@@ -148,35 +170,35 @@ The setimage specify how many of the images should be loaded from each folder. E
 everything from first till the 600th image.</p>
 <p>All data is saved into the Imagearray module under raw as a numpy ndarray with dimensions as
 <code>[height, width, time, stationary time]</code></p>
-<pre><code>dataset.loadimages(setfolderstoload=[1, 5], setimagestoload=[1, 600])
+<pre><code class="language-python">    dataset.loadimages(setfolderstoload=[1, 5], setimagestoload=[1, 600])
 </code></pre>
 <h3 id="calculate-concentration-fields">Calculate concentration fields</h3>
 <p>To create a pixel to pixel, a calculation object using the <code>dataset</code> is created using:</p>
-<pre><code>datacalc = pg.Calculate(dataset)
+<pre><code class="language-python">    datacalc = pg.Calculate(dataset)
 </code></pre>
 <p>To do a calibration call the <code>bit2conccalib</code> function and specify how many initial pictures
 should be used for the calibration. This function assume that <code>numberofimages</code> is present as the
 first images in the dataset that can be used for calibration (<code>[1, numberofimages]</code>).
 The function calculate a linear calibration per datasat given. Here a dataset is a folder of
 images several image series</p>
-<pre><code>datacalc.bit2conccalib(numberofimages=100)
+<pre><code class="language-python">    datacalc.bit2conccalib(numberofimages=100)
 </code></pre>
 <p>To calculate the concentration from the raw images, use the <code>bit2conc</code> function under the calculate
 module. It is possible to specify how much memory saving should be used during the calculations,
 but is initally set as a parallized load with minimal memory saving.
 All data is saved in the <code>dataset.images.concentration</code></p>
-<pre><code>datacalc.bit2conc()
+<pre><code class="language-python">    datacalc.bit2conc()
 </code></pre>
 <h3 id="calculate-statistics">Calculate statistics</h3>
 <p>It is now possible to calculate statistics as the mean, standard diviation and variance with the
 caluclate module. It is calculated along the stationary time dimension of the concentration data.
 The data is saved into the <code>dataset.images</code> module under the array assigned the data type.</p>
-<pre><code>datacalc.mean()
-datacalc.std()
-datacalc.var()
+<pre><code class="language-python">    datacalc.mean()
+    datacalc.std()
+    datacalc.var()
 </code></pre>
 <p>It is also possible to calculate e.g. the 4th moment of the data using </p>
-<pre><code>nth_moment = datacalc.moment(nth=4)
+<pre><code class="language-python">    nth_moment = datacalc.moment(nth=4)
 </code></pre>
 <p>This function return the calculated result and do not include it in the dataset object.</p>
 <h3 id="saving-and-loading-data">Saving and loading data</h3>
@@ -185,9 +207,9 @@ functions. The given example save a mean data in the given savefolder <code>file
 the save format defined by <code>fformat</code> using the <code>"zarr"</code> preset. The <code>filename</code> is the name of the
 file. Zarr is a paralillazble compressed format that can be used for HPC datahandling and is faster
 than usual .npz</p>
-<pre><code>filename = "data1"
-savefolder = "C:\user\documents\savefolder"
-dataset.imagearrays.mean.save(filename=filename, filepath=savefolder, fformat="zarr")
+<pre><code class="language-python">    filename = &quot;data1&quot;
+    savefolder = &quot;C:\user\documents\savefolder&quot;
+    dataset.imagearrays.mean.save(filename=filename, filepath=savefolder, fformat=&quot;zarr&quot;)
 </code></pre>
 <p>To load the data the call to the load function inside the arrays is used. Here the <code>filepath</code> and
 <code>fformat</code> is again specified and if the data is chunked saved, using <code>chunkeddata</code>. Chunked
@@ -198,17 +220,8 @@ according to the metadata saved with the chunked mean data. E.g. if a data set i
 over 4 runs and saved in four files, splitting the calculated datasets timespan from <code>[1, 25]</code>,
 <code>[26, 50]</code>, <code>[51, 75]</code> and <code>[76, 100]</code>, the code append the data into the same array going from
 <code>[1, 100]</code>.</p>
-<pre><code>dataset.imagearrays.mean.load(filename=filename, filepath=savefolder, fformat="zarr", chunkeddata=True)
+<pre><code class="language-python">    dataset.imagearrays.mean.load(filename=filename, filepath=savefolder, fformat=&quot;zarr&quot;, chunkeddata=True)
 </code></pre>
-<div class="footnote">
-<hr>
-<ol>
-<li id="fn:fullpartfolder">
-<p>It is adviced only to use this setting, if experienced with the package and
-datahandling&#160;<a class="footnote-backref" href="#fnref:fullpartfolder" title="Jump back to footnote 1 in the text">&#8617;</a></p>
-</li>
-</ol>
-</div>
 <details class="source">
 <summary>
 <span>Expand source code</span>
@@ -271,13 +284,9 @@ from .utils.naturalkeysort import naturalkeysort</code></pre>
 <h1>Index</h1>
 <div class="toc">
 <ul>
-<li><a href="#for-more-explicit-information-about-the-code-see-the-code-pages-found-here">For more explicit information about the code, see the code pages found here</a></li>
 <li><a href="#installation">Installation</a></li>
 <li><a href="#example-scripts-and-data">Example scripts and data</a><ul>
-<li><a href="#get-example-scripts">Get example scripts</a></li>
-</ul>
-</li>
-<li><a href="#download-the-example-data-from-this-figshare-link">Download the example data from this figshare link</a><ul>
+<li><a href="#download-the-example-data-from-this-figshare-link-">Download the example data from this &ndash;&gt; figshare link &lt;&ndash;</a></li>
 <li><a href="#folder-setup">Folder setup</a></li>
 <li><a href="#example-results">Example results</a><ul>
 <li><a href="#pimged_examplepy">pimged_example.py</a></li>
@@ -291,7 +300,7 @@ from .utils.naturalkeysort import naturalkeysort</code></pre>
 <li><a href="#support">Support</a></li>
 <li><a href="#authors-and-acknowledgment">Authors and acknowledgment</a></li>
 <li><a href="#license">License</a></li>
-<li><a href="#quick-overview">Quick overview</a><ul>
+<li><a href="#quick-function-overview">Quick function overview</a><ul>
 <li><a href="#load-raw-data">Load raw data</a></li>
 <li><a href="#calculate-concentration-fields">Calculate concentration fields</a></li>
 <li><a href="#calculate-statistics">Calculate statistics</a></li>
