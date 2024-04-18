@@ -31,7 +31,8 @@ resources. Several optimized function utilizing OpenCV C++, numba compilation an
 through the Joblib package, are used to speed-up computations and memory handling.</p>
 <p>GASMIX experiments consist of inverse seeded jet flows, where the environment is seeded and use
 a jet of clean air for negative image. From the negative image a concentration is estimated
-based on initial images before seeding and fully seeded.</p>
+based on initial images before seeding and fully seeded. The PimGED package was designed to
+handle these images on local computers with data on physical external harddrives.</p>
 <hr>
 <blockquote>
 <p><strong>For more information, see the code pages &ndash;&gt; <a href="https://benhartz.github.io/pimged-pages/">found here</a> &lt;&ndash;</strong></p>
@@ -43,7 +44,7 @@ from testPyPi using the following command in the terminal for a Windows machine:
 <pre><code>python -m pip install --index-url https://test.pypi.org/simple/ --extra-index-url https://pypi.org/simple PImGed
 </code></pre>
 <hr>
-<h2 id="example-scripts-and-data">Example scripts and data</h2>
+<h2 id="example-tutorial-scripts-and-data">Example tutorial scripts and data</h2>
 <p>Get the example scripts from the <a href="https://github.com/benhartz/pimged-example">GitHub repository</a>, it is cloned by using the following command</p>
 <pre><code class="language-commandline">git clone https://github.com/benhartz/pimged-example.git
 </code></pre>
@@ -54,7 +55,7 @@ from testPyPi using the following command in the terminal for a Windows machine:
 high-speed camera sensor used.</p>
 </blockquote>
 <hr>
-<h3 id="folder-setup">Folder setup</h3>
+<h3 id="extracted-folder-setup">Extracted folder setup</h3>
 <p>In the example folder is located an example script on using the PImGED package and its modules.
 The data folder contain 10 datasets obtained in the GASMIX test setup along with 10 pressure
 measurments in a ziped folder for speed-up of downloading instead of many small image files.</p>
@@ -98,16 +99,16 @@ sending the opening signal.</p>
 of data to get concentrations fields.
 </p>
 <p><strong>Running <code>pimged_big_data_example.py</code> stores ~8.7 GB of data on the hard drive</strong></p>
-<p>The big data example should produce this plot
-<img src="https://i.ibb.co/mB6c003/bigdata.png" alt="drawing" width="800"/></p>
+<p>The big data example should produce this plot</p>
+<p><img src="https://i.ibb.co/mB6c003/bigdata.png" alt="drawing" width="800"/></p>
 </blockquote>
 <h4 id="pimged_pod_examplepy">pimged_pod_example.py</h4>
 <blockquote>
 <p>To use the POD calculation module, run <code>pimged_pod_example.py</code> for an example on use. This
 example script takes some time to run, as it is an extensive algorithm.</p>
 <p><strong>Running <code>pimged_pod_example.py</code> stores ~5.5 GB of data on the hard drive</strong></p>
-<p>The following plot should be produced
-<img src="https://i.ibb.co/YDfFQPJ/phase-POD-mode-1.png" alt="drawing" width="500"/></p>
+<p>The following plot should be produced</p>
+<p><img src="https://i.ibb.co/YDfFQPJ/phase-POD-mode-1.png" alt="drawing" width="500"/></p>
 </blockquote>
 <hr>
 <h2 id="code-structure">Code structure</h2>
@@ -129,6 +130,15 @@ included in a utility package with the framework. Here is sorting of list elemen
 in folder and filenames, checking folder paths, handling metadata etc. </p>
 <p>Splitting the code framework into specialized modules decouple functionality and makes it
 easy to update individual functionality in different modules, without breaking code coherence.</p>
+<hr>
+<h2 id="improvements">Improvements</h2>
+<p>A re-write of the calculation module could improve useability with a design similar to that of
+the POD module. The re-design would provide more flexibility and robustness of the code. And the
+"jetparameters" module could be updated for the new code structure and made funcitioning again.</p>
+<h2 id="future-work">Future work</h2>
+<p>The package design makes it possible to implement new modules and functionalities fast. The POD
+module only consist of a Phase POD rutine, but implementing a static POD or SPOD method could
+improve useability. </p>
 <hr>
 <h2 id="support">Support</h2>
 <p>The code is maintained during the GASMIX project from 2022 till start of 2025 by Benjamin Hartz</p>
@@ -285,9 +295,9 @@ from .utils.naturalkeysort import naturalkeysort</code></pre>
 <div class="toc">
 <ul>
 <li><a href="#installation">Installation</a></li>
-<li><a href="#example-scripts-and-data">Example scripts and data</a><ul>
+<li><a href="#example-tutorial-scripts-and-data">Example tutorial scripts and data</a><ul>
 <li><a href="#download-the-example-data-from-this-figshare-link-">Download the example data from this &ndash;&gt; figshare link &lt;&ndash;</a></li>
-<li><a href="#folder-setup">Folder setup</a></li>
+<li><a href="#extracted-folder-setup">Extracted folder setup</a></li>
 <li><a href="#example-results">Example results</a><ul>
 <li><a href="#pimged_examplepy">pimged_example.py</a></li>
 <li><a href="#pimged_big_data_examplepy">pimged_big_data_example.py</a></li>
@@ -297,6 +307,8 @@ from .utils.naturalkeysort import naturalkeysort</code></pre>
 </ul>
 </li>
 <li><a href="#code-structure">Code structure</a></li>
+<li><a href="#improvements">Improvements</a></li>
+<li><a href="#future-work">Future work</a></li>
 <li><a href="#support">Support</a></li>
 <li><a href="#authors-and-acknowledgment">Authors and acknowledgment</a></li>
 <li><a href="#license">License</a></li>
