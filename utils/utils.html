@@ -30,6 +30,7 @@
 </summary>
 <pre><code class="python">&#34;&#34;&#34;Utility function to use in the PIMGED framework.&#34;&#34;&#34;
 import pathlib
+import warnings
 from os import listdir, path as ph, makedirs
 import numpy as np
 
@@ -74,6 +75,13 @@ def range_load_check(inputvar: list, rangetoload, rangetoloaddefault, typetochec
 
     elif isinstance(rangetoload, typetocheckfor):
         if loadmethod == &#39;range&#39;:
+            if len(rangetoload) &gt; 2:
+                warnings.warn(&#34;More than 2 indecies in the list provided. Did you mean to use &#34;
+                              &#34;&#39;spec&#39; as loadmethod? Using first and last input for the range.&#34;)
+            if len(rangetoload) &lt; 2:
+                raise IndexError(&#34;not enough index given for the range setting. E.g. [1, &#34;
+                                 &#34;4] for loading the 1st to 4th part of the list&#34;)
+        if loadmethod == &#39;range&#39;:
             if rangetoload[0] == 0:
                 start = rangetoload[0]
             else:
@@ -85,11 +93,18 @@ def range_load_check(inputvar: list, rangetoload, rangetoloaddefault, typetochec
                 output = inputvar[:, :, rangetoload[0]:rangetoload[-1]]
 
         elif loadmethod == &#39;spec&#39;:
+            # Checking if list is created with 0 as index or if the index is dataset folder
+            # followed with 1 as start index
+            setcheck = set(rangetoload)
+            if 0 in setcheck:
+                raise IndexError(&#34;When using &#39;spec&#39;, the inputs must be specified as starting &#34;
+                                 &#34;from 1 and not index based&#34;)
+
             try:
-                output = [inputvar[i-1] for i in rangetoload]
+                output = [inputvar[i - 1] for i in rangetoload]
             except IndexError as exc:
-                raise IndexError(f&#39;Image outside index is asked for, failed at asking, &#39;
-                                 f&#39;only {inputvar[-1]+1} is present in data&#39;) from exc
+                raise IndexError(f&#39;List element outside index is asked for, failed at asking, &#39;
+                                 f&#39;only {len(inputvar)} is present in data&#39;) from exc
     else:
         raise TypeError(&#34;rangetoload input not accepted, has to be in a list &#39;all&#39;&#34;)
 
@@ -562,6 +577,13 @@ loadmethod can be 'range' or 'spec', only used if non-default case is chosen
 
     elif isinstance(rangetoload, typetocheckfor):
         if loadmethod == &#39;range&#39;:
+            if len(rangetoload) &gt; 2:
+                warnings.warn(&#34;More than 2 indecies in the list provided. Did you mean to use &#34;
+                              &#34;&#39;spec&#39; as loadmethod? Using first and last input for the range.&#34;)
+            if len(rangetoload) &lt; 2:
+                raise IndexError(&#34;not enough index given for the range setting. E.g. [1, &#34;
+                                 &#34;4] for loading the 1st to 4th part of the list&#34;)
+        if loadmethod == &#39;range&#39;:
             if rangetoload[0] == 0:
                 start = rangetoload[0]
             else:
@@ -573,11 +595,18 @@ loadmethod can be 'range' or 'spec', only used if non-default case is chosen
                 output = inputvar[:, :, rangetoload[0]:rangetoload[-1]]
 
         elif loadmethod == &#39;spec&#39;:
+            # Checking if list is created with 0 as index or if the index is dataset folder
+            # followed with 1 as start index
+            setcheck = set(rangetoload)
+            if 0 in setcheck:
+                raise IndexError(&#34;When using &#39;spec&#39;, the inputs must be specified as starting &#34;
+                                 &#34;from 1 and not index based&#34;)
+
             try:
-                output = [inputvar[i-1] for i in rangetoload]
+                output = [inputvar[i - 1] for i in rangetoload]
             except IndexError as exc:
-                raise IndexError(f&#39;Image outside index is asked for, failed at asking, &#39;
-                                 f&#39;only {inputvar[-1]+1} is present in data&#39;) from exc
+                raise IndexError(f&#39;List element outside index is asked for, failed at asking, &#39;
+                                 f&#39;only {len(inputvar)} is present in data&#39;) from exc
     else:
         raise TypeError(&#34;rangetoload input not accepted, has to be in a list &#39;all&#39;&#34;)
 

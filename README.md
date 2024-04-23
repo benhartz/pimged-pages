@@ -26,11 +26,13 @@ python -m pip install --index-url https://test.pypi.org/simple/ --extra-index-ur
 ```
 ---
 ## Example tutorial scripts and data
-
-Get the example scripts from the [GitHub repository](https://github.com/benhartz/pimged-example), it is cloned by using the following command
+In the repo there are an example folder consistent of code that illustrate the use of PImGED. 
+Clone the repo to get the example scripts.
 ```commandline
-git clone https://github.com/benhartz/pimged-example.git
-``` 
+git clone https://gitlab.windenergy.dtu.dk/spp/spp-2024a/final-projects/pimged.git
+```
+An external download is needed for example data, as the code is created to work on experimental 
+data. Remember that the examples only work **IF** the package is installed as described above.
 
 ### Download the example data from this --> [figshare link](https://figshare.com/s/286bc4cf871abd25b1d1) <--
 > **-- OBS -- -- OBS -- -- OBS --**
@@ -147,6 +149,12 @@ improve useability.
 ## Peer review
 There have been no feedback that is implemented in the code. All ideas in improvements is based on 
 learnings over coding the framework and learning to handle large datasets. 
+
+## Tests
+The test setup is only done on some functions of the utils.utils module to show it is possible, 
+as full writing unittest for all functions and functionality of the PImGED package is a 3 month 
+project that is not time for. Further projects should include a unit test framework from the 
+start for reducing the workload over time and code updates checking.
 
 ---
 ## Support
