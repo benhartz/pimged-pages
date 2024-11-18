@@ -308,7 +308,7 @@ def loadimages(obj, filename: str = &#34;imagearray&#34;, fformat: str = &#34;za
                           &#34;overwritten data&#34;)
 
     # Initializing based on array type loaded
-    if setrangemethod == [&#39;range&#39;]:
+    if setrangemethod[0] == &#39;range&#39;:
         # builting the dataset range and total number of images range per dataset and adding it to
         # the object array info
         obj.arrayinfo.loadeddatasets = [np.min(setrange), np.max(setrange)]
@@ -324,7 +324,7 @@ def loadimages(obj, filename: str = &#34;imagearray&#34;, fformat: str = &#34;za
         arraysetsize = len(obj.arrayinfo.loadeddatasets)
         setrangesliceopt = [[0+len(k)*j, len(k)+len(k)*j] for j, k in enumerate(setrange)]
 
-    if imrangemethod == [&#39;range&#39;]:
+    if imrangemethod[0] == &#39;range&#39;:
         # builting the dataset range and total number of images range per dataset and adding it to
         # the object array info
         obj.arrayinfo.loadedimagerange = [np.min(imrange), np.max(imrange)]
@@ -930,7 +930,7 @@ a warning (False)</dd>
                           &#34;overwritten data&#34;)
 
     # Initializing based on array type loaded
-    if setrangemethod == [&#39;range&#39;]:
+    if setrangemethod[0] == &#39;range&#39;:
         # builting the dataset range and total number of images range per dataset and adding it to
         # the object array info
         obj.arrayinfo.loadeddatasets = [np.min(setrange), np.max(setrange)]
@@ -946,7 +946,7 @@ a warning (False)</dd>
         arraysetsize = len(obj.arrayinfo.loadeddatasets)
         setrangesliceopt = [[0+len(k)*j, len(k)+len(k)*j] for j, k in enumerate(setrange)]
 
-    if imrangemethod == [&#39;range&#39;]:
+    if imrangemethod[0] == &#39;range&#39;:
         # builting the dataset range and total number of images range per dataset and adding it to
         # the object array info
         obj.arrayinfo.loadedimagerange = [np.min(imrange), np.max(imrange)]

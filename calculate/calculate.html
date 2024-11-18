@@ -486,6 +486,12 @@ class Imagecalc:
         jetcenter, jetwidth, wallidx, shotidx = _rawblackcorrinputcheck(self, jetcenter, jetwidth,
                                                                         wallidx, shotidx)
 
+        if removeedgew == -1:
+            removeedgew = wallidx
+
+        if removeedgew_zero == -1:
+            removeedgew_zero = wallidx
+
         if self._imagearrays.blackpointcorr.data.any() and not forcerecal:
             print(&#39;Blackpoint correction data exist for set, uses zero images and factors&#39;)
             corrremove = self._imagearrays.blackpointcorr.data
@@ -500,11 +506,6 @@ class Imagecalc:
                                  f&#34;loaded.&#34;)
 
             print(&#39;Started raw data black point correction&#39;)
-            if removeedgew == -1:
-                removeedgew = wallidx
-
-            if removeedgew_zero == -1:
-                removeedgew_zero = wallidx
 
             # image width
             quaterjet = int(jetwidth / 4)
@@ -1543,6 +1544,12 @@ the imagearrays data container</p>
         jetcenter, jetwidth, wallidx, shotidx = _rawblackcorrinputcheck(self, jetcenter, jetwidth,
                                                                         wallidx, shotidx)
 
+        if removeedgew == -1:
+            removeedgew = wallidx
+
+        if removeedgew_zero == -1:
+            removeedgew_zero = wallidx
+
         if self._imagearrays.blackpointcorr.data.any() and not forcerecal:
             print(&#39;Blackpoint correction data exist for set, uses zero images and factors&#39;)
             corrremove = self._imagearrays.blackpointcorr.data
@@ -1557,11 +1564,6 @@ the imagearrays data container</p>
                                  f&#34;loaded.&#34;)
 
             print(&#39;Started raw data black point correction&#39;)
-            if removeedgew == -1:
-                removeedgew = wallidx
-
-            if removeedgew_zero == -1:
-                removeedgew_zero = wallidx
 
             # image width
             quaterjet = int(jetwidth / 4)
@@ -2483,6 +2485,12 @@ images. default is False, which means it calculate raw corrections</dd>
     jetcenter, jetwidth, wallidx, shotidx = _rawblackcorrinputcheck(self, jetcenter, jetwidth,
                                                                     wallidx, shotidx)
 
+    if removeedgew == -1:
+        removeedgew = wallidx
+
+    if removeedgew_zero == -1:
+        removeedgew_zero = wallidx
+
     if self._imagearrays.blackpointcorr.data.any() and not forcerecal:
         print(&#39;Blackpoint correction data exist for set, uses zero images and factors&#39;)
         corrremove = self._imagearrays.blackpointcorr.data
@@ -2497,11 +2505,6 @@ images. default is False, which means it calculate raw corrections</dd>
                              f&#34;loaded.&#34;)
 
         print(&#39;Started raw data black point correction&#39;)
-        if removeedgew == -1:
-            removeedgew = wallidx
-
-        if removeedgew_zero == -1:
-            removeedgew_zero = wallidx
 
         # image width
         quaterjet = int(jetwidth / 4)
