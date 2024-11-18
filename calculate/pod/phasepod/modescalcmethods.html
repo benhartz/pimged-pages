@@ -119,13 +119,6 @@ def modecalcaculation(mainpodinfo: PODInfo, correlationinfo: CorrelationInfo, da
 
     if ph.isfile(checkcorrfile):
         bigdata_corr_file_read(correlationinfo, checkcorrfile)
-        # print(&#39;The correlation prameters exist, started loading&#39;)
-        # with np.load(checkcorrfile) as loadedcorr:
-        #     correlationinfo.corrmatrix = loadedcorr[&#39;corrematrix&#39;]
-        #     correlationinfo.psi = loadedcorr[&#39;psi&#39;]
-        #     correlationinfo.eigenvalues = loadedcorr[&#39;eigenvalues&#39;]
-        #     correlationinfo.accuenergy = loadedcorr[&#39;accuenergy&#39;]
-        # print(&#39;Finished loading&#39;)
     else:
         raise FileExistsError(&#39;The correlation data file do not exist. Check path or if &#39;
                               &#39;correlation data are calculated for the setup&#39;)
@@ -652,13 +645,6 @@ from the second. Error is based in "jidxcorr" in the modecalc method, not solved
 
     if ph.isfile(checkcorrfile):
         bigdata_corr_file_read(correlationinfo, checkcorrfile)
-        # print(&#39;The correlation prameters exist, started loading&#39;)
-        # with np.load(checkcorrfile) as loadedcorr:
-        #     correlationinfo.corrmatrix = loadedcorr[&#39;corrematrix&#39;]
-        #     correlationinfo.psi = loadedcorr[&#39;psi&#39;]
-        #     correlationinfo.eigenvalues = loadedcorr[&#39;eigenvalues&#39;]
-        #     correlationinfo.accuenergy = loadedcorr[&#39;accuenergy&#39;]
-        # print(&#39;Finished loading&#39;)
     else:
         raise FileExistsError(&#39;The correlation data file do not exist. Check path or if &#39;
                               &#39;correlation data are calculated for the setup&#39;)

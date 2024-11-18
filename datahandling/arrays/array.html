@@ -32,6 +32,7 @@
 from os import getcwd
 
 import numpy as np
+from cv2 import bilateralFilter
 
 from .utils.info import Arrayinfo
 from .utils.filehandling import (saveimages, loadimages, savepickle, loadpickle)
@@ -74,6 +75,40 @@ class Imarray:
     def __str__(self):
         &#34;&#34;&#34;Representation of arraytypes.&#34;&#34;&#34;
         return _arraycontent(self.arrayinfo.arraytype)
+
+    def filter(self, method=&#39;bilateral&#39;, **kwargs):
+        &#34;&#34;&#34;Filtering array data.
+
+        method : str :
+             (Default value = &#39;bilateral&#39;)
+            Filtering method to use on the image array
+            &#39;bilateral&#39;: Bilateral filter from scipy. Possible to define inputs
+                         &#39;d&#39;: kernal size in pixels, (default value = 13)
+                         &#39;sigmaColor&#39;: smoothing parameter for the colors, (default value = 13/255)
+                         &#39;sigmaSpace&#39;: smoothing parameter for the space, (default value = 13)
+
+        Raises
+        ------
+        LookupError
+            Array is empty
+        NotImplementedError
+            Filter method is not implemented
+        &#34;&#34;&#34;
+        print(&#39;Started filtering array&#39;)
+        if self.data.size == 0:
+            raise LookupError(&#39;Image array is empty, check if calculated&#39;)
+
+        if method == &#39;bilateral&#39;:
+            d = kwargs.get(&#39;d&#39;, 13)
+            sigmaColor = kwargs.get(&#39;sigmaColor&#39;, 13 / 255)
+            sigmaSpace = kwargs.get(&#39;sigmaSpace&#39;, 13)
+            _bilateralfilter(self, d=d, sigmaColor=sigmaColor, sigmaSpace=sigmaSpace)
+        else:
+            raise NotImplementedError(&#39;The provided filter method do not exist&#39;)
+
+        self.data = self.data.astype(self._arrayprecision)
+
+        print(f&#39;Finished filtering data&#39;)
 
     def fliparraylr(self):
         &#34;&#34;&#34;Flipping an array around the middle column.
@@ -151,7 +186,8 @@ class Imarray:
 
         print(&#39;Done\n&#39;)
 
-    def save(self, filename: str = &#34;imagearray&#34;, fformat: str = &#34;zarr&#34;, filepath: str = getcwd()):
+    def save(self, filename: str = &#34;imagearray&#34;, fformat: str = &#34;zarr&#34;, filepath: str = getcwd(),
+             flag_overwrite: bool = True):
         &#34;&#34;&#34;Save method for storing data with loaded imagerange and datahandling range.
 
         Parameters
@@ -177,15 +213,22 @@ class Imarray:
              (Default value = getcwd())
             filedirectory to put the stores files. If nothing given the data is stored
             in the code location
+
+        flag_overwrite : bool :
+             (Default value = True)
+            If the data should be saved and overwrite existing files or add a prefix to preserve
+            data
         &#34;&#34;&#34;
         if self.arrayinfo.arraytype in (&#39;calibration&#39;, &#39;blackpointcorr&#39;):
             if filename == &#34;imagearray&#34; and self.arrayinfo.arraytype == &#39;calibration&#39;:
                 filename = &#34;calibrationarray&#34;
             elif filename == &#34;imagearray&#34; and self.arrayinfo.arraytype == &#39;blackpointcorr&#39;:
                 filename = &#34;blackpointcorrarray&#34;
-            savepickle(self, filepath=filepath, filename=filename, fformat=&#39;pkl&#39;)
+            savepickle(self, filepath=filepath, filename=filename, fformat=&#39;pkl&#39;,
+                       flag_overwrite=flag_overwrite)
         else:
-            saveimages(self, filename, fformat, filepath)
+            saveimages(self, filename, fformat, filepath,
+                       flag_overwrite=flag_overwrite)
 
     def load(self, filename: str = &#34;imagearray&#34;, fformat: str = &#34;zarr&#34;, filepath: str = getcwd(),
              chunkeddata: str = &#39;off&#39;, overlaperr: bool = True):
@@ -195,11 +238,10 @@ class Imarray:
         ----------
         filename: str :
              (Default value = &#34;imagearray&#34;)
-            filename for the saved file. If default is chosen the array type e.g. raw
-            data, is appended as
-            &#34;-raw&#34; on the name. If several files are present with the same name, the
-            code iterate through
-            and add &#34;_XX&#34; where XX is increasing in integer value
+            filename for the saved file without extension. If default is chosen the array type
+            e.g. raw data, is appended as &#34;-raw&#34; on the name. If several files are present with
+            the same name, the code iterate through and add &#34;_XX&#34; where XX is increasing in
+            integer value
 
         fformat: str :
              (Default value = &#34;zarr&#34;)
@@ -371,7 +413,36 @@ def _arraycontent(arraytype: str):
         case _:
             outstr = &#39;Array type not implemented, therefore no info&#39;
 
-    return outstr</code></pre>
+    return outstr
+
+
+def _bilateralfilter(obj, d, sigmaColor, sigmaSpace):
+    &#34;&#34;&#34;Bilateral filter.
+
+    Parameters
+    ----------
+    obj : Imarray :
+        image array with image data
+    d : int :
+        kernal of filter
+    sigmaColor : float :
+        color smoothing parameter
+    sigmaSpace : float :
+        space smoothing parameter
+
+    Returns
+    -------
+    type : str :
+        information string on the array type
+    &#34;&#34;&#34;
+    for j in range(0, obj.data.shape[2]):
+        print(f&#39;Image: {j + 1} of {obj.data.shape[2]}&#39;)
+        for i in range(0, obj.data.shape[3]):
+            print(f&#39;dataset: {i + 1} of {obj.data.shape[3]}&#39;, end=&#39;\r&#39;)
+            obj.data[:, :, j, i] = bilateralFilter(obj.data[:, :, j, i].astype(np.float32),
+                                                   d=d,
+                                                   sigmaColor=sigmaColor,
+                                                   sigmaSpace=sigmaSpace)</code></pre>
 </details>
 </section>
 <section>
@@ -379,6 +450,65 @@ def _arraycontent(arraytype: str):
 <section>
 </section>
 <section>
+<h2 class="section-title" id="header-functions">Functions</h2>
+<dl>
+<dt id="pimged.datahandling.arrays.array.bilateralFilter"><code class="name flex">
+<span>def <span class="ident">bilateralFilter</span></span>(<span>src, d, sigmaColor, sigmaSpace, dst, borderType)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>bilateralFilter(src, d, sigmaColor, sigmaSpace[, dst[, borderType]]) -&gt; dst
+.
+@brief Applies the bilateral filter to an image.
+. <br>
+.
+The function applies bilateral filtering to the input image, as described in
+.
+<a href="http://www.dai.ed.ac.uk/CVonline/LOCAL_COPIES/MANDUCHI1/Bilateral_Filtering.html">http://www.dai.ed.ac.uk/CVonline/LOCAL_COPIES/MANDUCHI1/Bilateral_Filtering.html</a>
+.
+bilateralFilter can reduce unwanted noise very well while keeping edges fairly sharp. However, it is
+.
+very slow compared to most filters.
+. <br>
+.
+<em>Sigma values</em>: For simplicity, you can set the 2 sigma values to be the same. If they are small (\&lt;
+.
+10), the filter will not have much effect, whereas if they are large (&gt; 150), they will have a very
+.
+strong effect, making the image look "cartoonish".
+. <br>
+.
+<em>Filter size</em>: Large filters (d &gt; 5) are very slow, so it is recommended to use d=5 for real-time
+.
+applications, and perhaps d=9 for offline applications that need heavy noise filtering.
+. <br>
+.
+This filter does not work inplace.
+.
+@param src Source 8-bit or floating-point, 1-channel or 3-channel image.
+.
+@param dst Destination image of the same size and type as src .
+.
+@param d Diameter of each pixel neighborhood that is used during filtering. If it is non-positive,
+.
+it is computed from sigmaSpace.
+.
+@param sigmaColor Filter sigma in the color space. A larger value of the parameter means that
+.
+farther colors within the pixel neighborhood (see sigmaSpace) will be mixed together, resulting
+.
+in larger areas of semi-equal color.
+.
+@param sigmaSpace Filter sigma in the coordinate space. A larger value of the parameter means that
+.
+farther pixels will influence each other as long as their colors are close enough (see sigmaColor
+.
+). When d&gt;0, it specifies the neighborhood size regardless of sigmaSpace. Otherwise, d is
+.
+proportional to sigmaSpace.
+.
+@param borderType border mode used to extrapolate pixels outside of the image, see #BorderTypes</p></div>
+</dd>
+</dl>
 </section>
 <section>
 <h2 class="section-title" id="header-classes">Classes</h2>
@@ -445,6 +575,40 @@ blackpoint correction as jet center, width etc.</dd>
     def __str__(self):
         &#34;&#34;&#34;Representation of arraytypes.&#34;&#34;&#34;
         return _arraycontent(self.arrayinfo.arraytype)
+
+    def filter(self, method=&#39;bilateral&#39;, **kwargs):
+        &#34;&#34;&#34;Filtering array data.
+
+        method : str :
+             (Default value = &#39;bilateral&#39;)
+            Filtering method to use on the image array
+            &#39;bilateral&#39;: Bilateral filter from scipy. Possible to define inputs
+                         &#39;d&#39;: kernal size in pixels, (default value = 13)
+                         &#39;sigmaColor&#39;: smoothing parameter for the colors, (default value = 13/255)
+                         &#39;sigmaSpace&#39;: smoothing parameter for the space, (default value = 13)
+
+        Raises
+        ------
+        LookupError
+            Array is empty
+        NotImplementedError
+            Filter method is not implemented
+        &#34;&#34;&#34;
+        print(&#39;Started filtering array&#39;)
+        if self.data.size == 0:
+            raise LookupError(&#39;Image array is empty, check if calculated&#39;)
+
+        if method == &#39;bilateral&#39;:
+            d = kwargs.get(&#39;d&#39;, 13)
+            sigmaColor = kwargs.get(&#39;sigmaColor&#39;, 13 / 255)
+            sigmaSpace = kwargs.get(&#39;sigmaSpace&#39;, 13)
+            _bilateralfilter(self, d=d, sigmaColor=sigmaColor, sigmaSpace=sigmaSpace)
+        else:
+            raise NotImplementedError(&#39;The provided filter method do not exist&#39;)
+
+        self.data = self.data.astype(self._arrayprecision)
+
+        print(f&#39;Finished filtering data&#39;)
 
     def fliparraylr(self):
         &#34;&#34;&#34;Flipping an array around the middle column.
@@ -522,7 +686,8 @@ blackpoint correction as jet center, width etc.</dd>
 
         print(&#39;Done\n&#39;)
 
-    def save(self, filename: str = &#34;imagearray&#34;, fformat: str = &#34;zarr&#34;, filepath: str = getcwd()):
+    def save(self, filename: str = &#34;imagearray&#34;, fformat: str = &#34;zarr&#34;, filepath: str = getcwd(),
+             flag_overwrite: bool = True):
         &#34;&#34;&#34;Save method for storing data with loaded imagerange and datahandling range.
 
         Parameters
@@ -548,15 +713,22 @@ blackpoint correction as jet center, width etc.</dd>
              (Default value = getcwd())
             filedirectory to put the stores files. If nothing given the data is stored
             in the code location
+
+        flag_overwrite : bool :
+             (Default value = True)
+            If the data should be saved and overwrite existing files or add a prefix to preserve
+            data
         &#34;&#34;&#34;
         if self.arrayinfo.arraytype in (&#39;calibration&#39;, &#39;blackpointcorr&#39;):
             if filename == &#34;imagearray&#34; and self.arrayinfo.arraytype == &#39;calibration&#39;:
                 filename = &#34;calibrationarray&#34;
             elif filename == &#34;imagearray&#34; and self.arrayinfo.arraytype == &#39;blackpointcorr&#39;:
                 filename = &#34;blackpointcorrarray&#34;
-            savepickle(self, filepath=filepath, filename=filename, fformat=&#39;pkl&#39;)
+            savepickle(self, filepath=filepath, filename=filename, fformat=&#39;pkl&#39;,
+                       flag_overwrite=flag_overwrite)
         else:
-            saveimages(self, filename, fformat, filepath)
+            saveimages(self, filename, fformat, filepath,
+                       flag_overwrite=flag_overwrite)
 
     def load(self, filename: str = &#34;imagearray&#34;, fformat: str = &#34;zarr&#34;, filepath: str = getcwd(),
              chunkeddata: str = &#39;off&#39;, overlaperr: bool = True):
@@ -566,11 +738,10 @@ blackpoint correction as jet center, width etc.</dd>
         ----------
         filename: str :
              (Default value = &#34;imagearray&#34;)
-            filename for the saved file. If default is chosen the array type e.g. raw
-            data, is appended as
-            &#34;-raw&#34; on the name. If several files are present with the same name, the
-            code iterate through
-            and add &#34;_XX&#34; where XX is increasing in integer value
+            filename for the saved file without extension. If default is chosen the array type
+            e.g. raw data, is appended as &#34;-raw&#34; on the name. If several files are present with
+            the same name, the code iterate through and add &#34;_XX&#34; where XX is increasing in
+            integer value
 
         fformat: str :
              (Default value = &#34;zarr&#34;)
@@ -703,6 +874,64 @@ if the amplified data should be limeted to a range of values</dd>
     print(&#39;Done\n&#39;)</code></pre>
 </details>
 </dd>
+<dt id="pimged.datahandling.arrays.array.Imarray.filter"><code class="name flex">
+<span>def <span class="ident">filter</span></span>(<span>self, method='bilateral', **kwargs)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Filtering array data.</p>
+<p>method : str :
+(Default value = 'bilateral')
+Filtering method to use on the image array
+'bilateral': Bilateral filter from scipy. Possible to define inputs
+'d': kernal size in pixels, (default value = 13)
+'sigmaColor': smoothing parameter for the colors, (default value = 13/255)
+'sigmaSpace': smoothing parameter for the space, (default value = 13)</p>
+<h2 id="raises">Raises</h2>
+<dl>
+<dt><code>LookupError</code></dt>
+<dd>Array is empty</dd>
+<dt><code>NotImplementedError</code></dt>
+<dd>Filter method is not implemented</dd>
+</dl></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def filter(self, method=&#39;bilateral&#39;, **kwargs):
+    &#34;&#34;&#34;Filtering array data.
+
+    method : str :
+         (Default value = &#39;bilateral&#39;)
+        Filtering method to use on the image array
+        &#39;bilateral&#39;: Bilateral filter from scipy. Possible to define inputs
+                     &#39;d&#39;: kernal size in pixels, (default value = 13)
+                     &#39;sigmaColor&#39;: smoothing parameter for the colors, (default value = 13/255)
+                     &#39;sigmaSpace&#39;: smoothing parameter for the space, (default value = 13)
+
+    Raises
+    ------
+    LookupError
+        Array is empty
+    NotImplementedError
+        Filter method is not implemented
+    &#34;&#34;&#34;
+    print(&#39;Started filtering array&#39;)
+    if self.data.size == 0:
+        raise LookupError(&#39;Image array is empty, check if calculated&#39;)
+
+    if method == &#39;bilateral&#39;:
+        d = kwargs.get(&#39;d&#39;, 13)
+        sigmaColor = kwargs.get(&#39;sigmaColor&#39;, 13 / 255)
+        sigmaSpace = kwargs.get(&#39;sigmaSpace&#39;, 13)
+        _bilateralfilter(self, d=d, sigmaColor=sigmaColor, sigmaSpace=sigmaSpace)
+    else:
+        raise NotImplementedError(&#39;The provided filter method do not exist&#39;)
+
+    self.data = self.data.astype(self._arrayprecision)
+
+    print(f&#39;Finished filtering data&#39;)</code></pre>
+</details>
+</dd>
 <dt id="pimged.datahandling.arrays.array.Imarray.fliparraylr"><code class="name flex">
 <span>def <span class="ident">fliparraylr</span></span>(<span>self)</span>
 </code></dt>
@@ -764,7 +993,7 @@ if the amplified data should be limeted to a range of values</dd>
 </details>
 </dd>
 <dt id="pimged.datahandling.arrays.array.Imarray.load"><code class="name flex">
-<span>def <span class="ident">load</span></span>(<span>self, filename: str = 'imagearray', fformat: str = 'zarr', filepath: str = 'C:\\Users\\beakh\\Documents\\GASMIX project\\Courses\\Scientific Python Programming\\SSP Coding\\pimged', chunkeddata: str = 'off', overlaperr: bool = True)</span>
+<span>def <span class="ident">load</span></span>(<span>self, filename: str = 'imagearray', fformat: str = 'zarr', filepath: str = 'C:\\Users\\beakh\\Documents\\GASMIX project\\Coding\\Python\\Repo\\GASMIX-pimged', chunkeddata: str = 'off', overlaperr: bool = True)</span>
 </code></dt>
 <dd>
 <div class="desc"><p>Load saved imagearray data.</p>
@@ -772,11 +1001,10 @@ if the amplified data should be limeted to a range of values</dd>
 <dl>
 <dt><strong><code>filename</code></strong> :&ensp;<code>str :</code></dt>
 <dd>(Default value = "imagearray")
-filename for the saved file. If default is chosen the array type e.g. raw
-data, is appended as
-"-raw" on the name. If several files are present with the same name, the
-code iterate through
-and add "_XX" where XX is increasing in integer value</dd>
+filename for the saved file without extension. If default is chosen the array type
+e.g. raw data, is appended as "-raw" on the name. If several files are present with
+the same name, the code iterate through and add "_XX" where XX is increasing in
+integer value</dd>
 <dt><strong><code>fformat</code></strong> :&ensp;<code>str :</code></dt>
 <dd>(Default value = "zarr")
 {'npz', 'npz-comp', 'zarr'}
@@ -818,11 +1046,10 @@ a warning (False)</dd>
     ----------
     filename: str :
          (Default value = &#34;imagearray&#34;)
-        filename for the saved file. If default is chosen the array type e.g. raw
-        data, is appended as
-        &#34;-raw&#34; on the name. If several files are present with the same name, the
-        code iterate through
-        and add &#34;_XX&#34; where XX is increasing in integer value
+        filename for the saved file without extension. If default is chosen the array type
+        e.g. raw data, is appended as &#34;-raw&#34; on the name. If several files are present with
+        the same name, the code iterate through and add &#34;_XX&#34; where XX is increasing in
+        integer value
 
     fformat: str :
          (Default value = &#34;zarr&#34;)
@@ -872,7 +1099,7 @@ a warning (False)</dd>
 </details>
 </dd>
 <dt id="pimged.datahandling.arrays.array.Imarray.save"><code class="name flex">
-<span>def <span class="ident">save</span></span>(<span>self, filename: str = 'imagearray', fformat: str = 'zarr', filepath: str = 'C:\\Users\\beakh\\Documents\\GASMIX project\\Courses\\Scientific Python Programming\\SSP Coding\\pimged')</span>
+<span>def <span class="ident">save</span></span>(<span>self, filename: str = 'imagearray', fformat: str = 'zarr', filepath: str = 'C:\\Users\\beakh\\Documents\\GASMIX project\\Coding\\Python\\Repo\\GASMIX-pimged', flag_overwrite: bool = True)</span>
 </code></dt>
 <dd>
 <div class="desc"><p>Save method for storing data with loaded imagerange and datahandling range.</p>
@@ -897,12 +1124,17 @@ data stores</dd>
 <dd>(Default value = getcwd())
 filedirectory to put the stores files. If nothing given the data is stored
 in the code location</dd>
+<dt><strong><code>flag_overwrite</code></strong> :&ensp;<code>bool :</code></dt>
+<dd>(Default value = True)
+If the data should be saved and overwrite existing files or add a prefix to preserve
+data</dd>
 </dl></div>
 <details class="source">
 <summary>
 <span>Expand source code</span>
 </summary>
-<pre><code class="python">def save(self, filename: str = &#34;imagearray&#34;, fformat: str = &#34;zarr&#34;, filepath: str = getcwd()):
+<pre><code class="python">def save(self, filename: str = &#34;imagearray&#34;, fformat: str = &#34;zarr&#34;, filepath: str = getcwd(),
+         flag_overwrite: bool = True):
     &#34;&#34;&#34;Save method for storing data with loaded imagerange and datahandling range.
 
     Parameters
@@ -928,15 +1160,22 @@ in the code location</dd>
          (Default value = getcwd())
         filedirectory to put the stores files. If nothing given the data is stored
         in the code location
+
+    flag_overwrite : bool :
+         (Default value = True)
+        If the data should be saved and overwrite existing files or add a prefix to preserve
+        data
     &#34;&#34;&#34;
     if self.arrayinfo.arraytype in (&#39;calibration&#39;, &#39;blackpointcorr&#39;):
         if filename == &#34;imagearray&#34; and self.arrayinfo.arraytype == &#39;calibration&#39;:
             filename = &#34;calibrationarray&#34;
         elif filename == &#34;imagearray&#34; and self.arrayinfo.arraytype == &#39;blackpointcorr&#39;:
             filename = &#34;blackpointcorrarray&#34;
-        savepickle(self, filepath=filepath, filename=filename, fformat=&#39;pkl&#39;)
+        savepickle(self, filepath=filepath, filename=filename, fformat=&#39;pkl&#39;,
+                   flag_overwrite=flag_overwrite)
     else:
-        saveimages(self, filename, fformat, filepath)</code></pre>
+        saveimages(self, filename, fformat, filepath,
+                   flag_overwrite=flag_overwrite)</code></pre>
 </details>
 </dd>
 </dl>
@@ -1067,6 +1306,11 @@ defining the type of array</dd>
 <li><code><a title="pimged.datahandling.arrays" href="index.html">pimged.datahandling.arrays</a></code></li>
 </ul>
 </li>
+<li><h3><a href="#header-functions">Functions</a></h3>
+<ul class="">
+<li><code><a title="pimged.datahandling.arrays.array.bilateralFilter" href="#pimged.datahandling.arrays.array.bilateralFilter">bilateralFilter</a></code></li>
+</ul>
+</li>
 <li><h3><a href="#header-classes">Classes</a></h3>
 <ul>
 <li>
@@ -1074,6 +1318,7 @@ defining the type of array</dd>
 <ul class="two-column">
 <li><code><a title="pimged.datahandling.arrays.array.Imarray.amplify" href="#pimged.datahandling.arrays.array.Imarray.amplify">amplify</a></code></li>
 <li><code><a title="pimged.datahandling.arrays.array.Imarray.clear" href="#pimged.datahandling.arrays.array.Imarray.clear">clear</a></code></li>
+<li><code><a title="pimged.datahandling.arrays.array.Imarray.filter" href="#pimged.datahandling.arrays.array.Imarray.filter">filter</a></code></li>
 <li><code><a title="pimged.datahandling.arrays.array.Imarray.fliparraylr" href="#pimged.datahandling.arrays.array.Imarray.fliparraylr">fliparraylr</a></code></li>
 <li><code><a title="pimged.datahandling.arrays.array.Imarray.fliparrayud" href="#pimged.datahandling.arrays.array.Imarray.fliparrayud">fliparrayud</a></code></li>
 <li><code><a title="pimged.datahandling.arrays.array.Imarray.load" href="#pimged.datahandling.arrays.array.Imarray.load">load</a></code></li>

@@ -38,7 +38,7 @@ import dill as pickle
 
 
 def saveimages(obj, filename: str = &#34;imagearray&#34;, fformat: str = &#34;zarr&#34;,
-               filepath: str = getcwd()):
+               filepath: str = getcwd(), flag_overwrite: bool = True):
     &#34;&#34;&#34;Save method for storing data with loaded imagerange and datahandling range.
     
     Saving images from PImGED calculations
@@ -69,6 +69,10 @@ def saveimages(obj, filename: str = &#34;imagearray&#34;, fformat: str = &#34;za
          (Default value = getcwd())
         filedirectory to put the stores files. If nothing given the data is stored in
         the code location
+
+    flag_overwrite : bool :
+         (Default value = True)
+        If the data should be saved and overwrite existing files or add a prefix to preserve data
 
     Raises
     ------
@@ -101,31 +105,34 @@ def saveimages(obj, filename: str = &#34;imagearray&#34;, fformat: str = &#34;za
     addedinfonameprefix = _infofileprefixes(fformat)
 
     print(&#39;Started saveing data\n&#39;)
-    jsoninfofile = {&#39;imrange&#39;: [int(obj.arrayinfo.loadedimagerange[0]),
-                                int(obj.arrayinfo.loadedimagerange[1])],
-                    &#39;setrange&#39;: [int(obj.arrayinfo.loadeddatasets[0]),
-                                 int(obj.arrayinfo.loadeddatasets[1])],
+    jsoninfofile = {&#39;imrangemethod&#39;: obj.arrayinfo.loadedimagerangemethod,
+                    &#39;imrange&#39;: [int(i) for i in obj.arrayinfo.loadedimagerange],
+                    &#39;setrangemethod&#39;: obj.arrayinfo.loadeddatasetsrangemethod,
+                    &#39;setrange&#39;: [int(i) for i in obj.arrayinfo.loadeddatasets],
                     &#39;arrayinfo&#39;: obj.arrayinfo.arraytype,
                     &#39;imsizes&#39;: [obj.data.shape[0], obj.data.shape[1]]}
     match fformat:
         case &#34;npz&#34;:
             # Checking if filename exist. If so, create new filename
             fullfilepath = _safefilenamecheck(ph.isfile, addedsavenameprefix + &#34;.&#34; + tmpformat,
-                                              fullfilepath, filepath, filename)
+                                              fullfilepath, filepath, filename,
+                                              overwrite=flag_overwrite)
             np.savez(fullfilepath + addedsavenameprefix, array=obj.data)
             _writetojsonfile(fullfilepath + addedinfonameprefix, jsoninfofile)
 
         case &#34;npz-comp&#34;:
             # Checking if filename exist. If so, create new filename
             fullfilepath = _safefilenamecheck(ph.isfile, addedsavenameprefix + &#34;.&#34; + tmpformat,
-                                              fullfilepath, filepath, filename)
+                                              fullfilepath, filepath, filename,
+                                              overwrite=flag_overwrite)
             np.savez_compressed(fullfilepath + addedsavenameprefix, array=obj.data)
             _writetojsonfile(fullfilepath + addedinfonameprefix, jsoninfofile)
 
         case &#34;zarr&#34;:
             # Checking if filename exist. If so, create new filename
             fullfilepath = _safefilenamecheck(ph.isdir, addedsavenameprefix, fullfilepath, filepath,
-                                              filename)
+                                              filename,
+                                              overwrite=flag_overwrite)
             zarrsave(fullfilepath + addedsavenameprefix, obj.data)
             _writetojsonfile(fullfilepath + &#34;\\&#34; + addedinfonameprefix, jsoninfofile)
 
@@ -227,7 +234,9 @@ def loadimages(obj, filename: str = &#34;imagearray&#34;, fformat: str = &#34;za
 
     # Check the metadata files for file info and create list with file data
     imrange = []
+    imrangemethod = []
     setrange = []
+    setrangemethod = []
     arinfo = []
     imsizes = []
     for filepaths in infofilepaths:
@@ -237,6 +246,13 @@ def loadimages(obj, filename: str = &#34;imagearray&#34;, fformat: str = &#34;za
             setrange.append(info[&#39;setrange&#39;])
             imsizes.append(info[&#39;imsizes&#39;])
             arinfo.append(str(info[&#39;arrayinfo&#39;]))
+            if &#39;imrangemethod&#39; in info.keys():
+                imrangemethod.append(info[&#39;imrangemethod&#39;])
+                setrangemethod.append(info[&#39;setrangemethod&#39;])
+
+    if not setrangemethod:
+        setrangemethod = [&#39;range&#39;]
+        imrangemethod = [&#39;range&#39;]
 
     # Finding array types that match the array type called and built list with indecies for all
     # data matching
@@ -291,33 +307,50 @@ def loadimages(obj, filename: str = &#34;imagearray&#34;, fformat: str = &#34;za
         raise ImportError(&#34;Some of the imported data overlap in the images and there will be &#34;
                           &#34;overwritten data&#34;)
 
-    # builting the dataset range and total number of images range per dataset and adding it to
-    # the object array info
-    obj.arrayinfo.loadedimagerange = [np.min(imrange), np.max(imrange)]
-    obj.arrayinfo.loadeddatasets = [np.min(setrange), np.max(setrange)]
-
-    # Building the slicer index list based on the chunked data metadata and ensuring to always
-    # load data into index 0 for the image range
-    imrangesliceopt = np.array([x[:] for x in imrange])
-    imrangesliceopt = np.array([[x[0] - 1, x[1]] for x in imrangesliceopt])
-    imrangesliceopt -= np.min(imrangesliceopt)
-
-    # Building the slicer for the dataset range
-    setrangesliceopt = np.array([x[:] for x in setrange])
-    setrangesliceopt = np.array([[x[0] - 1, x[1]] for x in setrangesliceopt])
-    setrangesliceopt -= np.min(setrangesliceopt)
-
     # Initializing based on array type loaded
-    arraytimesize = obj.arrayinfo.loadedimagerange[1]-obj.arrayinfo.loadedimagerange[0] + 1
-    arraysetsize = obj.arrayinfo.loadeddatasets[1]-obj.arrayinfo.loadeddatasets[0] + 1
+    if setrangemethod == [&#39;range&#39;]:
+        # builting the dataset range and total number of images range per dataset and adding it to
+        # the object array info
+        obj.arrayinfo.loadeddatasets = [np.min(setrange), np.max(setrange)]
+
+        # Building the slicer index list based on the chunked data metadata and ensuring to always
+        # load data into index 0 for the image range
+        setrangesliceopt = np.array([x[:] for x in setrange])
+        setrangesliceopt = np.array([[x[0] - 1, x[1]] for x in setrangesliceopt])
+        setrangesliceopt -= np.min(setrangesliceopt)
+        arraysetsize = obj.arrayinfo.loadeddatasets[1] - obj.arrayinfo.loadeddatasets[0] + 1
+    else:
+        obj.arrayinfo.loadeddatasets = np.array(setrange).flatten().tolist()
+        arraysetsize = len(obj.arrayinfo.loadeddatasets)
+        setrangesliceopt = [[0+len(k)*j, len(k)+len(k)*j] for j, k in enumerate(setrange)]
+
+    if imrangemethod == [&#39;range&#39;]:
+        # builting the dataset range and total number of images range per dataset and adding it to
+        # the object array info
+        obj.arrayinfo.loadedimagerange = [np.min(imrange), np.max(imrange)]
+
+        # Building the slicer index list based on the chunked data metadata and ensuring to always
+        # load data into index 0 for the image range
+        imrangesliceopt = np.array([x[:] for x in imrange])
+        imrangesliceopt = np.array([[x[0] - 1, x[1]] for x in imrangesliceopt])
+        imrangesliceopt -= np.min(imrangesliceopt)
+        arraytimesize = obj.arrayinfo.loadedimagerange[1] - obj.arrayinfo.loadedimagerange[0] + 1
+    else:
+        obj.arrayinfo.loadedimagerange = np.array(imrange).flatten().tolist()
+        arraytimesize = len(obj.arrayinfo.loadedimagerange)
+        imrangesliceopt = [[0+len(k)*j, len(k)+len(k)*j] for j, k in enumerate(imrange)]
+
+    print(&#39;Initializing array&#39;)
     match obj.arrayinfo.arraytype:
         case &#34;raw&#34; | &#34;concentration&#34;:
-            initialdim = np.array([imsizes[0][0], imsizes[0][1], arraytimesize,  arraysetsize])
+            initialdim = np.array([imsizes[0][0], imsizes[0][1], arraytimesize, arraysetsize])
         case _:
             initialdim = np.array([imsizes[0][0], imsizes[0][1], arraytimesize])
 
     print(&#39;Started loading data&#39;)
-    obj.data = np.ones(initialdim)
+    obj.data = np.ones(initialdim, dtype=obj._arrayprecision)
+    obj.arrayinfo.loadeddatasetsrangemethod = setrangemethod[0]
+    obj.arrayinfo.loadedimagerangemethod = imrangemethod[0]
 
     # Going through the files and loading them with respect to there metadata into an array,
     # sliced based on the metadata
@@ -325,7 +358,7 @@ def loadimages(obj, filename: str = &#34;imagearray&#34;, fformat: str = &#34;za
         slic_im = slice(imrangesliceopt[i][0], imrangesliceopt[i][1])
         slic_set = slice(setrangesliceopt[i][0], setrangesliceopt[i][1])
         print(&#39;===========================================&#39;)
-        print(f&#39;Loading file {i+1} of {len(infofilepaths)}&#39;, end=&#39;\r&#39;)
+        print(f&#39;Loading file {i + 1} of {len(infofilepaths)}&#39;, end=&#39;\r&#39;)
         match fformat:
             case &#34;npz&#34; | &#34;npz-comp&#34;:
                 fullfilepath = ph.join(*filepaths.split(&#39;-&#39;)[:-1]) + _saveprefixes(fformat)
@@ -349,7 +382,7 @@ def loadimages(obj, filename: str = &#34;imagearray&#34;, fformat: str = &#34;za
 
 
 def savepickle(obj, filename: str = &#34;pickleobject&#34;, fformat: str = &#34;pkl&#34;,
-               filepath: str = getcwd()):
+               filepath: str = getcwd(), flag_overwrite: bool = True):
     &#34;&#34;&#34;Save pickle objects.
 
     Parameters
@@ -375,6 +408,10 @@ def savepickle(obj, filename: str = &#34;pickleobject&#34;, fformat: str = &#34;
         filedirectory to put the stores files. If nothing given the data is stored
         in the code location
 
+    flag_overwrite : bool :
+         (Default value = True)
+        If the data should be saved and overwrite existing files or add a prefix to preserve data
+
     Raises
     ------
     NotImplementedError
@@ -398,7 +435,8 @@ def savepickle(obj, filename: str = &#34;pickleobject&#34;, fformat: str = &#34;
     fullfilepath = ph.join(filepath, filename)
     fullfilepath = _safefilenamecheck(ph.isfile, addedsavenameprefix + &#34;.&#34; + tmpformat,
                                       fullfilepath,
-                                      filepath, filename)
+                                      filepath, filename,
+                                      overwrite=flag_overwrite)
     print(&#39;Saving pickle object&#39;)
     # Save the file as a pickle
     with open(fullfilepath + &#39;.&#39; + tmpformat, &#39;wb&#39;) as file:
@@ -473,7 +511,8 @@ def loadpickle(obj, filename: str = &#34;pickleobject&#34;, fformat: str = &#34;
     print(&#39;Done loading\n\n&#39;)
 
 
-def _safefilenamecheck(checkfunc, checkadd, tmpfullfilepath, tmpfilepath, tmpfilename):
+def _safefilenamecheck(checkfunc, checkadd, tmpfullfilepath, tmpfilepath, tmpfilename,
+                       overwrite: bool = True):
     &#34;&#34;&#34;Check if filenames are safe to use.
     
     Checking if the savefilename exist, based on a function. If it exists add a prefix until non
@@ -496,6 +535,10 @@ def _safefilenamecheck(checkfunc, checkadd, tmpfullfilepath, tmpfilepath, tmpfil
     tmpfilename : :
         The filename
 
+    overwrite : bool :
+         (Default value = True)
+        If the file should overwrite existing names
+
 
     Returns
     -------
@@ -504,9 +547,12 @@ def _safefilenamecheck(checkfunc, checkadd, tmpfullfilepath, tmpfilepath, tmpfil
 
     &#34;&#34;&#34;
     i = 1
-    while checkfunc(tmpfullfilepath + checkadd):
-        tmpfullfilepath = ph.join(tmpfilepath, tmpfilename + &#34;_&#34; + str(i))
-        i += 1
+    if overwrite:
+        pass
+    else:
+        while checkfunc(tmpfullfilepath + checkadd):
+            tmpfullfilepath = ph.join(tmpfilepath, tmpfilename + &#34;_&#34; + str(i))
+            i += 1
     return tmpfullfilepath
 
 
@@ -660,7 +706,7 @@ def _ifchunked(fformat: str, filepath: str, substring: str):
 <h2 class="section-title" id="header-functions">Functions</h2>
 <dl>
 <dt id="pimged.datahandling.arrays.utils.filehandling.loadimages"><code class="name flex">
-<span>def <span class="ident">loadimages</span></span>(<span>obj, filename: str = 'imagearray', fformat: str = 'zarr', filepath: str = 'C:\\Users\\beakh\\Documents\\GASMIX project\\Courses\\Scientific Python Programming\\SSP Coding\\pimged', chunkeddata: str = 'off', overlaperr: bool = True)</span>
+<span>def <span class="ident">loadimages</span></span>(<span>obj, filename: str = 'imagearray', fformat: str = 'zarr', filepath: str = 'C:\\Users\\beakh\\Documents\\GASMIX project\\Coding\\Python\\Repo\\GASMIX-pimged', chunkeddata: str = 'off', overlaperr: bool = True)</span>
 </code></dt>
 <dd>
 <div class="desc"><p>Load saved imagearray data.</p>
@@ -810,7 +856,9 @@ a warning (False)</dd>
 
     # Check the metadata files for file info and create list with file data
     imrange = []
+    imrangemethod = []
     setrange = []
+    setrangemethod = []
     arinfo = []
     imsizes = []
     for filepaths in infofilepaths:
@@ -820,6 +868,13 @@ a warning (False)</dd>
             setrange.append(info[&#39;setrange&#39;])
             imsizes.append(info[&#39;imsizes&#39;])
             arinfo.append(str(info[&#39;arrayinfo&#39;]))
+            if &#39;imrangemethod&#39; in info.keys():
+                imrangemethod.append(info[&#39;imrangemethod&#39;])
+                setrangemethod.append(info[&#39;setrangemethod&#39;])
+
+    if not setrangemethod:
+        setrangemethod = [&#39;range&#39;]
+        imrangemethod = [&#39;range&#39;]
 
     # Finding array types that match the array type called and built list with indecies for all
     # data matching
@@ -874,33 +929,50 @@ a warning (False)</dd>
         raise ImportError(&#34;Some of the imported data overlap in the images and there will be &#34;
                           &#34;overwritten data&#34;)
 
-    # builting the dataset range and total number of images range per dataset and adding it to
-    # the object array info
-    obj.arrayinfo.loadedimagerange = [np.min(imrange), np.max(imrange)]
-    obj.arrayinfo.loadeddatasets = [np.min(setrange), np.max(setrange)]
-
-    # Building the slicer index list based on the chunked data metadata and ensuring to always
-    # load data into index 0 for the image range
-    imrangesliceopt = np.array([x[:] for x in imrange])
-    imrangesliceopt = np.array([[x[0] - 1, x[1]] for x in imrangesliceopt])
-    imrangesliceopt -= np.min(imrangesliceopt)
-
-    # Building the slicer for the dataset range
-    setrangesliceopt = np.array([x[:] for x in setrange])
-    setrangesliceopt = np.array([[x[0] - 1, x[1]] for x in setrangesliceopt])
-    setrangesliceopt -= np.min(setrangesliceopt)
-
     # Initializing based on array type loaded
-    arraytimesize = obj.arrayinfo.loadedimagerange[1]-obj.arrayinfo.loadedimagerange[0] + 1
-    arraysetsize = obj.arrayinfo.loadeddatasets[1]-obj.arrayinfo.loadeddatasets[0] + 1
+    if setrangemethod == [&#39;range&#39;]:
+        # builting the dataset range and total number of images range per dataset and adding it to
+        # the object array info
+        obj.arrayinfo.loadeddatasets = [np.min(setrange), np.max(setrange)]
+
+        # Building the slicer index list based on the chunked data metadata and ensuring to always
+        # load data into index 0 for the image range
+        setrangesliceopt = np.array([x[:] for x in setrange])
+        setrangesliceopt = np.array([[x[0] - 1, x[1]] for x in setrangesliceopt])
+        setrangesliceopt -= np.min(setrangesliceopt)
+        arraysetsize = obj.arrayinfo.loadeddatasets[1] - obj.arrayinfo.loadeddatasets[0] + 1
+    else:
+        obj.arrayinfo.loadeddatasets = np.array(setrange).flatten().tolist()
+        arraysetsize = len(obj.arrayinfo.loadeddatasets)
+        setrangesliceopt = [[0+len(k)*j, len(k)+len(k)*j] for j, k in enumerate(setrange)]
+
+    if imrangemethod == [&#39;range&#39;]:
+        # builting the dataset range and total number of images range per dataset and adding it to
+        # the object array info
+        obj.arrayinfo.loadedimagerange = [np.min(imrange), np.max(imrange)]
+
+        # Building the slicer index list based on the chunked data metadata and ensuring to always
+        # load data into index 0 for the image range
+        imrangesliceopt = np.array([x[:] for x in imrange])
+        imrangesliceopt = np.array([[x[0] - 1, x[1]] for x in imrangesliceopt])
+        imrangesliceopt -= np.min(imrangesliceopt)
+        arraytimesize = obj.arrayinfo.loadedimagerange[1] - obj.arrayinfo.loadedimagerange[0] + 1
+    else:
+        obj.arrayinfo.loadedimagerange = np.array(imrange).flatten().tolist()
+        arraytimesize = len(obj.arrayinfo.loadedimagerange)
+        imrangesliceopt = [[0+len(k)*j, len(k)+len(k)*j] for j, k in enumerate(imrange)]
+
+    print(&#39;Initializing array&#39;)
     match obj.arrayinfo.arraytype:
         case &#34;raw&#34; | &#34;concentration&#34;:
-            initialdim = np.array([imsizes[0][0], imsizes[0][1], arraytimesize,  arraysetsize])
+            initialdim = np.array([imsizes[0][0], imsizes[0][1], arraytimesize, arraysetsize])
         case _:
             initialdim = np.array([imsizes[0][0], imsizes[0][1], arraytimesize])
 
     print(&#39;Started loading data&#39;)
-    obj.data = np.ones(initialdim)
+    obj.data = np.ones(initialdim, dtype=obj._arrayprecision)
+    obj.arrayinfo.loadeddatasetsrangemethod = setrangemethod[0]
+    obj.arrayinfo.loadedimagerangemethod = imrangemethod[0]
 
     # Going through the files and loading them with respect to there metadata into an array,
     # sliced based on the metadata
@@ -908,7 +980,7 @@ a warning (False)</dd>
         slic_im = slice(imrangesliceopt[i][0], imrangesliceopt[i][1])
         slic_set = slice(setrangesliceopt[i][0], setrangesliceopt[i][1])
         print(&#39;===========================================&#39;)
-        print(f&#39;Loading file {i+1} of {len(infofilepaths)}&#39;, end=&#39;\r&#39;)
+        print(f&#39;Loading file {i + 1} of {len(infofilepaths)}&#39;, end=&#39;\r&#39;)
         match fformat:
             case &#34;npz&#34; | &#34;npz-comp&#34;:
                 fullfilepath = ph.join(*filepaths.split(&#39;-&#39;)[:-1]) + _saveprefixes(fformat)
@@ -932,7 +1004,7 @@ a warning (False)</dd>
 </details>
 </dd>
 <dt id="pimged.datahandling.arrays.utils.filehandling.loadpickle"><code class="name flex">
-<span>def <span class="ident">loadpickle</span></span>(<span>obj, filename: str = 'pickleobject', fformat: str = 'pkl', filepath: str = 'C:\\Users\\beakh\\Documents\\GASMIX project\\Courses\\Scientific Python Programming\\SSP Coding\\pimged')</span>
+<span>def <span class="ident">loadpickle</span></span>(<span>obj, filename: str = 'pickleobject', fformat: str = 'pkl', filepath: str = 'C:\\Users\\beakh\\Documents\\GASMIX project\\Coding\\Python\\Repo\\GASMIX-pimged')</span>
 </code></dt>
 <dd>
 <div class="desc"><p>Load pickle objects.</p>
@@ -1033,7 +1105,7 @@ in the code location</dd>
 </details>
 </dd>
 <dt id="pimged.datahandling.arrays.utils.filehandling.saveimages"><code class="name flex">
-<span>def <span class="ident">saveimages</span></span>(<span>obj, filename: str = 'imagearray', fformat: str = 'zarr', filepath: str = 'C:\\Users\\beakh\\Documents\\GASMIX project\\Courses\\Scientific Python Programming\\SSP Coding\\pimged')</span>
+<span>def <span class="ident">saveimages</span></span>(<span>obj, filename: str = 'imagearray', fformat: str = 'zarr', filepath: str = 'C:\\Users\\beakh\\Documents\\GASMIX project\\Coding\\Python\\Repo\\GASMIX-pimged', flag_overwrite: bool = True)</span>
 </code></dt>
 <dd>
 <div class="desc"><p>Save method for storing data with loaded imagerange and datahandling range.</p>
@@ -1061,6 +1133,9 @@ data stores</dd>
 <dd>(Default value = getcwd())
 filedirectory to put the stores files. If nothing given the data is stored in
 the code location</dd>
+<dt><strong><code>flag_overwrite</code></strong> :&ensp;<code>bool :</code></dt>
+<dd>(Default value = True)
+If the data should be saved and overwrite existing files or add a prefix to preserve data</dd>
 </dl>
 <h2 id="raises">Raises</h2>
 <dl>
@@ -1076,7 +1151,7 @@ the code location</dd>
 <span>Expand source code</span>
 </summary>
 <pre><code class="python">def saveimages(obj, filename: str = &#34;imagearray&#34;, fformat: str = &#34;zarr&#34;,
-               filepath: str = getcwd()):
+               filepath: str = getcwd(), flag_overwrite: bool = True):
     &#34;&#34;&#34;Save method for storing data with loaded imagerange and datahandling range.
     
     Saving images from PImGED calculations
@@ -1107,6 +1182,10 @@ the code location</dd>
          (Default value = getcwd())
         filedirectory to put the stores files. If nothing given the data is stored in
         the code location
+
+    flag_overwrite : bool :
+         (Default value = True)
+        If the data should be saved and overwrite existing files or add a prefix to preserve data
 
     Raises
     ------
@@ -1139,31 +1218,34 @@ the code location</dd>
     addedinfonameprefix = _infofileprefixes(fformat)
 
     print(&#39;Started saveing data\n&#39;)
-    jsoninfofile = {&#39;imrange&#39;: [int(obj.arrayinfo.loadedimagerange[0]),
-                                int(obj.arrayinfo.loadedimagerange[1])],
-                    &#39;setrange&#39;: [int(obj.arrayinfo.loadeddatasets[0]),
-                                 int(obj.arrayinfo.loadeddatasets[1])],
+    jsoninfofile = {&#39;imrangemethod&#39;: obj.arrayinfo.loadedimagerangemethod,
+                    &#39;imrange&#39;: [int(i) for i in obj.arrayinfo.loadedimagerange],
+                    &#39;setrangemethod&#39;: obj.arrayinfo.loadeddatasetsrangemethod,
+                    &#39;setrange&#39;: [int(i) for i in obj.arrayinfo.loadeddatasets],
                     &#39;arrayinfo&#39;: obj.arrayinfo.arraytype,
                     &#39;imsizes&#39;: [obj.data.shape[0], obj.data.shape[1]]}
     match fformat:
         case &#34;npz&#34;:
             # Checking if filename exist. If so, create new filename
             fullfilepath = _safefilenamecheck(ph.isfile, addedsavenameprefix + &#34;.&#34; + tmpformat,
-                                              fullfilepath, filepath, filename)
+                                              fullfilepath, filepath, filename,
+                                              overwrite=flag_overwrite)
             np.savez(fullfilepath + addedsavenameprefix, array=obj.data)
             _writetojsonfile(fullfilepath + addedinfonameprefix, jsoninfofile)
 
         case &#34;npz-comp&#34;:
             # Checking if filename exist. If so, create new filename
             fullfilepath = _safefilenamecheck(ph.isfile, addedsavenameprefix + &#34;.&#34; + tmpformat,
-                                              fullfilepath, filepath, filename)
+                                              fullfilepath, filepath, filename,
+                                              overwrite=flag_overwrite)
             np.savez_compressed(fullfilepath + addedsavenameprefix, array=obj.data)
             _writetojsonfile(fullfilepath + addedinfonameprefix, jsoninfofile)
 
         case &#34;zarr&#34;:
             # Checking if filename exist. If so, create new filename
             fullfilepath = _safefilenamecheck(ph.isdir, addedsavenameprefix, fullfilepath, filepath,
-                                              filename)
+                                              filename,
+                                              overwrite=flag_overwrite)
             zarrsave(fullfilepath + addedsavenameprefix, obj.data)
             _writetojsonfile(fullfilepath + &#34;\\&#34; + addedinfonameprefix, jsoninfofile)
 
@@ -1173,7 +1255,7 @@ the code location</dd>
 </details>
 </dd>
 <dt id="pimged.datahandling.arrays.utils.filehandling.savepickle"><code class="name flex">
-<span>def <span class="ident">savepickle</span></span>(<span>obj, filename: str = 'pickleobject', fformat: str = 'pkl', filepath: str = 'C:\\Users\\beakh\\Documents\\GASMIX project\\Courses\\Scientific Python Programming\\SSP Coding\\pimged')</span>
+<span>def <span class="ident">savepickle</span></span>(<span>obj, filename: str = 'pickleobject', fformat: str = 'pkl', filepath: str = 'C:\\Users\\beakh\\Documents\\GASMIX project\\Coding\\Python\\Repo\\GASMIX-pimged', flag_overwrite: bool = True)</span>
 </code></dt>
 <dd>
 <div class="desc"><p>Save pickle objects.</p>
@@ -1196,6 +1278,9 @@ fileformat for the save file.
 <dd>(Default value = getcwd())
 filedirectory to put the stores files. If nothing given the data is stored
 in the code location</dd>
+<dt><strong><code>flag_overwrite</code></strong> :&ensp;<code>bool :</code></dt>
+<dd>(Default value = True)
+If the data should be saved and overwrite existing files or add a prefix to preserve data</dd>
 </dl>
 <h2 id="raises">Raises</h2>
 <dl>
@@ -1209,7 +1294,7 @@ in the code location</dd>
 <span>Expand source code</span>
 </summary>
 <pre><code class="python">def savepickle(obj, filename: str = &#34;pickleobject&#34;, fformat: str = &#34;pkl&#34;,
-               filepath: str = getcwd()):
+               filepath: str = getcwd(), flag_overwrite: bool = True):
     &#34;&#34;&#34;Save pickle objects.
 
     Parameters
@@ -1235,6 +1320,10 @@ in the code location</dd>
         filedirectory to put the stores files. If nothing given the data is stored
         in the code location
 
+    flag_overwrite : bool :
+         (Default value = True)
+        If the data should be saved and overwrite existing files or add a prefix to preserve data
+
     Raises
     ------
     NotImplementedError
@@ -1258,7 +1347,8 @@ in the code location</dd>
     fullfilepath = ph.join(filepath, filename)
     fullfilepath = _safefilenamecheck(ph.isfile, addedsavenameprefix + &#34;.&#34; + tmpformat,
                                       fullfilepath,
-                                      filepath, filename)
+                                      filepath, filename,
+                                      overwrite=flag_overwrite)
     print(&#39;Saving pickle object&#39;)
     # Save the file as a pickle
     with open(fullfilepath + &#39;.&#39; + tmpformat, &#39;wb&#39;) as file:

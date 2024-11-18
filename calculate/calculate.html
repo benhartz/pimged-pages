@@ -247,9 +247,13 @@ class Imagecalc:
                          dtype=self.image_calcpresision)
 
         # updating the calibration array info
+        self._imagearrays.calibration.arrayinfo.loadedimagerangemethod = (
+            self._imagearrays.raw.arrayinfo.loadedimagerangemethod)
         self._imagearrays.calibration.arrayinfo.loadedimagerange = [1, numberofimages]
         self._imagearrays.calibration.arrayinfo.loadeddatasets = \
             self._imagearrays.raw.arrayinfo.loadeddatasets
+        self._imagearrays.calibration.arrayinfo.loadeddatasetsrangemethod = (
+            self._imagearrays.raw.arrayinfo.loadeddatasetsrangemethod)
 
         print(&#39;Done with calibration\n\n&#39;)
 
@@ -362,8 +366,12 @@ class Imagecalc:
 
         self._imagearrays.concentration.arrayinfo.loadedimagerange = \
             self._imagearrays.raw.arrayinfo.loadedimagerange
+        self._imagearrays.concentration.arrayinfo.loadedimagerangemethod = \
+            self._imagearrays.raw.arrayinfo.loadedimagerangemethod
         self._imagearrays.concentration.arrayinfo.loadeddatasets = \
             self._imagearrays.raw.arrayinfo.loadeddatasets
+        self._imagearrays.concentration.arrayinfo.loadeddatasetsrangemethod = \
+            self._imagearrays.raw.arrayinfo.loadeddatasetsrangemethod
 
         print(&#39;Done with conversion\n&#39;)
 
@@ -376,6 +384,8 @@ class Imagecalc:
                      nimages: int = 50,
                      removeedgeh: int = 10,
                      removeedgew: int = -1,
+                     removeedgeh_zero: int = 10,
+                     removeedgew_zero: int = -1,
                      forcerecal: bool = True,
                      flipped: bool = False,
                      onlycorr: bool = False):
@@ -430,6 +440,18 @@ class Imagecalc:
             has to be minimum the wall idx, better if 1 or 2 pixels more.
             Default value of -1 ensure it is the wall idx distance
 
+        removeedgeh_zero: int :
+             (Default value = 10)
+            number of pixels to remove from height edges before estimating
+            the average zero image - needed as edges tend to show errous values in intensity
+
+        removeedgew_zero: int :
+             (Default value = -1)
+            number of pixels to remove from width edges before estimating average zero image -
+            has to be minimum the wall idx, better if it is checked where the laser sheet glare
+            stops and set to that value.
+            Default value of -1 ensure it is the wall idx distance
+
         forcerecal: bool :
              (Default value = True)
             if the calculation of the black point correction should be forced, even if data exist
@@ -467,8 +489,9 @@ class Imagecalc:
         if self._imagearrays.blackpointcorr.data.any() and not forcerecal:
             print(&#39;Blackpoint correction data exist for set, uses zero images and factors&#39;)
             corrremove = self._imagearrays.blackpointcorr.data
-            pixzeromean = self._imagearrays.zero.data.mean(axis=(2, 3),
-                                                           dtype=self.image_calcpresision)
+            pixzeromean = self._imagearrays.zero.data[removeedgeh_zero:-removeedgeh_zero,
+                                                      removeedgew_zero:-removeedgew_zero].mean(
+                                                        axis=(2, 3), dtype=self.image_calcpresision)
         else:
             if shotidx &gt; self._imagearrays.raw.data.shape[2]:
                 nidx = self._imagearrays.raw.data.shape[2]
@@ -479,6 +502,9 @@ class Imagecalc:
             print(&#39;Started raw data black point correction&#39;)
             if removeedgew == -1:
                 removeedgew = wallidx
+
+            if removeedgew_zero == -1:
+                removeedgew_zero = wallidx
 
             # image width
             quaterjet = int(jetwidth / 4)
@@ -503,8 +529,11 @@ class Imagecalc:
 
             print(&#39;Calulating sensor zero point weighting&#39;)
             # Min
-            pixzeromean = self._imagearrays.zero.data.mean(axis=(2, 3),
-                                                           dtype=self.image_calcpresision)
+            # pixzeromean = self._imagearrays.zero.data.mean(axis=(2, 3),
+            #                                                dtype=self.image_calcpresision)
+            pixzeromean = self._imagearrays.zero.data[removeedgeh_zero:-removeedgeh_zero,
+                                                      removeedgew_zero:-removeedgew_zero].mean(
+                                                        axis=(2, 3), dtype=self.image_calcpresision)
 
             print(&#39;Calulating image weights based on jet core data&#39;)
             # Avg area slices around the jet out from the wall
@@ -531,20 +560,22 @@ class Imagecalc:
             print(&#39;- Adjusting background&#39;)
             imgcorrwei = self._imagearrays.raw.data - corrremove[:, :, np.newaxis,
                                                                  setrange[0]:setrange[1]]
-            # lifting the with the average negative value, if any
-            if np.any(imgcorrwei[imgcorrwei &lt; 0]):
-                print(&#39;- Correcting average assumption&#39;)
-                imgcorrwei -= np.mean(imgcorrwei[imgcorrwei &lt; 0], dtype=self.image_calcpresision)
-            else:
-                warn(&#39;- No correction on average assumption, might not pull estimate enough to &#39;
-                     &#39;zero&#39;)
+            # # lifting the with the average negative value, if any
+            # if np.any(imgcorrwei[imgcorrwei &lt; 0]):
+            #     print(&#39;- Correcting average assumption&#39;)
+            #     imgcorrwei -= np.mean(imgcorrwei[imgcorrwei &lt; 0], dtype=self.image_calcpresision)
+            # else:
+            #     warn(&#39;- No correction on average assumption, might not pull estimate enough to &#39;
+            #          &#39;zero&#39;)
 
-            # lifting the rest with the weighted black lift
-            print(&#39;- Lifting black point&#39;)
-            imgcorrwei += pixzeromean.mean(axis=0)[np.newaxis, :, np.newaxis, np.newaxis]
             # Setting rest of the negatives to 0
             print(&#39;- Ensuring physical blackpoint&#39;)
             imgcorrwei[imgcorrwei &lt; 0] = 0
+
+            # lifting the rest with the weighted black lift
+            print(&#39;- Lifting black point&#39;)
+            # imgcorrwei += pixzeromean[np.newaxis, :, np.newaxis, np.newaxis].mean(axis=0)
+            imgcorrwei += pixzeromean.mean(axis=(0, 1))
 
             print(&#39;Replacing raw data&#39;)
             self._imagearrays.raw.data = imgcorrwei.astype(np.uint16)
@@ -608,7 +639,7 @@ class Imagecalc:
             self._imagearrays.concentration.arrayinfo.loadeddatasets
         print(&#39;Done with variance\n&#39;)
 
-    def moment(self, nth: int, timeidx: (list, int) = None):
+    def moment(self, nth: int, timeidx: (list, int, str) = None):
         &#34;&#34;&#34;Calculate the nth moment around the mean.
 
         Based on the concentration images using the package &#39;scipy.stats&#39;
@@ -618,12 +649,13 @@ class Imagecalc:
 
         Parameters
         ----------
-        timeidx : (list, int) :
+        timeidx : (list, int, str) :
              (Default value = None)
             the time frame to for staistics, formats are:
             list: start and end point in time, [startidx, endidx]
             int: single point in time
             &#39;None&#39;: calculate for whole time frame
+            str: if written &#39;all&#39;, all data is flatten and run through
 
         nth : int :
             which moment to calculate
@@ -648,6 +680,16 @@ class Imagecalc:
                 print(f&#39;Moment calc at time idx: {i+1} of {idx.stop}&#39;, end=&#39;\r&#39;)
                 self._imagearrays.moment.data[:, :, i] = (
                     moment(self._imagearrays.concentration.data[:, :, val, :], moment=nth, axis=2))
+
+        elif idx == -1:
+            imheight = self._imagearrays.concentration.data.shape[0]
+            imwidth = self._imagearrays.concentration.data.shape[1]
+            imtime = self._imagearrays.concentration.data.shape[2]
+            imsets = self._imagearrays.concentration.data.shape[3]
+            concreshape = self._imagearrays.concentration.data.reshape(imheight, imwidth,
+                                                                       imsets*imtime)
+            self._imagearrays.moment.data = moment(concreshape, moment=nth, axis=2)
+
         else:
             self._imagearrays.moment.data = (
                 moment(self._imagearrays.concentration.data[:, :, idx, :], moment=nth, axis=2))
@@ -896,6 +938,8 @@ def _timeidxcheck(obj, timeidx):
         if timeidx != abs(timeidx):
             raise ValueError(&#39;Timeidx has to be a positive number&#39;)
         idx = timeidx
+    elif isinstance(timeidx, str) and timeidx == &#39;all&#39;:
+        idx = -1
     else:
         raise ValueError(&#39;Timeidx is not a valid format. Formats are list [startidx, endidx], &#39;
                          &#39;int: timeidx or None: use all images&#39;)
@@ -1260,9 +1304,13 @@ the imagearrays data container</p>
                          dtype=self.image_calcpresision)
 
         # updating the calibration array info
+        self._imagearrays.calibration.arrayinfo.loadedimagerangemethod = (
+            self._imagearrays.raw.arrayinfo.loadedimagerangemethod)
         self._imagearrays.calibration.arrayinfo.loadedimagerange = [1, numberofimages]
         self._imagearrays.calibration.arrayinfo.loadeddatasets = \
             self._imagearrays.raw.arrayinfo.loadeddatasets
+        self._imagearrays.calibration.arrayinfo.loadeddatasetsrangemethod = (
+            self._imagearrays.raw.arrayinfo.loadeddatasetsrangemethod)
 
         print(&#39;Done with calibration\n\n&#39;)
 
@@ -1375,8 +1423,12 @@ the imagearrays data container</p>
 
         self._imagearrays.concentration.arrayinfo.loadedimagerange = \
             self._imagearrays.raw.arrayinfo.loadedimagerange
+        self._imagearrays.concentration.arrayinfo.loadedimagerangemethod = \
+            self._imagearrays.raw.arrayinfo.loadedimagerangemethod
         self._imagearrays.concentration.arrayinfo.loadeddatasets = \
             self._imagearrays.raw.arrayinfo.loadeddatasets
+        self._imagearrays.concentration.arrayinfo.loadeddatasetsrangemethod = \
+            self._imagearrays.raw.arrayinfo.loadeddatasetsrangemethod
 
         print(&#39;Done with conversion\n&#39;)
 
@@ -1389,6 +1441,8 @@ the imagearrays data container</p>
                      nimages: int = 50,
                      removeedgeh: int = 10,
                      removeedgew: int = -1,
+                     removeedgeh_zero: int = 10,
+                     removeedgew_zero: int = -1,
                      forcerecal: bool = True,
                      flipped: bool = False,
                      onlycorr: bool = False):
@@ -1443,6 +1497,18 @@ the imagearrays data container</p>
             has to be minimum the wall idx, better if 1 or 2 pixels more.
             Default value of -1 ensure it is the wall idx distance
 
+        removeedgeh_zero: int :
+             (Default value = 10)
+            number of pixels to remove from height edges before estimating
+            the average zero image - needed as edges tend to show errous values in intensity
+
+        removeedgew_zero: int :
+             (Default value = -1)
+            number of pixels to remove from width edges before estimating average zero image -
+            has to be minimum the wall idx, better if it is checked where the laser sheet glare
+            stops and set to that value.
+            Default value of -1 ensure it is the wall idx distance
+
         forcerecal: bool :
              (Default value = True)
             if the calculation of the black point correction should be forced, even if data exist
@@ -1480,8 +1546,9 @@ the imagearrays data container</p>
         if self._imagearrays.blackpointcorr.data.any() and not forcerecal:
             print(&#39;Blackpoint correction data exist for set, uses zero images and factors&#39;)
             corrremove = self._imagearrays.blackpointcorr.data
-            pixzeromean = self._imagearrays.zero.data.mean(axis=(2, 3),
-                                                           dtype=self.image_calcpresision)
+            pixzeromean = self._imagearrays.zero.data[removeedgeh_zero:-removeedgeh_zero,
+                                                      removeedgew_zero:-removeedgew_zero].mean(
+                                                        axis=(2, 3), dtype=self.image_calcpresision)
         else:
             if shotidx &gt; self._imagearrays.raw.data.shape[2]:
                 nidx = self._imagearrays.raw.data.shape[2]
@@ -1492,6 +1559,9 @@ the imagearrays data container</p>
             print(&#39;Started raw data black point correction&#39;)
             if removeedgew == -1:
                 removeedgew = wallidx
+
+            if removeedgew_zero == -1:
+                removeedgew_zero = wallidx
 
             # image width
             quaterjet = int(jetwidth / 4)
@@ -1516,8 +1586,11 @@ the imagearrays data container</p>
 
             print(&#39;Calulating sensor zero point weighting&#39;)
             # Min
-            pixzeromean = self._imagearrays.zero.data.mean(axis=(2, 3),
-                                                           dtype=self.image_calcpresision)
+            # pixzeromean = self._imagearrays.zero.data.mean(axis=(2, 3),
+            #                                                dtype=self.image_calcpresision)
+            pixzeromean = self._imagearrays.zero.data[removeedgeh_zero:-removeedgeh_zero,
+                                                      removeedgew_zero:-removeedgew_zero].mean(
+                                                        axis=(2, 3), dtype=self.image_calcpresision)
 
             print(&#39;Calulating image weights based on jet core data&#39;)
             # Avg area slices around the jet out from the wall
@@ -1544,20 +1617,22 @@ the imagearrays data container</p>
             print(&#39;- Adjusting background&#39;)
             imgcorrwei = self._imagearrays.raw.data - corrremove[:, :, np.newaxis,
                                                                  setrange[0]:setrange[1]]
-            # lifting the with the average negative value, if any
-            if np.any(imgcorrwei[imgcorrwei &lt; 0]):
-                print(&#39;- Correcting average assumption&#39;)
-                imgcorrwei -= np.mean(imgcorrwei[imgcorrwei &lt; 0], dtype=self.image_calcpresision)
-            else:
-                warn(&#39;- No correction on average assumption, might not pull estimate enough to &#39;
-                     &#39;zero&#39;)
+            # # lifting the with the average negative value, if any
+            # if np.any(imgcorrwei[imgcorrwei &lt; 0]):
+            #     print(&#39;- Correcting average assumption&#39;)
+            #     imgcorrwei -= np.mean(imgcorrwei[imgcorrwei &lt; 0], dtype=self.image_calcpresision)
+            # else:
+            #     warn(&#39;- No correction on average assumption, might not pull estimate enough to &#39;
+            #          &#39;zero&#39;)
 
-            # lifting the rest with the weighted black lift
-            print(&#39;- Lifting black point&#39;)
-            imgcorrwei += pixzeromean.mean(axis=0)[np.newaxis, :, np.newaxis, np.newaxis]
             # Setting rest of the negatives to 0
             print(&#39;- Ensuring physical blackpoint&#39;)
             imgcorrwei[imgcorrwei &lt; 0] = 0
+
+            # lifting the rest with the weighted black lift
+            print(&#39;- Lifting black point&#39;)
+            # imgcorrwei += pixzeromean[np.newaxis, :, np.newaxis, np.newaxis].mean(axis=0)
+            imgcorrwei += pixzeromean.mean(axis=(0, 1))
 
             print(&#39;Replacing raw data&#39;)
             self._imagearrays.raw.data = imgcorrwei.astype(np.uint16)
@@ -1621,7 +1696,7 @@ the imagearrays data container</p>
             self._imagearrays.concentration.arrayinfo.loadeddatasets
         print(&#39;Done with variance\n&#39;)
 
-    def moment(self, nth: int, timeidx: (list, int) = None):
+    def moment(self, nth: int, timeidx: (list, int, str) = None):
         &#34;&#34;&#34;Calculate the nth moment around the mean.
 
         Based on the concentration images using the package &#39;scipy.stats&#39;
@@ -1631,12 +1706,13 @@ the imagearrays data container</p>
 
         Parameters
         ----------
-        timeidx : (list, int) :
+        timeidx : (list, int, str) :
              (Default value = None)
             the time frame to for staistics, formats are:
             list: start and end point in time, [startidx, endidx]
             int: single point in time
             &#39;None&#39;: calculate for whole time frame
+            str: if written &#39;all&#39;, all data is flatten and run through
 
         nth : int :
             which moment to calculate
@@ -1661,6 +1737,16 @@ the imagearrays data container</p>
                 print(f&#39;Moment calc at time idx: {i+1} of {idx.stop}&#39;, end=&#39;\r&#39;)
                 self._imagearrays.moment.data[:, :, i] = (
                     moment(self._imagearrays.concentration.data[:, :, val, :], moment=nth, axis=2))
+
+        elif idx == -1:
+            imheight = self._imagearrays.concentration.data.shape[0]
+            imwidth = self._imagearrays.concentration.data.shape[1]
+            imtime = self._imagearrays.concentration.data.shape[2]
+            imsets = self._imagearrays.concentration.data.shape[3]
+            concreshape = self._imagearrays.concentration.data.reshape(imheight, imwidth,
+                                                                       imsets*imtime)
+            self._imagearrays.moment.data = moment(concreshape, moment=nth, axis=2)
+
         else:
             self._imagearrays.moment.data = (
                 moment(self._imagearrays.concentration.data[:, :, idx, :], moment=nth, axis=2))
@@ -1837,8 +1923,12 @@ ensuring 0 to 1 concentration estimates.
 
     self._imagearrays.concentration.arrayinfo.loadedimagerange = \
         self._imagearrays.raw.arrayinfo.loadedimagerange
+    self._imagearrays.concentration.arrayinfo.loadedimagerangemethod = \
+        self._imagearrays.raw.arrayinfo.loadedimagerangemethod
     self._imagearrays.concentration.arrayinfo.loadeddatasets = \
         self._imagearrays.raw.arrayinfo.loadeddatasets
+    self._imagearrays.concentration.arrayinfo.loadeddatasetsrangemethod = \
+        self._imagearrays.raw.arrayinfo.loadeddatasetsrangemethod
 
     print(&#39;Done with conversion\n&#39;)</code></pre>
 </details>
@@ -2067,9 +2157,13 @@ for the dataset</dd>
                      dtype=self.image_calcpresision)
 
     # updating the calibration array info
+    self._imagearrays.calibration.arrayinfo.loadedimagerangemethod = (
+        self._imagearrays.raw.arrayinfo.loadedimagerangemethod)
     self._imagearrays.calibration.arrayinfo.loadedimagerange = [1, numberofimages]
     self._imagearrays.calibration.arrayinfo.loadeddatasets = \
         self._imagearrays.raw.arrayinfo.loadeddatasets
+    self._imagearrays.calibration.arrayinfo.loadeddatasetsrangemethod = (
+        self._imagearrays.raw.arrayinfo.loadeddatasetsrangemethod)
 
     print(&#39;Done with calibration\n\n&#39;)</code></pre>
 </details>
@@ -2104,7 +2198,7 @@ ndarray([H, W, Time, Statio. time])</p></div>
 </details>
 </dd>
 <dt id="pimged.calculate.calculate.Imagecalc.moment"><code class="name flex">
-<span>def <span class="ident">moment</span></span>(<span>self, nth: int, timeidx: (<class 'list'>, <class 'int'>) = None)</span>
+<span>def <span class="ident">moment</span></span>(<span>self, nth: int, timeidx: (<class 'list'>, <class 'int'>, <class 'str'>) = None)</span>
 </code></dt>
 <dd>
 <div class="desc"><p>Calculate the nth moment around the mean.</p>
@@ -2113,12 +2207,13 @@ ndarray([H, W, Time, Statio. time])</p></div>
 ndarray([H, W, Time, Statio. time])</p>
 <h2 id="parameters">Parameters</h2>
 <dl>
-<dt><strong><code>timeidx</code></strong> :&ensp;<code>(list, int) :</code></dt>
+<dt><strong><code>timeidx</code></strong> :&ensp;<code>(list, int, str) :</code></dt>
 <dd>(Default value = None)
 the time frame to for staistics, formats are:
 list: start and end point in time, [startidx, endidx]
 int: single point in time
-'None': calculate for whole time frame</dd>
+'None': calculate for whole time frame
+str: if written 'all', all data is flatten and run through</dd>
 <dt><strong><code>nth</code></strong> :&ensp;<code>int :</code></dt>
 <dd>which moment to calculate</dd>
 </dl>
@@ -2132,7 +2227,7 @@ stationary time index</dd>
 <summary>
 <span>Expand source code</span>
 </summary>
-<pre><code class="python">def moment(self, nth: int, timeidx: (list, int) = None):
+<pre><code class="python">def moment(self, nth: int, timeidx: (list, int, str) = None):
     &#34;&#34;&#34;Calculate the nth moment around the mean.
 
     Based on the concentration images using the package &#39;scipy.stats&#39;
@@ -2142,12 +2237,13 @@ stationary time index</dd>
 
     Parameters
     ----------
-    timeidx : (list, int) :
+    timeidx : (list, int, str) :
          (Default value = None)
         the time frame to for staistics, formats are:
         list: start and end point in time, [startidx, endidx]
         int: single point in time
         &#39;None&#39;: calculate for whole time frame
+        str: if written &#39;all&#39;, all data is flatten and run through
 
     nth : int :
         which moment to calculate
@@ -2172,6 +2268,16 @@ stationary time index</dd>
             print(f&#39;Moment calc at time idx: {i+1} of {idx.stop}&#39;, end=&#39;\r&#39;)
             self._imagearrays.moment.data[:, :, i] = (
                 moment(self._imagearrays.concentration.data[:, :, val, :], moment=nth, axis=2))
+
+    elif idx == -1:
+        imheight = self._imagearrays.concentration.data.shape[0]
+        imwidth = self._imagearrays.concentration.data.shape[1]
+        imtime = self._imagearrays.concentration.data.shape[2]
+        imsets = self._imagearrays.concentration.data.shape[3]
+        concreshape = self._imagearrays.concentration.data.reshape(imheight, imwidth,
+                                                                   imsets*imtime)
+        self._imagearrays.moment.data = moment(concreshape, moment=nth, axis=2)
+
     else:
         self._imagearrays.moment.data = (
             moment(self._imagearrays.concentration.data[:, :, idx, :], moment=nth, axis=2))
@@ -2185,7 +2291,7 @@ stationary time index</dd>
 </details>
 </dd>
 <dt id="pimged.calculate.calculate.Imagecalc.rawblackcorr"><code class="name flex">
-<span>def <span class="ident">rawblackcorr</span></span>(<span>self, jetcenter: int = None, jetwidth: int = None, wallidx: int = None, shotidx: int = None, setrangeinput: list = None, nimages: int = 50, removeedgeh: int = 10, removeedgew: int = -1, forcerecal: bool = True, flipped: bool = False, onlycorr: bool = False)</span>
+<span>def <span class="ident">rawblackcorr</span></span>(<span>self, jetcenter: int = None, jetwidth: int = None, wallidx: int = None, shotidx: int = None, setrangeinput: list = None, nimages: int = 50, removeedgeh: int = 10, removeedgew: int = -1, removeedgeh_zero: int = 10, removeedgew_zero: int = -1, forcerecal: bool = True, flipped: bool = False, onlycorr: bool = False)</span>
 </code></dt>
 <dd>
 <div class="desc"><p>Raw image blackpoint correction.</p>
@@ -2229,6 +2335,16 @@ weights - needed as edges tend to show errous values in intensity</dd>
 number of pixels to remove from width edges before estimating weights -
 has to be minimum the wall idx, better if 1 or 2 pixels more.
 Default value of -1 ensure it is the wall idx distance</dd>
+<dt><strong><code>removeedgeh_zero</code></strong> :&ensp;<code>int :</code></dt>
+<dd>(Default value = 10)
+number of pixels to remove from height edges before estimating
+the average zero image - needed as edges tend to show errous values in intensity</dd>
+<dt><strong><code>removeedgew_zero</code></strong> :&ensp;<code>int :</code></dt>
+<dd>(Default value = -1)
+number of pixels to remove from width edges before estimating average zero image -
+has to be minimum the wall idx, better if it is checked where the laser sheet glare
+stops and set to that value.
+Default value of -1 ensure it is the wall idx distance</dd>
 <dt><strong><code>forcerecal</code></strong> :&ensp;<code>bool :</code></dt>
 <dd>(Default value = True)
 if the calculation of the black point correction should be forced, even if data exist
@@ -2265,6 +2381,8 @@ images. default is False, which means it calculate raw corrections</dd>
                  nimages: int = 50,
                  removeedgeh: int = 10,
                  removeedgew: int = -1,
+                 removeedgeh_zero: int = 10,
+                 removeedgew_zero: int = -1,
                  forcerecal: bool = True,
                  flipped: bool = False,
                  onlycorr: bool = False):
@@ -2319,6 +2437,18 @@ images. default is False, which means it calculate raw corrections</dd>
         has to be minimum the wall idx, better if 1 or 2 pixels more.
         Default value of -1 ensure it is the wall idx distance
 
+    removeedgeh_zero: int :
+         (Default value = 10)
+        number of pixels to remove from height edges before estimating
+        the average zero image - needed as edges tend to show errous values in intensity
+
+    removeedgew_zero: int :
+         (Default value = -1)
+        number of pixels to remove from width edges before estimating average zero image -
+        has to be minimum the wall idx, better if it is checked where the laser sheet glare
+        stops and set to that value.
+        Default value of -1 ensure it is the wall idx distance
+
     forcerecal: bool :
          (Default value = True)
         if the calculation of the black point correction should be forced, even if data exist
@@ -2356,8 +2486,9 @@ images. default is False, which means it calculate raw corrections</dd>
     if self._imagearrays.blackpointcorr.data.any() and not forcerecal:
         print(&#39;Blackpoint correction data exist for set, uses zero images and factors&#39;)
         corrremove = self._imagearrays.blackpointcorr.data
-        pixzeromean = self._imagearrays.zero.data.mean(axis=(2, 3),
-                                                       dtype=self.image_calcpresision)
+        pixzeromean = self._imagearrays.zero.data[removeedgeh_zero:-removeedgeh_zero,
+                                                  removeedgew_zero:-removeedgew_zero].mean(
+                                                    axis=(2, 3), dtype=self.image_calcpresision)
     else:
         if shotidx &gt; self._imagearrays.raw.data.shape[2]:
             nidx = self._imagearrays.raw.data.shape[2]
@@ -2368,6 +2499,9 @@ images. default is False, which means it calculate raw corrections</dd>
         print(&#39;Started raw data black point correction&#39;)
         if removeedgew == -1:
             removeedgew = wallidx
+
+        if removeedgew_zero == -1:
+            removeedgew_zero = wallidx
 
         # image width
         quaterjet = int(jetwidth / 4)
@@ -2392,8 +2526,11 @@ images. default is False, which means it calculate raw corrections</dd>
 
         print(&#39;Calulating sensor zero point weighting&#39;)
         # Min
-        pixzeromean = self._imagearrays.zero.data.mean(axis=(2, 3),
-                                                       dtype=self.image_calcpresision)
+        # pixzeromean = self._imagearrays.zero.data.mean(axis=(2, 3),
+        #                                                dtype=self.image_calcpresision)
+        pixzeromean = self._imagearrays.zero.data[removeedgeh_zero:-removeedgeh_zero,
+                                                  removeedgew_zero:-removeedgew_zero].mean(
+                                                    axis=(2, 3), dtype=self.image_calcpresision)
 
         print(&#39;Calulating image weights based on jet core data&#39;)
         # Avg area slices around the jet out from the wall
@@ -2420,20 +2557,22 @@ images. default is False, which means it calculate raw corrections</dd>
         print(&#39;- Adjusting background&#39;)
         imgcorrwei = self._imagearrays.raw.data - corrremove[:, :, np.newaxis,
                                                              setrange[0]:setrange[1]]
-        # lifting the with the average negative value, if any
-        if np.any(imgcorrwei[imgcorrwei &lt; 0]):
-            print(&#39;- Correcting average assumption&#39;)
-            imgcorrwei -= np.mean(imgcorrwei[imgcorrwei &lt; 0], dtype=self.image_calcpresision)
-        else:
-            warn(&#39;- No correction on average assumption, might not pull estimate enough to &#39;
-                 &#39;zero&#39;)
+        # # lifting the with the average negative value, if any
+        # if np.any(imgcorrwei[imgcorrwei &lt; 0]):
+        #     print(&#39;- Correcting average assumption&#39;)
+        #     imgcorrwei -= np.mean(imgcorrwei[imgcorrwei &lt; 0], dtype=self.image_calcpresision)
+        # else:
+        #     warn(&#39;- No correction on average assumption, might not pull estimate enough to &#39;
+        #          &#39;zero&#39;)
 
-        # lifting the rest with the weighted black lift
-        print(&#39;- Lifting black point&#39;)
-        imgcorrwei += pixzeromean.mean(axis=0)[np.newaxis, :, np.newaxis, np.newaxis]
         # Setting rest of the negatives to 0
         print(&#39;- Ensuring physical blackpoint&#39;)
         imgcorrwei[imgcorrwei &lt; 0] = 0
+
+        # lifting the rest with the weighted black lift
+        print(&#39;- Lifting black point&#39;)
+        # imgcorrwei += pixzeromean[np.newaxis, :, np.newaxis, np.newaxis].mean(axis=0)
+        imgcorrwei += pixzeromean.mean(axis=(0, 1))
 
         print(&#39;Replacing raw data&#39;)
         self._imagearrays.raw.data = imgcorrwei.astype(np.uint16)

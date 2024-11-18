@@ -68,13 +68,6 @@ def calccorr(mainpodinfo: PODInfo, correlationinfo: CorrelationInfo, folderlocat
 
     if ph.isfile(checkcorrfile):
         bigdata_corr_file_read(correlationinfo, checkcorrfile)
-        # print(&#39;The correlation prameters exist, started loading&#39;)
-        # with np.load(checkcorrfile) as loadedcorr:
-        #     correlationinfo.corrmatrix = loadedcorr[&#39;corrematrix&#39;]
-        #     correlationinfo.psi = loadedcorr[&#39;psi&#39;]
-        #     correlationinfo.eigenvalues = loadedcorr[&#39;eigenvalues&#39;]
-        #     correlationinfo.accuenergy = loadedcorr[&#39;accuenergy&#39;]
-        # print(&#39;Finished loading\n\n&#39;)
 
     else:
         # Creating the folder for saving the prepared data
@@ -228,13 +221,6 @@ def calccorr(mainpodinfo: PODInfo, correlationinfo: CorrelationInfo, folderlocat
 
     if ph.isfile(checkcorrfile):
         bigdata_corr_file_read(correlationinfo, checkcorrfile)
-        # print(&#39;The correlation prameters exist, started loading&#39;)
-        # with np.load(checkcorrfile) as loadedcorr:
-        #     correlationinfo.corrmatrix = loadedcorr[&#39;corrematrix&#39;]
-        #     correlationinfo.psi = loadedcorr[&#39;psi&#39;]
-        #     correlationinfo.eigenvalues = loadedcorr[&#39;eigenvalues&#39;]
-        #     correlationinfo.accuenergy = loadedcorr[&#39;accuenergy&#39;]
-        # print(&#39;Finished loading\n\n&#39;)
 
     else:
         # Creating the folder for saving the prepared data

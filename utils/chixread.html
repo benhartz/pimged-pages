@@ -38,7 +38,7 @@ import numpy as np
 class CHIXFileRead:
     &#34;&#34;&#34;Handle meta data from CHIX files.&#34;&#34;&#34;
 
-    def getstringfromfile(self, searchinstr: str, substr: str, emptyreturn: bool = False):
+    def getstringfromfile(self, searchinstr: str, substr: str, returnstrings: bool = True):
         &#34;&#34;&#34;Exstract info in the indices interval based on the input strings.
 
         Parameters
@@ -49,19 +49,22 @@ class CHIXFileRead:
         substr : str :
             string to find
 
-        emptyreturn : bool :
-            Adaption to only resturn an empty string, if no metadata load is wanted
+        returnstrings : bool :
+             (Default value = True)
+            Adaption to only resturn an empty string, if no metadata load is wanted. True
+            returns data, False return an empty string
 
         Returns
         -------
         type : str :
             the info searched for
         &#34;&#34;&#34;
-        if emptyreturn:
-            infosearched = &#34;&#34;
-        else:
+        if returnstrings:
             idxstart, idxend = self.getindecies(searchinstr, substr)
             infosearched = searchinstr[idxstart:idxend]
+
+        else:
+            infosearched = &#34;&#34;
 
         return infosearched
 
@@ -93,7 +96,7 @@ class CHIXFileRead:
         return idxstartmod, idxend
 
     @staticmethod
-    def readinifile(filedirectory, __fileextension=&#34;.cihx&#34;):
+    def readinifile(filedirectory, __fileextension=&#34;.cihx&#34;, load: bool = True):
         &#34;&#34;&#34;Check filedirectory if exists and read the text data before outputting it as a string.
 
         Parameters
@@ -104,6 +107,10 @@ class CHIXFileRead:
         __fileextension : :
              (Default value = &#34;.cihx&#34;)
             fileextension for the file
+
+        load : bool :
+             (Default value = True)
+            if True, the code load .cihx files, if False the property is just initialized
 
         Returns
         -------
@@ -118,22 +125,26 @@ class CHIXFileRead:
         FileNotFoundError
             If no file are found
         &#34;&#34;&#34;
-        ph.exists(filedirectory)
+        # ph.exists(filedirectory)
+        if load:
 
-        listextfile = glob(filedirectory + f&#34;/**/*{__fileextension}&#34;, recursive=True)
+            listextfile = glob(filedirectory + f&#34;/**/*{__fileextension}&#34;, recursive=True)
 
-        if len(listextfile) &gt; 1:
-            raise FileExistsError(f&#34;More than one ini file exist in the &#34;
-                                  f&#34;given directory - {filedirectory}&#34;)
-        if len(listextfile) == 0:
-            raise FileNotFoundError(f&#34;No directory or ini files are present &#34;
-                                    f&#34;at given directory - {filedirectory}&#34;)
+            if len(listextfile) &gt; 1:
+                raise FileExistsError(f&#34;More than one ini file exist in the &#34;
+                                      f&#34;given directory - {filedirectory}&#34;)
+            if len(listextfile) == 0:
+                raise FileNotFoundError(f&#34;No directory or ini files are present &#34;
+                                        f&#34;at given directory - {filedirectory}&#34;)
 
-        with open(listextfile[0], &#39;r&#39;, encoding=&#39;utf-8&#39;, errors=&#39;ignore&#39;) as inifile:
-            readlines = inifile.readlines()
-            inifile.close()
+            with open(listextfile[0], &#39;r&#39;, encoding=&#39;utf-8&#39;, errors=&#39;ignore&#39;) as inifile:
+                readlines = inifile.readlines()
+                inifile.close()
 
-        stringlines = &#39; &#39;.join(readlines)
+            stringlines = &#39; &#39;.join(readlines)
+
+        else:
+            stringlines = &#39;&#39;
 
         return stringlines
 
@@ -167,7 +178,7 @@ class CHIXFileRead:
 class CameraData(CHIXFileRead):
     &#34;&#34;&#34;Class for camera data info.&#34;&#34;&#34;
 
-    def __init__(self, path: str, files: list, noload: bool = False):
+    def __init__(self, path: str, files: list, load: bool = True):
         &#34;&#34;&#34;Camera data holder for cihx file read from PFV.
 
         Parameters
@@ -178,27 +189,27 @@ class CameraData(CHIXFileRead):
         files : str :
             list of file directories for datasets containing .cihx files
 
-        noload : bool :
-             (Default value = False)
-            if False, the code load .cihx files, if True the property is just initialized
+        load : bool :
+             (Default value = True)
+            if True, the code load .cihx files, if False the property is just initialized
         &#34;&#34;&#34;
-        inifilestring = self.readinifile(path + &#34;\\&#34; + files[0])
-        self.name = self.getstringfromfile(inifilestring, &#34;deviceName&#34;, noload)
-        self.ip = self.getstringfromfile(inifilestring, &#34;ipAddress&#34;, noload)
-        self.subnet = self.getstringfromfile(inifilestring, &#34;subnetMask&#34;, noload)
-        self.gateway = self.getstringfromfile(inifilestring, &#34;gatewayAddress&#34;, noload)
-        self.headnumber = int(self.getstringfromfile(inifilestring, &#34;headNumber&#34;, noload) or 0)
-        self.tempsensor = float(self.getstringfromfile(inifilestring, &#34;sen&#34;, noload) or 0)
-        self.tempcpu = float(self.getstringfromfile(inifilestring, &#34;cpu&#34;, noload) or 0)
-        self.tempfan = float(self.getstringfromfile(inifilestring, &#34;fan&#34;, noload) or 0)
-        self.fps = int(self.getstringfromfile(inifilestring, &#34;recordRate&#34;, noload) or 0)
-        self.shutterspeed = int(self.getstringfromfile(inifilestring, &#34;shutterSpeed&#34;, noload) or 0)
+        inifilestring = self.readinifile(path + &#34;\\&#34; + files[0], load=load)
+        self.name = self.getstringfromfile(inifilestring, &#34;deviceName&#34;, load)
+        self.ip = self.getstringfromfile(inifilestring, &#34;ipAddress&#34;, load)
+        self.subnet = self.getstringfromfile(inifilestring, &#34;subnetMask&#34;, load)
+        self.gateway = self.getstringfromfile(inifilestring, &#34;gatewayAddress&#34;, load)
+        self.headnumber = int(self.getstringfromfile(inifilestring, &#34;headNumber&#34;, load) or 0)
+        self.tempsensor = float(self.getstringfromfile(inifilestring, &#34;sen&#34;, load) or 0)
+        self.tempcpu = float(self.getstringfromfile(inifilestring, &#34;cpu&#34;, load) or 0)
+        self.tempfan = float(self.getstringfromfile(inifilestring, &#34;fan&#34;, load) or 0)
+        self.fps = int(self.getstringfromfile(inifilestring, &#34;recordRate&#34;, load) or 0)
+        self.shutterspeed = int(self.getstringfromfile(inifilestring, &#34;shutterSpeed&#34;, load) or 0)
 
 
 class ImageData(CHIXFileRead):
     &#34;&#34;&#34;Class for image data info.&#34;&#34;&#34;
 
-    def __init__(self, path: str, files: list, noload: bool = False):
+    def __init__(self, path: str, files: list, load: bool = True):
         &#34;&#34;&#34;Image data holder for cihx file read from PFV.
 
         Parameters
@@ -209,28 +220,28 @@ class ImageData(CHIXFileRead):
         files : str :
             list of file directories for datasets containing .cihx files
 
-        noload : bool :
-             (Default value = False)
-            if False, the code load .cihx files, if True the property is just initialized
+        load : bool :
+             (Default value = True)
+            if True, the code load .cihx files, if False the property is just initialized
         &#34;&#34;&#34;
-        inifilestring = self.readinifile(path + &#34;\\&#34; + files[0])
-        self.frameheight = int(self.getstringfromfile(inifilestring, &#34;height&#34;, noload) or 0)
-        self.framewidth = int(self.getstringfromfile(inifilestring, &#34;width&#34;, noload) or 0)
-        self.totalframes = int(self.getstringfromfile(inifilestring, &#34;totalFrame&#34;, noload) or 0)
-        self.effectivebitdepth = int(self.getstringfromfile(inifilestring, &#34;depth&#34;, noload) or 0)
-        self.effectivebitside = self.getstringfromfile(inifilestring, &#34;side&#34;, noload)
-        self.colortype = self.getstringfromfile(inifilestring, &#34;type&#34;, noload)
+        inifilestring = self.readinifile(path + &#34;\\&#34; + files[0], load=load)
+        self.frameheight = int(self.getstringfromfile(inifilestring, &#34;height&#34;, load) or 0)
+        self.framewidth = int(self.getstringfromfile(inifilestring, &#34;width&#34;, load) or 0)
+        self.totalframes = int(self.getstringfromfile(inifilestring, &#34;totalFrame&#34;, load) or 0)
+        self.effectivebitdepth = int(self.getstringfromfile(inifilestring, &#34;depth&#34;, load) or 0)
+        self.effectivebitside = self.getstringfromfile(inifilestring, &#34;side&#34;, load)
+        self.colortype = self.getstringfromfile(inifilestring, &#34;type&#34;, load)
         self.fileformat = self.imagetypecheck(self.getstringfromfile(inifilestring,
                                                                      &#34;fileFormat&#34;,
-                                                                     noload) or &#34;TIFF&#34;)
+                                                                     load) or &#34;TIFF&#34;)
         self.recordstarttime = []
         self.recorddate = []
 
         for file in files:
             searchdir = path + &#34;\\&#34; + file
-            inifilestring = self.readinifile(searchdir)
-            self.recordstarttime.append(self.getstringfromfile(inifilestring, &#34;time&#34;, noload))
-            self.recorddate.append(self.getstringfromfile(inifilestring, &#34;date&#34;, noload))
+            inifilestring = self.readinifile(searchdir, load=load)
+            self.recordstarttime.append(self.getstringfromfile(inifilestring, &#34;time&#34;, load))
+            self.recorddate.append(self.getstringfromfile(inifilestring, &#34;date&#34;, load))
 
 
 def checkingchixfileset(path: str, searchfolders: list, errignor: bool = False):
@@ -421,7 +432,7 @@ true - show warning (Default value = False)</dd>
 <pre><code class="python">class CHIXFileRead:
     &#34;&#34;&#34;Handle meta data from CHIX files.&#34;&#34;&#34;
 
-    def getstringfromfile(self, searchinstr: str, substr: str, emptyreturn: bool = False):
+    def getstringfromfile(self, searchinstr: str, substr: str, returnstrings: bool = True):
         &#34;&#34;&#34;Exstract info in the indices interval based on the input strings.
 
         Parameters
@@ -432,19 +443,22 @@ true - show warning (Default value = False)</dd>
         substr : str :
             string to find
 
-        emptyreturn : bool :
-            Adaption to only resturn an empty string, if no metadata load is wanted
+        returnstrings : bool :
+             (Default value = True)
+            Adaption to only resturn an empty string, if no metadata load is wanted. True
+            returns data, False return an empty string
 
         Returns
         -------
         type : str :
             the info searched for
         &#34;&#34;&#34;
-        if emptyreturn:
-            infosearched = &#34;&#34;
-        else:
+        if returnstrings:
             idxstart, idxend = self.getindecies(searchinstr, substr)
             infosearched = searchinstr[idxstart:idxend]
+
+        else:
+            infosearched = &#34;&#34;
 
         return infosearched
 
@@ -476,7 +490,7 @@ true - show warning (Default value = False)</dd>
         return idxstartmod, idxend
 
     @staticmethod
-    def readinifile(filedirectory, __fileextension=&#34;.cihx&#34;):
+    def readinifile(filedirectory, __fileextension=&#34;.cihx&#34;, load: bool = True):
         &#34;&#34;&#34;Check filedirectory if exists and read the text data before outputting it as a string.
 
         Parameters
@@ -487,6 +501,10 @@ true - show warning (Default value = False)</dd>
         __fileextension : :
              (Default value = &#34;.cihx&#34;)
             fileextension for the file
+
+        load : bool :
+             (Default value = True)
+            if True, the code load .cihx files, if False the property is just initialized
 
         Returns
         -------
@@ -501,22 +519,26 @@ true - show warning (Default value = False)</dd>
         FileNotFoundError
             If no file are found
         &#34;&#34;&#34;
-        ph.exists(filedirectory)
+        # ph.exists(filedirectory)
+        if load:
 
-        listextfile = glob(filedirectory + f&#34;/**/*{__fileextension}&#34;, recursive=True)
+            listextfile = glob(filedirectory + f&#34;/**/*{__fileextension}&#34;, recursive=True)
 
-        if len(listextfile) &gt; 1:
-            raise FileExistsError(f&#34;More than one ini file exist in the &#34;
-                                  f&#34;given directory - {filedirectory}&#34;)
-        if len(listextfile) == 0:
-            raise FileNotFoundError(f&#34;No directory or ini files are present &#34;
-                                    f&#34;at given directory - {filedirectory}&#34;)
+            if len(listextfile) &gt; 1:
+                raise FileExistsError(f&#34;More than one ini file exist in the &#34;
+                                      f&#34;given directory - {filedirectory}&#34;)
+            if len(listextfile) == 0:
+                raise FileNotFoundError(f&#34;No directory or ini files are present &#34;
+                                        f&#34;at given directory - {filedirectory}&#34;)
 
-        with open(listextfile[0], &#39;r&#39;, encoding=&#39;utf-8&#39;, errors=&#39;ignore&#39;) as inifile:
-            readlines = inifile.readlines()
-            inifile.close()
+            with open(listextfile[0], &#39;r&#39;, encoding=&#39;utf-8&#39;, errors=&#39;ignore&#39;) as inifile:
+                readlines = inifile.readlines()
+                inifile.close()
 
-        stringlines = &#39; &#39;.join(readlines)
+            stringlines = &#39; &#39;.join(readlines)
+
+        else:
+            stringlines = &#39;&#39;
 
         return stringlines
 
@@ -654,7 +676,7 @@ def imagetypecheck(fileextension: str):
 </details>
 </dd>
 <dt id="pimged.utils.chixread.CHIXFileRead.readinifile"><code class="name flex">
-<span>def <span class="ident">readinifile</span></span>(<span>filedirectory)</span>
+<span>def <span class="ident">readinifile</span></span>(<span>filedirectory, load: bool = True)</span>
 </code></dt>
 <dd>
 <div class="desc"><p>Check filedirectory if exists and read the text data before outputting it as a string.</p>
@@ -665,6 +687,9 @@ def imagetypecheck(fileextension: str):
 <dt><strong><code>__fileextension</code></strong> :&ensp;<code>:</code></dt>
 <dd>(Default value = ".cihx")
 fileextension for the file</dd>
+<dt><strong><code>load</code></strong> :&ensp;<code>bool :</code></dt>
+<dd>(Default value = True)
+if True, the code load .cihx files, if False the property is just initialized</dd>
 </dl>
 <h2 id="returns">Returns</h2>
 <dl>
@@ -683,7 +708,7 @@ fileextension for the file</dd>
 <span>Expand source code</span>
 </summary>
 <pre><code class="python">@staticmethod
-def readinifile(filedirectory, __fileextension=&#34;.cihx&#34;):
+def readinifile(filedirectory, __fileextension=&#34;.cihx&#34;, load: bool = True):
     &#34;&#34;&#34;Check filedirectory if exists and read the text data before outputting it as a string.
 
     Parameters
@@ -694,6 +719,10 @@ def readinifile(filedirectory, __fileextension=&#34;.cihx&#34;):
     __fileextension : :
          (Default value = &#34;.cihx&#34;)
         fileextension for the file
+
+    load : bool :
+         (Default value = True)
+        if True, the code load .cihx files, if False the property is just initialized
 
     Returns
     -------
@@ -708,22 +737,26 @@ def readinifile(filedirectory, __fileextension=&#34;.cihx&#34;):
     FileNotFoundError
         If no file are found
     &#34;&#34;&#34;
-    ph.exists(filedirectory)
+    # ph.exists(filedirectory)
+    if load:
 
-    listextfile = glob(filedirectory + f&#34;/**/*{__fileextension}&#34;, recursive=True)
+        listextfile = glob(filedirectory + f&#34;/**/*{__fileextension}&#34;, recursive=True)
 
-    if len(listextfile) &gt; 1:
-        raise FileExistsError(f&#34;More than one ini file exist in the &#34;
-                              f&#34;given directory - {filedirectory}&#34;)
-    if len(listextfile) == 0:
-        raise FileNotFoundError(f&#34;No directory or ini files are present &#34;
-                                f&#34;at given directory - {filedirectory}&#34;)
+        if len(listextfile) &gt; 1:
+            raise FileExistsError(f&#34;More than one ini file exist in the &#34;
+                                  f&#34;given directory - {filedirectory}&#34;)
+        if len(listextfile) == 0:
+            raise FileNotFoundError(f&#34;No directory or ini files are present &#34;
+                                    f&#34;at given directory - {filedirectory}&#34;)
 
-    with open(listextfile[0], &#39;r&#39;, encoding=&#39;utf-8&#39;, errors=&#39;ignore&#39;) as inifile:
-        readlines = inifile.readlines()
-        inifile.close()
+        with open(listextfile[0], &#39;r&#39;, encoding=&#39;utf-8&#39;, errors=&#39;ignore&#39;) as inifile:
+            readlines = inifile.readlines()
+            inifile.close()
 
-    stringlines = &#39; &#39;.join(readlines)
+        stringlines = &#39; &#39;.join(readlines)
+
+    else:
+        stringlines = &#39;&#39;
 
     return stringlines</code></pre>
 </details>
@@ -732,7 +765,7 @@ def readinifile(filedirectory, __fileextension=&#34;.cihx&#34;):
 <h3>Methods</h3>
 <dl>
 <dt id="pimged.utils.chixread.CHIXFileRead.getstringfromfile"><code class="name flex">
-<span>def <span class="ident">getstringfromfile</span></span>(<span>self, searchinstr: str, substr: str, emptyreturn: bool = False)</span>
+<span>def <span class="ident">getstringfromfile</span></span>(<span>self, searchinstr: str, substr: str, returnstrings: bool = True)</span>
 </code></dt>
 <dd>
 <div class="desc"><p>Exstract info in the indices interval based on the input strings.</p>
@@ -742,8 +775,10 @@ def readinifile(filedirectory, __fileextension=&#34;.cihx&#34;):
 <dd>the cihx inifile string that is searched in for substring</dd>
 <dt><strong><code>substr</code></strong> :&ensp;<code>str :</code></dt>
 <dd>string to find</dd>
-<dt><strong><code>emptyreturn</code></strong> :&ensp;<code>bool :</code></dt>
-<dd>Adaption to only resturn an empty string, if no metadata load is wanted</dd>
+<dt><strong><code>returnstrings</code></strong> :&ensp;<code>bool :</code></dt>
+<dd>(Default value = True)
+Adaption to only resturn an empty string, if no metadata load is wanted. True
+returns data, False return an empty string</dd>
 </dl>
 <h2 id="returns">Returns</h2>
 <dl>
@@ -754,7 +789,7 @@ def readinifile(filedirectory, __fileextension=&#34;.cihx&#34;):
 <summary>
 <span>Expand source code</span>
 </summary>
-<pre><code class="python">def getstringfromfile(self, searchinstr: str, substr: str, emptyreturn: bool = False):
+<pre><code class="python">def getstringfromfile(self, searchinstr: str, substr: str, returnstrings: bool = True):
     &#34;&#34;&#34;Exstract info in the indices interval based on the input strings.
 
     Parameters
@@ -765,19 +800,22 @@ def readinifile(filedirectory, __fileextension=&#34;.cihx&#34;):
     substr : str :
         string to find
 
-    emptyreturn : bool :
-        Adaption to only resturn an empty string, if no metadata load is wanted
+    returnstrings : bool :
+         (Default value = True)
+        Adaption to only resturn an empty string, if no metadata load is wanted. True
+        returns data, False return an empty string
 
     Returns
     -------
     type : str :
         the info searched for
     &#34;&#34;&#34;
-    if emptyreturn:
-        infosearched = &#34;&#34;
-    else:
+    if returnstrings:
         idxstart, idxend = self.getindecies(searchinstr, substr)
         infosearched = searchinstr[idxstart:idxend]
+
+    else:
+        infosearched = &#34;&#34;
 
     return infosearched</code></pre>
 </details>
@@ -786,7 +824,7 @@ def readinifile(filedirectory, __fileextension=&#34;.cihx&#34;):
 </dd>
 <dt id="pimged.utils.chixread.CameraData"><code class="flex name class">
 <span>class <span class="ident">CameraData</span></span>
-<span>(</span><span>path: str, files: list, noload: bool = False)</span>
+<span>(</span><span>path: str, files: list, load: bool = True)</span>
 </code></dt>
 <dd>
 <div class="desc"><p>Class for camera data info.</p>
@@ -797,9 +835,9 @@ def readinifile(filedirectory, __fileextension=&#34;.cihx&#34;):
 <dd>filepath of the main dataset directory</dd>
 <dt><strong><code>files</code></strong> :&ensp;<code>str :</code></dt>
 <dd>list of file directories for datasets containing .cihx files</dd>
-<dt><strong><code>noload</code></strong> :&ensp;<code>bool :</code></dt>
-<dd>(Default value = False)
-if False, the code load .cihx files, if True the property is just initialized</dd>
+<dt><strong><code>load</code></strong> :&ensp;<code>bool :</code></dt>
+<dd>(Default value = True)
+if True, the code load .cihx files, if False the property is just initialized</dd>
 </dl></div>
 <details class="source">
 <summary>
@@ -808,7 +846,7 @@ if False, the code load .cihx files, if True the property is just initialized</d
 <pre><code class="python">class CameraData(CHIXFileRead):
     &#34;&#34;&#34;Class for camera data info.&#34;&#34;&#34;
 
-    def __init__(self, path: str, files: list, noload: bool = False):
+    def __init__(self, path: str, files: list, load: bool = True):
         &#34;&#34;&#34;Camera data holder for cihx file read from PFV.
 
         Parameters
@@ -819,21 +857,21 @@ if False, the code load .cihx files, if True the property is just initialized</d
         files : str :
             list of file directories for datasets containing .cihx files
 
-        noload : bool :
-             (Default value = False)
-            if False, the code load .cihx files, if True the property is just initialized
+        load : bool :
+             (Default value = True)
+            if True, the code load .cihx files, if False the property is just initialized
         &#34;&#34;&#34;
-        inifilestring = self.readinifile(path + &#34;\\&#34; + files[0])
-        self.name = self.getstringfromfile(inifilestring, &#34;deviceName&#34;, noload)
-        self.ip = self.getstringfromfile(inifilestring, &#34;ipAddress&#34;, noload)
-        self.subnet = self.getstringfromfile(inifilestring, &#34;subnetMask&#34;, noload)
-        self.gateway = self.getstringfromfile(inifilestring, &#34;gatewayAddress&#34;, noload)
-        self.headnumber = int(self.getstringfromfile(inifilestring, &#34;headNumber&#34;, noload) or 0)
-        self.tempsensor = float(self.getstringfromfile(inifilestring, &#34;sen&#34;, noload) or 0)
-        self.tempcpu = float(self.getstringfromfile(inifilestring, &#34;cpu&#34;, noload) or 0)
-        self.tempfan = float(self.getstringfromfile(inifilestring, &#34;fan&#34;, noload) or 0)
-        self.fps = int(self.getstringfromfile(inifilestring, &#34;recordRate&#34;, noload) or 0)
-        self.shutterspeed = int(self.getstringfromfile(inifilestring, &#34;shutterSpeed&#34;, noload) or 0)</code></pre>
+        inifilestring = self.readinifile(path + &#34;\\&#34; + files[0], load=load)
+        self.name = self.getstringfromfile(inifilestring, &#34;deviceName&#34;, load)
+        self.ip = self.getstringfromfile(inifilestring, &#34;ipAddress&#34;, load)
+        self.subnet = self.getstringfromfile(inifilestring, &#34;subnetMask&#34;, load)
+        self.gateway = self.getstringfromfile(inifilestring, &#34;gatewayAddress&#34;, load)
+        self.headnumber = int(self.getstringfromfile(inifilestring, &#34;headNumber&#34;, load) or 0)
+        self.tempsensor = float(self.getstringfromfile(inifilestring, &#34;sen&#34;, load) or 0)
+        self.tempcpu = float(self.getstringfromfile(inifilestring, &#34;cpu&#34;, load) or 0)
+        self.tempfan = float(self.getstringfromfile(inifilestring, &#34;fan&#34;, load) or 0)
+        self.fps = int(self.getstringfromfile(inifilestring, &#34;recordRate&#34;, load) or 0)
+        self.shutterspeed = int(self.getstringfromfile(inifilestring, &#34;shutterSpeed&#34;, load) or 0)</code></pre>
 </details>
 <h3>Ancestors</h3>
 <ul class="hlist">
@@ -853,7 +891,7 @@ if False, the code load .cihx files, if True the property is just initialized</d
 </dd>
 <dt id="pimged.utils.chixread.ImageData"><code class="flex name class">
 <span>class <span class="ident">ImageData</span></span>
-<span>(</span><span>path: str, files: list, noload: bool = False)</span>
+<span>(</span><span>path: str, files: list, load: bool = True)</span>
 </code></dt>
 <dd>
 <div class="desc"><p>Class for image data info.</p>
@@ -864,9 +902,9 @@ if False, the code load .cihx files, if True the property is just initialized</d
 <dd>filepath of the main dataset directory</dd>
 <dt><strong><code>files</code></strong> :&ensp;<code>str :</code></dt>
 <dd>list of file directories for datasets containing .cihx files</dd>
-<dt><strong><code>noload</code></strong> :&ensp;<code>bool :</code></dt>
-<dd>(Default value = False)
-if False, the code load .cihx files, if True the property is just initialized</dd>
+<dt><strong><code>load</code></strong> :&ensp;<code>bool :</code></dt>
+<dd>(Default value = True)
+if True, the code load .cihx files, if False the property is just initialized</dd>
 </dl></div>
 <details class="source">
 <summary>
@@ -875,7 +913,7 @@ if False, the code load .cihx files, if True the property is just initialized</d
 <pre><code class="python">class ImageData(CHIXFileRead):
     &#34;&#34;&#34;Class for image data info.&#34;&#34;&#34;
 
-    def __init__(self, path: str, files: list, noload: bool = False):
+    def __init__(self, path: str, files: list, load: bool = True):
         &#34;&#34;&#34;Image data holder for cihx file read from PFV.
 
         Parameters
@@ -886,28 +924,28 @@ if False, the code load .cihx files, if True the property is just initialized</d
         files : str :
             list of file directories for datasets containing .cihx files
 
-        noload : bool :
-             (Default value = False)
-            if False, the code load .cihx files, if True the property is just initialized
+        load : bool :
+             (Default value = True)
+            if True, the code load .cihx files, if False the property is just initialized
         &#34;&#34;&#34;
-        inifilestring = self.readinifile(path + &#34;\\&#34; + files[0])
-        self.frameheight = int(self.getstringfromfile(inifilestring, &#34;height&#34;, noload) or 0)
-        self.framewidth = int(self.getstringfromfile(inifilestring, &#34;width&#34;, noload) or 0)
-        self.totalframes = int(self.getstringfromfile(inifilestring, &#34;totalFrame&#34;, noload) or 0)
-        self.effectivebitdepth = int(self.getstringfromfile(inifilestring, &#34;depth&#34;, noload) or 0)
-        self.effectivebitside = self.getstringfromfile(inifilestring, &#34;side&#34;, noload)
-        self.colortype = self.getstringfromfile(inifilestring, &#34;type&#34;, noload)
+        inifilestring = self.readinifile(path + &#34;\\&#34; + files[0], load=load)
+        self.frameheight = int(self.getstringfromfile(inifilestring, &#34;height&#34;, load) or 0)
+        self.framewidth = int(self.getstringfromfile(inifilestring, &#34;width&#34;, load) or 0)
+        self.totalframes = int(self.getstringfromfile(inifilestring, &#34;totalFrame&#34;, load) or 0)
+        self.effectivebitdepth = int(self.getstringfromfile(inifilestring, &#34;depth&#34;, load) or 0)
+        self.effectivebitside = self.getstringfromfile(inifilestring, &#34;side&#34;, load)
+        self.colortype = self.getstringfromfile(inifilestring, &#34;type&#34;, load)
         self.fileformat = self.imagetypecheck(self.getstringfromfile(inifilestring,
                                                                      &#34;fileFormat&#34;,
-                                                                     noload) or &#34;TIFF&#34;)
+                                                                     load) or &#34;TIFF&#34;)
         self.recordstarttime = []
         self.recorddate = []
 
         for file in files:
             searchdir = path + &#34;\\&#34; + file
-            inifilestring = self.readinifile(searchdir)
-            self.recordstarttime.append(self.getstringfromfile(inifilestring, &#34;time&#34;, noload))
-            self.recorddate.append(self.getstringfromfile(inifilestring, &#34;date&#34;, noload))</code></pre>
+            inifilestring = self.readinifile(searchdir, load=load)
+            self.recordstarttime.append(self.getstringfromfile(inifilestring, &#34;time&#34;, load))
+            self.recorddate.append(self.getstringfromfile(inifilestring, &#34;date&#34;, load))</code></pre>
 </details>
 <h3>Ancestors</h3>
 <ul class="hlist">

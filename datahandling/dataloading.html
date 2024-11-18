@@ -161,15 +161,17 @@ class Dataload:
         if hasattr(self.fileinfo.imagedata, &#39;totalframes&#39;):
             pass
         else:
-            if not loadmeta:
-                self.fileinfo.imagedata = []
-                self.fileinfo.cameradata = []
-
-            else:
-                self.fileinfo.imagedata = ImageData(self._imagesfullpath, imagesearchfolders,
-                                                    not loadmeta)
-                self.fileinfo.cameradata = CameraData(self._imagesfullpath, imagesearchfolders,
-                                                      not loadmeta)
+            # if not loadmeta:
+            self.fileinfo.imagedata = ImageData(self._imagesfullpath, imagesearchfolders,
+                                                loadmeta)
+            self.fileinfo.cameradata = CameraData(self._imagesfullpath, imagesearchfolders,
+                                                  loadmeta)
+            #
+            # else:
+            #     self.fileinfo.imagedata = ImageData(self._imagesfullpath, imagesearchfolders,
+            #                                         not loadmeta)
+            #     self.fileinfo.cameradata = CameraData(self._imagesfullpath, imagesearchfolders,
+            #                                           not loadmeta)
         print(&#39;Done\n\n&#39;)
 
     def loadimages(self,
@@ -299,12 +301,23 @@ class Dataload:
                                                             imagestoload=imagestoload,
                                                             folderstoload=folderstoload)
 
-            # updating the raw image info
-            self._imagearrays.raw.arrayinfo.loadeddatasets = [setfolderstoload[0],
-                                                              setfolderstoload[0]+nblocksload-1]
+            self._imagearrays.raw.arrayinfo.loadedimagerangemethod = loadmethodimage
+            self._imagearrays.raw.arrayinfo.loadeddatasetsrangemethod = loadmethodfolder
+
+            if len(setfolderstoload) == 1:
+                self._imagearrays.raw.arrayinfo.loadeddatasets = [setfolderstoload[0],
+                                                                  setfolderstoload[0]]
+            elif len(setfolderstoload) &gt; 2:
+                self._imagearrays.raw.arrayinfo.loadeddatasets = setfolderstoload
+            else:
+                self._imagearrays.raw.arrayinfo.loadeddatasets = [setfolderstoload[0],
+                                                                  setfolderstoload[1]]
+
             if len(setimagestoload) == 1:
                 self._imagearrays.raw.arrayinfo.loadedimagerange = [setimagestoload[0],
                                                                     setimagestoload[0]]
+            elif len(setimagestoload) &gt; 2:
+                self._imagearrays.raw.arrayinfo.loadedimagerange = setimagestoload
             else:
                 self._imagearrays.raw.arrayinfo.loadedimagerange = [setimagestoload[0],
                                                                     setimagestoload[1]]
@@ -928,15 +941,17 @@ If the metadata should be loaded</dd>
         if hasattr(self.fileinfo.imagedata, &#39;totalframes&#39;):
             pass
         else:
-            if not loadmeta:
-                self.fileinfo.imagedata = []
-                self.fileinfo.cameradata = []
-
-            else:
-                self.fileinfo.imagedata = ImageData(self._imagesfullpath, imagesearchfolders,
-                                                    not loadmeta)
-                self.fileinfo.cameradata = CameraData(self._imagesfullpath, imagesearchfolders,
-                                                      not loadmeta)
+            # if not loadmeta:
+            self.fileinfo.imagedata = ImageData(self._imagesfullpath, imagesearchfolders,
+                                                loadmeta)
+            self.fileinfo.cameradata = CameraData(self._imagesfullpath, imagesearchfolders,
+                                                  loadmeta)
+            #
+            # else:
+            #     self.fileinfo.imagedata = ImageData(self._imagesfullpath, imagesearchfolders,
+            #                                         not loadmeta)
+            #     self.fileinfo.cameradata = CameraData(self._imagesfullpath, imagesearchfolders,
+            #                                           not loadmeta)
         print(&#39;Done\n\n&#39;)
 
     def loadimages(self,
@@ -1066,12 +1081,23 @@ If the metadata should be loaded</dd>
                                                             imagestoload=imagestoload,
                                                             folderstoload=folderstoload)
 
-            # updating the raw image info
-            self._imagearrays.raw.arrayinfo.loadeddatasets = [setfolderstoload[0],
-                                                              setfolderstoload[0]+nblocksload-1]
+            self._imagearrays.raw.arrayinfo.loadedimagerangemethod = loadmethodimage
+            self._imagearrays.raw.arrayinfo.loadeddatasetsrangemethod = loadmethodfolder
+
+            if len(setfolderstoload) == 1:
+                self._imagearrays.raw.arrayinfo.loadeddatasets = [setfolderstoload[0],
+                                                                  setfolderstoload[0]]
+            elif len(setfolderstoload) &gt; 2:
+                self._imagearrays.raw.arrayinfo.loadeddatasets = setfolderstoload
+            else:
+                self._imagearrays.raw.arrayinfo.loadeddatasets = [setfolderstoload[0],
+                                                                  setfolderstoload[1]]
+
             if len(setimagestoload) == 1:
                 self._imagearrays.raw.arrayinfo.loadedimagerange = [setimagestoload[0],
                                                                     setimagestoload[0]]
+            elif len(setimagestoload) &gt; 2:
+                self._imagearrays.raw.arrayinfo.loadedimagerange = setimagestoload
             else:
                 self._imagearrays.raw.arrayinfo.loadedimagerange = [setimagestoload[0],
                                                                     setimagestoload[1]]
@@ -1660,12 +1686,23 @@ natural key method</dd>
                                                         imagestoload=imagestoload,
                                                         folderstoload=folderstoload)
 
-        # updating the raw image info
-        self._imagearrays.raw.arrayinfo.loadeddatasets = [setfolderstoload[0],
-                                                          setfolderstoload[0]+nblocksload-1]
+        self._imagearrays.raw.arrayinfo.loadedimagerangemethod = loadmethodimage
+        self._imagearrays.raw.arrayinfo.loadeddatasetsrangemethod = loadmethodfolder
+
+        if len(setfolderstoload) == 1:
+            self._imagearrays.raw.arrayinfo.loadeddatasets = [setfolderstoload[0],
+                                                              setfolderstoload[0]]
+        elif len(setfolderstoload) &gt; 2:
+            self._imagearrays.raw.arrayinfo.loadeddatasets = setfolderstoload
+        else:
+            self._imagearrays.raw.arrayinfo.loadeddatasets = [setfolderstoload[0],
+                                                              setfolderstoload[1]]
+
         if len(setimagestoload) == 1:
             self._imagearrays.raw.arrayinfo.loadedimagerange = [setimagestoload[0],
                                                                 setimagestoload[0]]
+        elif len(setimagestoload) &gt; 2:
+            self._imagearrays.raw.arrayinfo.loadedimagerange = setimagestoload
         else:
             self._imagearrays.raw.arrayinfo.loadedimagerange = [setimagestoload[0],
                                                                 setimagestoload[1]]</code></pre>
